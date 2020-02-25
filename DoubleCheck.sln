@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29509.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DoubleCheck", "DoubleCheck\DoubleCheck.vcxproj", "{95CAB881-998B-4589-B304-32CAFB7FBA76}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Math_lib", "Math_lib\Math_lib.vcxproj", "{58ADCDC7-0F7D-4E15-8374-3330D579555A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcxproj", "{B4C15CA3-3770-498F-842C-37BA7BD8BE69}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{95CAB881-998B-4589-B304-32CAFB7FBA76}.Debug|x64.ActiveCfg = Debug|x64
+		{95CAB881-998B-4589-B304-32CAFB7FBA76}.Debug|x64.Build.0 = Debug|x64
+		{95CAB881-998B-4589-B304-32CAFB7FBA76}.Release|x64.ActiveCfg = Release|x64
+		{95CAB881-998B-4589-B304-32CAFB7FBA76}.Release|x64.Build.0 = Release|x64
+		{58ADCDC7-0F7D-4E15-8374-3330D579555A}.Debug|x64.ActiveCfg = Debug|x64
+		{58ADCDC7-0F7D-4E15-8374-3330D579555A}.Debug|x64.Build.0 = Debug|x64
+		{58ADCDC7-0F7D-4E15-8374-3330D579555A}.Release|x64.ActiveCfg = Release|x64
+		{58ADCDC7-0F7D-4E15-8374-3330D579555A}.Release|x64.Build.0 = Release|x64
+		{B4C15CA3-3770-498F-842C-37BA7BD8BE69}.Debug|x64.ActiveCfg = Debug|x64
+		{B4C15CA3-3770-498F-842C-37BA7BD8BE69}.Debug|x64.Build.0 = Debug|x64
+		{B4C15CA3-3770-498F-842C-37BA7BD8BE69}.Release|x64.ActiveCfg = Release|x64
+		{B4C15CA3-3770-498F-842C-37BA7BD8BE69}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9896629D-D16A-4B93-8546-2B11B90A68C9}
+	EndGlobalSection
+EndGlobal
