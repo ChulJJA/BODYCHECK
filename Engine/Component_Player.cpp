@@ -49,24 +49,24 @@ void Player::Init(Object* obj)
 
 void Player::Update(float dt)
 {
-    //Attack();
+    Attack();
 
-    //if (bulkup_timer >= 0.f)
-    //{
-    //    bulkup_timer -= dt;
-    //}
-    //else
-    //{
-    //    if (m_owner->GetTransform().GetScale().x >= 3.f)
-    //    {
-    //        m_owner->GetTransform().GetScale_Reference().x -= dt;
-    //        m_owner->GetTransform().GetScale_Reference().y -= dt;
-    //    }
-    //    else
-    //    {
-    //        m_owner->Get_Plus_Dmg() = 0.f;
-    //    }
-    //}
+    if (bulkup_timer >= 0.f)
+    {
+        bulkup_timer -= dt;
+    }
+    else
+    {
+        if (m_owner->GetTransform().GetScale().x >= 3.f)
+        {
+            m_owner->GetTransform().GetScale_Reference().x -= dt;
+            m_owner->GetTransform().GetScale_Reference().y -= dt;
+        }
+        else
+        {
+            m_owner->Get_Plus_Dmg() = 0.f;
+        }
+    }
 }
 
 void Player::Attack()

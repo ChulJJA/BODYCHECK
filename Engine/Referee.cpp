@@ -141,7 +141,7 @@ void Referee::Init()
 
 void Referee::Update(float dt)
 {
-   /* if (!stage_statements.empty())
+    if (!stage_statements.empty())
     {
         for (auto i : stage_statements)
         {
@@ -216,7 +216,7 @@ void Referee::Update(float dt)
                 }
             }
         }
-    }*/
+    }
     item_respawn_timer -= dt;
     if (item_respawn_timer <= 0.0f && total_item_num > 0)
     {

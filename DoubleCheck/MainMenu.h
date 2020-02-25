@@ -13,6 +13,13 @@
 #include "State.h"
 #include "vector2.hpp"
 
+enum class BUTTON
+{
+	START,
+	MUSIC,
+	TEST
+};
+
 class Object;
 
 class MainMenu : public State
@@ -31,9 +38,20 @@ public:
         next_level = {};
         is_next = false;
     }
+
+    void SetPlayButton();
+    void SetMusicButton();
+    void SetTestLevelButton();
+    void ButtonSelector();
+	
 private:
-    Object* button;
-    Object* collision_button;
+    int pointer = 0;
+    float button_timer = 0;
+	
+    Object* play_button;
+    Object* play_button_hover;
     Object* music_button;
-    Object* test_level_button;
+    Object* music_button_hover;
+    Object* test_button;
+    Object* test_button_hover;
 };

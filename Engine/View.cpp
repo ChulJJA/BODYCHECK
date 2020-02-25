@@ -36,28 +36,28 @@ void View::Update(float dt)
         Graphic::GetGraphic()->get_need_update_sprite() = true;
     }
 
-    if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
+    if (input.Is_Key_Pressed(GLFW_KEY_KP_6))
     {
         vector2 new_center = camera.GetCenter();
         new_center.x += 1.0f;
         camera.SetCenter(new_center);
         Graphic::GetGraphic()->get_need_update_sprite() = true;
     }
-    if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
+    if (input.Is_Key_Pressed(GLFW_KEY_KP_4))
     {
         vector2 new_center = camera.GetCenter();
         new_center.x -= 1.0f;
         camera.SetCenter(new_center);
         Graphic::GetGraphic()->get_need_update_sprite() = true;
     }
-    if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
+    if (input.Is_Key_Pressed(GLFW_KEY_KP_2))
     {
         vector2 new_center = camera.GetCenter();
         new_center.y -= 1.0f;
         camera.SetCenter(new_center);
         Graphic::GetGraphic()->get_need_update_sprite() = true;
     }
-    if (input.Is_Key_Pressed(GLFW_KEY_UP))
+    if (input.Is_Key_Pressed(GLFW_KEY_KP_8))
     {
         vector2 new_center = camera.GetCenter();
         new_center.y += 1.0f;

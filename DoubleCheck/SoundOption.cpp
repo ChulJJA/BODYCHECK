@@ -1,13 +1,13 @@
 /*
- * Author		:Suhwan Kim
- * File			:MainMenu.cpp
- * Term			:2019 Fall
- * Class		:GAM200
- * Project		:GAM200 Project
- * Date			:2019/12/11
+ * Author		:ChulSeung Lee
+ * File			:SoundOption.cpp
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2019/02/18
  * Description	:Cpp for main menu.
  *
- * copyright   All content ?2019 DigiPen (USA) Corporation, all rights reserved
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
  */
 
 #include "Input.h"
@@ -186,27 +186,28 @@ void SoundOption::Mute()
 
 void SoundOption::SetInfoText()
 {
-	info_text[0] = new Object();
-	info_text[0]->SetTranslation({ -300,800 });
-	info_text[0]->AddComponent(new TextComp(info_text[0], L"Sound Option", { 0,0,0,1 }, { 150,150 }, font));
-	info_text[0]->GetComponentByTemplate<TextComp>()->Get_Need_To_Keep_Drawing() = true;
-	ObjectManager::GetObjectManager()->AddObject(info_text[0]);
+	//info_text = new Object();
+	//info_text->SetTranslation({ -300,800 });
+	//info_text->AddComponent(new TextComp(info_text, L"", { 0,0,0,1 }, { 150,150 }, font));
+	//info_text->GetComponentByTemplate<TextComp>()->GetText().SetString();
+	//info_text->GetComponentByTemplate<TextComp>()->Get_Need_To_Keep_Drawing() = true;
+	//ObjectManager::GetObjectManager()->AddObject(info_text);
 
-	info_text[1] = new Object();
-	info_text[1]->SetTranslation({ -1000,700 });
-	info_text[1]->AddComponent(new TextComp(info_text[1], L"Master Volume", { 0,0,0,1 }, { 150,150 }, font));
-	info_text[1]->GetComponentByTemplate<TextComp>()->Get_Need_To_Keep_Drawing() = true;
-	ObjectManager::GetObjectManager()->AddObject(info_text[1]);
+	//info_text[1] = new Object();
+	//info_text[1]->SetTranslation({ -1000,700 });
+	//info_text[1]->AddComponent(new TextComp(info_text[1], L"Master Volume", { 0,0,0,1 }, { 150,150 }, font));
+	//info_text[1]->GetComponentByTemplate<TextComp>()->Get_Need_To_Keep_Drawing() = true;
+	//ObjectManager::GetObjectManager()->AddObject(info_text[1]);
 
-	info_text[2] = new Object();
-	info_text[2]->SetTranslation({ -1000,200 });
-	info_text[2]->AddComponent(new TextComp(info_text[2], L"Music Volume", { 0,0,0,1 }, { 150,150 }, font));
-	info_text[2]->GetComponentByTemplate<TextComp>()->Get_Need_To_Keep_Drawing() = true;
-	ObjectManager::GetObjectManager()->AddObject(info_text[2]);
+	//info_text[2] = new Object();
+	//info_text[2]->SetTranslation({ -1000,200 });
+	//info_text[2]->AddComponent(new TextComp(info_text[2], L"Music Volume", { 0,0,0,1 }, { 150,150 }, font));
+	//info_text[2]->GetComponentByTemplate<TextComp>()->Get_Need_To_Keep_Drawing() = true;
+	//ObjectManager::GetObjectManager()->AddObject(info_text[2]);
 
-	info_text[3] = new Object();
-	info_text[3]->SetTranslation({ -1000,-300 });
-	info_text[3]->AddComponent(new TextComp(info_text[3], L"SFX Volume", { 0,0,0,1 }, { 150,150 }, font));
-	info_text[3]->GetComponentByTemplate<TextComp>()->Get_Need_To_Keep_Drawing() = true;
-	ObjectManager::GetObjectManager()->AddObject(info_text[3]);
+	//info_text[3] = new Object();
+	//info_text[3]->SetTranslation({ -1000,-300 });
+	//info_text[3]->AddComponent(new TextComp(info_text[3], L"SFX Volume", { 0,0,0,1 }, { 150,150 }, font));
+	//info_text[3]->GetComponentByTemplate<TextComp>()->Get_Need_To_Keep_Drawing() = true;
+	//ObjectManager::GetObjectManager()->AddObject(info_text[3]);
 }

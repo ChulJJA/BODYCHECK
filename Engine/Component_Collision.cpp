@@ -245,6 +245,6 @@ void Collision::SquareArenaCollision()
 void Collision::Update(float dt)
 {
     sound_timer += dt;
-    //CircleToCircleCollision();
-    //SquareArenaCollision();
+    CircleToCircleCollision();
+    SquareArenaCollision();
 }

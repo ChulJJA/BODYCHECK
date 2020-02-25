@@ -817,81 +817,81 @@ void Physics::SpeedDown(Object* object)
 
 void Physics::Update(float dt)
 {
-    //timer += dt;
+    timer += dt;
 
-    //if (m_owner->GetName() == "first")
-    //{
-    //    Acceleration(0.6, 0.12);
+    if (m_owner->GetName() == "first")
+    {
+        Acceleration(0.6, 0.12);
 
-    //    if (is_dashed == false && timer >= 0.3)
-    //    {
-    //        Dash(m_owner);
-    //    }
-    //    else if (is_dashed == true && timer >= 0.5)
-    //    {
-    //        SpeedDown(m_owner);
-    //        is_dashed = false;
-    //    }
-    //}
-    //else if (m_owner->GetName() == "second")
-    //{
-    //    Acceleration(0.6, 0.12);
+        if (is_dashed == false && timer >= 0.3)
+        {
+            Dash(m_owner);
+        }
+        else if (is_dashed == true && timer >= 0.5)
+        {
+            SpeedDown(m_owner);
+            is_dashed = false;
+        }
+    }
+    else if (m_owner->GetName() == "second")
+    {
+        Acceleration(0.6, 0.12);
 
-    //    if (is_dashed == false && timer >= 0.3)
-    //    {
-    //        Dash(m_owner);
-    //    }
-    //    else if (is_dashed == true && timer >= 0.5)
-    //    {
-    //        SpeedDown(m_owner);
-    //        is_dashed = false;
-    //    }
-    //}
-    //else if (m_owner->GetName() == "third")
-    //{
-    //    Acceleration(0.6, 0.12);
+        if (is_dashed == false && timer >= 0.3)
+        {
+            Dash(m_owner);
+        }
+        else if (is_dashed == true && timer >= 0.5)
+        {
+            SpeedDown(m_owner);
+            is_dashed = false;
+        }
+    }
+    else if (m_owner->GetName() == "third")
+    {
+        Acceleration(0.6, 0.12);
 
-    //    if (is_dashed == false && timer >= 0.3)
-    //    {
-    //        Dash(m_owner);
-    //    }
-    //    else if (is_dashed == true && timer >= 0.5)
-    //    {
-    //        SpeedDown(m_owner);
-    //        is_dashed = false;
-    //    }
-    //}
-    //else if (m_owner->GetName() == "forth")
-    //{
-    //    Acceleration(0.6, 0.12);
+        if (is_dashed == false && timer >= 0.3)
+        {
+            Dash(m_owner);
+        }
+        else if (is_dashed == true && timer >= 0.5)
+        {
+            SpeedDown(m_owner);
+            is_dashed = false;
+        }
+    }
+    else if (m_owner->GetName() == "forth")
+    {
+        Acceleration(0.6, 0.12);
 
-    //    if (is_dashed == false && timer >= 0.3)
-    //    {
-    //        Dash(m_owner);
-    //    }
-    //    else if (is_dashed == true && timer >= 0.5)
-    //    {
-    //        SpeedDown(m_owner);
-    //        is_dashed = false;
-    //    }
-    //}
-    //else
-    //{
-    //    JustMove();
-    //}
+        if (is_dashed == false && timer >= 0.3)
+        {
+            Dash(m_owner);
+        }
+        else if (is_dashed == true && timer >= 0.5)
+        {
+            SpeedDown(m_owner);
+            is_dashed = false;
+        }
+    }
+    else
+    {
+        JustMove();
+    }
 
-    //if (ghost_collision_mode)
-    //{
-    //    ghost_collision_timer -= dt;
+    if (ghost_collision_mode)
+    {
+        ghost_collision_timer -= dt;
 
-    //    if (ghost_collision_timer <= 0.0f)
-    //    {
-    //        ghost_collision_mode = false;
-    //        if (m_owner->GetComponentByTemplate<Sprite>() != nullptr)
-    //        {
-    //            m_owner->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1.0f,1.0f,1.0f,1.0f };
-    //        }
-    //        ghost_collision_timer = 1.0f;
-    //    }
-    //}
+        if (ghost_collision_timer <= 0.0f)
+        {
+            ghost_collision_mode = false;
+            if (m_owner->GetComponentByTemplate<Sprite>() != nullptr)
+            {
+                m_owner->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1.0f,1.0f,1.0f,1.0f };
+            }
+            ghost_collision_timer = 1.0f;
+        }
+    }
 }
