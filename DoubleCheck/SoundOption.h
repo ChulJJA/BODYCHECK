@@ -19,8 +19,7 @@ class Object;
 class SoundOption : public State
 {
 public:
-    SoundOption() : State(), music_icon(nullptr), volume_box(nullptr), music_volume_text(nullptr), mute_button(nullptr),
-                    unmute_button(nullptr)
+    SoundOption()
     {
 	    current_state = GameState::Sound;
     }
@@ -42,11 +41,11 @@ public:
     void Mute();
 
 private:
-    Object* music_icon;
-    Object* volume_box;
+    Object* music_icon[3];
+    Object* volume_box[3];
     Object* music_volume_text;
     Object* mute_button;
     Object* unmute_button;
-
+    //Object* 
     BitmapFont      font{};
 };

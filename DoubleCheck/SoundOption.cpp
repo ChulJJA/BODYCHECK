@@ -64,18 +64,38 @@ void SoundOption::Clear()
 
 void SoundOption::SetMusicIcon()
 {
-	music_icon = new Object();
-	music_icon->AddComponent(new Sprite(music_icon, "../Sprite/icon.png", { -1400, 120 }, false));
-	music_icon->GetTransform().SetScale({ 5, 5 });
-	ObjectManager::GetObjectManager()->AddObject(music_icon);
+	music_icon[0] = new Object();
+	music_icon[0]->AddComponent(new Sprite(music_icon[0], "../Sprite/icon.png", { -1400, -420 }, false));
+	music_icon[0]->GetTransform().SetScale({ 5, 5 });
+	ObjectManager::GetObjectManager()->AddObject(music_icon[0]);
+
+	music_icon[1] = new Object();
+	music_icon[1]->AddComponent(new Sprite(music_icon[1], "../Sprite/icon.png", { -1400, 120 }, false));
+	music_icon[1]->GetTransform().SetScale({ 5, 5 });
+	ObjectManager::GetObjectManager()->AddObject(music_icon[1]);
+
+	music_icon[2] = new Object();
+	music_icon[2]->AddComponent(new Sprite(music_icon[2], "../Sprite/icon.png", { -1400, 620 }, false));
+	music_icon[2]->GetTransform().SetScale({ 5, 5 });
+	ObjectManager::GetObjectManager()->AddObject(music_icon[2]);
 }
 
 void SoundOption::SetMusicVolumeBox()
 {
-	volume_box = new Object();
-	volume_box->AddComponent(new Sprite(volume_box, "../Sprite/VolumeBox.png", { 0, 0 }, false));
-	volume_box->GetTransform().SetScale({ 30, 5 });
-	ObjectManager::GetObjectManager()->AddObject(volume_box);
+	volume_box[0] = new Object();
+	volume_box[0]->AddComponent(new Sprite(volume_box[0], "../Sprite/VolumeBox.png", { 0, 500 }, false));
+	volume_box[0]->GetTransform().SetScale({ 30, 5 });
+	ObjectManager::GetObjectManager()->AddObject(volume_box[0]);
+
+	volume_box[1] = new Object();
+	volume_box[1]->AddComponent(new Sprite(volume_box[1], "../Sprite/VolumeBox.png", { 0, 0 }, false));
+	volume_box[1]->GetTransform().SetScale({ 30, 5 });
+	ObjectManager::GetObjectManager()->AddObject(volume_box[1]);
+
+	volume_box[2] = new Object();
+	volume_box[2]->AddComponent(new Sprite(volume_box[2], "../Sprite/VolumeBox.png", { 0, -500 }, false));
+	volume_box[2]->GetTransform().SetScale({ 30, 5 });
+	ObjectManager::GetObjectManager()->AddObject(volume_box[2]);
 }
 
 void SoundOption::SetMusicText()
@@ -91,19 +111,19 @@ void SoundOption::MusicVolume()
 {
 	if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
 	{
-		vector2 icon_translation = music_icon->GetTransform().GetTranslation();
+		vector2 icon_translation = music_icon[0]->GetTransform().GetTranslation();
 		float volume = sound.GetVolume(SOUND::BGM2);
 
 		sound.SetVolume(SOUND::BGM2, volume + 0.1);
-		music_icon->SetTranslation({ icon_translation.x + 30, icon_translation.y });
+		music_icon[0]->SetTranslation({ icon_translation.x + 30, icon_translation.y });
 	}
 	else if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
 	{
-		vector2 icon_translation = music_icon->GetTransform().GetTranslation();
+		vector2 icon_translation = music_icon[0]->GetTransform().GetTranslation();
 		float volume = sound.GetVolume(SOUND::BGM2);
 
 		sound.SetVolume(SOUND::BGM2, volume - 0.1);
-		music_icon->SetTranslation({ icon_translation.x - 30, icon_translation.y });
+		music_icon[0]->SetTranslation({ icon_translation.x - 30, icon_translation.y });
 	}
 }
 
@@ -124,21 +144,26 @@ void SoundOption::Mute()
 {
 	FMOD_BOOL is_playing;
 	float volume;
-	
 	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &is_playing);
+	
 	if (input.Is_Key_Triggered(GLFW_KEY_M) && is_playing)
 	{
+		mute_button->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,1 };
+		unmute_button->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
+		
 		volume = sound.GetVolumeInfo(SOUND::BGM2) * 100;
 		sound.stop(SOUND::BGM2);
 		music_volume_text->GetComponentByTemplate<TextComp>()->GetText().SetString(std::to_wstring(volume));
-		std::cout << volume << std::endl;
+		std::cout << volume / 100 << std::endl;
 	}
 	if (input.Is_Key_Triggered(GLFW_KEY_M) && !is_playing)
 	{
+		mute_button->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
+		unmute_button->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,1};
+		
 		volume = sound.GetVolumeInfo(SOUND::BGM2);
 		sound.SetVolume(SOUND::BGM2, volume);
 		sound.play(SOUND::BGM2);
 		std::cout << volume << std::endl;
-
 	}
 }
