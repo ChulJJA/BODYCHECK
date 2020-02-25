@@ -47,12 +47,12 @@ void SoundOption::Load()
 	SetMusicIcon();
 	SetMusicText();
 	SetMuteButton();
-	std::cout << sound.GetVolume(SOUND::BGM2);
-
+	SetInfoText();
 }
 
 void SoundOption::Update(float dt)
 {
+	mute_timer++;
 	MusicVolume();
 	Mute();
 }
@@ -65,7 +65,7 @@ void SoundOption::Clear()
 void SoundOption::SetMusicIcon()
 {
 	music_icon[0] = new Object();
-	music_icon[0]->AddComponent(new Sprite(music_icon[0], "../Sprite/icon.png", { -1400, -420 }, false));
+	music_icon[0]->AddComponent(new Sprite(music_icon[0], "../Sprite/icon.png", { -1400, -390 }, false));
 	music_icon[0]->GetTransform().SetScale({ 5, 5 });
 	ObjectManager::GetObjectManager()->AddObject(music_icon[0]);
 
@@ -109,21 +109,35 @@ void SoundOption::SetMusicText()
 
 void SoundOption::MusicVolume()
 {
-	if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
+	if (input.Is_Key_Pressed(GLFW_KEY_RIGHT) && mute_timer >= 30)
 	{
 		vector2 icon_translation = music_icon[0]->GetTransform().GetTranslation();
 		float volume = sound.GetVolume(SOUND::BGM2);
 
+		if(volume >= 1)
+		{
+			return;
+		}
+		
 		sound.SetVolume(SOUND::BGM2, volume + 0.1);
 		music_icon[0]->SetTranslation({ icon_translation.x + 30, icon_translation.y });
+
+		mute_timer = 0;
 	}
-	else if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
+	else if (input.Is_Key_Pressed(GLFW_KEY_LEFT) && mute_timer >= 30)
 	{
 		vector2 icon_translation = music_icon[0]->GetTransform().GetTranslation();
 		float volume = sound.GetVolume(SOUND::BGM2);
 
+		if(volume <= 0)
+		{
+			return;
+		}
+		
 		sound.SetVolume(SOUND::BGM2, volume - 0.1);
 		music_icon[0]->SetTranslation({ icon_translation.x - 30, icon_translation.y });
+
+		mute_timer = 0;
 	}
 }
 
@@ -162,8 +176,37 @@ void SoundOption::Mute()
 		unmute_button->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,1};
 		
 		volume = sound.GetVolumeInfo(SOUND::BGM2);
+		std::cout << volume << std::endl;
+
 		sound.SetVolume(SOUND::BGM2, volume);
 		sound.play(SOUND::BGM2);
 		std::cout << volume << std::endl;
 	}
+}
+
+void SoundOption::SetInfoText()
+{
+	info_text[0] = new Object();
+	info_text[0]->SetTranslation({ -300,800 });
+	info_text[0]->AddComponent(new TextComp(info_text[0], L"Sound Option", { 0,0,0,1 }, { 150,150 }, font));
+	info_text[0]->GetComponentByTemplate<TextComp>()->Get_Need_To_Keep_Drawing() = true;
+	ObjectManager::GetObjectManager()->AddObject(info_text[0]);
+
+	info_text[1] = new Object();
+	info_text[1]->SetTranslation({ -1000,700 });
+	info_text[1]->AddComponent(new TextComp(info_text[1], L"Master Volume", { 0,0,0,1 }, { 150,150 }, font));
+	info_text[1]->GetComponentByTemplate<TextComp>()->Get_Need_To_Keep_Drawing() = true;
+	ObjectManager::GetObjectManager()->AddObject(info_text[1]);
+
+	info_text[2] = new Object();
+	info_text[2]->SetTranslation({ -1000,200 });
+	info_text[2]->AddComponent(new TextComp(info_text[2], L"Music Volume", { 0,0,0,1 }, { 150,150 }, font));
+	info_text[2]->GetComponentByTemplate<TextComp>()->Get_Need_To_Keep_Drawing() = true;
+	ObjectManager::GetObjectManager()->AddObject(info_text[2]);
+
+	info_text[3] = new Object();
+	info_text[3]->SetTranslation({ -1000,-300 });
+	info_text[3]->AddComponent(new TextComp(info_text[3], L"SFX Volume", { 0,0,0,1 }, { 150,150 }, font));
+	info_text[3]->GetComponentByTemplate<TextComp>()->Get_Need_To_Keep_Drawing() = true;
+	ObjectManager::GetObjectManager()->AddObject(info_text[3]);
 }

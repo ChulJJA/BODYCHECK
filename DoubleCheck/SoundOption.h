@@ -39,6 +39,7 @@ public:
     void SetMuteButton();
     void MusicVolume();
     void Mute();
+    void SetInfoText();
 
 private:
     Object* music_icon[3];
@@ -46,6 +47,8 @@ private:
     Object* music_volume_text;
     Object* mute_button;
     Object* unmute_button;
-    //Object* 
+    Object* info_text[4];
     BitmapFont      font{};
+
+    float mute_timer = 0;
 };
