@@ -29,8 +29,8 @@ public:
     virtual void Clear();
     virtual void UnLoad()
     {
-        next_level = {};
         is_next = false;
+        next_level = {};
     }
 
     void SetMusicIcon();
@@ -40,14 +40,18 @@ public:
     void MusicVolume();
     void Mute();
     void SetInfoText();
+    void SetBackButton();
 
 private:
     Object* music_icon[3];
     Object* volume_box[3];
+    Object* volume_box_hover[3];
     Object* music_volume_text;
-    Object* mute_button;
-    Object* unmute_button;
-    Object* info_text;
+    Object* mute_button[3];
+    Object* unmute_button[3];
+    Object* back_button;
+    Object* back_button_hover;
+    Object* info_text[3];
 	
     BitmapFont      font{};
 
