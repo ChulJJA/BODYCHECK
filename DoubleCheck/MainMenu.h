@@ -13,17 +13,19 @@
 #include "State.h"
 #include "vector2.hpp"
 
-enum class BUTTON
-{
-	START,
-	MUSIC,
-	TEST
-};
+
 
 class Object;
 
 class MainMenu : public State
 {
+    enum class BUTTON
+    {
+        START,
+        MUSIC,
+        TEST
+    };
+	
 public:
     MainMenu() :State()
     {

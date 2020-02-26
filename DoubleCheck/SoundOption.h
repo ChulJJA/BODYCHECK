@@ -18,6 +18,13 @@ class Object;
 
 class SoundOption : public State
 {
+	enum class BUTTON
+	{
+		MASTER,
+		MUSIC,
+		SFX,
+		BACK
+	};
 public:
     SoundOption()
     {
@@ -41,6 +48,7 @@ public:
     void Mute();
     void SetInfoText();
     void SetBackButton();
+    void ButtonSelector();
 
 private:
     Object* music_icon[3];
@@ -56,4 +64,7 @@ private:
     BitmapFont      font{};
 
     float mute_timer = 0;
+    float button_timer = 0;
+	
+    int pointer = 0;
 };
