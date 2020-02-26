@@ -48,6 +48,7 @@ private:
     Object* mute_button;
     Object* unmute_button;
     Object* info_text;
+	
     BitmapFont      font{};
 
     float mute_timer = 0;

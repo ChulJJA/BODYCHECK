@@ -21,7 +21,7 @@
 #include "Windows.h"
 #include <GLFW/glfw3.h>
 #include "SoundOption.h"
-
+#include "UsefulTools.hpp"
 namespace
 {
 	ObjectManager* object_manager = nullptr;
@@ -30,6 +30,10 @@ namespace
 
 void SoundOption::Load()
 {
+	if (!font.LoadFromFile(L"../assets/malgungothic.fnt"))
+	{
+		std::cout << "Failed to Load Font!" << std::endl;
+	}
 	sound.stop(SOUND::BGM);
 	sound.play(SOUND::BGM2);
 	sound.SetVolume(SOUND::BGM2, 0.3);
@@ -39,10 +43,7 @@ void SoundOption::Load()
 
 	Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 	Graphic::GetGraphic()->get_need_update_sprite() = true;
-	if (!font.LoadFromFile(L"../assets/malgungothic.fnt"))
-	{
-		std::cout << "Failed to Load Font!" << std::endl;
-	}
+
 	SetMusicVolumeBox();
 	SetMusicIcon();
 	SetMusicText();
@@ -162,16 +163,18 @@ void SoundOption::Mute()
 	
 	if (input.Is_Key_Triggered(GLFW_KEY_M) && is_playing)
 	{
-		mute_button->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,1 };
-		unmute_button->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
+		ObjectHover(unmute_button, mute_button);
+		//mute_button->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,1 };
+		//unmute_button->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
 		
 		volume = sound.GetVolumeInfo(SOUND::BGM2) * 100;
 		sound.stop(SOUND::BGM2);
-		music_volume_text->GetComponentByTemplate<TextComp>()->GetText().SetString(std::to_wstring(volume));
+		//music_volume_text->GetComponentByTemplate<TextComp>()->GetText().SetString(std::to_wstring(volume));
 		std::cout << volume / 100 << std::endl;
 	}
 	if (input.Is_Key_Triggered(GLFW_KEY_M) && !is_playing)
 	{
+		ObjectHover(mute_button, unmute_button);
 		mute_button->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
 		unmute_button->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,1};
 		
@@ -186,12 +189,13 @@ void SoundOption::Mute()
 
 void SoundOption::SetInfoText()
 {
+	//std::wstring sound_option = StringToWstring("Sound Option");
 	//info_text = new Object();
 	//info_text->SetTranslation({ -300,800 });
 	//info_text->AddComponent(new TextComp(info_text, L"", { 0,0,0,1 }, { 150,150 }, font));
-	//info_text->GetComponentByTemplate<TextComp>()->GetText().SetString();
 	//info_text->GetComponentByTemplate<TextComp>()->Get_Need_To_Keep_Drawing() = true;
 	//ObjectManager::GetObjectManager()->AddObject(info_text);
+	//info_text->GetComponentByTemplate<TextComp>()->GetText().SetString(sound_option);
 
 	//info_text[1] = new Object();
 	//info_text[1]->SetTranslation({ -1000,700 });

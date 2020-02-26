@@ -22,3 +22,10 @@ void ObjectHover(Object* current_obj, Object* next_obj)
     current_obj->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
     next_obj->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,1 };
 }
+
+std::wstring StringToWstring(std::string str)
+{
+    std::wstring str_to_wstr;
+    str_to_wstr.assign(str.begin(), str.end());
+    return str_to_wstr;
+}

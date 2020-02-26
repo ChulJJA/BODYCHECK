@@ -67,13 +67,12 @@ void Engine::Init()
     object_manager = ObjectManager::GetObjectManager();
     state_manager = StateManager::GetStateManager();
     graphic = Graphic::GetGraphic();
-    //msg_manager = Message_Manager::Get_Message_Manager();
-
+    msg_manager = Message_Manager::Get_Message_Manager();
     app_->Init();
     object_manager->Init();
     state_manager->Init();
     graphic->Init();
-    //msg_manager->Init();
+    msg_manager->Init();
 
     state_manager->AddState("Logo", new Logo);
     state_manager->AddState("Menu", new MainMenu);

@@ -29,7 +29,7 @@ bool Texture::LoadFromPNG(const std::filesystem::path& file_path) noexcept
         Image temp_image;
 
         temp_image.LoadFromPNG(file_path);
-
+        
         return LoadFromImage(temp_image);
     }
     catch (std::system_error & e)
