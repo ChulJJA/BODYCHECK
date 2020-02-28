@@ -171,21 +171,21 @@ void MainMenu::ButtonSelector()
 
 	if(input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::START))
 	{
-        sound.play(SOUND::Click);
+        sound.Play(SOUND::Click);
         is_next = true;
         next_level = "Level1";
         Clear();
 	}
     else if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::MUSIC))
     {
-        sound.play(SOUND::Click);
+        sound.Play(SOUND::Click);
         is_next = true;
         next_level = "SoundOption";
         Clear();
     }
     if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::TEST))
     {
-        sound.play(SOUND::Click);
+        sound.Play(SOUND::Click);
         is_next = true;
         next_level = "TestLevel";
         Clear();

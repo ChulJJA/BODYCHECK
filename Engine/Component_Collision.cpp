@@ -173,7 +173,7 @@ void Collision::SquareArenaCollision()
 
         if (line_max_point - max_x < 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr)
         {
-            sound.play(SOUND::Crack);
+            sound.Play(SOUND::Crack);
 
             vector2 direction_to_go = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration();
 
@@ -190,7 +190,7 @@ void Collision::SquareArenaCollision()
         }
         else if (line_max_point - max_y < 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr)
         {
-            sound.play(SOUND::Crack);
+            sound.Play(SOUND::Crack);
 
             vector2 direction_to_go = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration();
             angle = RadianToDegree(angle_between({ -1,0 }, direction_to_go));
@@ -207,7 +207,7 @@ void Collision::SquareArenaCollision()
         }
         else if (line_min_point - min_x > 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr)
         {
-            sound.play(SOUND::Crack);
+            sound.Play(SOUND::Crack);
 
             vector2 direction_to_go = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration();
             angle = RadianToDegree(angle_between({ 0,-1 }, direction_to_go));
@@ -224,7 +224,7 @@ void Collision::SquareArenaCollision()
         }
         else if (line_min_point - min_y > 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr)
         {
-            sound.play(SOUND::Crack);
+            sound.Play(SOUND::Crack);
 
             vector2 direction_to_go = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration();
             angle = RadianToDegree(angle_between({ 1,0 }, direction_to_go));

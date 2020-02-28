@@ -151,8 +151,7 @@ void Referee::Update(float dt)
 
                 if (player_second_respawn_timer <= 0.0f)
                 {
-                    sound.play(SOUND::Respawn);
-                    sound.SetVolume(SOUND::Respawn, 3);
+                    sound.Play(SOUND::Respawn);
 
                     player_second_respawn_timer = 3.0f;
                     Respawn(i);
@@ -169,8 +168,7 @@ void Referee::Update(float dt)
 
                 if (player_first_respawn_timer <= 0.0f)
                 {
-                    sound.play(SOUND::Respawn);
-                    sound.SetVolume(SOUND::Respawn, 3);
+                    sound.Play(SOUND::Respawn);
 
                     player_first_respawn_timer = 3.0f;
                     Respawn(i);
@@ -187,8 +185,7 @@ void Referee::Update(float dt)
 
                 if (player_third_respawn_timer <= 0.0f)
                 {
-                    sound.play(SOUND::Respawn);
-                    sound.SetVolume(SOUND::Respawn, 1);
+                    sound.Play(SOUND::Respawn);
 
                     player_third_respawn_timer = 3.0f;
                     Respawn(i);
@@ -205,8 +202,7 @@ void Referee::Update(float dt)
 
                 if (player_fourth_respawn_timer <= 0.0f)
                 {
-                    sound.play(SOUND::Respawn);
-                    sound.SetVolume(SOUND::Respawn, 1);
+                    sound.Play(SOUND::Respawn);
                     player_fourth_respawn_timer = 3.0f;
                     Respawn(i);
 

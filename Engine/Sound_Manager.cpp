@@ -14,15 +14,13 @@
 
 float sound_timer = 0;
 
-/* Initializing Sounds */
-void Sound::initialize(void)
+void Sound::Initialize()
 {
     result = FMOD_System_Create(&f_system);
     result = FMOD_System_Init(f_system, 30, FMOD_INIT_NORMAL, 0);
 }
 
-/* Loading Sound files */
-void Sound::load(void)
+void Sound::Load()
 {
     result = FMOD_System_CreateSound(f_system, "Sounds/TeamDoubleCheck.mp3", FMOD_DEFAULT, nullptr, &sound[0]);
     if (result != FMOD_OK)
@@ -87,7 +85,7 @@ void Sound::load(void)
 }
 
 /* Playing specific sound */
-void Sound::play(SOUND Sound_Num)
+void Sound::Play(SOUND Sound_Num)
 {
     result = FMOD_System_PlaySound(f_system, sound[(int)Sound_Num], 0, 0, &channel[(int)Sound_Num]);
     result = FMOD_System_Update(f_system);
@@ -97,17 +95,7 @@ void Sound::play(SOUND Sound_Num)
     }
 }
 
-/* Set Volume in specific channel */
-void Sound::volume(SOUND Channel_Num, float Volume)
-{
-    result = FMOD_Channel_SetVolume(channel[(int)Channel_Num], Volume);
-    if (result != FMOD_OK)
-    {
-        return;
-    }
-}
-
-void Sound::stop(SOUND Sound_Num)
+void Sound::Stop(SOUND Sound_Num)
 {
     result = FMOD_Channel_Stop(channel[static_cast<int>(Sound_Num)]);
 }

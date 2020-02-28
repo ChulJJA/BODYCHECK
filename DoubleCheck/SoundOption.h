@@ -42,7 +42,6 @@ public:
 
     void SetMusicIcon();
     void SetMusicVolumeBox();
-    void SetMusicText();
     void SetMuteButton();
     void MusicVolume();
     void Mute();
@@ -65,6 +64,5 @@ private:
 
     float mute_timer = 0;
     float button_timer = 0;
-	
     int pointer = 0;
 };

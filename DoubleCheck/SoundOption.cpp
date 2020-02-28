@@ -34,11 +34,10 @@ void SoundOption::Load()
 	{
 		std::cout << "Failed to Load Font!" << std::endl;
 	}
-	sound.stop(SOUND::BGM);
-	sound.play(SOUND::BGM2);
-	sound.SetVolume(SOUND::BGM2, 0.3);
-
-	state_manager = StateManager::GetStateManager();
+	sound.Stop(SOUND::BGM);
+	sound.Play(SOUND::BGM2);
+	
+	state_manager = StateManager::GetStateManager();	
 	object_manager = ObjectManager::GetObjectManager();
 
 	Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
@@ -46,7 +45,6 @@ void SoundOption::Load()
 
 	SetMusicVolumeBox();
 	SetMusicIcon();
-	SetMusicText();
 	SetMuteButton();
 	SetInfoText();
 	SetBackButton();
@@ -64,6 +62,8 @@ void SoundOption::Update(float dt)
 	
 	MusicVolume();
 	Mute();
+
+	std::cout << mute_timer << std::endl;
 }
 
 void SoundOption::Clear()
@@ -122,47 +122,115 @@ void SoundOption::SetMusicVolumeBox()
 	ObjectManager::GetObjectManager()->AddObject(volume_box_hover[2]);
 }
 
-void SoundOption::SetMusicText()
-{
-	music_volume_text = new Object();
-	music_volume_text->SetTranslation({ 0,500 });
-	music_volume_text->AddComponent(new TextComp(music_volume_text, L"", { 0,0,0,1 }, { 150,150 }, font));
-	music_volume_text->GetComponentByTemplate<TextComp>()->Get_Need_To_Keep_Drawing() = true;
-	ObjectManager::GetObjectManager()->AddObject(music_volume_text);
-}
-
 void SoundOption::MusicVolume()
 {
-	if (input.Is_Key_Pressed(GLFW_KEY_RIGHT) && mute_timer >= 30)
+	if (mute_timer >= 10 && pointer == static_cast<int>(BUTTON::MASTER))
 	{
-		vector2 icon_translation = music_icon[0]->GetTransform().GetTranslation();
-		float volume = sound.GetVolume(SOUND::BGM2);
-
-		if(volume >= 1)
+		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
 		{
-			return;
-		}
-		
-		sound.SetVolume(SOUND::BGM2, volume + 0.1);
-		music_icon[0]->SetTranslation({ icon_translation.x + 30, icon_translation.y });
+			vector2 icon_translation = music_icon[2]->GetTransform().GetTranslation();
+			float volume = sound.GetVolume(SOUND::BGM2);
 
-		mute_timer = 0;
+			if (volume > 1)
+			{
+				return;
+			}
+
+			sound.SetVolume(SOUND::BGM2, volume + 0.25);
+			music_icon[2]->SetTranslation({ icon_translation.x + 680, icon_translation.y });
+
+			mute_timer = 0;
+		}
+		else if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
+		{
+			vector2 icon_translation = music_icon[2]->GetTransform().GetTranslation();
+			float volume = sound.GetVolume(SOUND::BGM2);
+
+			if (volume < 0)
+			{
+				return;
+			}
+
+			sound.SetVolume(SOUND::BGM2, volume - 0.1);
+			music_icon[2]->SetTranslation({ icon_translation.x - 680, icon_translation.y });
+
+			mute_timer = 0;
+		}
 	}
-	else if (input.Is_Key_Pressed(GLFW_KEY_LEFT) && mute_timer >= 30)
+	else if (mute_timer >= 10 && pointer == static_cast<int>(BUTTON::MUSIC))
 	{
-		vector2 icon_translation = music_icon[0]->GetTransform().GetTranslation();
-		float volume = sound.GetVolume(SOUND::BGM2);
-
-		if(volume <= 0)
+		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
 		{
-			return;
-		}
-		
-		sound.SetVolume(SOUND::BGM2, volume - 0.1);
-		music_icon[0]->SetTranslation({ icon_translation.x - 30, icon_translation.y });
+			vector2 icon_translation = music_icon[1]->GetTransform().GetTranslation();
+			float volume = sound.GetVolume(SOUND::BGM2);
 
-		mute_timer = 0;
+			if (volume > 1)
+			{
+				return;
+			}
+
+			sound.SetVolume(SOUND::BGM2, volume + 0.1);
+			music_icon[1]->SetTranslation({ icon_translation.x + 680, icon_translation.y });
+
+			mute_timer = 0;
+		}
+		else if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
+		{
+			vector2 icon_translation = music_icon[1]->GetTransform().GetTranslation();
+			float volume = sound.GetVolume(SOUND::BGM2);
+
+			if (volume < 0)
+			{
+				return;
+			}
+
+			sound.SetVolume(SOUND::BGM2, volume - 0.1);
+			music_icon[1]->SetTranslation({ icon_translation.x - 680, icon_translation.y });
+
+			mute_timer = 0;
+		}
 	}
+	else if (mute_timer >= 10 && pointer == static_cast<int>(BUTTON::SFX))
+	{
+		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
+		{
+			vector2 icon_translation = music_icon[0]->GetTransform().GetTranslation();
+			float volume = sound.GetVolume(SOUND::BGM2);
+
+			if (volume > 1)
+			{
+				return;
+			}
+
+			sound.SetVolume(SOUND::BGM2, volume + 0.1);
+			music_icon[0]->SetTranslation({ icon_translation.x + 680, icon_translation.y });
+
+			mute_timer = 0;
+		}
+		else if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
+		{
+			vector2 icon_translation = music_icon[0]->GetTransform().GetTranslation();
+			float volume = sound.GetVolume(SOUND::BGM2);
+
+			if (volume <= 0)
+			{
+				return;
+			}
+
+			sound.SetVolume(SOUND::BGM2, volume - 0.1);
+			music_icon[0]->SetTranslation({ icon_translation.x - 680, icon_translation.y });
+
+			mute_timer = 0;
+		}
+	}
+	else if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::BACK))
+	{
+		sound.Play(SOUND::Click);
+		is_next = true;
+		next_level = "Menu";
+		SoundOption::Clear();
+	}
+
 }
 
 void SoundOption::SetMuteButton()
@@ -209,8 +277,7 @@ void SoundOption::Mute()
 		ObjectHover(unmute_button[0], mute_button[0]);
 		
 		volume = sound.GetVolumeInfo(SOUND::BGM2) * 100;
-		sound.stop(SOUND::BGM2);
-		//music_volume_text->GetComponentByTemplate<TextComp>()->GetText().SetString(std::to_wstring(volume));
+		sound.Stop(SOUND::BGM2);
 		std::cout << volume / 100 << std::endl;
 	}
 	if (input.Is_Key_Triggered(GLFW_KEY_M) && !is_playing)
@@ -221,21 +288,13 @@ void SoundOption::Mute()
 		std::cout << volume << std::endl;
 
 		sound.SetVolume(SOUND::BGM2, volume);
-		sound.play(SOUND::BGM2);
+		sound.Play(SOUND::BGM2);
 		std::cout << volume << std::endl;
 	}
 }
 
 void SoundOption::SetInfoText()
 {
-	//std::wstring sound_option = StringToWstring("Sound Option");
-	//info_text = new Object();
-	//info_text->SetTranslation({ -300,800 });
-	//info_text->AddComponent(new TextComp(info_text, L"", { 0,0,0,1 }, { 150,150 }, font));
-	//info_text->GetComponentByTemplate<TextComp>()->Get_Need_To_Keep_Drawing() = true;
-	//ObjectManager::GetObjectManager()->AddObject(info_text);
-	//info_text->GetComponentByTemplate<TextComp>()->GetText().SetString(sound_option);
-
 	info_text[0] = new Object();
 	info_text[0]->AddComponent(new Sprite(info_text[0], "../Sprite/Master.png", { -1300, 800 }, false));
 	info_text[0]->GetTransform().SetScale({ 3, 3 });

@@ -39,9 +39,8 @@ void Level1::Load()
     object_manager = ObjectManager::GetObjectManager();
     Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 
-    sound.stop(SOUND::BGM);
-    sound.play(SOUND::BGM2);
-    sound.SetVolume(SOUND::BGM2, 0.3);
+    sound.Stop(SOUND::BGM);
+    sound.Play(SOUND::BGM2);
 
     arena = new Object();
     arena->Set_Name("arena");

@@ -56,12 +56,10 @@ void Update_Msg(float dt)
 
 void Engine::Init()
 {
-    sound.initialize();
-    sound.load();
-    sound.play(SOUND::TeamDoubleCheck);
-    sound.SetVolume(SOUND::TeamDoubleCheck, 1);
-    sound.play(SOUND::BGM);
-    sound.SetVolume(SOUND::BGM, 1);
+    sound.Initialize();
+    sound.Load();
+    sound.Play(SOUND::TeamDoubleCheck);
+    sound.Play(SOUND::BGM);
 
     app_ = Application::Get_Application();
     object_manager = ObjectManager::GetObjectManager();
