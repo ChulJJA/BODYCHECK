@@ -281,7 +281,7 @@ void SoundOption::Mute()
 	{
 		ObjectHover(unmute_button[0], mute_button[0]);
 		
-		volume = sound.GetVolumeInfo(SOUND::BGM2) * 100;
+		volume = sound.GetVolume(SOUND::BGM2);
 		sound.Stop(SOUND::BGM2);
 		std::cout << volume / 100 << std::endl;
 	}
@@ -289,8 +289,8 @@ void SoundOption::Mute()
 	{
 		ObjectHover(mute_button[0], unmute_button[0]);
 		
-		volume = sound.GetVolumeInfo(SOUND::BGM2);
-		std::cout << volume << std::endl;
+		volume = sound.GetVolume(SOUND::BGM2);
+			std::cout << volume << std::endl;
 
 		sound.SetVolume(SOUND::BGM2, volume);
 		sound.Play(SOUND::BGM2);

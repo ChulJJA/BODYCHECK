@@ -38,14 +38,13 @@ public:
     FMOD_SOUND* sound[SOUND_NUM];
     FMOD_CHANNEL* channel[SOUND_NUM];
 
+    void ErrorCheck(FMOD_RESULT result);
     void Initialize();
     void Load();
     void Play(SOUND Sound_Num);
     void Stop(SOUND Sound_Num);
-
     float GetVolume(SOUND Channel_Num);
     void SetVolume(SOUND Channel_Num, float Volume);
-    float GetVolumeInfo(SOUND Channel_Num);
 	
 private:
     float volume_info[20] = {};
