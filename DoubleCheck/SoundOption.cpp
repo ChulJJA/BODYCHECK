@@ -36,6 +36,7 @@ void SoundOption::Load()
 	}
 	sound.Stop(SOUND::BGM);
 	sound.Play(SOUND::BGM2);
+	sound.SetVolume(SOUND::BGM2, 0.5);
 	
 	state_manager = StateManager::GetStateManager();	
 	object_manager = ObjectManager::GetObjectManager();
@@ -62,8 +63,6 @@ void SoundOption::Update(float dt)
 	
 	MusicVolume();
 	Mute();
-
-	std::cout << mute_timer << std::endl;
 }
 
 void SoundOption::Clear()
@@ -74,17 +73,17 @@ void SoundOption::Clear()
 void SoundOption::SetMusicIcon()
 {
 	music_icon[0] = new Object();
-	music_icon[0]->AddComponent(new Sprite(music_icon[0], "../Sprite/icon.png", { -1400, -390 }, false));
+	music_icon[0]->AddComponent(new Sprite(music_icon[0], "../Sprite/icon.png", { -50, -390 }, false));
 	music_icon[0]->GetTransform().SetScale({ 5, 5 });
 	ObjectManager::GetObjectManager()->AddObject(music_icon[0]);
 
 	music_icon[1] = new Object();
-	music_icon[1]->AddComponent(new Sprite(music_icon[1], "../Sprite/icon.png", { -1400, 120 }, false));
+	music_icon[1]->AddComponent(new Sprite(music_icon[1], "../Sprite/icon.png", { -50, 120 }, false));
 	music_icon[1]->GetTransform().SetScale({ 5, 5 });
 	ObjectManager::GetObjectManager()->AddObject(music_icon[1]);
 
 	music_icon[2] = new Object();
-	music_icon[2]->AddComponent(new Sprite(music_icon[2], "../Sprite/icon.png", { -1400, 620 }, false));
+	music_icon[2]->AddComponent(new Sprite(music_icon[2], "../Sprite/icon.png", { -50, 620 }, false));
 	music_icon[2]->GetTransform().SetScale({ 5, 5 });
 	ObjectManager::GetObjectManager()->AddObject(music_icon[2]);
 }
@@ -126,18 +125,22 @@ void SoundOption::MusicVolume()
 {
 	if (mute_timer >= 10 && pointer == static_cast<int>(BUTTON::MASTER))
 	{
+		float volume = sound.GetVolume(SOUND::BGM2);
+		std::cout << volume << "initial" << std::endl;
+
 		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
 		{
 			vector2 icon_translation = music_icon[2]->GetTransform().GetTranslation();
-			float volume = sound.GetVolume(SOUND::BGM2);
-
-			if (volume > 1)
+			 volume = sound.GetVolume(SOUND::BGM2);
+			std::cout << volume << "before" << std::endl;
+			if (volume >= 1)
 			{
 				return;
 			}
 
 			sound.SetVolume(SOUND::BGM2, volume + 0.25);
 			music_icon[2]->SetTranslation({ icon_translation.x + 680, icon_translation.y });
+			std::cout << volume << "after" << std::endl;
 
 			mute_timer = 0;
 		}
@@ -145,14 +148,16 @@ void SoundOption::MusicVolume()
 		{
 			vector2 icon_translation = music_icon[2]->GetTransform().GetTranslation();
 			float volume = sound.GetVolume(SOUND::BGM2);
+			std::cout << volume << "before" << std::endl;
 
-			if (volume < 0)
+			if (volume <= 0)
 			{
 				return;
 			}
 
-			sound.SetVolume(SOUND::BGM2, volume - 0.1);
+			sound.SetVolume(SOUND::BGM2, volume - 0.25);
 			music_icon[2]->SetTranslation({ icon_translation.x - 680, icon_translation.y });
+			std::cout << volume << "after" << std::endl;
 
 			mute_timer = 0;
 		}
@@ -164,12 +169,12 @@ void SoundOption::MusicVolume()
 			vector2 icon_translation = music_icon[1]->GetTransform().GetTranslation();
 			float volume = sound.GetVolume(SOUND::BGM2);
 
-			if (volume > 1)
+			if (volume >= 1)
 			{
 				return;
 			}
 
-			sound.SetVolume(SOUND::BGM2, volume + 0.1);
+			sound.SetVolume(SOUND::BGM2, volume + 0.25);
 			music_icon[1]->SetTranslation({ icon_translation.x + 680, icon_translation.y });
 
 			mute_timer = 0;
@@ -179,12 +184,12 @@ void SoundOption::MusicVolume()
 			vector2 icon_translation = music_icon[1]->GetTransform().GetTranslation();
 			float volume = sound.GetVolume(SOUND::BGM2);
 
-			if (volume < 0)
+			if (volume <= 0)
 			{
 				return;
 			}
 
-			sound.SetVolume(SOUND::BGM2, volume - 0.1);
+			sound.SetVolume(SOUND::BGM2, volume - 0.25);
 			music_icon[1]->SetTranslation({ icon_translation.x - 680, icon_translation.y });
 
 			mute_timer = 0;
@@ -197,12 +202,12 @@ void SoundOption::MusicVolume()
 			vector2 icon_translation = music_icon[0]->GetTransform().GetTranslation();
 			float volume = sound.GetVolume(SOUND::BGM2);
 
-			if (volume > 1)
+			if (volume >= 1)
 			{
 				return;
 			}
 
-			sound.SetVolume(SOUND::BGM2, volume + 0.1);
+			sound.SetVolume(SOUND::BGM2, volume + 0.25);
 			music_icon[0]->SetTranslation({ icon_translation.x + 680, icon_translation.y });
 
 			mute_timer = 0;
@@ -217,7 +222,7 @@ void SoundOption::MusicVolume()
 				return;
 			}
 
-			sound.SetVolume(SOUND::BGM2, volume - 0.1);
+			sound.SetVolume(SOUND::BGM2, volume - 0.25);
 			music_icon[0]->SetTranslation({ icon_translation.x - 680, icon_translation.y });
 
 			mute_timer = 0;
@@ -228,7 +233,7 @@ void SoundOption::MusicVolume()
 		sound.Play(SOUND::Click);
 		is_next = true;
 		next_level = "Menu";
-		SoundOption::Clear();
+		Clear();
 	}
 
 }
