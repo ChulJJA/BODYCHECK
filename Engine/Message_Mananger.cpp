@@ -10,6 +10,7 @@
  */
 
 #include "Message_Manager.h"
+#include "Message_Function.h"
 
 Message_Manager* Message_Manager::msg_manager = nullptr;
 
@@ -45,6 +46,7 @@ void Message_Manager::Update(float dt)
         }
         for (auto& delete_msg : this->delete_msg)
         {
+			delete_msg->Delete();
             messages.erase(std::find(messages.begin(), messages.end(), delete_msg));
         }
     }

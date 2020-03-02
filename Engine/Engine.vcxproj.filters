@@ -133,6 +133,27 @@
     <ClCompile Include="UsefulTools.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Message_Function.cpp">
+      <Filter>Message_Function</Filter>
+    </ClCompile>
+    <ClCompile Include="Message_Function_Collision.cpp">
+      <Filter>Message_Function</Filter>
+    </ClCompile>
+    <ClCompile Include="Message_Function_Respawn.cpp">
+      <Filter>Message_Function</Filter>
+    </ClCompile>
+    <ClCompile Include="Message_Function_Wall_Collision.cpp">
+      <Filter>Message_Function</Filter>
+    </ClCompile>
+    <ClCompile Include="Message_Function_Item_Bulkup.cpp">
+      <Filter>Message_Function</Filter>
+    </ClCompile>
+    <ClCompile Include="Message_Function_Item_Recover.cpp">
+      <Filter>Message_Function</Filter>
+    </ClCompile>
+    <ClCompile Include="Message_Function_Item_Dash.cpp">
+      <Filter>Message_Function</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="angles.hpp">
@@ -294,6 +315,30 @@
     <ClInclude Include="UsefulTools.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Message_Function.h">
+      <Filter>Message_Function</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Base.h">
+      <Filter>Message_Function</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Collision.h">
+      <Filter>Message_Function</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Respawn.h">
+      <Filter>Message_Function</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Wall_Collision.h">
+      <Filter>Message_Function</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Item_Bulkup.h">
+      <Filter>Message_Function</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Item_Recover.h">
+      <Filter>Message_Function</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Item_Dash.h">
+      <Filter>Message_Function</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="StockShaders.inl" />
@@ -310,6 +355,9 @@
     </Filter>
     <Filter Include="Engine">
       <UniqueIdentifier>{0e92edd1-2393-485b-85a3-b7c2011cbcec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Message_Function">
+      <UniqueIdentifier>{eda70402-eff3-49fb-8bfa-9f118f34a5a5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

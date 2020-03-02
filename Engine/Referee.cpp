@@ -54,50 +54,50 @@ void Referee::Init()
     for (int i = 0; i < player_first_life; i++)
     {
         player_first_temp[i] = new Object();
-        player_first_temp[i]->AddComponent(new Player());
+        //player_first_temp[i]->AddComponent(new Player());
         player_first_temp[i]->AddComponent(new Sprite(player_first_temp[i], "../Sprite/pen_green.png", { 400,400 }));
         player_first_temp[i]->AddComponent(new Physics(true));
         player_first_temp[i]->Set_Name("first");
         player_first_temp[i]->Set_Tag("player");
         player_first_temp[i]->SetScale({ 3.f,3.f });
-        player_first_temp[i]->GetComponentByTemplate<Player>()->Set_This_UI_info(first_ui);
+        //player_first_temp[i]->GetComponentByTemplate<Player>()->Set_This_UI_info(first_ui);
         player_first_temp[i]->Set_Dmg_Text(first_text);
     }
 
     for (int i = 0; i < player_sec_life; i++)
     {
         player_sec_temp[i] = new Object();
-        player_sec_temp[i]->AddComponent(new Player());
+        //player_sec_temp[i]->AddComponent(new Player());
         player_sec_temp[i]->AddComponent(new Sprite(player_sec_temp[i], "../Sprite/pen_red.png", { 400,-400 }));
         player_sec_temp[i]->AddComponent(new Physics(true));
         player_sec_temp[i]->Set_Name("second");
         player_sec_temp[i]->Set_Tag("player");
         player_sec_temp[i]->SetScale({ 3.f,3.f });
-        player_sec_temp[i]->GetComponentByTemplate<Player>()->Set_This_UI_info(second_ui);
+        //player_sec_temp[i]->GetComponentByTemplate<Player>()->Set_This_UI_info(second_ui);
         player_sec_temp[i]->Set_Dmg_Text(second_text);
     }
     for (int i = 0; i < player_third_life; i++)
     {
         player_third_temp[i] = new Object();
-        player_third_temp[i]->AddComponent(new Player());
+        //player_third_temp[i]->AddComponent(new Player());
         player_third_temp[i]->AddComponent(new Sprite(player_third_temp[i], "../Sprite/pen_purple.png", { -400,400 }));
         player_third_temp[i]->AddComponent(new Physics(true));
         player_third_temp[i]->Set_Name("third");
         player_third_temp[i]->Set_Tag("player");
         player_third_temp[i]->SetScale({ 3.f,3.f });
-        player_third_temp[i]->GetComponentByTemplate<Player>()->Set_This_UI_info(third_ui);
+        //player_third_temp[i]->GetComponentByTemplate<Player>()->Set_This_UI_info(third_ui);
         player_third_temp[i]->Set_Dmg_Text(third_text);
     }
     for (int i = 0; i < player_fourth_life; i++)
     {
         player_fourth_temp[i] = new Object();
-        player_fourth_temp[i]->AddComponent(new Player());
+        //player_fourth_temp[i]->AddComponent(new Player());
         player_fourth_temp[i]->AddComponent(new Sprite(player_fourth_temp[i], "../Sprite/pen_normal.png", { -400,-400 }));
         player_fourth_temp[i]->AddComponent(new Physics(true));
         player_fourth_temp[i]->Set_Name("forth");
         player_fourth_temp[i]->Set_Tag("player");
         player_fourth_temp[i]->SetScale({ 3.f,3.f });
-        player_fourth_temp[i]->GetComponentByTemplate<Player>()->Set_This_UI_info(fourth_ui);
+        //player_fourth_temp[i]->GetComponentByTemplate<Player>()->Set_This_UI_info(fourth_ui);
         player_fourth_temp[i]->Set_Dmg_Text(fourth_text);
     }
 
@@ -252,21 +252,29 @@ void Referee::Respawn(Stage_Statement statement)
     switch (statement)
     {
     case PLAYER_SECOND_DIE:
+		player_sec_temp[player_sec_life - 1]->AddComponent(new Player());
+		player_sec_temp[player_sec_life - 1]->GetComponentByTemplate<Player>()->Set_This_UI_info(second_ui);
         ObjectManager::GetObjectManager()->AddObject(player_sec_temp[player_sec_life - 1]);
         second_ui->Reset();
         break;
 
     case PLAYER_FIRST_DIE:
+		player_first_temp[player_first_life - 1]->AddComponent(new Player());
+		player_first_temp[player_first_life - 1]->GetComponentByTemplate<Player>()->Set_This_UI_info(first_ui);
         ObjectManager::GetObjectManager()->AddObject(player_first_temp[player_first_life - 1]);
         first_ui->Reset();
         break;
 
     case PLAYER_THIRD_DIE:
+		player_third_temp[player_third_life - 1]->AddComponent(new Player());
+		player_third_temp[player_third_life - 1]->GetComponentByTemplate<Player>()->Set_This_UI_info(third_ui);
         ObjectManager::GetObjectManager()->AddObject(player_third_temp[player_third_life - 1]);
         third_ui->Reset();
         break;
 
     case PLAYER_FOURTH_DIE:
+		player_fourth_temp[player_fourth_life - 1]->AddComponent(new Player());
+		player_fourth_temp[player_fourth_life - 1]->GetComponentByTemplate<Player>()->Set_This_UI_info(fourth_ui);
         ObjectManager::GetObjectManager()->AddObject(player_fourth_temp[player_fourth_life - 1]);
         fourth_ui->Reset();
         break;

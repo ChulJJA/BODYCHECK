@@ -579,7 +579,7 @@ void Physics::Dash(Object* object)
             if (hp_bar->GetComponentByTemplate<Hp_Bar>() != nullptr)
             {
                 hp_bar->GetTransform().GetTranslation_Reference().x = 0.f;
-                hp_bar->GetComponentByTemplate<Hp_Bar>()->Get_Set_Offset() = 0.f;
+                hp_bar->GetComponentByTemplate<Hp_Bar>()->Get_Set_Offset() = 0;
             }
 
             hp_bar->GetMesh().Get_Is_Moved() = true;
@@ -634,7 +634,7 @@ void Physics::Dash(Object* object)
             if (hp_bar->GetComponentByTemplate<Hp_Bar>() != nullptr)
             {
                 hp_bar->GetTransform().GetTranslation_Reference().x = 0.f;
-                hp_bar->GetComponentByTemplate<Hp_Bar>()->Get_Set_Offset() = 0.f;
+                hp_bar->GetComponentByTemplate<Hp_Bar>()->Get_Set_Offset() = 0;
             }
             hp_bar->GetMesh().Get_Is_Moved() = true;
             Message_Manager::Get_Message_Manager()->Save_Message(new Message(hp_bar, nullptr, "recover", 1.f));
@@ -818,7 +818,7 @@ void Physics::Update(float dt)
 
     if (m_owner->GetName() == "first")
     {
-        Acceleration(0.6, 0.12);
+        Acceleration(0.6f, 0.12f);
 
         if (is_dashed == false && timer >= 0.3)
         {
@@ -832,7 +832,7 @@ void Physics::Update(float dt)
     }
     else if (m_owner->GetName() == "second")
     {
-        Acceleration(0.6, 0.12);
+        Acceleration(0.6f, 0.12f);
 
         if (is_dashed == false && timer >= 0.3)
         {
@@ -846,7 +846,7 @@ void Physics::Update(float dt)
     }
     else if (m_owner->GetName() == "third")
     {
-        Acceleration(0.6, 0.12);
+        Acceleration(0.6f, 0.12f);
 
         if (is_dashed == false && timer >= 0.3)
         {
@@ -860,7 +860,7 @@ void Physics::Update(float dt)
     }
     else if (m_owner->GetName() == "forth")
     {
-        Acceleration(0.6, 0.12);
+        Acceleration(0.6f, 0.12f);
 
         if (is_dashed == false && timer >= 0.3)
         {

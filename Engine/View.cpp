@@ -76,7 +76,7 @@ void View::Convert_Cam_Zoom()
     std::vector<Object*> player_vec = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("player");
 
     float zoom = Graphic::GetGraphic()->Get_View().Get_Camera_View().GetZoom();
-    const int player_vec_size = player_vec.size();
+    const int player_vec_size = static_cast<int>(player_vec.size());
 
     for (int i = 0; i < player_vec_size; i++)
     {

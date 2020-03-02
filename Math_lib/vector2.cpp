@@ -150,7 +150,7 @@ float magnitude(vector2 a) noexcept
 {
     float magnitude_val = 0.0f;
 
-    magnitude_val = sqrt(dot(a, a));
+    magnitude_val = static_cast<float>(sqrt(dot(a, a)));
 
     return magnitude_val;
 }
@@ -184,13 +184,13 @@ float distance_between_squared(vector2 a, vector2 b) noexcept
 float distance_between(vector2 a, vector2 b) noexcept
 {
     float distance = 0.0f;
-    float distance_x = 0.0f;
-    float distance_y = 0.0f;
+    double distance_x = 0.0;
+	double distance_y = 0.0;
 
-    distance_x = b.x - a.x;
-    distance_y = b.y - a.y;
+    distance_x = (static_cast<double>(b.x) - static_cast<double>(a.x));
+    distance_y = (static_cast<double>(b.y) - static_cast<double>(a.y));
 
-    distance = sqrt((distance_x * distance_x) + (distance_y * distance_y));
+    distance = static_cast<float>(sqrt((distance_x * distance_x) + (distance_y * distance_y)));
 
     return distance;
 }
@@ -205,8 +205,8 @@ float angle_between(vector2 a, vector2 b) noexcept
 vector2 rotate_by(float angle_in_radians, vector2 v) noexcept
 {
     vector2 result_vec;
-    result_vec.x = ((cos(angle_in_radians) * v.x) - (sin(angle_in_radians) * v.y));
-    result_vec.y = ((sin(angle_in_radians) * v.x) + (cos(angle_in_radians) * v.y));
+    result_vec.x = static_cast<float>((cos(static_cast<double>(angle_in_radians)) * v.x) - (sin(static_cast<double>(angle_in_radians)) * v.y));
+    result_vec.y = static_cast<float>((sin(static_cast<double>(angle_in_radians)) * v.x) + (cos(static_cast<double>(angle_in_radians)) * v.y));
 
     return result_vec;
 }

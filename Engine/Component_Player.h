@@ -19,6 +19,13 @@ class PLAYER_UI;
 class Player : public Component
 {
 public:
+	enum class Char_State
+	{
+		None,
+		Bulk_Up,
+		Regeneration
+	};
+	
     void Init(Object* obj) override;
     void Update(float dt) override;
     void Attack();
@@ -38,6 +45,14 @@ public:
     {
         return bulkup_timer;
     }
+	Char_State Get_Char_State()
+    {
+		return curr_state;
+    }
+	void Set_Char_State(Char_State state)
+    {
+		curr_state = state;
+    }
 
 
 private:
@@ -47,4 +62,5 @@ private:
     PLAYER_UI* this_ui;
     float regeneration_timer = 0.f;
     float bulkup_timer = 0.f;
+	Char_State curr_state;
 };

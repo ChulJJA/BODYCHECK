@@ -152,8 +152,8 @@ void Input::Set_Mouse_Position(double x, double y)
     float w = Application::Get_Application()->Get_Window_Size().x;
     float h = Application::Get_Application()->Get_Window_Size().y;
 
-    mouse_position.x = -(w / 2.f - x);
-    mouse_position.y = h / 2.f - y;
+    mouse_position.x = static_cast<float>(-(w / 2.f - x));
+    mouse_position.y = static_cast<float>(h / 2.f - y);
 }
 
 void Input::Set_Mouse_Wheel(double x, double y)

@@ -23,14 +23,14 @@
 
 float RadianToDegree(float radian)
 {
-    float degree = radian * (180 / PI);
+    float degree = static_cast<float>(radian * (180 / PI));
 
     return degree;
 }
 
 float DegreeToRadian(float degree)
 {
-    float radian = degree * (PI / 180);
+    float radian = static_cast<float>(degree * (PI / 180));
 
     return radian;
 }
@@ -67,7 +67,7 @@ bool Collision::BoxToBoxCollision(Mesh mesh) const
 bool Collision::CircleToCircleCollision()
 {
     bool if_it_is_collide = false;
-    unsigned int object_position_size = ObjectManager::GetObjectManager()->GetObjectManagerContainer().size();
+    unsigned int object_position_size = static_cast<unsigned int>(ObjectManager::GetObjectManager()->GetObjectManagerContainer().size());
 
     for (unsigned int i = 0; i < object_position_size; ++i)
     {
@@ -135,7 +135,7 @@ bool Collision::CircleToCircleCollision()
 
 void Collision::CircleArenaCollision()
 {
-    const unsigned int object_position_size = ObjectManager::GetObjectManager()->GetObjectManagerContainer().size();
+    const unsigned int object_position_size = static_cast<unsigned int>(ObjectManager::GetObjectManager()->GetObjectManagerContainer().size());
 
     for (unsigned int i = 0; i < object_position_size; ++i)
     {
@@ -155,7 +155,7 @@ void Collision::CircleArenaCollision()
 
 void Collision::SquareArenaCollision()
 {
-    const unsigned int object_position_size = ObjectManager::GetObjectManager()->GetObjectManagerContainer().size();
+    const unsigned int object_position_size = static_cast<unsigned int>(ObjectManager::GetObjectManager()->GetObjectManagerContainer().size());
     const float line_max_point = 980;
     const float line_min_point = -980;
     float angle = 0;

@@ -12,35 +12,66 @@
 
 #pragma once
 #include <string>
-#include "Object.h"
 #include <functional>
+
+
+class Message_Func;
+class Object;
 
 class Message
 {
 private:
-    std::string message_name;
-    Object* m_target = nullptr;
-    Object* m_from = nullptr;
-    bool should_delete = false;
-    float timer = 1.f;
-
-    Object* dash_effect = nullptr;
+	std::string message_name;
+	Object* m_target = nullptr;
+	Object* m_from = nullptr;
+	bool should_delete = false;
+	float timer = 1.f;
+	Message_Func* func;
+	Object* dash_effect = nullptr;
 
 public:
-    Message(Object* target, Object* from, std::string message_name_) :
-        m_target(target), m_from(from), message_name(message_name_) {}
+	Message(Object* target, Object* from, std::string message_name_) :
+		m_target(target), m_from(from), message_name(message_name_)
+	{
+		this->Init();
+	}
 
-    Message(Object* target, Object* from, std::string message_name_, float timer) :
-        m_target(target), m_from(from), message_name(message_name_), timer(timer)
-    {
-    }
+	Message(Object* target, Object* from, std::string message_name_, float timer) :
+		m_target(target), m_from(from), message_name(message_name_), timer(timer)
+	{
+		this->Init();
+	}
 
-    bool Get_Should_Delete()
-    {
-        return should_delete;
-    }
-    std::pair<float, float> Damaege_Calculation(Object target, Object from);
+	bool Get_Should_Delete()
+	{
+		return should_delete;
+	}
+	std::pair<float, float> Damaege_Calculation(Object target, Object from);
+
+	Object* Get_Target()
+	{
+		return m_target;
+	}
+	Object* Get_From()
+	{
+		return m_from;
+	}
+	std::string Get_Message_Name()
+	{
+		return message_name;
+	}
+	void Set_Should_Delete(bool toggle)
+	{
+		should_delete = toggle;
+	}
+
+	Message_Func* Get_Func()
+	{
+		return func;
+	}
+	
     void Init();
     void Update(float dt);
     void Delete();
+
 };

@@ -22,7 +22,7 @@ void Item::Init(Object* obj)
 
 void Item::Update(float dt)
 {
-    srand(time(NULL));
+    srand(static_cast<unsigned int>(time(NULL)));
     int random = rand() % 8;
 
     switch (random)
@@ -48,6 +48,8 @@ void Item::Update(float dt)
         m_owner->GetComponentByTemplate<Physics>()->GetAcceleration_Reference().x -= 0.1f;
         m_owner->GetComponentByTemplate<Physics>()->GetAcceleration_Reference().y -= 0.1f;
         break;
+    default:
+    	break;
     }
 }
 

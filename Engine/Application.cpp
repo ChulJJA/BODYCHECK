@@ -142,7 +142,8 @@ void Application::Update(float dt)
 
     int status = glfwJoystickPresent(GLFW_JOYSTICK_1);
 
-    if (status == true)
+    //if (status == true)
+	if (status)
     {
         int axesCount;
         const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &axesCount);
@@ -169,27 +170,7 @@ void Application::Update(float dt)
     }
 }
 
-matrix3 helper_inverse(matrix3 model_to_world)
-{
-    double det = model_to_world(0, 0) * (model_to_world(1, 1) * model_to_world(2, 2) - model_to_world(2, 1) * model_to_world(1, 2)) -
-        model_to_world(0, 1) * (model_to_world(1, 0) * model_to_world(2, 2) - model_to_world(1, 2) * model_to_world(2, 0)) +
-        model_to_world(0, 2) * (model_to_world(1, 0) * model_to_world(2, 1) - model_to_world(1, 1) * model_to_world(2, 0));
 
-    double invdet = 1 / det;
-
-    matrix3 minv;
-    minv(0, 0) = static_cast<float>((model_to_world(1, 1) * model_to_world(2, 2) - model_to_world(2, 1) * model_to_world(1, 2)) * invdet);
-    minv(0, 1) = static_cast<float>((model_to_world(0, 2) * model_to_world(2, 1) - model_to_world(0, 1) * model_to_world(2, 2)) * invdet);
-    minv(0, 2) = static_cast<float>((model_to_world(0, 1) * model_to_world(1, 2) - model_to_world(0, 2) * model_to_world(1, 1)) * invdet);
-    minv(1, 0) = static_cast<float>((model_to_world(1, 2) * model_to_world(2, 0) - model_to_world(1, 0) * model_to_world(2, 2)) * invdet);
-    minv(1, 1) = static_cast<float>((model_to_world(0, 0) * model_to_world(2, 2) - model_to_world(0, 2) * model_to_world(2, 0)) * invdet);
-    minv(1, 2) = static_cast<float>((model_to_world(1, 0) * model_to_world(0, 2) - model_to_world(0, 0) * model_to_world(1, 2)) * invdet);
-    minv(2, 0) = static_cast<float>((model_to_world(1, 0) * model_to_world(2, 1) - model_to_world(2, 0) * model_to_world(1, 1)) * invdet);
-    minv(2, 1) = static_cast<float>((model_to_world(2, 0) * model_to_world(0, 1) - model_to_world(0, 0) * model_to_world(2, 1)) * invdet);
-    minv(2, 2) = static_cast<float>((model_to_world(0, 0) * model_to_world(1, 1) - model_to_world(1, 0) * model_to_world(0, 1)) * invdet);
-
-    return minv;
-}
 
 void Application::Imgui_Update()
 {
@@ -302,23 +283,23 @@ void Application::Imgui_Update()
 
             if (i == 0)
             {
-                ImGui::ImageButton((void*)object1.GetTextureHandle(), ImVec2(100, 100), ImVec2(0, 0));
+                ImGui::ImageButton(reinterpret_cast<void*>(object1.GetTextureHandle()), ImVec2(100, 100), ImVec2(0, 0));
             }
             else if (i == 1)
             {
-                ImGui::ImageButton((void*)object2.GetTextureHandle(), ImVec2(100, 100), ImVec2(0, 0));
+                ImGui::ImageButton(reinterpret_cast<void*>(object2.GetTextureHandle()), ImVec2(100, 100), ImVec2(0, 0));
             }
             else if (i == 2)
             {
-                ImGui::ImageButton((void*)object3.GetTextureHandle(), ImVec2(100, 100), ImVec2(0, 0));
+                ImGui::ImageButton(reinterpret_cast<void*>(object3.GetTextureHandle()), ImVec2(100, 100), ImVec2(0, 0));
             }
             else if (i == 3)
             {
-                ImGui::ImageButton((void*)object4.GetTextureHandle(), ImVec2(100, 100), ImVec2(0, 0));
+                ImGui::ImageButton(reinterpret_cast<void*>(object4.GetTextureHandle()), ImVec2(100, 100), ImVec2(0, 0));
             }
             else if (i == 4)
             {
-                ImGui::ImageButton((void*)object5.GetTextureHandle(), ImVec2(100, 100), ImVec2(0, 0));
+                ImGui::ImageButton(reinterpret_cast<void*>(object5.GetTextureHandle()), ImVec2(100, 100), ImVec2(0, 0));
             }
 
             if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))

@@ -175,7 +175,7 @@ vector2 Mesh::GetTextureCoordinate(std::size_t index) const noexcept
 
 vector2 Mesh::GetCenterPoint() const noexcept
 {
-    const int mid_point = GetPointCount() / 2;
+    const int mid_point = static_cast<int>(GetPointCount() / 2);
 
     const vector2 center_point = (points.at(0) + points.at(mid_point)) / 2.f;
 

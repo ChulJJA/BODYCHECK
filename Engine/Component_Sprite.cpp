@@ -188,7 +188,7 @@ Sprite::Sprite(Object* obj, const char* aniamtedSpritePath, bool animated, int f
     m_owner->Get_Object_Points() = m_owner->GetMesh().Get_Points();
     m_owner->SetTranslation(position);
     m_owner->Set_Center({ position.x , position.y });
-    speed = m_speed;
+    speed = static_cast<int>(m_speed);
     matrix3 mat_ndc = Graphic::GetGraphic()->Get_View().Get_Camera_View().GetCameraToNDCTransform();
     mat_ndc *= Graphic::GetGraphic()->Get_View().Get_Camera().WorldToCamera();
     mat_ndc *= m_owner->GetTransform().GetModelToWorld();
@@ -264,7 +264,7 @@ void Sprite::Update(float dt)
             }
         }
 
-      /*  if (!m_owner->Get_Belongs_Objects().empty())
+        if (!m_owner->Get_Belongs_Objects().empty())
         {
             int size = m_owner->Get_Belongs_Objects().size();
             for (int i = 0; i < size; i++)
@@ -296,7 +296,7 @@ void Sprite::Update(float dt)
                     }
                 }
             }
-        }*/
+        }
 
         m_owner->GetMesh().Get_Is_Moved() = false;
         material.matrix3Uniforms["to_ndc"] = mat_ndc;
