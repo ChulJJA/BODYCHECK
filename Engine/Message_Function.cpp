@@ -14,6 +14,7 @@ Message_Func::Message_Func(Message* msg)
 	m_from = msg->Get_From();
 	m_target = msg->Get_Target();
 	message_name = msg->Get_Message_Name();
+	function = nullptr;
 }
 
 void Message_Func::Functioning(float dt)
@@ -44,6 +45,8 @@ void Message_Func::Functioning(float dt)
 		{
 			function = new Msg_Func_Item_Dash(m_from, m_target, 1.f, msg_);
 		}
+
+		function->Init();
 	}
 	
 	function->Update(dt);

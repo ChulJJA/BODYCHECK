@@ -39,7 +39,6 @@ Referee* Referee::Get_Referee()
 
 void Referee::Init()
 {
-
     stage_statements.clear();
     player_first_temp = new Object * [player_first_life]();
     player_sec_temp = new Object * [player_sec_life]();

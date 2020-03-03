@@ -12,12 +12,9 @@ public:
 	void Functioning(float dt);
 
 private:
-	void Func_Wall_Collision();
-
-	
 	Message* msg_;
 	Object* m_from;
 	Object* m_target;
 	std::string message_name;
-	Msg_Func_Base* function = nullptr;
+	Msg_Func_Base* function;
 };

@@ -73,12 +73,6 @@
     <ClCompile Include="Mesh.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Message.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Message_Mananger.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Messagebox.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -154,6 +148,12 @@
     <ClCompile Include="Message_Function_Item_Dash.cpp">
       <Filter>Message_Function</Filter>
     </ClCompile>
+    <ClCompile Include="Message.cpp">
+      <Filter>Message_Function</Filter>
+    </ClCompile>
+    <ClCompile Include="Message_Mananger.cpp">
+      <Filter>Message_Function</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="angles.hpp">
@@ -175,30 +175,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Common_Header.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Component.hpp">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Component_Collision.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Component_Enemy.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Component_Hpbar.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Component_Item.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Component_Player.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Component_Sprite.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Component_Text.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="GL.hpp">
@@ -244,12 +220,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.hpp">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Message.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Message_Manager.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Messagebox.h">
@@ -337,6 +307,36 @@
       <Filter>Message_Function</Filter>
     </ClInclude>
     <ClInclude Include="Message_Function_Item_Dash.h">
+      <Filter>Message_Function</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.hpp">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Component_Collision.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Component_Enemy.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Component_Hpbar.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Component_Item.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Component_Player.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Component_Sprite.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Component_Text.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Message.h">
+      <Filter>Message_Function</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Manager.h">
       <Filter>Message_Function</Filter>
     </ClInclude>
   </ItemGroup>
