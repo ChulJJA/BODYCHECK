@@ -332,13 +332,17 @@ void Msg_Func_Collision::Update(float dt)
 		{
 			m_from->Set_Hitted_By(m_target);
 		}
+
 		Object* target_hp_bar = m_target->Get_Belong_Object_By_Tag("hp_bar");
 		Object* from_hp_bar = m_from->Get_Belong_Object_By_Tag("hp_bar");
 
 		if (target_hp_bar != nullptr || from_hp_bar != nullptr)
 		{
-			target_hp_bar->GetComponentByTemplate<Hp_Bar>()->Decrease(dmg_set.first / 50);
-			from_hp_bar->GetComponentByTemplate<Hp_Bar>()->Decrease(dmg_set.second / 50);
+			//target_hp_bar->GetComponentByTemplate<Hp_Bar>()->Decrease(dmg_set.first / 50);
+			//from_hp_bar->GetComponentByTemplate<Hp_Bar>()->Decrease(dmg_set.second / 50);
+
+			target_hp_bar->GetComponentByTemplate<Hp_Bar>()->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
+			from_hp_bar->GetComponentByTemplate<Hp_Bar>()->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
 		}
 
 		m_from->Set_Is_It_Collided(false);

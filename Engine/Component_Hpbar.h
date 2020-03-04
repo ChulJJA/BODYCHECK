@@ -21,8 +21,8 @@ public:
 	enum class Hp_Bar_State
 	{
 		None,
-		Recovering
-		
+		Recovering,
+		Damaging
 	};
 	
 	Hp_Bar() :offset(0.f), hp(0), curr_state(Hp_Bar_State::None), timer(0.f)

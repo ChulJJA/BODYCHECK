@@ -54,6 +54,10 @@ void Hp_Bar::Update(float dt)
 				}
 			}
 		}
+		if(curr_state == Hp_Bar_State::Damaging)
+		{
+			
+		}
 	}
 	
 }

@@ -22,7 +22,7 @@ void Item::Init(Object* obj)
 
 void Item::Update(float dt)
 {
-    srand(static_cast<unsigned int>(time(NULL)));
+    /*srand(static_cast<unsigned int>(time(NULL)));
     int random = rand() % 8;
 
     switch (random)
@@ -50,7 +50,7 @@ void Item::Update(float dt)
         break;
     default:
     	break;
-    }
+    }*/
 }
 
 void Item::Set_Kind(Item_Kind kind)
