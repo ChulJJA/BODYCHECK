@@ -21,7 +21,8 @@ public:
         None,
         Dash,
         HP,
-        Bulkup
+        Bulkup,
+    	Throwing
     };
 
     void Init(Object* obj) override;

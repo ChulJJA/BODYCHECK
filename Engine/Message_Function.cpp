@@ -7,6 +7,9 @@
 #include "Message_Function_Item_Bulkup.h"
 #include "Message_Function_Item_Recover.h"
 #include "Message_Function_Item_Dash.h"
+#include "Message_Function_Item_Throwing.h"
+
+std::mutex guard;
 
 Message_Func::Message_Func(Message* msg)
 {
@@ -19,6 +22,8 @@ Message_Func::Message_Func(Message* msg)
 
 void Message_Func::Functioning(float dt)
 {
+	//const std::lock_guard<std::mutex> lock(guard);
+	
 	if(function == nullptr)
 	{
 		if (message_name == "wall_collision")
@@ -44,6 +49,10 @@ void Message_Func::Functioning(float dt)
 		else if(message_name == "dash")
 		{
 			function = new Msg_Func_Item_Dash(m_from, m_target, 1.f, msg_);
+		}
+		else if(message_name == "throwing")
+		{
+			function = new Msg_Func_Item_Throwing(m_from, m_target, 1.f, msg_);
 		}
 
 		function->Init();

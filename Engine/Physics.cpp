@@ -569,6 +569,11 @@ void Physics::Dash(Object* object)
 			sound.Play(SOUND::BulkUp);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, "bulkup", 3.f));
 		}
+
+		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && object->GetComponentByTemplate<Player>()->Get_Item_State() == Item::Item_Kind::Throwing)
+		{
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, "throwing", 0.f));
+		}
 		return;
 	}
 	if (axes[5] > 0.4)

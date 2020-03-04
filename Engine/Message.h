@@ -13,6 +13,8 @@
 #pragma once
 #include <string>
 #include <functional>
+#include "thread"
+#include <mutex>
 
 
 class Message_Func;
@@ -28,6 +30,7 @@ private:
 	float timer = 1.f;
 	Message_Func* func;
 	Object* dash_effect = nullptr;
+	std::mutex guard;
 
 public:
 	Message(Object* target, Object* from, std::string message_name_) :

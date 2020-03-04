@@ -305,6 +305,24 @@ void Msg_Func_Collision::Update(float dt)
 				}
 			}
 		}
+		if (m_target->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Throwing)
+		{
+			m_target->SetDeadCondition(true);
+			if (m_from->GetComponentByTemplate<Player>() != nullptr)
+			{
+				m_from->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::Throwing);
+
+				if (m_from->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->GetComponentByTemplate<Sprite>() == nullptr)
+				{
+					m_from->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->AddComponent(new Sprite(
+						m_from->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info(), "../sprite/Master.png",
+						m_from->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->GetTransform().GetTranslation(), false));
+
+
+					m_from->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->GetMesh().Get_Is_Moved() = true;
+				}
+			}
+		}
 	}
 	else if (m_from->Get_Tag() == "item" && m_target->Get_Tag() == "player")
 	{
@@ -352,6 +370,23 @@ void Msg_Func_Collision::Update(float dt)
 				{
 					m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->AddComponent(new Sprite(
 						m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info(), "../sprite/bulkup.png",
+						m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->GetTransform().GetTranslation(), false));
+
+					m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->GetMesh().Get_Is_Moved() = true;
+				}
+			}
+		}
+		if (m_from->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Throwing)
+		{
+			m_from->SetDeadCondition(true);
+			if (m_target->GetComponentByTemplate<Player>() != nullptr)
+			{
+				m_target->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::Throwing);
+
+				if (m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->GetComponentByTemplate<Sprite>() == nullptr)
+				{
+					m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->AddComponent(new Sprite(
+						m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info(), "../sprite/Master.png",
 						m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->GetTransform().GetTranslation(), false));
 
 					m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->GetMesh().Get_Is_Moved() = true;

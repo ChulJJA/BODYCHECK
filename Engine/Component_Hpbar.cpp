@@ -31,6 +31,31 @@ void Hp_Bar::Init(Object* obj)
 
 void Hp_Bar::Update(float dt)
 {
+	if(curr_state != Hp_Bar_State::None)
+	{
+		if (curr_state == Hp_Bar_State::Recovering)
+		{
+			if (timer >= 0.f)
+			{
+				timer -= dt;
+
+				if (m_owner->GetTransform().GetScale_Reference().x <= 1.f)
+				{
+					m_owner->GetTransform().GetScale_Reference().x += dt;
+
+					offset = 0;
+					
+					m_owner->GetTransform().GetTranslation_Reference().x = m_owner->Get_This_Obj_Owner()->GetTransform().GetTranslation().x;
+				}
+
+				if (timer <= 0.f)
+				{
+					curr_state = Hp_Bar_State::None;
+				}
+			}
+		}
+	}
+	
 }
 
 void Hp_Bar::Decrease(float dmg)

@@ -23,7 +23,8 @@ public:
 	{
 		None,
 		Bulk_Up,
-		Regeneration
+		Regeneration,
+		Throwing
 	};
 	
     void Init(Object* obj) override;

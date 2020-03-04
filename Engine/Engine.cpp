@@ -26,6 +26,8 @@
 #include "TestLevel.h"
 #include "SoundOption.h"
 
+#include "Testing_Level.h"
+
 Sound sound;
 
 namespace
@@ -77,6 +79,7 @@ void Engine::Init()
     state_manager->AddState("Level1", new Level1);
     state_manager->AddState("SoundOption", new SoundOption);
     state_manager->AddState("TestLevel", new TestLevel);
+	state_manager->AddState("Testing_Level", new Testing_Level);
     game_timer.Reset();
 }
 

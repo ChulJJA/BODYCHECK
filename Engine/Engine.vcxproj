@@ -196,6 +196,7 @@
     <ClInclude Include="Component_Item.h" />
     <ClInclude Include="Component_Sprite.h" />
     <ClInclude Include="Component_Text.h" />
+    <ClInclude Include="Component_Throwing.h" />
     <ClInclude Include="Engine.hpp" />
     <ClInclude Include="GL.hpp" />
     <ClInclude Include="glCheck.hpp" />
@@ -212,6 +213,7 @@
     <ClInclude Include="Message_Function_Item_Dash.h" />
     <ClInclude Include="Message_Function_Item_Bulkup.h" />
     <ClInclude Include="Message_Function_Item_Recover.h" />
+    <ClInclude Include="Message_Function_Item_Throwing.h" />
     <ClInclude Include="Message_Function_Respawn.h" />
     <ClInclude Include="Message_Function_Wall_Collision.h" />
     <ClInclude Include="Message_Manager.h" />
@@ -261,6 +263,7 @@
     <ClCompile Include="Component_Player.cpp" />
     <ClCompile Include="Component_Sprite.cpp" />
     <ClCompile Include="Component_Text.cpp" />
+    <ClCompile Include="Component_Throwing.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GL.cpp" />
     <ClCompile Include="Graphic.cpp" />
@@ -274,6 +277,7 @@
     <ClCompile Include="Message_Function_Item_Dash.cpp" />
     <ClCompile Include="Message_Function_Item_Bulkup.cpp" />
     <ClCompile Include="Message_Function_Item_Recover.cpp" />
+    <ClCompile Include="Message_Function_Item_Throwing.cpp" />
     <ClCompile Include="Message_Function_Respawn.cpp" />
     <ClCompile Include="Message_Function_Wall_Collision.cpp" />
     <ClCompile Include="Message_Mananger.cpp" />

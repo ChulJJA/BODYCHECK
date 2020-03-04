@@ -12,6 +12,7 @@
 
 #pragma once
 #include "Object.h"
+#include "vector"
 
 class PLAYER_UI;
 
@@ -83,13 +84,11 @@ private:
 
     float player_second_respawn_timer = 3.0f;
     float player_first_respawn_timer = 3.0f;
-
     float player_third_respawn_timer = 3.0f;
     float player_fourth_respawn_timer = 3.0f;
 
     Object** player_sec_temp;
     Object** player_first_temp;
-
     Object** player_third_temp;
     Object** player_fourth_temp;
 
@@ -101,7 +100,9 @@ private:
     Object** item_save;
     Object** item_save_hp;
     Object** item_bulk_up;
+	
     float item_respawn_timer = 0.0f;
+	
     int item_num = 10;
     int item_num_hp = 10;
     int item_num_dash = 10;
@@ -118,4 +119,6 @@ private:
     Object* second_text;
     Object* third_text;
     Object* fourth_text;
+
+	std::vector<Object*> total_item;
 };

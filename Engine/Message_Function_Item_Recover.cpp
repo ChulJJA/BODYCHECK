@@ -28,12 +28,14 @@ void Msg_Func_Item_Recover::Init()
 		}
 
 		hp_bar->GetMesh().Get_Is_Moved() = true;
+		hp_bar->GetComponentByTemplate<Hp_Bar>()->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Recovering);
+		hp_bar->GetComponentByTemplate<Hp_Bar>()->Set_Timer(3.f);
 	}
 }
 
 void Msg_Func_Item_Recover::Update(float dt)
 {
-	if (timer >= 0.f)
+	/*if (timer >= 0.f)
 	{
 		timer -= dt;
 
@@ -54,5 +56,6 @@ void Msg_Func_Item_Recover::Update(float dt)
 		{
 			msg->Set_Should_Delete(true);
 		}
-	}
+	}*/
+	msg->Set_Should_Delete(true);
 }

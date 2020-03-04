@@ -188,6 +188,7 @@
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SoundOption.cpp" />
+    <ClCompile Include="Testing_Level.cpp" />
     <ClCompile Include="TestLevel.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -203,6 +204,7 @@
     <ClInclude Include="Logo.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="SoundOption.h" />
+    <ClInclude Include="Testing_Level.h" />
     <ClInclude Include="TestLevel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

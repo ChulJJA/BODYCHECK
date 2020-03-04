@@ -154,6 +154,12 @@
     <ClCompile Include="Message_Mananger.cpp">
       <Filter>Message_Function</Filter>
     </ClCompile>
+    <ClCompile Include="Message_Function_Item_Throwing.cpp">
+      <Filter>Message_Function</Filter>
+    </ClCompile>
+    <ClCompile Include="Component_Throwing.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="angles.hpp">
@@ -338,6 +344,12 @@
     </ClInclude>
     <ClInclude Include="Message_Manager.h">
       <Filter>Message_Function</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Item_Throwing.h">
+      <Filter>Message_Function</Filter>
+    </ClInclude>
+    <ClInclude Include="Component_Throwing.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

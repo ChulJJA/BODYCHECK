@@ -16,6 +16,9 @@
 #include "Message_Function.h"
 #include "Object.h"
 
+
+
+
 void Message::Init()
 {
 	func = new Message_Func(this);
@@ -23,13 +26,23 @@ void Message::Init()
 
 void Message::Update(float dt)
 {
-	func->Functioning(dt);
-    if (m_from != nullptr && m_target != nullptr)
-    {
-        std::string log = m_from->Get_Name() + " " + message_name + " " + m_target->Get_Name();
 
-        Message_Manager::Get_Message_Manager()->Get_Log().push_back(log);
-    }
+	func->Functioning(dt);
+
+	/*else
+	{
+		std::thread msg_thread(&Message_Func::Functioning, Message_Func(this), dt);
+
+		if(msg_thread.joinable())
+			msg_thread.join();
+	}*/
+
+	if (m_from != nullptr && m_target != nullptr)
+	{
+		std::string log = m_from->Get_Name() + " " + message_name + " " + m_target->Get_Name();
+
+		Message_Manager::Get_Message_Manager()->Get_Log().push_back(log);
+	}
 }
 
 void Message::Delete()

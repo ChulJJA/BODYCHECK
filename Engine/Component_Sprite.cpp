@@ -264,7 +264,7 @@ void Sprite::Update(float dt)
             }
         }
 
-        if (!m_owner->Get_Belongs_Objects().empty())
+        /*if (!m_owner->Get_Belongs_Objects().empty())
         {
             int size = m_owner->Get_Belongs_Objects().size();
             for (int i = 0; i < size; i++)
@@ -296,7 +296,7 @@ void Sprite::Update(float dt)
                     }
                 }
             }
-        }
+        }*/
 
         m_owner->GetMesh().Get_Is_Moved() = false;
         material.matrix3Uniforms["to_ndc"] = mat_ndc;

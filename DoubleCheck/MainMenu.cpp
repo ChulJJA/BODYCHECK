@@ -173,7 +173,7 @@ void MainMenu::ButtonSelector()
 	{
         sound.Play(SOUND::Click);
         is_next = true;
-        next_level = "Level1";
+        next_level = "Testing_Level";
         Clear();
 	}
     else if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::MUSIC))

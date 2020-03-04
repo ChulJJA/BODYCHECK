@@ -16,13 +16,42 @@
 class Hp_Bar : public Component
 {
 public:
+
+	
+	enum class Hp_Bar_State
+	{
+		None,
+		Recovering
+		
+	};
+	
+	Hp_Bar() :offset(0.f), hp(0), curr_state(Hp_Bar_State::None), timer(0.f)
+	{
+
+	}
+	
     void Init(Object* obj) override;
     void Update(float dt) override;
     void Decrease(float dmg);
 
     int& Get_Set_Offset();
 
+	Hp_Bar_State Get_Hp_Bard_State()
+	{
+		return curr_state;
+	}
+	void Set_Hp_Bar_State(Hp_Bar_State state)
+	{
+		curr_state = state;
+	}
+	void Set_Timer(float timer_)
+	{
+		timer = timer_;
+	}
+
 private:
     int offset;
     int hp;
+	Hp_Bar_State curr_state;
+	float timer;
 };
