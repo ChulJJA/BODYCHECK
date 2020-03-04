@@ -52,7 +52,7 @@ void Player::Init(Object* obj)
 
 void Player::Update(float dt)
 {
-	Attack();
+	//Attack();
 
 	if (curr_state == Char_State::Bulk_Up)
 	{
@@ -81,9 +81,9 @@ void Player::Update(float dt)
 			}
 		}
 	}
-	if(curr_state == Char_State::Throwing)
+	if (curr_state == Char_State::Throwing)
 	{
-		if(input.Is_Key_Pressed(GLFW_KEY_SPACE))
+		if (input.Is_Key_Pressed(GLFW_KEY_SPACE))
 		{
 			curr_state = Char_State::None;
 
@@ -97,7 +97,7 @@ void Player::Update(float dt)
 			throwing->GetComponentByTemplate<Throwing>()->Set_Target_Pos(input.Get_Mouse_Pos());
 
 			vector2 dir = input.Get_Mouse_Pos() - throwing->GetTransform().GetTranslation();
-			
+
 			throwing->GetComponentByTemplate<Throwing>()->Set_Target_Dir(dir);
 			throwing->SetScale(2.f);
 			ObjectManager::GetObjectManager()->AddObject(throwing);

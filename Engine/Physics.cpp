@@ -574,6 +574,8 @@ void Physics::Dash(Object* object)
 		{
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, "throwing", 0.f));
 		}
+
+		
 		return;
 	}
 	if (axes[5] > 0.4)

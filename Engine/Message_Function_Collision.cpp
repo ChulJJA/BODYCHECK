@@ -272,6 +272,8 @@ void Msg_Func_Collision::Update(float dt)
 			m_from->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::Throwing);
 			m_from->GetComponentByTemplate<Player>()->Change_Ui_Info("item", "throwing");
 		}
+		///////
+		
 
 		m_from->Set_Is_It_Collided(false);
 	}
@@ -300,6 +302,7 @@ void Msg_Func_Collision::Update(float dt)
 			m_target->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::Throwing);
 			m_target->GetComponentByTemplate<Player>()->Change_Ui_Info("item", "throwing");
 		}
+		/////
 		m_target->Set_Is_It_Collided(false);
 	}
 	else
