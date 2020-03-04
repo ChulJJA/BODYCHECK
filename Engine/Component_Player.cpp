@@ -21,7 +21,7 @@
 #include "Component_Hpbar.h"
 #include <GLFW/glfw3.h>
 #include "Component_Throwing.h"
-
+#include "Player_Ui.h"
 
 void Player::Init(Object* obj)
 {
@@ -118,6 +118,38 @@ void Player::Attack()
 Item::Item_Kind Player::Get_Item_State()
 {
 	return belong_item;
+}
+
+void Player::Change_Ui_Info(std::string name, std::string detail)
+{
+	if(name == "item")
+	{
+		Object* setting_ui = this_ui->Get_Item_Info();
+		
+		if(detail == "dash")
+		{
+			setting_ui->AddComponent(new Sprite(setting_ui, "../sprite/dash.png",
+				setting_ui->GetTransform().GetTranslation(), false));
+		}
+		else if (detail == "hp")
+		{
+			setting_ui->AddComponent(new Sprite(setting_ui, "../sprite/heal.png",
+				setting_ui->GetTransform().GetTranslation(), false));
+		}
+		else if(detail == "bulkup")
+		{
+			setting_ui->AddComponent(new Sprite(setting_ui, "../sprite/bulkup.png",
+				setting_ui->GetTransform().GetTranslation(), false));
+		}
+		else if (detail == "throwing")
+		{
+			setting_ui->AddComponent(new Sprite(setting_ui, "../sprite/Master.png",
+				setting_ui->GetTransform().GetTranslation(), false));
+		}
+		
+		setting_ui->GetMesh().Get_Is_Moved() = true;
+	}
+	
 }
 
 void Player::Set_This_UI_info(PLAYER_UI* ui)

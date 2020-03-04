@@ -55,6 +55,8 @@ public:
 		curr_state = state;
     }
 
+	void Change_Ui_Info(std::string name, std::string detail);
+
 
 private:
     Object* hp_bar = nullptr;

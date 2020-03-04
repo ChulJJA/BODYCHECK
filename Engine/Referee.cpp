@@ -110,8 +110,8 @@ void Referee::Init()
         item_save[i]->Set_Name("item");
         item_save[i]->Set_Tag("item");
         item_save[i]->SetTranslation({ 0,0 });
-        //item_save[i]->GetComponentByTemplate<Item>()->Set_Kind(Item::Item_Kind::Dash);
-		item_save[i]->GetComponentByTemplate<Item>()->Set_Kind(Item::Item_Kind::Throwing);
+        item_save[i]->GetComponentByTemplate<Item>()->Set_Kind(Item::Item_Kind::Dash);
+		//item_save[i]->GetComponentByTemplate<Item>()->Set_Kind(Item::Item_Kind::Throwing);
 		total_item.push_back(item_save[i]);
     }
 
@@ -124,8 +124,8 @@ void Referee::Init()
         item_save_hp[i]->Set_Name("item");
         item_save_hp[i]->Set_Tag("item");
         item_save_hp[i]->SetTranslation({ -400,0 });
-        //item_save_hp[i]->GetComponentByTemplate<Item>()->Set_Kind(Item::Item_Kind::HP);
-		item_save_hp[i]->GetComponentByTemplate<Item>()->Set_Kind(Item::Item_Kind::Throwing);
+        item_save_hp[i]->GetComponentByTemplate<Item>()->Set_Kind(Item::Item_Kind::HP);
+		//item_save_hp[i]->GetComponentByTemplate<Item>()->Set_Kind(Item::Item_Kind::Throwing);
 		total_item.push_back(item_save_hp[i]);
     }
 
@@ -138,8 +138,8 @@ void Referee::Init()
         item_bulk_up[i]->Set_Name("item");
         item_bulk_up[i]->Set_Tag("item");
         item_bulk_up[i]->SetTranslation({ 400,0 });
-        //item_bulk_up[i]->GetComponentByTemplate<Item>()->Set_Kind(Item::Item_Kind::Bulkup);
-		item_bulk_up[i]->GetComponentByTemplate<Item>()->Set_Kind(Item::Item_Kind::Throwing);
+        item_bulk_up[i]->GetComponentByTemplate<Item>()->Set_Kind(Item::Item_Kind::Bulkup);
+		//item_bulk_up[i]->GetComponentByTemplate<Item>()->Set_Kind(Item::Item_Kind::Throwing);
 		total_item.push_back(item_bulk_up[i]);
     }
 }

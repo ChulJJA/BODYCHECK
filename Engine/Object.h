@@ -52,6 +52,8 @@ private:
     Object* dmg_text = nullptr;
     float dmg_plus = 0.f;
 
+	bool is_it_collided;
+
 public:
     Object* Get_Hitted_By()
     {
@@ -140,6 +142,14 @@ public:
     void Set_Center(vector2 new_center)
     {
         center_pos = new_center;
+    }
+	void Set_Is_It_Collided(bool toggle)
+    {
+		is_it_collided = toggle;
+    }
+	bool Get_Is_It_Collided()
+    {
+		return is_it_collided;
     }
     Object(bool need_to_update = true) : component_info(this)
     {

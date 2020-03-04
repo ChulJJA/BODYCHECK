@@ -11,7 +11,6 @@ void Msg_Func_Item_Bulkup::Init()
 	if(msg->Get_Target() != nullptr)
 	{
 		Object* obj = msg->Get_Target();
-
 		obj->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
 
 		obj->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->DeleteComponent(

@@ -49,6 +49,7 @@ void Message_Manager::Update(float dt)
 			delete_msg->Delete();
             messages.erase(std::find(messages.begin(), messages.end(), delete_msg));
         }
+    	
     }
 }
 void Message_Manager::Delete()
