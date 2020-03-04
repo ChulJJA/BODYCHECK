@@ -22,7 +22,7 @@ public:
     enum Refree_Statement
     {
     };
-    enum Stage_Statement
+    enum class Stage_Statement
     {
         NONE = 99,
         PLAYER_FIRST_DIE = 100,

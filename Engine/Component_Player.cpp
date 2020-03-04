@@ -35,7 +35,7 @@ void Player::Init(Object* obj)
 	vector2 hp_bar_pos = m_owner->GetTransform().GetTranslation();
 	hp_bar_pos.y -= 100;
 	hp_bar->SetTranslation(hp_bar_pos);
-	hp_bar->SetScale({1.f, 1.4f});
+	hp_bar->SetScale({1.f, 2.5f});
 	hp_bar->AddComponent(new Sprite(hp_bar, "../Sprite/HP.png", hp_bar_pos, false));
 	hp_bar->AddComponent(new Hp_Bar());
 

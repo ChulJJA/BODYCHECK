@@ -300,77 +300,7 @@ void Msg_Func_Collision::Update(float dt)
 			m_target->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::Throwing);
 			m_target->GetComponentByTemplate<Player>()->Change_Ui_Info("item", "throwing");
 		}
-
 		m_target->Set_Is_It_Collided(false);
-
-		
-		/*if (m_from->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Dash)
-		{
-			m_from->SetDeadCondition(true);
-			if (m_target->GetComponentByTemplate<Player>() != nullptr)
-			{
-				m_target->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::Dash);
-
-				if (m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->GetComponentByTemplate<Sprite>() == nullptr)
-				{
-					m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->AddComponent(new Sprite(
-						m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info(), "../sprite/dash.png",
-						m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->GetTransform().GetTranslation(), false));
-					m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->GetMesh().Get_Is_Moved() = true;
-				}
-			}
-		}
-		if (m_from->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::HP)
-		{
-			m_from->SetDeadCondition(true);
-			if (m_target->GetComponentByTemplate<Player>() != nullptr)
-			{
-				m_target->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::HP);
-
-				if (m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->GetComponentByTemplate<Sprite>() == nullptr)
-				{
-					m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->AddComponent(new Sprite(
-						m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info(), "../sprite/heal.png",
-						m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->GetTransform().GetTranslation(), false));
-
-					m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->GetMesh().Get_Is_Moved() = true;
-				}
-			}
-		}
-		if (m_from->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Bulkup)
-		{
-			m_from->SetDeadCondition(true);
-			if (m_target->GetComponentByTemplate<Player>() != nullptr)
-			{
-				m_target->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::Bulkup);
-
-				if (m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->GetComponentByTemplate<Sprite>() == nullptr)
-				{
-					m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->AddComponent(new Sprite(
-						m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info(), "../sprite/bulkup.png",
-						m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->GetTransform().GetTranslation(), false));
-
-					m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->GetMesh().Get_Is_Moved() = true;
-				}
-			}
-		}
-		if (m_from->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Throwing)
-		{
-			m_from->SetDeadCondition(true);
-			if (m_target->GetComponentByTemplate<Player>() != nullptr)
-			{
-				m_target->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::Throwing);
-
-				if (m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->GetComponentByTemplate<Sprite>() == nullptr)
-				{
-					m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->AddComponent(new Sprite(
-						m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info(), "../sprite/Master.png",
-						m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->GetTransform().GetTranslation(), false));
-
-					m_target->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->GetMesh().Get_Is_Moved() = true;
-				}
-			}
-		}*/
 	}
 	else
 	{
@@ -407,6 +337,9 @@ void Msg_Func_Collision::Update(float dt)
 			target_hp_bar->GetComponentByTemplate<Hp_Bar>()->Decrease(dmg_set.first / 50);
 			from_hp_bar->GetComponentByTemplate<Hp_Bar>()->Decrease(dmg_set.second / 50);
 		}
+
+		m_from->Set_Is_It_Collided(false);
+		m_target->Set_Is_It_Collided(false);
 	}
 
 	msg->Set_Should_Delete(true);

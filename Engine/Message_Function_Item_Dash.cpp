@@ -3,8 +3,6 @@
 #include "vector2.hpp"
 #include "Physics.h"
 #include "Object.h"
-#include "Sound_Manager.h"
-#include "Engine.hpp"
 #include "Component_Item.h"
 #include "Component_Player.h"
 #include "Component_Sprite.h"

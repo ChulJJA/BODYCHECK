@@ -150,7 +150,7 @@ void Referee::Update(float dt)
     {
         for (auto i : stage_statements)
         {
-            if (i == PLAYER_SECOND_DIE && player_sec_life > 0)
+            if (i == Stage_Statement::PLAYER_SECOND_DIE && player_sec_life > 0)
             {
                 player_second_respawn_timer -= dt;
 
@@ -166,7 +166,7 @@ void Referee::Update(float dt)
                     second_ui->Get_Life_Num()->GetComponentByTemplate<TextComp>()->GetText().SetString(std::to_wstring(player_sec_life));
                 }
             }
-            if (i == PLAYER_FIRST_DIE && player_first_life > 0)
+            if (i == Stage_Statement::PLAYER_FIRST_DIE && player_first_life > 0)
             {
 
                 player_first_respawn_timer -= dt;
@@ -183,7 +183,7 @@ void Referee::Update(float dt)
                     first_ui->Get_Life_Num()->GetComponentByTemplate<TextComp>()->GetText().SetString(std::to_wstring(player_first_life));
                 }
             }
-            if (i == PLAYER_THIRD_DIE && player_third_life > 0)
+            if (i == Stage_Statement::PLAYER_THIRD_DIE && player_third_life > 0)
             {
 
                 player_third_respawn_timer -= dt;
@@ -200,7 +200,7 @@ void Referee::Update(float dt)
                     third_ui->Get_Life_Num()->GetComponentByTemplate<TextComp>()->GetText().SetString(std::to_wstring(player_third_life));
                 }
             }
-            if (i == PLAYER_FOURTH_DIE && player_fourth_life > 0)
+            if (i == Stage_Statement::PLAYER_FOURTH_DIE && player_fourth_life > 0)
             {
 
                 player_fourth_respawn_timer -= dt;
@@ -256,28 +256,28 @@ void Referee::Respawn(Stage_Statement statement)
 {
     switch (statement)
     {
-    case PLAYER_SECOND_DIE:
+    case Stage_Statement::PLAYER_SECOND_DIE:
 		player_sec_temp[player_sec_life - 1]->AddComponent(new Player());
 		player_sec_temp[player_sec_life - 1]->GetComponentByTemplate<Player>()->Set_This_UI_info(second_ui);
         ObjectManager::GetObjectManager()->AddObject(player_sec_temp[player_sec_life - 1]);
         second_ui->Reset();
         break;
 
-    case PLAYER_FIRST_DIE:
+    case Stage_Statement::PLAYER_FIRST_DIE:
 		player_first_temp[player_first_life - 1]->AddComponent(new Player());
 		player_first_temp[player_first_life - 1]->GetComponentByTemplate<Player>()->Set_This_UI_info(first_ui);
         ObjectManager::GetObjectManager()->AddObject(player_first_temp[player_first_life - 1]);
         first_ui->Reset();
         break;
 
-    case PLAYER_THIRD_DIE:
+    case Stage_Statement::PLAYER_THIRD_DIE:
 		player_third_temp[player_third_life - 1]->AddComponent(new Player());
 		player_third_temp[player_third_life - 1]->GetComponentByTemplate<Player>()->Set_This_UI_info(third_ui);
         ObjectManager::GetObjectManager()->AddObject(player_third_temp[player_third_life - 1]);
         third_ui->Reset();
         break;
 
-    case PLAYER_FOURTH_DIE:
+    case Stage_Statement::PLAYER_FOURTH_DIE:
 		player_fourth_temp[player_fourth_life - 1]->AddComponent(new Player());
 		player_fourth_temp[player_fourth_life - 1]->GetComponentByTemplate<Player>()->Set_This_UI_info(fourth_ui);
         ObjectManager::GetObjectManager()->AddObject(player_fourth_temp[player_fourth_life - 1]);
