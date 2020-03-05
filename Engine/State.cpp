@@ -5,6 +5,7 @@
 #include "Component_Sprite.h"
 #include "Physics.h"
 #include "ObjectManager.h"
+#include "Component_Text.h"
 
 
 Object* State::Make_Player(std::string name, std::string tag, std::string sprite_path, vector2 pos, vector2 scale)
@@ -40,4 +41,19 @@ PLAYER_UI* State::Make_Set_Ui(std::string name, std::string tag, std::string spr
 	player->GetComponentByTemplate<Player>()->Set_This_UI_info(player_ui);
 
 	return player_ui;
+}
+
+Object* State::Make_Set_Text(std::string name, std::string tag, vector2 pos, Object* player, Color4f color,
+	vector2 size, BitmapFont* font)
+{
+	Object* text = new Object();
+
+	text->SetTranslation(pos);
+	text->AddComponent(new TextComp(text, L" ", color, size, *font));
+	text->Set_Name(name);
+	text->Set_Tag(tag);
+	ObjectManager::GetObjectManager()->AddObject(text);
+	player->Set_Dmg_Text(text);
+	
+	return text;
 }

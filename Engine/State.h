@@ -13,6 +13,7 @@
 #include <string>
 #include "BitmapFont.hpp"
 
+class Color4f;
 struct vector2;
 class PLAYER_UI;
 class Object;
@@ -66,7 +67,7 @@ public:
 
 	Object* Make_Player(std::string name, std::string tag, std::string sprite_path, vector2 pos, vector2 scale);
 	PLAYER_UI* Make_Set_Ui(std::string name, std::string tag, std::string sprite_path, vector2 pos, vector2 scale, Object* player);
-	
+	Object* Make_Set_Text(std::string name, std::string tag, vector2 pos, Object* player, Color4f color, vector2 size, BitmapFont* font);
 protected:
     std::string next_level;
     bool is_next = false;

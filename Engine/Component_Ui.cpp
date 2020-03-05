@@ -24,16 +24,6 @@ void Ui::Update(float dt)
 
 }
 
-void Ui::Set_Status_Base(Ui_Status_Base status)
-{
-	status_info_base = status;
-}
-
-void Ui::Set_Status_Verb(Ui_Status_Verb status)
-{
-	status_info_verb = status;
-}
-
 void Ui::Change_Item_Ui()
 {
 	Object* item_ui = ui_info->Get_Item_Info();
@@ -69,6 +59,15 @@ void Ui::Change_Item_Ui()
 	
 }
 
+void Ui::Set_Status_Base(Ui_Status_Base status)
+{
+	status_info_base = status;
+}
+
+void Ui::Set_Status_Verb(Ui_Status_Verb status)
+{
+	status_info_verb = status;
+}
 
 void Ui::Set_Status_Obj(Ui_Status_Obj status)
 {

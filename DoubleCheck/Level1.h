@@ -42,6 +42,9 @@ private:
     Object* player_forth;
 
     Object* text;
+	Object* text_2;
+	Object* text_3;
+	Object* text_4;
     Object* arena;
 
     PLAYER_UI* player_first_ui;
