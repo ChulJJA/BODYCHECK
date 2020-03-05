@@ -18,15 +18,20 @@ void Loading_Scene::Load()
 	image->Set_Tag("image");
 	image->AddComponent(new Sprite(image, "../sprite/pen_green.png", { 0.f, 0.f }));
 	image->GetTransform().SetScale({ 10.f,10.f });
+	done = true;
 }
 
 void Loading_Scene::Update(float dt)
 {
 	while(done)
 	{
+		//glfwSwapBuffers(Application::Get_Application()->Get_Window());
+		glfwPollEvents();
+		//processTasksFromGameThread(); //commands that have to be run on the GLFW thread.
+		//pollJoysticksAndGenerateEvents();
+		Graphic::GetGraphic()->Update(dt);
 		image->GetComponentByTemplate<Sprite>()->Update(dt);
 	}
-	
 }
 
 void Loading_Scene::UnLoad()

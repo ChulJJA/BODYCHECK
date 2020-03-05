@@ -58,6 +58,10 @@ public:
     void Save();
     void framebuffer_size_callback(GLFWwindow* window, int width, int height);
     int GetFPS();
+	GLFWwindow* Get_Window()
+	{
+		return window;
+	}
 
     void TurnOnMonitorVerticalSynchronization(bool enable);
 

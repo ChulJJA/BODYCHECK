@@ -35,7 +35,7 @@ void Level1::Load()
 	Loading_Scene* loading = new Loading_Scene;
 	loading->Load();
 
-	std::thread loading_thread(&Loading_Scene::Update, loading, 0.5f);
+	std::thread loading_thread(&Loading_Scene::Update, loading, 0.0230625f);
 	
     current_state = GameState::Game;
     referee = Referee::Get_Referee();
