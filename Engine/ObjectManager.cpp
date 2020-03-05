@@ -12,6 +12,7 @@
 #include "ObjectManager.h"
 #include <functional>
 #include "StateManager.h"
+#include "Component.hpp"
 
 ObjectManager* ObjectManager::object_manager = nullptr;
 

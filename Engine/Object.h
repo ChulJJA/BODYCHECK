@@ -13,12 +13,16 @@
 #pragma once
 #include "Transform.hpp"
 #include "Mesh.hpp"
-#include "Component.hpp"
 #include <string>
 #include "Object_Component_Info.h"
 #include <iostream>
+//#include "Component.hpp"
+
+class Component;
+
 
 inline int object_id_increment = 1;
+
 
 class Object
 {
@@ -51,8 +55,9 @@ private:
     bool need_to_update;
     Object* dmg_text = nullptr;
     float dmg_plus = 0.f;
-
 	bool is_it_collided;
+
+	Component* current_showing_sprite;
 
 public:
     Object* Get_Hitted_By()
@@ -232,14 +237,18 @@ public:
     {
         this->this_obj_owner = owner;
     }
+
+	Component* Get_Current_Sprite();
+	void Set_Current_Sprite(Component* sprite);
+	
     char name_buf[64];
 
 public:
     void SetDeadCondition(bool condition) { is_dead = condition; }
     bool IsDead() { return is_dead; }
-    void AddComponent(Component* comp);
+    void AddComponent(Component* comp, std::string name = "component", bool toggle = true);
     void DeleteComponent(Component* comp);
-
+	Component* Find_Component_By_Name(std::string name);
     void SetTranslation(vector2 pos);
 
     void SetRotation(float angle);

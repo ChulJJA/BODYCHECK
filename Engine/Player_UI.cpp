@@ -33,6 +33,11 @@ void PLAYER_UI::Initialize()
     info_item = new Object();
 	info_item->GetTransform().SetTranslation({ this_trans.x + 200, this_trans.y - 200});
 	info_item->GetTransform().SetScale({ 2.f, 2.f });
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/None.png", { this_trans.x + 200, this_trans.y - 200 }), "none");
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item.png", { this_trans.x + 200, this_trans.y - 200 }), "item", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/bulkup.png", { this_trans.x + 200, this_trans.y - 200 }), "bulkup", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/dash.png", { this_trans.x + 200, this_trans.y - 200 }), "dash", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/heal.png", { this_trans.x + 200, this_trans.y - 200 }), "heal", false);
     info_item->Set_Tag("item_info");
     info_item->Set_Name(this->GetName() + "info_item");
     ObjectManager::GetObjectManager()->AddObject(info_item);
