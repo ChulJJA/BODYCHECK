@@ -32,11 +32,10 @@ namespace
 
 void Level1::Load()
 {
-	Loading_Scene* loading = new Loading_Scene;
+	Loading_Scene* loading = new Loading_Scene();
 	loading->Load();
+	std::thread loading_thread(&Loading_Scene::Update, loading, 0.05f);
 
-	std::thread loading_thread(&Loading_Scene::Update, loading, 0.0230625f);
-	
     current_state = GameState::Game;
     referee = Referee::Get_Referee();
 
@@ -164,9 +163,11 @@ void Level1::Load()
 	Graphic::GetGraphic()->get_need_update_sprite() = true;
 
 	loading->Set_Done(false);
-
-	if (loading_thread.joinable())
+	
+	if(loading_thread.joinable())
+	{
 		loading_thread.join();
+	}
 }
 
 void Level1::Update(float dt)

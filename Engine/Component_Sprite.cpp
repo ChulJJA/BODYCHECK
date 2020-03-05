@@ -206,14 +206,6 @@ void draw(Vertices shape, material material)
 
 void Sprite::Update(float dt)
 {
-    //if (!m_owner->Get_Component_Info_Reference().component_info_sprite)
-    //{
-    //    m_owner->DeleteComponent(this);
-    //}
-
-    //shape.UpdateVerticesFromMesh(m_owner->GetMesh());
-    //debug_shape.UpdateVerticesFromMesh(m_owner->Get_Debug_Mesh());
-
     seconds += dt;
     uint32_t ticks = seconds + 1;
 
@@ -268,17 +260,8 @@ void Sprite::Update(float dt)
         }
         m_owner->GetMesh().Get_Is_Moved() = false;
         material.matrix3Uniforms["to_ndc"] = mat_ndc;
-        //debug_material.matrix3Uniforms["to_ndc"] = mat_ndc;
     }
-
-    //debug_material.floatUniforms["time"] = seconds;
-
     Graphic::GetGraphic()->Draw(shape, material);
-
-    //if (m_owner->Get_Is_Debugmode())
-    //{
-    //    Graphic::GetGraphic()->Draw(debug_shape, debug_material);
-    //}
 }
 
 /*if (!m_owner->Get_Belongs_Objects().empty())
