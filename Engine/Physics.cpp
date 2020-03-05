@@ -18,12 +18,11 @@
 #include "Component_Sprite.h"
 #include "Component_Player.h"
 #include "Player_Ui.h"
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include "Component_Hpbar.h"
 #include "Message_Manager.h"
 #include "Engine.hpp"
 #include "Message.h"
+#include "Application.hpp"
 
 Physics::Physics(bool ghost_collision_mode) : ghost_collision_mode(ghost_collision_mode)
 {

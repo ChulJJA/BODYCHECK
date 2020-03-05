@@ -12,7 +12,7 @@
 #include "Color4f.hpp"
 #include "Shader.hpp"
 #include "matrix3.hpp"
-#include <GL/glew.h>
+#include "Application.hpp"
 #include <cassert>
 #include <iostream>
 

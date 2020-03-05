@@ -18,9 +18,8 @@
 #include "Component_Collision.h"
 #include "Referee.h"
 #include "Component_Text.h"
-#include "Player_Ui.h"
 #include "Engine.hpp"
-
+#include "Loading_Scene.h"
 using namespace std;
 
 namespace
@@ -33,11 +32,17 @@ namespace
 
 void Level1::Load()
 {
+	Loading_Scene* loading = new Loading_Scene;
+	loading->Load();
+
+	std::thread loading_thread(&Loading_Scene::Update, loading, 0.5f);
+	
     current_state = GameState::Game;
     referee = Referee::Get_Referee();
 
     object_manager = ObjectManager::GetObjectManager();
     Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
+
 
     sound.Stop(SOUND::BGM);
     sound.Play(SOUND::BGM2);
@@ -153,10 +158,15 @@ void Level1::Load()
     Referee::Get_Referee()->Set_Second_Text(text_2);
     Referee::Get_Referee()->Set_Third_Text(text_3);
     Referee::Get_Referee()->Set_Fourth_Text(text_4);
-
+	
 	referee->AddComponent(new Collision());
     referee->Init();
 	Graphic::GetGraphic()->get_need_update_sprite() = true;
+
+	loading->Set_Done(false);
+
+	if (loading_thread.joinable())
+		loading_thread.join();
 }
 
 void Level1::Update(float dt)

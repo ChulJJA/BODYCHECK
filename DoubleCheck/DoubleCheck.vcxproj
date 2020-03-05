@@ -118,7 +118,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Math_lib;$(SolutionDir)Engine;$(SolutionDir)external/glfw/include;$(SolutionDir)external\fmod\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Math_lib;$(SolutionDir)Engine;$(SolutionDir)external/glfw/include;$(SolutionDir)external\fmod\inc;$(SolutionDir)external\glew\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)external\glfw\lib\$(PlatformTarget);$(SolutionDir)external\glew\lib\$(PlatformTarget);$(SolutionDir)external\lib</AdditionalLibraryDirectories>
@@ -184,6 +184,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Level1.cpp" />
+    <ClCompile Include="Loading_Scene.cpp" />
     <ClCompile Include="Logo.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Source.cpp" />
@@ -201,6 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Level1.h" />
+    <ClInclude Include="Loading_Scene.h" />
     <ClInclude Include="Logo.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="SoundOption.h" />

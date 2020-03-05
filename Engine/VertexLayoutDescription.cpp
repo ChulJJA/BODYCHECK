@@ -11,7 +11,7 @@
 
 #include "Mesh.hpp"
 #include "VertexLayoutDescription.hpp"
-#include <GL/glew.h>
+#include "Application.hpp"
 #include <cassert>
 
 VertexLayoutDescription::VertexLayoutDescription(std::initializer_list<FieldType> fields) noexcept

@@ -12,7 +12,7 @@
 #include "Mesh.hpp"
 #include "VertexLayoutDescription.hpp"
 #include "Vertices.hpp"
-#include <GL/glew.h>
+#include "Application.hpp"
 #include <cassert>
 
 Vertices::Vertices(const Mesh& mesh, const VertexLayoutDescription& vertex_layout) noexcept

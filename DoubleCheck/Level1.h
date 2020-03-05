@@ -14,6 +14,7 @@
 #include "Object.h"
 #include "Common_Header.h"
 #include "BitmapFont.hpp"
+#include <thread>
 
 class PLAYER_UI;
 
@@ -51,6 +52,4 @@ private:
     PLAYER_UI* player_second_ui;
     PLAYER_UI* player_third_ui;
     PLAYER_UI* player_fourth_ui;
-
-    //BitmapFont      font{};
 };
