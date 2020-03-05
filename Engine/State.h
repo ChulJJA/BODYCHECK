@@ -11,6 +11,11 @@
 
 #pragma once
 #include <string>
+#include "BitmapFont.hpp"
+
+struct vector2;
+class PLAYER_UI;
+class Object;
 
 enum class GameState
 {
@@ -57,8 +62,14 @@ public:
     {
         return next_level;
     }
+
+
+	Object* Make_Player(std::string name, std::string tag, std::string sprite_path, vector2 pos, vector2 scale);
+	PLAYER_UI* Make_Set_Ui(std::string name, std::string tag, std::string sprite_path, vector2 pos, vector2 scale, Object* player);
+	
 protected:
     std::string next_level;
     bool is_next = false;
     GameState current_state = GameState::None;
+	BitmapFont      font{};
 };

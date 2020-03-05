@@ -197,6 +197,7 @@
     <ClInclude Include="Component_Sprite.h" />
     <ClInclude Include="Component_Text.h" />
     <ClInclude Include="Component_Throwing.h" />
+    <ClInclude Include="Component_Ui.h" />
     <ClInclude Include="Engine.hpp" />
     <ClInclude Include="GL.hpp" />
     <ClInclude Include="glCheck.hpp" />
@@ -264,6 +265,7 @@
     <ClCompile Include="Component_Sprite.cpp" />
     <ClCompile Include="Component_Text.cpp" />
     <ClCompile Include="Component_Throwing.cpp" />
+    <ClCompile Include="Component_Ui.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GL.cpp" />
     <ClCompile Include="Graphic.cpp" />
@@ -295,6 +297,7 @@
     <ClCompile Include="Referee.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Sound_Manager.cpp" />
+    <ClCompile Include="State.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Texture.cpp" />

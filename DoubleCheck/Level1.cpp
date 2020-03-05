@@ -143,35 +143,9 @@ void Level1::Load()
     fileOut.close();
     player->GetTransform().SetScale({ 3, 3 });
 
-    player_sec = new Object();
-    player_sec->Set_Name("second");
-    player_sec->Set_Tag("player");
-    player_sec->AddComponent(new Player());
-    player_sec->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
-    player_sec->AddComponent(new Sprite(player_sec, "../Sprite/pen_red.png", { 400,-400 }));
-    player_sec->AddComponent(new Physics());
-    player_sec->GetTransform().SetScale({ 3.f,3.f });
-    ObjectManager::GetObjectManager()->AddObject(player_sec);
-
-    player_third = new Object();
-    player_third->Set_Name("third");
-    player_third->Set_Tag("player");
-    player_third->AddComponent(new Player());
-    player_third->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
-    player_third->AddComponent(new Sprite(player_third, "../Sprite/pen_purple.png", { -400,400 }));
-    player_third->AddComponent(new Physics());
-    player_third->GetTransform().SetScale({ 3.f,3.f });
-    ObjectManager::GetObjectManager()->AddObject(player_third);
-
-    player_forth = new Object();
-    player_forth->Set_Name("forth");
-    player_forth->Set_Tag("player");
-    player_forth->AddComponent(new Player());
-    player_forth->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
-    player_forth->AddComponent(new Sprite(player_forth, "../Sprite/pen_normal.png", { -400,-400 }));
-    player_forth->AddComponent(new Physics());
-    player_forth->GetTransform().SetScale({ 3.f,3.f });
-    ObjectManager::GetObjectManager()->AddObject(player_forth);
+	player_sec = Make_Player("second", "player", "../sprite/pen_red.png", { 400.f, -400.f }, { 3.f, 3.f });
+	player_third = Make_Player("third", "player", "../sprite/pen_purple.png", { -400.f, 400.f }, { 3.f, 3.f });
+	player_forth = Make_Player("forth", "player", "../sprite/pen_normal.png", { -400.f, -400.f }, { 3.f, 3.f });
 
     referee->AddComponent(new Collision());
 
@@ -212,41 +186,10 @@ void Level1::Load()
     ObjectManager::GetObjectManager()->AddObject(text_4);
     player_forth->Set_Dmg_Text(text_4);
 
-    player_first_ui = new PLAYER_UI();
-    player_first_ui->GetTransform().GetScale_Reference() = { 4.0f,4.0f };
-    player_first_ui->Set_Name("first_ui");
-    player_first_ui->Set_Tag("ui");
-    player_first_ui->AddComponent(new Sprite(player_first_ui, "../sprite/pen_green.png", { 1200, 800 }));
-    player_first_ui->Set_Bitmap_Font(&font);
-    player_first_ui->Initialize();
-    ObjectManager::GetObjectManager()->AddObject(player_first_ui);
-
-    player_second_ui = new PLAYER_UI();
-    player_second_ui->GetTransform().GetScale_Reference() = { 4.0f,4.0f };
-    player_second_ui->Set_Name("second_ui");
-    player_second_ui->Set_Tag("ui");
-    player_second_ui->AddComponent(new Sprite(player_second_ui, "../sprite/pen_red.png", { 1200, -600 }));
-    player_second_ui->Set_Bitmap_Font(&font);
-    player_second_ui->Initialize();
-    ObjectManager::GetObjectManager()->AddObject(player_second_ui);
-
-    player_third_ui = new PLAYER_UI();
-    player_third_ui->GetTransform().GetScale_Reference() = { 4.0f,4.0f };
-    player_third_ui->Set_Name("third_ui");
-    player_third_ui->Set_Tag("ui");
-    player_third_ui->AddComponent(new Sprite(player_third_ui, "../sprite/pen_purple.png", { -1600, 800 }));
-    player_third_ui->Set_Bitmap_Font(&font);
-    player_third_ui->Initialize();
-    ObjectManager::GetObjectManager()->AddObject(player_third_ui);
-
-    player_fourth_ui = new PLAYER_UI();
-    player_fourth_ui->GetTransform().GetScale_Reference() = { 4.0f,4.0f };
-    player_fourth_ui->Set_Name("fourth_ui");
-    player_fourth_ui->Set_Tag("ui");
-    player_fourth_ui->AddComponent(new Sprite(player_fourth_ui, "../sprite/pen_normal.png", { -1600, -600 }));
-    player_fourth_ui->Set_Bitmap_Font(&font);
-    player_fourth_ui->Initialize();
-    ObjectManager::GetObjectManager()->AddObject(player_fourth_ui);
+	player_first_ui = Make_Set_Ui("first_ui", "ui", "../sprite/pen_green.png", { 1200, 800 }, { 4.0f,4.0f }, player);
+	player_second_ui = Make_Set_Ui("second_ui", "ui", "../sprite/pen_red.png", { 1200, -600 }, { 4.0f,4.0f }, player_sec);
+	player_third_ui = Make_Set_Ui("third_ui", "ui", "../sprite/pen_purple.png", { -1600, 800 }, { 4.0f,4.0f }, player_third);
+	player_fourth_ui = Make_Set_Ui("fourth_ui", "ui", "../sprite/pen_normal.png", { -1600, -600 }, { 4.0f,4.0f }, player_forth);
 
     player->GetComponentByTemplate<Player>()->Set_This_UI_info(player_first_ui);
     player_sec->GetComponentByTemplate<Player>()->Set_This_UI_info(player_second_ui);

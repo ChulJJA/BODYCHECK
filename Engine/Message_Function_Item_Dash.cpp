@@ -5,32 +5,32 @@
 #include "Object.h"
 #include "Component_Item.h"
 #include "Component_Player.h"
-#include "Component_Sprite.h"
 #include "Player_Ui.h"
 
-
 void Msg_Func_Item_Dash::Init()
-{
-}
-
-void Msg_Func_Item_Dash::Update(float dt)
 {
 	if (msg->Get_Target() != nullptr)
 	{
 		Object* obj = msg->Get_Target();
-		vector2 acceleration = obj->GetComponentByTemplate<Physics>()->GetAcceleration();
-		acceleration = normalize(acceleration);
+		Player* info_player = obj->GetComponentByTemplate<Player>();
+		PLAYER_UI* info_ui = info_player->Get_Ui();
+		Physics* info_physics = obj->GetComponentByTemplate<Physics>();
 
+		vector2 acceleration = info_physics->GetAcceleration();
+		acceleration = normalize(acceleration);
 		acceleration += {50 * acceleration.x, 50 * acceleration.y};
 
-		obj->GetComponentByTemplate<Physics>()->SetAcceleration(acceleration);
+		info_physics->SetAcceleration(acceleration);
 		obj->GetMesh().Get_Is_Moved() = true;
-		obj->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
+		info_player->Set_Item_State(Item::Item_Kind::None);
 
-		obj->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->DeleteComponent(
-			obj->GetComponentByTemplate<Player>()->Get_Ui()->Get_Item_Info()->GetComponentByTemplate<Sprite>());
-
-
-		msg->Set_Should_Delete(true);
+		info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Use, Ui::Ui_Status_Obj::Item_Dash);
 	}
+}
+
+void Msg_Func_Item_Dash::Update(float dt)
+{
+
+	msg->Set_Should_Delete(true);
+
 }

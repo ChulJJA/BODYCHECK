@@ -22,6 +22,8 @@
 #include <GLFW/glfw3.h>
 #include "Component_Throwing.h"
 #include "Player_Ui.h"
+#include "Component_Ui.h"
+
 
 void Player::Init(Object* obj)
 {
@@ -119,38 +121,20 @@ Item::Item_Kind Player::Get_Item_State()
 {
 	return belong_item;
 }
-
-void Player::Change_Ui_Info(std::string name, std::string detail)
-{
-	if(name == "item")
-	{
-		Object* setting_ui = this_ui->Get_Item_Info();
-		
-		if(detail == "dash")
-		{
-			setting_ui->AddComponent(new Sprite(setting_ui, "../sprite/dash.png",
-				setting_ui->GetTransform().GetTranslation(), false));
-		}
-		else if (detail == "hp")
-		{
-			setting_ui->AddComponent(new Sprite(setting_ui, "../sprite/heal.png",
-				setting_ui->GetTransform().GetTranslation(), false));
-		}
-		else if(detail == "bulkup")
-		{
-			setting_ui->AddComponent(new Sprite(setting_ui, "../sprite/bulkup.png",
-				setting_ui->GetTransform().GetTranslation(), false));
-		}
-		else if (detail == "throwing")
-		{
-			setting_ui->AddComponent(new Sprite(setting_ui, "../sprite/Master.png",
-				setting_ui->GetTransform().GetTranslation(), false));
-		}
-		
-		setting_ui->GetMesh().Get_Is_Moved() = true;
-	}
-	
-}
+//
+//void Player::Change_Ui_Info(Ui::Ui_Status_Base base, Ui::Ui_Status_Verb verb, Ui::Ui_Status_Obj obj)
+//{
+//	if(base == Ui::Ui_Status_Base::Item)
+//	{
+//		//Object* setting_ui = this_ui->Get_Item_Info();
+//		Ui* ui_info = this_ui->GetComponentByTemplate<Ui>();
+//
+//		ui_info->Set_Status_Base(base);
+//		ui_info->Set_Status_Verb(verb);
+//		ui_info->Set_Status_Obj(obj);		
+//		this_ui->GetMesh().Get_Is_Moved() = true;
+//	}
+//}
 
 void Player::Set_This_UI_info(PLAYER_UI* ui)
 {

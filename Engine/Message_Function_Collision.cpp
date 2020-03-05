@@ -10,6 +10,7 @@
 #include "Component_Text.h"
 #include "Message.h"
 #include "Physics.h"
+#include "Component_Ui.h"
 
 std::pair<float, float> Damaege_Calculation(Object target, Object from);
 
@@ -251,29 +252,29 @@ void Msg_Func_Collision::Update(float dt)
 	{
 		sound.Play(SOUND::Item);
 		m_target->SetDeadCondition(true);
+		Player* player_info = m_from->GetComponentByTemplate<Player>();
+		PLAYER_UI* ui_info = player_info->Get_Ui();
 		
 		if (m_target->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Dash)
 		{
-			m_from->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::Dash);
-			m_from->GetComponentByTemplate<Player>()->Change_Ui_Info("item", "dash");
+			player_info->Set_Item_State(Item::Item_Kind::Dash);
+			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Dash);
 		}
 		if (m_target->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::HP)
 		{
-			m_from->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::HP);
-			m_from->GetComponentByTemplate<Player>()->Change_Ui_Info("item", "hp");
+			player_info->Set_Item_State(Item::Item_Kind::HP);
+			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Hp);
 		}
 		if (m_target->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Bulkup)
 		{
-			m_from->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::Bulkup);
-			m_from->GetComponentByTemplate<Player>()->Change_Ui_Info("item", "bulkup");
+			player_info->Set_Item_State(Item::Item_Kind::Bulkup);
+			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Bulkup);
 		}
 		if (m_target->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Throwing)
 		{
-			m_from->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::Throwing);
-			m_from->GetComponentByTemplate<Player>()->Change_Ui_Info("item", "throwing");
+			player_info->Set_Item_State(Item::Item_Kind::Throwing);
+			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Hp);
 		}
-		///////
-		
 
 		m_from->Set_Is_It_Collided(false);
 	}
@@ -281,26 +282,28 @@ void Msg_Func_Collision::Update(float dt)
 	{
 		sound.Play(SOUND::Item);
 		m_from->SetDeadCondition(true);
-
+		Player* player_info = m_target->GetComponentByTemplate<Player>();
+		PLAYER_UI* ui_info = player_info->Get_Ui();
+		
 		if (m_from->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Dash)
 		{
-			m_target->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::Dash);
-			m_target->GetComponentByTemplate<Player>()->Change_Ui_Info("item", "dash");
+			player_info->Set_Item_State(Item::Item_Kind::Dash);
+			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Dash);
 		}
 		if (m_from->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::HP)
 		{
-			m_target->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::HP);
-			m_target->GetComponentByTemplate<Player>()->Change_Ui_Info("item", "hp");
+			player_info->Set_Item_State(Item::Item_Kind::HP);
+			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Hp);
 		}
 		if (m_from->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Bulkup)
 		{
-			m_target->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::Bulkup);
-			m_target->GetComponentByTemplate<Player>()->Change_Ui_Info("item", "bulkup");
+			player_info->Set_Item_State(Item::Item_Kind::Bulkup);
+			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Bulkup);
 		}
 		if (m_from->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Throwing)
 		{
-			m_target->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::Throwing);
-			m_target->GetComponentByTemplate<Player>()->Change_Ui_Info("item", "throwing");
+			player_info->Set_Item_State(Item::Item_Kind::Throwing);
+			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Bulkup);
 		}
 		/////
 		m_target->Set_Is_It_Collided(false);

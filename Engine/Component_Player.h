@@ -13,6 +13,7 @@
 #pragma once
 #include "Component.hpp"
 #include "Component_Item.h"
+#include "Component_Ui.h"
 
 class PLAYER_UI;
 
@@ -46,6 +47,10 @@ public:
     {
         return bulkup_timer;
     }
+	void Set_Bulkup_Timer(float timer_)
+    {
+		bulkup_timer = timer_;
+    }
 	Char_State Get_Char_State()
     {
 		return curr_state;
@@ -55,7 +60,7 @@ public:
 		curr_state = state;
     }
 
-	void Change_Ui_Info(std::string name, std::string detail);
+
 
 
 private:

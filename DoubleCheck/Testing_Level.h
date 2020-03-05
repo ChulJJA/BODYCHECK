@@ -20,17 +20,14 @@ public:
 	{
 		next_level = {};
 		is_next = false;
-	}
+	}/*
 	Object* Make_Player(std::string name, std::string tag, std::string sprite_path, vector2 pos, vector2 scale);
-	PLAYER_UI* Make_Set_Ui(std::string name, std::string tag, std::string sprite_path, vector2 pos, vector2 scale, Object* player);
+	PLAYER_UI* Make_Set_Ui(std::string name, std::string tag, std::string sprite_path, vector2 pos, vector2 scale, Object* player);*/
 
 private:
 
 	Object* player;
 	Object* item;
 	PLAYER_UI* player_first_ui;
-
-	BitmapFont      font{};
 	Object* text;
-	
 };

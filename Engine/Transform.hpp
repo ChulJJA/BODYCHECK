@@ -29,7 +29,7 @@ public:
     {
         return translation;
     }
-    void SetTranslation(const vector2 & new_translation) noexcept;
+    void SetTranslation(const vector2  new_translation) noexcept;
     void AddTranslation(const vector2 & translation);
     vector2 Get_Save_Translation()const noexcept;
 

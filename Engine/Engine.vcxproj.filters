@@ -160,6 +160,12 @@
     <ClCompile Include="Component_Throwing.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="Component_Ui.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="angles.hpp">
@@ -349,6 +355,9 @@
       <Filter>Message_Function</Filter>
     </ClInclude>
     <ClInclude Include="Component_Throwing.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Component_Ui.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>

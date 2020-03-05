@@ -49,5 +49,5 @@ private:
     PLAYER_UI* player_third_ui;
     PLAYER_UI* player_fourth_ui;
 
-    BitmapFont      font{};
+    //BitmapFont      font{};
 };

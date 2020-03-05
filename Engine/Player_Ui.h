@@ -13,6 +13,7 @@
 #pragma once
 #include "Object.h"
 #include "BitmapFont.hpp"
+#include "Component_Ui.h"
 
 class PLAYER_UI : public Object
 {
@@ -35,6 +36,7 @@ public:
         return num_life;
     }
     void Reset();
+	void Change_Ui_Info(Ui::Ui_Status_Base base, Ui::Ui_Status_Verb verb, Ui::Ui_Status_Obj obj);
 private:
 
     Object* info_hp_bar = nullptr;

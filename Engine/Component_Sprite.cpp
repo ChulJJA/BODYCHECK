@@ -268,7 +268,7 @@ void Sprite::Update(float dt)
         }
         m_owner->GetMesh().Get_Is_Moved() = false;
         material.matrix3Uniforms["to_ndc"] = mat_ndc;
-        debug_material.matrix3Uniforms["to_ndc"] = mat_ndc;
+        //debug_material.matrix3Uniforms["to_ndc"] = mat_ndc;
     }
 
     //debug_material.floatUniforms["time"] = seconds;

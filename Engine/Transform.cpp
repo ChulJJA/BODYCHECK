@@ -77,7 +77,7 @@ vector2 Transform::GetTranslation() const noexcept
     return translation;
 }
 
-void Transform::SetTranslation(const vector2& new_translation) noexcept
+void Transform::SetTranslation(const vector2 new_translation) noexcept
 {
     translation.x = new_translation.x;
     translation.y = new_translation.y;
