@@ -29,9 +29,18 @@ public:
     {
         return component_name;
     }
+	void Set_Need_Update(bool toggle)
+    {
+		need_update = toggle;
+    }
+	bool Get_Need_Update()
+    {
+		return need_update;
+    }
 
     Object* m_owner = nullptr;
 
 private:
     std::string component_name;
+	bool need_update = true;
 };
