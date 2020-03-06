@@ -32,10 +32,11 @@ void Sound::Initialize()
 	result = FMOD_System_Init(f_system, SOUND_NUM, FMOD_INIT_NORMAL, nullptr);
 	ErrorCheck(result);
 
-	Load();
+	LoadSound();
+	SetSoundGroup();
 }
 
-void Sound::Load()
+void Sound::LoadSound()
 {
 	result = FMOD_System_CreateSound(f_system, "Sounds/TeamDoubleCheck.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::TeamDoubleCheck)]);
 	ErrorCheck(result);
@@ -78,24 +79,27 @@ void Sound::Load()
 
 	result = FMOD_System_CreateSoundGroup(f_system, "SFX", &sfx_group);
 	ErrorCheck(result);
+}
 
-	for(int count = 0; count < static_cast<int>(SOUND::END); ++count)
+void Sound::SetSoundGroup()
+{
+	for (int count = 0; count < static_cast<int>(SOUND::END); ++count)
 	{
 		result = FMOD_System_PlaySound(f_system, sound[count], 0, true, &channel[count]);
 		ErrorCheck(result);
 
-		if(count <= static_cast<int>(SOUND::BGM2))
+		if (count <= static_cast<int>(SOUND::BGM2))
 		{
 			result = FMOD_Sound_SetSoundGroup(sound[count], bgm_group);
 			ErrorCheck(result);
 		}
-		else if(count < static_cast<int>(SOUND::END))
+		else if (count < static_cast<int>(SOUND::END))
 		{
 			result = FMOD_Sound_SetSoundGroup(sound[count], sfx_group);
 			ErrorCheck(result);
 		}
 	}
-	
+
 	result = FMOD_SoundGroup_SetVolume(bgm_group, 0.5f);
 	ErrorCheck(result);
 	result = FMOD_SoundGroup_SetVolume(sfx_group, 0.5f);

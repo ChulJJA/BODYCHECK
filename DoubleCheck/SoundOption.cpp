@@ -261,28 +261,25 @@ void SoundOption::SetMuteButton()
 
 void SoundOption::Mute()
 {
-	FMOD_BOOL is_playing;
-	float volume;
-	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &is_playing);
-
-	if (input.Is_Key_Triggered(GLFW_KEY_M) && is_playing)
+	float bgm_volume = sound.GetSoundGroupVolume(true);
+	float sfx_volume = sound.GetSoundGroupVolume(false);
+	
+	if (bgm_volume <= 0)
 	{
-		ObjectHover(unmute_button[0], mute_button[0]);
-
-		volume = sound.GetVolume(SOUND::BGM2);
-		sound.Stop(SOUND::BGM2);
-		std::cout << volume / 100 << std::endl;
+		ObjectHover(unmute_button[1], mute_button[1]);
 	}
-	if (input.Is_Key_Triggered(GLFW_KEY_M) && !is_playing)
+	else if(bgm_volume > 0)
 	{
-		ObjectHover(mute_button[0], unmute_button[0]);
-
-		volume = sound.GetVolume(SOUND::BGM2);
-		std::cout << volume << std::endl;
-
-		sound.SetVolume(SOUND::BGM2, volume);
-		sound.Play(SOUND::BGM2);
-		std::cout << volume << std::endl;
+		ObjectHover(mute_button[1], unmute_button[1]);
+	}
+	
+	if (sfx_volume <= 0)
+	{
+		ObjectHover(unmute_button[2], mute_button[2]);
+	}
+	else if(sfx_volume > 0)
+	{
+		ObjectHover(mute_button[2], unmute_button[2]);
 	}
 }
 
