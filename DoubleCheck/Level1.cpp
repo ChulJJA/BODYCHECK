@@ -20,6 +20,15 @@
 #include "Component_Text.h"
 #include "Engine.hpp"
 #include "Loading_Scene.h"
+#include "Application.hpp"
+
+
+
+#define GLFW_EXPOSE_NATIVE_WGL
+#define GLFW_EXPOSE_NATIVE_WIN32 
+#include <GLFW/glfw3native.h>
+#include <mutex>
+
 using namespace std;
 
 namespace
@@ -33,9 +42,16 @@ namespace
 void Level1::Load()
 {
 	Loading_Scene* loading = new Loading_Scene();
+
 	loading->Load();
+
+	HGLRC save = wglGetCurrentContext();
+	
+	glfwMakeContextCurrent(NULL);
+	
 	std::thread loading_thread(&Loading_Scene::Update, loading, 0.05f);
 
+	
     current_state = GameState::Game;
     referee = Referee::Get_Referee();
 
@@ -46,6 +62,13 @@ void Level1::Load()
     sound.Stop(SOUND::BGM);
     sound.Play(SOUND::BGM2);
 
+	HDC hdc = GetDC(glfwGetWin32Window(Application::Get_Application()->Get_Window()));
+
+	//HGLRC check = wglCreateContext(hdc);
+	wglMakeCurrent(hdc, save);
+
+	HGLRC check2 = wglGetCurrentContext();
+	
     arena = new Object();
     arena->Set_Name("arena");
     arena->Set_Tag("arena");
@@ -168,6 +191,10 @@ void Level1::Load()
 	{
 		loading_thread.join();
 	}
+
+	check2 = wglGetCurrentContext();
+	glfwMakeContextCurrent(Application::Get_Application()->Get_Window());
+	check2 = wglGetCurrentContext();
 }
 
 void Level1::Update(float dt)

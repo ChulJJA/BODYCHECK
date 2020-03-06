@@ -21,4 +21,6 @@ public:
 private:
 	Object* volatile image;
 	std::atomic<bool> done;
+	Level1* level1;
+	std::vector<std::thread> thread_vec;
 };
