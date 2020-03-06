@@ -59,7 +59,6 @@ void Update_Msg(float dt)
 void Engine::Init()
 {
     sound.Initialize();
-    sound.Load();
     sound.Play(SOUND::TeamDoubleCheck);
     sound.Play(SOUND::BGM);
 
