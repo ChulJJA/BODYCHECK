@@ -42,14 +42,21 @@ namespace
 void Level1::Load()
 {
 	Loading_Scene* loading = new Loading_Scene();
-
 	loading->Load();
+	
+	HDC hdc = GetDC(glfwGetWin32Window(Application::Get_Application()->Get_Window()));
+	HGLRC main_context = wglGetCurrentContext();
+	HGLRC loading_context = wglCreateContext(hdc);
+	wglShareLists(main_context, loading_context);
 
-	HGLRC save = wglGetCurrentContext();
-	
-	glfwMakeContextCurrent(NULL);
-	
-	std::thread loading_thread(&Loading_Scene::Update, loading, 0.05f);
+	std::thread loading_thread([&]()
+	{
+			BOOL check = wglMakeCurrent(hdc, loading_context);
+			loading->Update(0.05f);
+			wglMakeCurrent(nullptr, nullptr);
+			wglDeleteContext(loading_context);
+	}
+	);
 
 	
     current_state = GameState::Game;
@@ -58,16 +65,8 @@ void Level1::Load()
     object_manager = ObjectManager::GetObjectManager();
     Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 
-
     sound.Stop(SOUND::BGM);
     sound.Play(SOUND::BGM2);
-
-	HDC hdc = GetDC(glfwGetWin32Window(Application::Get_Application()->Get_Window()));
-
-	//HGLRC check = wglCreateContext(hdc);
-	wglMakeCurrent(hdc, save);
-
-	HGLRC check2 = wglGetCurrentContext();
 	
     arena = new Object();
     arena->Set_Name("arena");
@@ -186,15 +185,10 @@ void Level1::Load()
 	Graphic::GetGraphic()->get_need_update_sprite() = true;
 
 	loading->Set_Done(false);
-	
 	if(loading_thread.joinable())
 	{
 		loading_thread.join();
 	}
-
-	check2 = wglGetCurrentContext();
-	glfwMakeContextCurrent(Application::Get_Application()->Get_Window());
-	check2 = wglGetCurrentContext();
 }
 
 void Level1::Update(float dt)

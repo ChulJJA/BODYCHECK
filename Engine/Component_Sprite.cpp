@@ -240,7 +240,6 @@ void Sprite::Update(float dt)
         material.floatUniforms["time"] = 1;
     }
 
-	
     if (m_owner->GetMesh().Get_Is_Moved() || Graphic::GetGraphic()->get_need_update_sprite() || m_owner->Get_Tag() == "arena")
     {
         matrix3 mat_ndc = Graphic::GetGraphic()->Get_View().Get_Camera_View().GetCameraToNDCTransform();
@@ -263,37 +262,3 @@ void Sprite::Update(float dt)
     }
     Graphic::GetGraphic()->Draw(shape, material);
 }
-
-/*if (!m_owner->Get_Belongs_Objects().empty())
-	   {
-		   int size = m_owner->Get_Belongs_Objects().size();
-		   for (int i = 0; i < size; i++)
-		   {
-
-			   if (m_owner->Get_Belongs_Objects()[i]->GetComponentByTemplate<Sprite>() != nullptr)
-			   {
-				   Object* obj = m_owner->Get_Belongs_Objects()[i];
-				   obj->GetTransform().GetTranslation_Reference() = m_owner->GetTransform().GetTranslation();
-				   obj->GetTransform().GetTranslation_Reference().x += obj->GetComponentByTemplate<Hp_Bar>()->Get_Set_Offset();
-
-				   matrix3 trans = Graphic::GetGraphic()->Get_View().Get_Camera_View().GetCameraToNDCTransform();
-				   trans *= Graphic::GetGraphic()->Get_View().Get_Camera().WorldToCamera();
-				   trans *= obj->GetTransform().GetModelToWorld();
-
-				   trans = trans * MATRIX3::build_translation(0, -100);
-
-				   float fixed_size_convert = 1.0f;
-				   if (Graphic::GetGraphic()->Get_View().Get_Camera_View().GetZoom() < 1.0f)
-				   {
-					   fixed_size_convert -= Graphic::GetGraphic()->Get_View().Get_Camera_View().GetZoom();
-					   trans = trans * MATRIX3::build_scale(1.0f + fixed_size_convert);
-				   }
-				   if (obj->GetTransform().GetScale().x > 0)
-				   {
-					   obj->GetComponentByTemplate<Sprite>()->Get_Material().matrix3Uniforms["to_ndc"] = trans;
-					   Graphic::GetGraphic()->Draw(obj->GetComponentByTemplate<Sprite>()->Get_Shape(),
-						   obj->GetComponentByTemplate<Sprite>()->Get_Material());
-				   }
-			   }
-		   }
-	   }*/

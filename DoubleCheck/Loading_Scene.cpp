@@ -13,6 +13,7 @@
 #include <Windows.h>
 #include <consoleapi2.h>
 #include <consoleapi3.h>
+#include "GL.hpp"
 
 Loading_Scene::Loading_Scene() : image(nullptr)
 {
@@ -27,47 +28,22 @@ void Loading_Scene::Load()
 
 void Loading_Scene::Update(float dt)
 {
-
-	HGLRC check = wglGetCurrentContext();
-	
-	HDC hdc = GetDC(glfwGetWin32Window(Application::Get_Application()->Get_Window()));
-
-	check = wglGetCurrentContext();
-	
-	//HDC hdc = wglGetCurrentDC();
-	HGLRC hglrc;
-
-	hglrc = wglCreateContext(hdc);
-
-	check = wglGetCurrentContext();
-	
-	BOOL check1 = wglMakeCurrent(hdc, hglrc);
-
-	check = wglGetCurrentContext();
-	
-	//glfwMakeContextCurrent(Application::Get_Application()->Get_Window());
-
-	check = wglGetCurrentContext();
-
 	image = new Object();
 	image->Set_Name("loading_image");
 	image->Set_Tag("image");
-	image->AddComponent(new Sprite(image, "../sprite/pen_green.png", { 0.f, 0.f }));
-	image->GetTransform().SetScale({ 10.f,10.f });
 
+	image->AddComponent(new Sprite(image, "../sprite/pen_red_ani.png", true, 8, 1, {0.f, 0.f}, 
+		{2000.f, 2000.f}, {255,255,255,255}));
 
 	while(done)
 	{
-		image->GetComponentByTemplate<Sprite>()->Update(dt);
-	
+		
 		glfwSwapBuffers(Application::Get_Application()->Get_Window());
 		glfwPollEvents();
 		Graphic::GetGraphic()->Update(dt);
+		GL::set_clear_color({ 0.31372, 0.73725, 0.8745, 1 });
+		image->GetComponentByTemplate<Sprite>()->Update(dt);
 	}
-
-	wglMakeCurrent(NULL, NULL);
-	wglDeleteContext(hglrc);
-	DeleteDC(hdc);
 }
 
 void Loading_Scene::UnLoad()
