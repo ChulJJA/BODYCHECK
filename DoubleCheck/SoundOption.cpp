@@ -37,8 +37,8 @@ void SoundOption::Load()
 	sound.Stop(SOUND::BGM);
 	sound.Play(SOUND::BGM2);
 	sound.SetVolume(SOUND::BGM2, 0.5);
-	
-	state_manager = StateManager::GetStateManager();	
+
+	state_manager = StateManager::GetStateManager();
 	object_manager = ObjectManager::GetObjectManager();
 
 	Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
@@ -60,7 +60,7 @@ void SoundOption::Update(float dt)
 	{
 		ButtonSelector();
 	}
-	
+
 	MusicVolume();
 	Mute();
 }
@@ -99,7 +99,7 @@ void SoundOption::SetMusicVolumeBox()
 	volume_box_hover[0]->AddComponent(new Sprite(volume_box_hover[0], "../Sprite/VolumeBoxHover.png", { 0, 500 }, false));
 	volume_box_hover[0]->GetTransform().SetScale({ 30, 5 });
 	ObjectManager::GetObjectManager()->AddObject(volume_box_hover[0]);
-	
+
 	volume_box[1] = new Object();
 	volume_box[1]->AddComponent(new Sprite(volume_box[1], "../Sprite/VolumeBox.png", { 0, 0 }, false));
 	volume_box[1]->GetTransform().SetScale({ 30, 5 });
@@ -109,7 +109,7 @@ void SoundOption::SetMusicVolumeBox()
 	volume_box_hover[1]->GetTransform().SetScale({ 30, 5 });
 	volume_box_hover[1]->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1, 1,1, 0 };
 	ObjectManager::GetObjectManager()->AddObject(volume_box_hover[1]);
-	
+
 	volume_box[2] = new Object();
 	volume_box[2]->AddComponent(new Sprite(volume_box[2], "../Sprite/VolumeBox.png", { 0, -500 }, false));
 	volume_box[2]->GetTransform().SetScale({ 30, 5 });
@@ -126,14 +126,12 @@ void SoundOption::MusicVolume()
 	float volume = sound.GetVolume(SOUND::BGM2);
 	if (mute_timer >= 10 && pointer == static_cast<int>(BUTTON::MASTER))
 	{
-		
+
 		std::cout << volume << "initial" << std::endl;
 
 		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
 		{
 			vector2 icon_translation = music_icon[2]->GetTransform().GetTranslation();
-			 volume = sound.GetVolume(SOUND::BGM2);
-			std::cout << volume << "before" << std::endl;
 			if (volume >= 1)
 			{
 				return;
@@ -141,16 +139,12 @@ void SoundOption::MusicVolume()
 
 			sound.SetVolume(SOUND::BGM2, volume + 0.25f);
 			music_icon[2]->SetTranslation({ icon_translation.x + 680, icon_translation.y });
-			std::cout << volume << "after" << std::endl;
-
 			mute_timer = 0;
 		}
 		else if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
 		{
 			vector2 icon_translation = music_icon[2]->GetTransform().GetTranslation();
 			volume = sound.GetVolume(SOUND::BGM2);
-			std::cout << volume << "before" << std::endl;
-
 			if (volume <= 0)
 			{
 				return;
@@ -158,8 +152,6 @@ void SoundOption::MusicVolume()
 
 			sound.SetVolume(SOUND::BGM2, volume - 0.25f);
 			music_icon[2]->SetTranslation({ icon_translation.x - 680, icon_translation.y });
-			std::cout << volume << "after" << std::endl;
-
 			mute_timer = 0;
 		}
 	}
@@ -168,14 +160,12 @@ void SoundOption::MusicVolume()
 		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
 		{
 			vector2 icon_translation = music_icon[1]->GetTransform().GetTranslation();
-			volume = sound.GetVolume(SOUND::BGM2);
 
 			if (volume >= 1)
 			{
 				return;
 			}
-
-			sound.SetVolume(SOUND::BGM2, volume + 0.25f);
+			SetSoundVolume(0.25, true);
 			music_icon[1]->SetTranslation({ icon_translation.x + 680, icon_translation.y });
 
 			mute_timer = 0;
@@ -183,14 +173,13 @@ void SoundOption::MusicVolume()
 		else if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
 		{
 			vector2 icon_translation = music_icon[1]->GetTransform().GetTranslation();
-			volume = sound.GetVolume(SOUND::BGM2);
 
 			if (volume <= 0)
 			{
 				return;
 			}
 
-			sound.SetVolume(SOUND::BGM2, volume - 0.25f);
+			SetSoundVolume(-0.25, true);
 			music_icon[1]->SetTranslation({ icon_translation.x - 680, icon_translation.y });
 
 			mute_timer = 0;
@@ -201,14 +190,13 @@ void SoundOption::MusicVolume()
 		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
 		{
 			vector2 icon_translation = music_icon[0]->GetTransform().GetTranslation();
-			volume = sound.GetVolume(SOUND::BGM2);
 
 			if (volume >= 1)
 			{
 				return;
 			}
 
-			sound.SetVolume(SOUND::BGM2, volume + 0.25f);
+			SetSoundVolume(0.25, false);
 			music_icon[0]->SetTranslation({ icon_translation.x + 680, icon_translation.y });
 
 			mute_timer = 0;
@@ -216,14 +204,13 @@ void SoundOption::MusicVolume()
 		else if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
 		{
 			vector2 icon_translation = music_icon[0]->GetTransform().GetTranslation();
-			volume = sound.GetVolume(SOUND::BGM2);
 
 			if (volume <= 0)
 			{
 				return;
 			}
 
-			sound.SetVolume(SOUND::BGM2, volume - 0.25f);
+			SetSoundVolume(-0.25, false);
 			music_icon[0]->SetTranslation({ icon_translation.x - 680, icon_translation.y });
 
 			mute_timer = 0;
@@ -277,11 +264,11 @@ void SoundOption::Mute()
 	FMOD_BOOL is_playing;
 	float volume;
 	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &is_playing);
-	
+
 	if (input.Is_Key_Triggered(GLFW_KEY_M) && is_playing)
 	{
 		ObjectHover(unmute_button[0], mute_button[0]);
-		
+
 		volume = sound.GetVolume(SOUND::BGM2);
 		sound.Stop(SOUND::BGM2);
 		std::cout << volume / 100 << std::endl;
@@ -289,9 +276,9 @@ void SoundOption::Mute()
 	if (input.Is_Key_Triggered(GLFW_KEY_M) && !is_playing)
 	{
 		ObjectHover(mute_button[0], unmute_button[0]);
-		
+
 		volume = sound.GetVolume(SOUND::BGM2);
-			std::cout << volume << std::endl;
+		std::cout << volume << std::endl;
 
 		sound.SetVolume(SOUND::BGM2, volume);
 		sound.Play(SOUND::BGM2);
@@ -390,5 +377,21 @@ void SoundOption::ButtonSelector()
 			pointer = 0;
 		}
 		button_timer = 0;
+	}
+}
+
+void SoundOption::SetSoundVolume(float value, bool BGM)
+{
+	float volume;
+	
+	if (BGM == true)
+	{
+		volume = sound.GetSoundGroupVolume(true);
+		sound.SetSoundGroupVolume(true, volume + value);
+	}
+	else
+	{
+		volume = sound.GetSoundGroupVolume(false);
+		sound.SetSoundGroupVolume(false, volume + value);
 	}
 }

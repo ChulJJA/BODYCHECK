@@ -14,38 +14,43 @@
 
 enum class SOUND
 {
-    TeamDoubleCheck = 0,
-    DouDouDouDoubleCheck,
-    BGM,
-    Respawn,
-    Click,
-    BGM2,
-    Crack,
-    Item,
-    Dash,
-    HP,
-    Die,
-    BulkUp
+	BGM = 0,
+	BGM2,
+	TeamDoubleCheck,
+	DouDouDouDoubleCheck,
+	Respawn,
+	Click,
+	Crack,
+	Item,
+	Dash,
+	HP,
+	Die,
+	BulkUp,
+	END
 };
 
 #include "fmod.hpp"
 extern float sound_timer;
 
 class Sound {
-public:
-    FMOD_RESULT result;
-    FMOD_SYSTEM* f_system;
-    FMOD_SOUND* sound[SOUND_NUM];
-    FMOD_CHANNEL* channel[SOUND_NUM];
 
-    void ErrorCheck(FMOD_RESULT result);
-    void Initialize();
-    void Load();
-    void Play(SOUND Sound_Num);
-    void Stop(SOUND Sound_Num);
-    float GetVolume(SOUND Channel_Num);
-    void SetVolume(SOUND Channel_Num, float Volume);
-	
+public:
+	FMOD_RESULT result;
+	FMOD_SYSTEM* f_system;
+	FMOD_SOUND* sound[SOUND_NUM];
+	FMOD_CHANNEL* channel[SOUND_NUM];
+	FMOD_SOUNDGROUP* bgm_group, * sfx_group;
+
+	void ErrorCheck(FMOD_RESULT result);
+	void Initialize();
+	void Load();
+	void Play(SOUND sound_Num);
+	void Stop(SOUND sound_Num);
+	float GetVolume(SOUND channel_Num);
+	void SetVolume(SOUND channel_Num, float volume);
+	float GetSoundGroupVolume(bool is_bgm);
+	void SetSoundGroupVolume(bool is_bgm, float volume);
+
 private:
-    float volume_info[20] = {};
+	float volume_info[SOUND_NUM] = {};
 };
