@@ -308,7 +308,24 @@ void Msg_Func_Collision::Update(float dt)
 		/////
 		m_target->Set_Is_It_Collided(false);
 	}
-	else
+	else if(m_target->Get_Tag() == "throwing" && m_from->Get_Tag() == "player")
+	{
+		m_target->SetDeadCondition(true);
+		
+		m_from->Set_Is_It_Collided(false);
+	}
+	else if (m_from->Get_Tag() == "throwing" && m_target->Get_Tag() == "player")
+	{
+		m_from->SetDeadCondition(true);
+
+		m_target->Set_Is_It_Collided(false);
+	}
+	else if (m_from->Get_Tag() == "throwing" && m_target->Get_Tag() == "throwing")
+	{
+		m_from->Set_Is_It_Collided(false);
+		m_target->Set_Is_It_Collided(false);
+	}
+	else if(m_from->Get_Tag() == "player" && m_target->Get_Tag() == "player")
 	{
 		std::pair<float, float> dmg_set = Damaege_Calculation(*m_target, *m_from);
 

@@ -32,24 +32,17 @@ void Player::Init(Object* obj)
 	m_owner->Get_Component_Info_Reference().component_info_player = true;
 
 	Object* hp_bar = new Object();
-
-
-	hp_bar->GetMesh().Get_Is_Moved() = true;
 	vector2 hp_bar_pos = m_owner->GetTransform().GetTranslation();
 	hp_bar_pos.y -= 100;
 	hp_bar->SetTranslation(hp_bar_pos);
 	hp_bar->SetScale({1.f, 2.5f});
 	hp_bar->AddComponent(new Sprite(hp_bar, "../Sprite/HP.png", hp_bar_pos, false));
 	hp_bar->AddComponent(new Hp_Bar());
-
-	hp_bar->Get_Is_Debugmode() = false;
 	hp_bar->Set_Name(m_owner->Get_Name() + "hp_bar");
 	hp_bar->Set_Tag("hp_bar");
 	hp_bar->Set_This_Obj_Owner(m_owner);
-
 	this->hp_bar = hp_bar;
 	m_owner->Get_Belongs_Objects().push_back(hp_bar);
-
 	ObjectManager::GetObjectManager()->AddObject(hp_bar);
 }
 
@@ -91,22 +84,18 @@ void Player::Update(float dt)
 			curr_state = Char_State::None;
 
 			Object* throwing = new Object();
-
 			throwing->Set_Name("throwing");
 			throwing->Set_Tag("throwing");
 			throwing->AddComponent(new Sprite(throwing, "../sprite/pen_green.png", m_owner->GetTransform().GetTranslation()));
+			throwing->AddComponent(new Physics());
 			throwing->AddComponent(new Throwing);
 			throwing->GetComponentByTemplate<Throwing>()->Set_Timer(3.f);
-			throwing->GetComponentByTemplate<Throwing>()->Set_Target_Pos(input.Get_Mouse_Pos());
-
-			vector2 dir = input.Get_Mouse_Pos() - throwing->GetTransform().GetTranslation();
-
-			throwing->GetComponentByTemplate<Throwing>()->Set_Target_Dir(dir);
+			throwing->GetComponentByTemplate<Throwing>()->Set_Angle(m_owner->GetTransform().GetRotation());
+			throwing->GetComponentByTemplate<Throwing>()->Set_Throwing_Obj(m_owner);
 			throwing->SetScale(2.f);
 			ObjectManager::GetObjectManager()->AddObject(throwing);
 		}
 	}
-
 	if(hp_bar != nullptr)
 	{
 		hp_bar->GetTransform().GetTranslation_Reference().x = m_owner->GetTransform().GetTranslation().x;

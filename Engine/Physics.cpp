@@ -23,6 +23,7 @@
 #include "Engine.hpp"
 #include "Message.h"
 #include "Application.hpp"
+#include "angles.hpp"
 
 Physics::Physics(bool ghost_collision_mode) : ghost_collision_mode(ghost_collision_mode)
 {
@@ -263,6 +264,72 @@ void Physics::Acceleration(float max_accel, float min_accel)
 			m_owner->GetMesh().Get_Is_Moved() = true;
 		}
 
+		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT) || input.Is_Key_Pressed(GLFW_KEY_LEFT) ||
+			input.Is_Key_Pressed(GLFW_KEY_DOWN) || input.Is_Key_Pressed(GLFW_KEY_UP))
+		{
+			vector2 obj_pos = m_owner->GetTransform().GetTranslation();
+			vector2 this_pos = m_owner->GetTransform().GetTranslation();
+			
+			if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
+			{
+				obj_pos.y += 10.f;
+
+				if (input.Is_Key_Pressed(GLFW_KEY_UP))
+				{
+					obj_pos.x -= 10.f;
+				}
+				if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
+				{
+					obj_pos.x += 10.f;
+				}
+			}
+			if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
+			{
+				obj_pos.y -= 10.f;
+
+				if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
+				{
+					obj_pos.x += 10.f;
+				}
+				if (input.Is_Key_Pressed(GLFW_KEY_UP))
+				{
+					obj_pos.x -= 10.f;
+				}
+			}
+
+			if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
+			{
+				obj_pos.x += 10.f;
+
+				if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
+				{
+					obj_pos.y += 10.f;
+				}
+				if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
+				{
+					obj_pos.y -= 10.f;
+				}
+			}
+
+			if (input.Is_Key_Pressed(GLFW_KEY_UP))
+			{
+				obj_pos.x -= 10.f;
+				
+				if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
+				{
+					obj_pos.y += 10.f;
+				}
+				if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
+				{
+					obj_pos.y -= 10.f;
+				}
+			}
+			float angle_in_radian = atan2(this_pos.y - obj_pos.y, this_pos.x - obj_pos.x);
+			float angle = to_degrees(angle_in_radian);
+			
+			m_owner->SetRotation(angle);
+		}
+		
 		return;
 	}
 	if (axes[1] < -0.2)
@@ -598,6 +665,12 @@ void Physics::Dash(Object* object)
 			sound.Play(SOUND::BulkUp);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, "bulkup", 3.f));
 		}
+
+		if (object->GetComponentByTemplate<Player>()->Get_Item_State() == Item::Item_Kind::Throwing)
+		{
+			sound.Play(SOUND::Dash);
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, "throwing", 3.f));
+		}
 	}
 }
 
@@ -822,7 +895,10 @@ void Physics::Update(float dt)
 	}
 	else
 	{
-		JustMove();
+		if (m_owner->Get_Tag() != "throwing")
+		{
+			JustMove();
+		}
 	}
 
 	if (ghost_collision_mode)

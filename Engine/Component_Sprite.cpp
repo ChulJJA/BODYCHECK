@@ -19,6 +19,7 @@
 #include "Component_Hpbar.h"
 #include <thread>
 #include "Physics.h"
+#include "Component_Player.h"
 
 void Helper_Addpoint_Circle(std::size_t& point_count, Mesh& mesh, float& radius, float position_x = 0, float position_y = 0, bool move_up_down = true)
 {
@@ -149,13 +150,6 @@ Sprite::Sprite(Object* obj, const char* staticSpritePath, vector2 position, bool
 
         m_owner->Set_Debug_Mesh(debug_mesh);
     }
-
-    float zoom = Graphic::GetGraphic()->Get_View().Get_Camera_View().GetZoom();
-    matrix3 mat_ndc = Graphic::GetGraphic()->Get_View().Get_Camera_View().GetCameraToNDCTransform();
-    mat_ndc *= Graphic::GetGraphic()->Get_View().Get_Camera().WorldToCamera();
-    mat_ndc *= m_owner->GetTransform().GetModelToWorld();
-
-    material.matrix3Uniforms["to_ndc"] = mat_ndc * MATRIX3::build_scale(2.0f / width * zoom, 2.0f / height * zoom);
 }
 
 Sprite::Sprite(Object* obj, const char* aniamtedSpritePath, bool animated, int frames, float m_speed, vector2 position, vector2 scale, Color4ub color)

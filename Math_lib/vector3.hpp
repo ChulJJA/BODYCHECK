@@ -12,6 +12,7 @@
 #pragma once
 #pragma warning(push)
 #pragma warning(disable : 4201) // warning C4201 : nonstandard extension used : nameless struct / union
+
 struct [[nodiscard]] vector3
 {
     union {
@@ -43,7 +44,6 @@ void operator*=(vector3& v, float scale) noexcept;
 void operator/=(vector3& v, float divisor) noexcept;
 
 vector3 operator-(const vector3& v) noexcept;
-
 vector3 operator+(const vector3& v1, const vector3& v2) noexcept;
 vector3 operator-(const vector3& v1, const vector3& v2) noexcept;
 vector3 operator*(const vector3& v, float scale) noexcept;

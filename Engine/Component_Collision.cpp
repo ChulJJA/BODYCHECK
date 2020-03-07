@@ -18,6 +18,7 @@
 #include "Message_Manager.h"
 #include "Component_Sprite.h"
 #include "Message.h"
+#include "Component_Throwing.h"
 
 #define  PI  3.14159265359
 
@@ -73,8 +74,9 @@ bool Collision::CircleToCircleCollision()
 	{
 		Object* obj_i = ObjectManager::GetObjectManager()->GetObjectManagerContainer()[i].get();
 
-		if (obj_i->Get_Tag() == "player" || obj_i->Get_Tag() == "item")
+		if (obj_i->Get_Tag() == "player" || obj_i->Get_Tag() == "item" || obj_i->Get_Tag() == "throwing")
 		{
+			
 			if (obj_i->Get_Need_To_Update())
 			{
 				vector2 obj_i_trans = obj_i->GetTransform().GetTranslation();
@@ -94,7 +96,7 @@ bool Collision::CircleToCircleCollision()
 						{
 							continue;
 						}
-						if (obj_j->Get_Tag() == "player" || obj_j->Get_Tag() == "item")
+						if (obj_j->Get_Tag() == "player" || obj_j->Get_Tag() == "item" || obj_j->Get_Tag() == "throwing")
 						{
 							if (obj_j->Get_Need_To_Update())
 							{
@@ -102,7 +104,20 @@ bool Collision::CircleToCircleCollision()
 								float obj_j_radius = obj_j->GetTransform().GetScale().x * 30.f;
 								if (i != j)
 								{
-
+									if (obj_i->Get_Tag() == "throwing")
+									{
+										if (obj_i->GetComponentByTemplate<Throwing>()->Get_Throwing_Obj() == obj_j)
+										{
+											continue;
+										}
+									}
+									else if(obj_j->Get_Tag() == "throwing")
+									{
+										if (obj_j->GetComponentByTemplate<Throwing>()->Get_Throwing_Obj() == obj_i)
+										{
+											continue;
+										}
+									}
 									const float distance = sqrt((obj_i_trans.x - obj_j_trans.x) * (obj_i_trans.x - obj_j_trans.x) + (obj_i_trans.y - obj_j_trans.y) * (obj_i_trans.y - obj_j_trans.y));
 									if (distance < obj_i_radius + obj_j_radius)
 									{
