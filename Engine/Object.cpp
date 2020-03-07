@@ -11,10 +11,23 @@
 
 #include <algorithm>
 #include "Object.h"
+#include "Component_Sprite.h"
 
-void Object::AddComponent(Component* comp)
+Component* Object::Get_Current_Sprite()
+{
+	return current_showing_sprite;
+}
+
+void Object::Set_Current_Sprite(Component* sprite)
+{
+	current_showing_sprite = sprite;
+}
+
+void Object::AddComponent(Component* comp, std::string name, bool toggle)
 {
     comp->Init(this);
+	comp->Set_Need_Update(toggle);
+	comp->SetComponentName(name);
     components_.push_back(comp);
 }
 
@@ -23,6 +36,18 @@ void Object::DeleteComponent(Component* comp)
     Component* for_erase = comp;
     components_.erase(std::find(components_.begin(), components_.end(), comp));
     delete for_erase;
+}
+
+Component* Object::Find_Component_By_Name(std::string name)
+{
+	for(auto component : components_)
+	{
+		if(component->GetComponentName() == name)
+		{
+			return component;
+		}
+	}
+	return nullptr;
 }
 
 void Object::SetTranslation(vector2 pos)

@@ -25,7 +25,7 @@
 #include "Logo.h"
 #include "TestLevel.h"
 #include "SoundOption.h"
-
+#include "Loading_Scene.h"
 #include "Testing_Level.h"
 
 Sound sound;
@@ -67,6 +67,7 @@ void Engine::Init()
     state_manager = StateManager::GetStateManager();
     graphic = Graphic::GetGraphic();
     msg_manager = Message_Manager::Get_Message_Manager();
+	
     app_->Init();
     object_manager->Init();
     state_manager->Init();
@@ -79,6 +80,7 @@ void Engine::Init()
     state_manager->AddState("SoundOption", new SoundOption);
     state_manager->AddState("TestLevel", new TestLevel);
 	state_manager->AddState("Testing_Level", new Testing_Level);
+	state_manager->AddState("Loading", new Loading_Scene);
     game_timer.Reset();
 }
 
@@ -88,8 +90,8 @@ void Engine::Update()
     game_timer.Reset();
 
     app_->Update(m_dt);
-    state_manager->Update(m_dt);
     graphic->Update(m_dt);
+	state_manager->Update(m_dt);
     object_manager->Update(m_dt);
     msg_manager->Update(m_dt);
 

@@ -118,9 +118,6 @@
     <ClCompile Include="Engine.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Player_UI.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -164,6 +161,9 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="State.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Player_UI.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

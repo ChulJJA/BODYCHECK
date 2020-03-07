@@ -12,6 +12,7 @@
 #include "ObjectManager.h"
 #include <functional>
 #include "StateManager.h"
+#include "Component.hpp"
 
 ObjectManager* ObjectManager::object_manager = nullptr;
 
@@ -41,7 +42,10 @@ void ObjectManager::Update(float dt)
             {
                 for (auto component : obj->GetComponentContainer())
                 {
-                    component->Update(dt);
+                	if(component->Get_Need_Update())
+                	{
+						component->Update(dt);
+                	}
                 }
             }
             if (obj->IsDead())

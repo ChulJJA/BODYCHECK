@@ -9,8 +9,7 @@
  * copyright   All content ?2019 DigiPen (USA) Corporation, all rights reserved
  */
 
-
-#include <GL/glew.h>
+#include "Application.hpp"
 #include <cassert>
 #include <filesystem>
 #include <iostream>

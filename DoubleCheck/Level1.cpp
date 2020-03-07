@@ -18,8 +18,16 @@
 #include "Component_Collision.h"
 #include "Referee.h"
 #include "Component_Text.h"
-#include "Player_Ui.h"
 #include "Engine.hpp"
+#include "Loading_Scene.h"
+#include "Application.hpp"
+
+
+
+#define GLFW_EXPOSE_NATIVE_WGL
+#define GLFW_EXPOSE_NATIVE_WIN32 
+#include <GLFW/glfw3native.h>
+#include <mutex>
 
 using namespace std;
 
@@ -33,6 +41,24 @@ namespace
 
 void Level1::Load()
 {
+	Loading_Scene* loading = new Loading_Scene();
+	loading->Load();
+	
+	HDC hdc = GetDC(glfwGetWin32Window(Application::Get_Application()->Get_Window()));
+	HGLRC main_context = wglGetCurrentContext();
+	HGLRC loading_context = wglCreateContext(hdc);
+	wglShareLists(main_context, loading_context);
+
+	std::thread loading_thread([&]()
+	{
+			BOOL check = wglMakeCurrent(hdc, loading_context);
+			loading->Update(0.05f);
+			wglMakeCurrent(nullptr, nullptr);
+			wglDeleteContext(loading_context);
+	}
+	);
+
+	
     current_state = GameState::Game;
     referee = Referee::Get_Referee();
 
@@ -41,7 +67,7 @@ void Level1::Load()
 
     sound.Stop(SOUND::BGM);
     sound.Play(SOUND::BGM2);
-
+	
     arena = new Object();
     arena->Set_Name("arena");
     arena->Set_Tag("arena");
@@ -153,10 +179,16 @@ void Level1::Load()
     Referee::Get_Referee()->Set_Second_Text(text_2);
     Referee::Get_Referee()->Set_Third_Text(text_3);
     Referee::Get_Referee()->Set_Fourth_Text(text_4);
-
+	
 	referee->AddComponent(new Collision());
     referee->Init();
 	Graphic::GetGraphic()->get_need_update_sprite() = true;
+
+	loading->Set_Done(false);
+	if(loading_thread.joinable())
+	{
+		loading_thread.join();
+	}
 }
 
 void Level1::Update(float dt)

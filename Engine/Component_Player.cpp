@@ -23,6 +23,7 @@
 #include "Component_Throwing.h"
 #include "Player_Ui.h"
 #include "Component_Ui.h"
+#include "Physics.h"
 
 
 void Player::Init(Object* obj)
