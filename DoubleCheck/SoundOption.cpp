@@ -37,6 +37,10 @@ void SoundOption::Load()
 	Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 	Graphic::GetGraphic()->get_need_update_sprite() = true;
 
+	volume_timer = 0;
+	button_timer = 0;
+	pointer = 0;
+	
 	SetMusicVolumeBox();
 	SetMusicIcon();
 	SetMuteButton();
@@ -48,7 +52,8 @@ void SoundOption::Update(float dt)
 {	
 	volume_timer++;
 	button_timer++;
-
+	
+	Mute();
 	if (button_timer >= 10)
 	{
 		ButtonSelector();
@@ -57,7 +62,6 @@ void SoundOption::Update(float dt)
 	{
 		MusicVolume();
 	}
-	Mute();
 }
 
 void SoundOption::Clear()
@@ -187,6 +191,7 @@ void SoundOption::MusicVolume()
 	}
 	else if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::BACK))
 	{
+		pointer = static_cast<int>(BUTTON::MASTER);
 		sound.Play(SOUND::Click);
 		is_next = true;
 		next_level = "Menu";

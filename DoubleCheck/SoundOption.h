@@ -61,7 +61,7 @@ private:
 	
     BitmapFont      font{};
 
-    float volume_timer = 0;
-    float button_timer = 0;
-    int pointer = 0;
+    float volume_timer;
+    float button_timer;
+    int pointer;
 };
