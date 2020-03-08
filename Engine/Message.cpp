@@ -16,9 +16,6 @@
 #include "Message_Function.h"
 #include "Object.h"
 
-
-
-
 void Message::Init()
 {
 	func = new Message_Func(this);
@@ -26,16 +23,7 @@ void Message::Init()
 
 void Message::Update(float dt)
 {
-
 	func->Functioning(dt);
-
-	/*else
-	{
-		std::thread msg_thread(&Message_Func::Functioning, Message_Func(this), dt);
-
-		if(msg_thread.joinable())
-			msg_thread.join();
-	}*/
 
 	if (m_from != nullptr && m_target != nullptr)
 	{

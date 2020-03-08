@@ -2,6 +2,7 @@
 #include "Player_Ui.h"
 #include "Component_Player.h"
 #include "Component_Sprite.h"
+#include "Component.hpp"
 
 void Ui::Init(Object* obj)
 {
@@ -31,29 +32,47 @@ void Ui::Change_Item_Ui()
 
 	if(ui_sprite != nullptr)
 	{
-		item_ui->DeleteComponent(ui_sprite);
+		//item_ui->DeleteComponent(ui_sprite);
+		
 	}
 
 	if (status_info_verb == Ui_Status_Verb::Use)
 	{
+		Component* current_using_sprite = item_ui->Get_Current_Sprite();
+		Component* change_to_sprite = item_ui->Find_Component_By_Name("none");
+		
+		if(current_using_sprite != nullptr && change_to_sprite != nullptr)
+		{
+			change_to_sprite->Set_Need_Update(true);
+			current_using_sprite->Set_Need_Update(false);
+		}
 	}
 	
 	else if (status_info_verb == Ui_Status_Verb::Get)
 	{
 		vector2 pos = item_ui->GetTransform().GetTranslation();
+		Component* current_using_sprite = item_ui->Get_Current_Sprite();
+		Component* change_to_sprite = nullptr;
 		
 		if(status_info_obj == Ui_Status_Obj::Item_Bulkup)
 		{
-			item_ui->AddComponent(new Sprite(item_ui, "../sprite/bulkup.png", pos));
+			change_to_sprite = item_ui->Find_Component_By_Name("bulkup");
 		}
 		else if (status_info_obj == Ui_Status_Obj::Item_Dash)
 		{
-			item_ui->AddComponent(new Sprite(item_ui, "../sprite/dash.png", pos));
+			change_to_sprite = item_ui->Find_Component_By_Name("dash");
 		}
 		else if (status_info_obj == Ui_Status_Obj::Item_Hp)
 		{
-			item_ui->AddComponent(new Sprite(item_ui, "../sprite/heal.png", pos));
+			change_to_sprite = item_ui->Find_Component_By_Name("heal");
 		}
+		else
+		{
+			change_to_sprite = item_ui->Find_Component_By_Name("none");
+		}
+
+		change_to_sprite->Set_Need_Update(true);
+		current_using_sprite->Set_Need_Update(false);
 	}
 
 	

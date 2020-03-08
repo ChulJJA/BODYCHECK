@@ -59,10 +59,6 @@ public:
     {
 		curr_state = state;
     }
-
-
-
-
 private:
     Object* hp_bar = nullptr;
     Item::Item_Kind belong_item = Item::Item_Kind::None;

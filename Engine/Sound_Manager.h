@@ -43,7 +43,8 @@ public:
 
 	void ErrorCheck(FMOD_RESULT result);
 	void Initialize();
-	void Load();
+	void LoadSound();
+	void SetSoundGroup();
 	void Play(SOUND sound_Num);
 	void Stop(SOUND sound_Num);
 	float GetVolume(SOUND channel_Num);

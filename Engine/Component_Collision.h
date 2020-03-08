@@ -25,6 +25,9 @@ public:
     void Update(float dt) override;
     void CircleArenaCollision();
     void SquareArenaCollision();
+
+	bool Check_Need_To_Check_Collision(Object* obj_i, Object* obj_j);
+	bool Filter_Object(Object* obj);
 private:
     Physics physics;
     float timer = 0;

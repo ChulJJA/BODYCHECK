@@ -16,8 +16,8 @@
 #include "Shader.hpp"
 #include "Texture.hpp"
 #include "Vertices.hpp"
-#include <GL/glew.h>
 #include <iostream>
+#include "Application.hpp"
 
 
 void GL::setup() noexcept

@@ -22,6 +22,9 @@ public:
 
 	}
 
+	void Player_Get_Item(Object* player, Object* item);
+	void Player_And_Player_Collision();
+
 private:
 
 };

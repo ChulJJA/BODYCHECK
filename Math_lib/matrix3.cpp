@@ -14,6 +14,7 @@
 #include <cassert>
 #include <cmath>
 #include <limits>
+#include "../Engine/angles.hpp"
 
 #define COORDINATE_LIMIT 2
 
@@ -124,6 +125,8 @@ matrix3 MATRIX3::build_rotation(float angle_in_radians) noexcept
 {
     matrix3   result_matrix;
     const int zero_val = 0;
+
+	angle_in_radians = to_radians(angle_in_radians);
 
     result_matrix.column0.x = std::cos(angle_in_radians);
     result_matrix.column0.y = sin(angle_in_radians);

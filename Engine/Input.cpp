@@ -10,8 +10,6 @@
  */
 
 #include "Input.h"
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include "Application.hpp"
 #include <assert.h>
 #include <chrono>

@@ -19,6 +19,7 @@
 #include "Component_Hpbar.h"
 #include <thread>
 #include "Physics.h"
+#include "Component_Player.h"
 
 void Helper_Addpoint_Circle(std::size_t& point_count, Mesh& mesh, float& radius, float position_x = 0, float position_y = 0, bool move_up_down = true)
 {
@@ -149,13 +150,6 @@ Sprite::Sprite(Object* obj, const char* staticSpritePath, vector2 position, bool
 
         m_owner->Set_Debug_Mesh(debug_mesh);
     }
-
-    float zoom = Graphic::GetGraphic()->Get_View().Get_Camera_View().GetZoom();
-    matrix3 mat_ndc = Graphic::GetGraphic()->Get_View().Get_Camera_View().GetCameraToNDCTransform();
-    mat_ndc *= Graphic::GetGraphic()->Get_View().Get_Camera().WorldToCamera();
-    mat_ndc *= m_owner->GetTransform().GetModelToWorld();
-
-    material.matrix3Uniforms["to_ndc"] = mat_ndc * MATRIX3::build_scale(2.0f / width * zoom, 2.0f / height * zoom);
 }
 
 Sprite::Sprite(Object* obj, const char* aniamtedSpritePath, bool animated, int frames, float m_speed, vector2 position, vector2 scale, Color4ub color)
@@ -206,14 +200,6 @@ void draw(Vertices shape, material material)
 
 void Sprite::Update(float dt)
 {
-    //if (!m_owner->Get_Component_Info_Reference().component_info_sprite)
-    //{
-    //    m_owner->DeleteComponent(this);
-    //}
-
-    //shape.UpdateVerticesFromMesh(m_owner->GetMesh());
-    //debug_shape.UpdateVerticesFromMesh(m_owner->Get_Debug_Mesh());
-
     seconds += dt;
     uint32_t ticks = seconds + 1;
 
@@ -248,7 +234,6 @@ void Sprite::Update(float dt)
         material.floatUniforms["time"] = 1;
     }
 
-	
     if (m_owner->GetMesh().Get_Is_Moved() || Graphic::GetGraphic()->get_need_update_sprite() || m_owner->Get_Tag() == "arena")
     {
         matrix3 mat_ndc = Graphic::GetGraphic()->Get_View().Get_Camera_View().GetCameraToNDCTransform();
@@ -268,49 +253,6 @@ void Sprite::Update(float dt)
         }
         m_owner->GetMesh().Get_Is_Moved() = false;
         material.matrix3Uniforms["to_ndc"] = mat_ndc;
-        //debug_material.matrix3Uniforms["to_ndc"] = mat_ndc;
     }
-
-    //debug_material.floatUniforms["time"] = seconds;
-
     Graphic::GetGraphic()->Draw(shape, material);
-
-    //if (m_owner->Get_Is_Debugmode())
-    //{
-    //    Graphic::GetGraphic()->Draw(debug_shape, debug_material);
-    //}
 }
-
-/*if (!m_owner->Get_Belongs_Objects().empty())
-	   {
-		   int size = m_owner->Get_Belongs_Objects().size();
-		   for (int i = 0; i < size; i++)
-		   {
-
-			   if (m_owner->Get_Belongs_Objects()[i]->GetComponentByTemplate<Sprite>() != nullptr)
-			   {
-				   Object* obj = m_owner->Get_Belongs_Objects()[i];
-				   obj->GetTransform().GetTranslation_Reference() = m_owner->GetTransform().GetTranslation();
-				   obj->GetTransform().GetTranslation_Reference().x += obj->GetComponentByTemplate<Hp_Bar>()->Get_Set_Offset();
-
-				   matrix3 trans = Graphic::GetGraphic()->Get_View().Get_Camera_View().GetCameraToNDCTransform();
-				   trans *= Graphic::GetGraphic()->Get_View().Get_Camera().WorldToCamera();
-				   trans *= obj->GetTransform().GetModelToWorld();
-
-				   trans = trans * MATRIX3::build_translation(0, -100);
-
-				   float fixed_size_convert = 1.0f;
-				   if (Graphic::GetGraphic()->Get_View().Get_Camera_View().GetZoom() < 1.0f)
-				   {
-					   fixed_size_convert -= Graphic::GetGraphic()->Get_View().Get_Camera_View().GetZoom();
-					   trans = trans * MATRIX3::build_scale(1.0f + fixed_size_convert);
-				   }
-				   if (obj->GetTransform().GetScale().x > 0)
-				   {
-					   obj->GetComponentByTemplate<Sprite>()->Get_Material().matrix3Uniforms["to_ndc"] = trans;
-					   Graphic::GetGraphic()->Draw(obj->GetComponentByTemplate<Sprite>()->Get_Shape(),
-						   obj->GetComponentByTemplate<Sprite>()->Get_Material());
-				   }
-			   }
-		   }
-	   }*/

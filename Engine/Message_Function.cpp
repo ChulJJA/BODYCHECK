@@ -22,8 +22,6 @@ Message_Func::Message_Func(Message* msg)
 
 void Message_Func::Functioning(float dt)
 {
-	//const std::lock_guard<std::mutex> lock(guard);
-	
 	if(function == nullptr)
 	{
 		if (message_name == "wall_collision")

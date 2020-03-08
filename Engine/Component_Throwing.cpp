@@ -1,51 +1,54 @@
 #include "Component_Throwing.h"
 #include "Object.h"
 #include "angles.hpp"
-#include <iostream>
+#include "Physics.h"
+
 
 void Throwing::Init(Object* obj)
 {
 	m_owner = obj;
-	owner_pos = m_owner->GetTransform().GetTranslation();
+	pos = m_owner->GetTransform().GetTranslation();
+	
 }
 
 void Throwing::Update(float dt)
 {
-	
 	if(timer > 0.f)
 	{
 		timer -= dt;
 		
-		//Remain : Set formula which enables the object moving toward position or vector
-		//with constant speed.
-		
+		pos.x -= (sin(angle_in_radian) * 30);
+		pos.y += (cos(angle_in_radian) * 30);
+
+		m_owner->GetTransform().SetTranslation(pos);
+	}
+	else
+	{
+		m_owner->SetDeadCondition(true);
 	}
 	
 }
-
-void Throwing::Set_Target_Dir(vector2 dir)
-{
-	target_dir = dir;
-
-	dir_vec_length = sqrt(target_dir.x * target_dir.x + target_dir.y * target_dir.y);
-
-	dx = target_dir.x / dir_vec_length;
-	dy = target_dir.y / dir_vec_length;
-
-	angle = atan2(m_owner->GetTransform().GetTranslation().y - target_pos.y,
-		m_owner->GetTransform().GetTranslation().x - target_pos.x);
-
-	angle = to_degrees(angle);
-	std::cout << "angle : " << angle << std::endl;
-	
-}
-
 void Throwing::Set_Timer(float timer_)
 {
 	timer = timer_;
 }
 
-void Throwing::Set_Target_Pos(vector2 pos)
+void Throwing::Set_Angle(float angle)
 {
-	target_pos = pos;
+	this->angle = angle;
+	angle_in_radian = to_radians(angle);
+	m_owner->GetComponentByTemplate<Physics>()->SetAcceleration(
+	{
+		sin(angle_in_radian) * -30, cos(angle_in_radian) * 30
+	});
+}
+
+void Throwing::Set_Throwing_Obj(Object* obj)
+{
+	throwing_obj = obj;
+}
+
+Object* Throwing::Get_Throwing_Obj()
+{
+	return throwing_obj;
 }

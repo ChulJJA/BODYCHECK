@@ -12,13 +12,13 @@
 
 #pragma once
 #include <string>
-
-class Object;
+#include "Object.h"
 
 class Component
 {
 public:
-    virtual  void Init(Object* obj) = 0;
+	virtual ~Component() = default;
+	virtual  void Init(Object* obj) = 0;
     virtual  void Update(float dt) = 0;
 
     void SetComponentName(std::string component)
@@ -29,9 +29,23 @@ public:
     {
         return component_name;
     }
+	void Set_Need_Update(bool toggle)
+    {
+		need_update = toggle;
+
+    	if(toggle == true)
+    	{
+			m_owner->Set_Current_Sprite(this);
+    	}
+    }
+	bool Get_Need_Update()
+    {
+		return need_update;
+    }
 
     Object* m_owner = nullptr;
 
 private:
     std::string component_name;
+	bool need_update = true;
 };
