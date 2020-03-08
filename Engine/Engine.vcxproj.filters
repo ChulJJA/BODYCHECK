@@ -166,6 +166,9 @@
     <ClCompile Include="Player_UI.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Damage_Calculator.cpp">
+      <Filter>Message_Function</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="angles.hpp">
@@ -359,6 +362,9 @@
     </ClInclude>
     <ClInclude Include="Component_Ui.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Damage_Calculator.h">
+      <Filter>Message_Function</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -7,23 +7,15 @@
 #include "Component_Hpbar.h"
 #include "Component_Text.h"
 #include "Message.h"
-#include "Physics.h"
+#include "Damage_Calculator.h"
 #include "Component_Ui.h"
 
-std::pair<float, float> Damaege_Calculation(Object target, Object from);
 
 void Msg_Func_Collision::Init()
 {
 }
 
-std::pair<float, float> Damaege_Calculation(Object target, Object from)
-{
-	Physics* target_physics = target.GetComponentByTemplate<Physics>();
-	Physics* from_physics = from.GetComponentByTemplate<Physics>();
 
-
-	return std::pair<float, float>(1.f, 1.f);
-}
 
 void Msg_Func_Collision::Update(float dt)
 {
@@ -92,7 +84,7 @@ void Msg_Func_Collision::Player_Get_Item(Object* player, Object* item)
 
 void Msg_Func_Collision::Player_And_Player_Collision()
 {
-	std::pair<float, float> dmg_set{ 1.f, 1.f };
+	std::pair<float, float> dmg_set = Damaege_Calculation(m_target, m_from);
 
 	m_target->GetComponentByTemplate<Player>()->Get_Regeneration_Timer() = 0.f;
 	m_from->GetComponentByTemplate<Player>()->Get_Regeneration_Timer() = 0.f;
