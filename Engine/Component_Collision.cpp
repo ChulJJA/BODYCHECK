@@ -19,6 +19,8 @@
 #include "Component_Sprite.h"
 #include "Message.h"
 #include "Component_Throwing.h"
+#include "Component_Lock.h"
+#include "Component_Player.h"
 
 #define  PI  3.14159265359
 
@@ -94,19 +96,51 @@ bool Collision::CircleToCircleCollision()
 						{
 							Physics* obj_i_physics = obj_i->GetComponentByTemplate<Physics>();
 							Physics* obj_j_physics = obj_j->GetComponentByTemplate<Physics>();
-							
+
 							obj_i_physics->Get_Save_Acceleration_Reference().x = obj_i_physics->GetAcceleration().x;
 							obj_i_physics->Get_Save_Acceleration_Reference().y = obj_i_physics->GetAcceleration().y;
 							obj_j_physics->Get_Save_Acceleration_Reference().x = obj_j_physics->GetAcceleration().x;
 							obj_j_physics->Get_Save_Acceleration_Reference().y = obj_j_physics->GetAcceleration().y;
-							
+
 							Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_j, obj_i, "collision"));
 							obj_i->Set_Is_It_Collided(true);
 							obj_j->Set_Is_It_Collided(true);
 
-							if (obj_i->Get_Tag() != "item" && obj_j->Get_Tag() != "item")
+							if ((obj_i->Get_Tag() != "item" && obj_j->Get_Tag() != "item"))
 							{
+								if(obj_i->Get_Tag() == "lock" || obj_j->Get_Tag() == "lock")
+								{
+									continue;
+								}
 								physics.KnockBack(obj_i, obj_j);
+							}
+						}
+						else if (obj_i->Get_Tag() == "lock")
+						{
+							if (obj_j->Get_Tag() == "player")
+							{
+								if (obj_i->GetComponentByTemplate<Lock>()->Get_Locking_Target() == obj_j)
+								{
+									Component* change_sprite_to = obj_j->Find_Component_By_Name("normal");
+									Component* current_sprite = obj_j->Find_Component_By_Name("lock");
+									change_sprite_to->Set_Need_Update(true);
+									current_sprite->Set_Need_Update(false);
+									obj_i->GetComponentByTemplate<Lock>()->Set_Locking_Target(nullptr);
+								}
+							}
+						}
+						else if (obj_j->Get_Tag() == "lock")
+						{
+							if (obj_i->Get_Tag() == "player")
+							{
+								if (obj_j->GetComponentByTemplate<Lock>()->Get_Locking_Target() == obj_i)
+								{
+									Component* change_sprite_to = obj_i->Find_Component_By_Name("normal");
+									Component* current_sprite = obj_i->Find_Component_By_Name("lock");
+									change_sprite_to->Set_Need_Update(true);
+									current_sprite->Set_Need_Update(false);
+									obj_j->GetComponentByTemplate<Lock>()->Set_Locking_Target(nullptr);
+								}
 							}
 						}
 					}
@@ -280,6 +314,33 @@ bool Collision::Check_Need_To_Check_Collision(Object* obj_i, Object* obj_j)
 	}
 
 	/*
+	 * Check the object lock object, other object is player.
+	 */
+	if (obj_i->Get_Tag() == "lock")
+	{
+		if (obj_j->Get_Tag() == "throwing" || obj_j->Get_Tag() == "item")
+		{
+			return false;
+		}
+		if (obj_i->GetComponentByTemplate<Lock>()->Get_Throwing_Obj() == obj_j)
+		{
+			return false;
+		}
+	}
+
+	if (obj_j->Get_Tag() == "lock")
+	{
+		if (obj_i->Get_Tag() == "throwing" || obj_i->Get_Tag() == "item")
+		{
+			return false;
+		}
+		if (obj_j->GetComponentByTemplate<Lock>()->Get_Throwing_Obj() == obj_i)
+		{
+			return false;
+		}
+	}
+
+	/*
 	 * Check the objects are different objects.
 	 */
 	if (obj_i == obj_j)
@@ -313,7 +374,8 @@ bool Collision::Check_Need_To_Check_Collision(Object* obj_i, Object* obj_j)
 
 bool Collision::Filter_Object(Object* obj)
 {
-	if (obj->Get_Tag() == "player" || obj->Get_Tag() == "item" || obj->Get_Tag() == "throwing")
+	if (obj->Get_Tag() == "player" || obj->Get_Tag() == "item" || obj->Get_Tag() == "throwing" ||
+		obj->Get_Tag() == "lock")
 	{
 		return true;
 	}

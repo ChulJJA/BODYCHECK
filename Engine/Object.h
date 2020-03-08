@@ -30,7 +30,7 @@ private:
     Transform m_transform;
     Mesh m_mesh;
     Mesh m_debug_mesh;
-
+	std::vector<Object**> pointed_by;
     std::vector<Component*>components_;
     std::vector<Object*> belongs_object;
     bool is_dead{};
@@ -60,6 +60,15 @@ private:
 	Component* current_showing_sprite;
 
 public:
+	void Add_Pointed_By(Object** ptr)
+	{
+		pointed_by.push_back(ptr);
+	}
+	std::vector<Object**> Get_Pointed_By()
+	{
+		return pointed_by;
+	}
+	
     Object* Get_Hitted_By()
     {
         return hitted_by;
@@ -237,6 +246,7 @@ public:
     {
         this->this_obj_owner = owner;
     }
+	void Change_Sprite(Component* sprite);
 
 	Component* Get_Current_Sprite();
 	void Set_Current_Sprite(Component* sprite);

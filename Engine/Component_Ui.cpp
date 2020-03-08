@@ -66,6 +66,14 @@ void Ui::Change_Item_Ui()
 		{
 			change_to_sprite = item_ui->Find_Component_By_Name("heal");
 		}
+		else if (status_info_obj == Ui_Status_Obj::Item_Throwing)
+		{
+			change_to_sprite = item_ui->Find_Component_By_Name("throwing");
+		}
+		else if (status_info_obj == Ui_Status_Obj::Item_Magnatic)
+		{
+			change_to_sprite = item_ui->Find_Component_By_Name("magnatic");
+		}
 		else
 		{
 			change_to_sprite = item_ui->Find_Component_By_Name("none");

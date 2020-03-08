@@ -194,6 +194,7 @@
     <ClInclude Include="Component_Enemy.h" />
     <ClInclude Include="Component_Hpbar.h" />
     <ClInclude Include="Component_Item.h" />
+    <ClInclude Include="Component_Lock.h" />
     <ClInclude Include="Component_Sprite.h" />
     <ClInclude Include="Component_Text.h" />
     <ClInclude Include="Component_Throwing.h" />
@@ -214,6 +215,7 @@
     <ClInclude Include="Message_Function_Collision.h" />
     <ClInclude Include="Message_Function_Item_Dash.h" />
     <ClInclude Include="Message_Function_Item_Bulkup.h" />
+    <ClInclude Include="Message_Function_Item_Magnatic.h" />
     <ClInclude Include="Message_Function_Item_Recover.h" />
     <ClInclude Include="Message_Function_Item_Throwing.h" />
     <ClInclude Include="Message_Function_Respawn.h" />
@@ -262,6 +264,7 @@
     <ClCompile Include="Component_Enemy.cpp" />
     <ClCompile Include="Component_Hpbar.cpp" />
     <ClCompile Include="Component_Item.cpp" />
+    <ClCompile Include="Component_Lock.cpp" />
     <ClCompile Include="Component_Player.cpp" />
     <ClCompile Include="Component_Sprite.cpp" />
     <ClCompile Include="Component_Text.cpp" />
@@ -280,6 +283,7 @@
     <ClCompile Include="Message_Function_Collision.cpp" />
     <ClCompile Include="Message_Function_Item_Dash.cpp" />
     <ClCompile Include="Message_Function_Item_Bulkup.cpp" />
+    <ClCompile Include="Message_Function_Item_Magnatic.cpp" />
     <ClCompile Include="Message_Function_Item_Recover.cpp" />
     <ClCompile Include="Message_Function_Item_Throwing.cpp" />
     <ClCompile Include="Message_Function_Respawn.cpp" />

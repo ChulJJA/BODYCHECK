@@ -269,67 +269,30 @@ void Physics::Acceleration(float max_accel, float min_accel)
 		{
 			vector2 obj_pos = m_owner->GetTransform().GetTranslation();
 			vector2 this_pos = m_owner->GetTransform().GetTranslation();
-			
+
 			if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
 			{
 				obj_pos.y += 10.f;
-
-				if (input.Is_Key_Pressed(GLFW_KEY_UP))
-				{
-					obj_pos.x -= 10.f;
-				}
-				if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
-				{
-					obj_pos.x += 10.f;
-				}
 			}
 			if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
 			{
 				obj_pos.y -= 10.f;
-
-				if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
-				{
-					obj_pos.x += 10.f;
-				}
-				if (input.Is_Key_Pressed(GLFW_KEY_UP))
-				{
-					obj_pos.x -= 10.f;
-				}
 			}
-
 			if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
 			{
 				obj_pos.x += 10.f;
-
-				if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
-				{
-					obj_pos.y += 10.f;
-				}
-				if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
-				{
-					obj_pos.y -= 10.f;
-				}
 			}
-
 			if (input.Is_Key_Pressed(GLFW_KEY_UP))
 			{
 				obj_pos.x -= 10.f;
-				
-				if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
-				{
-					obj_pos.y += 10.f;
-				}
-				if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
-				{
-					obj_pos.y -= 10.f;
-				}
 			}
+			
 			float angle_in_radian = atan2(this_pos.y - obj_pos.y, this_pos.x - obj_pos.x);
 			float angle = to_degrees(angle_in_radian);
-			
+
 			m_owner->SetRotation(angle);
 		}
-		
+
 		return;
 	}
 	if (axes[1] < -0.2)
@@ -640,8 +603,13 @@ void Physics::Dash(Object* object)
 		{
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, "throwing", 0.f));
 		}
-
 		
+		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && object->GetComponentByTemplate<Player>()->Get_Item_State() == Item::Item_Kind::Magnatic)
+		{
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, "magnatic", 0.f));
+		}
+
+
 		return;
 	}
 	if (axes[5] > 0.4)
@@ -839,63 +807,83 @@ void Physics::Update(float dt)
 
 	if (m_owner->GetName() == "first")
 	{
-		Acceleration(0.6f, 0.12f);
+		Player* info_player = m_owner->GetComponentByTemplate<Player>();
 
-		if (is_dashed == false && timer >= 0.3)
+		if (info_player->Get_Locking() == nullptr)
 		{
-			Dash(m_owner);
-		}
-		else if (is_dashed == true && timer >= 0.5)
-		{
-			SpeedDown(m_owner);
-			is_dashed = false;
+			Acceleration(0.6f, 0.12f);
+
+			if (is_dashed == false && timer >= 0.3)
+			{
+				Dash(m_owner);
+			}
+			else if (is_dashed == true && timer >= 0.5)
+			{
+				SpeedDown(m_owner);
+				is_dashed = false;
+			}
 		}
 	}
 	else if (m_owner->GetName() == "second")
 	{
-		Acceleration(0.6f, 0.12f);
+		Player* info_player = m_owner->GetComponentByTemplate<Player>();
 
-		if (is_dashed == false && timer >= 0.3)
+		if (info_player->Get_Locking() == nullptr)
 		{
-			Dash(m_owner);
-		}
-		else if (is_dashed == true && timer >= 0.5)
-		{
-			SpeedDown(m_owner);
-			is_dashed = false;
+			Acceleration(0.6f, 0.12f);
+
+			if (is_dashed == false && timer >= 0.3)
+			{
+				Dash(m_owner);
+			}
+			else if (is_dashed == true && timer >= 0.5)
+			{
+				SpeedDown(m_owner);
+				is_dashed = false;
+			}
 		}
 	}
 	else if (m_owner->GetName() == "third")
 	{
-		Acceleration(0.6f, 0.12f);
+		Player* info_player = m_owner->GetComponentByTemplate<Player>();
 
-		if (is_dashed == false && timer >= 0.3)
+		if (info_player->Get_Locking() == nullptr)
 		{
-			Dash(m_owner);
-		}
-		else if (is_dashed == true && timer >= 0.5)
-		{
-			SpeedDown(m_owner);
-			is_dashed = false;
+			Acceleration(0.6f, 0.12f);
+
+			if (is_dashed == false && timer >= 0.3)
+			{
+				Dash(m_owner);
+			}
+			else if (is_dashed == true && timer >= 0.5)
+			{
+				SpeedDown(m_owner);
+				is_dashed = false;
+			}
 		}
 	}
 	else if (m_owner->GetName() == "forth")
 	{
-		Acceleration(0.6f, 0.12f);
+		Player* info_player = m_owner->GetComponentByTemplate<Player>();
 
-		if (is_dashed == false && timer >= 0.3)
+		if (info_player->Get_Locking() == nullptr)
 		{
-			Dash(m_owner);
-		}
-		else if (is_dashed == true && timer >= 0.5)
-		{
-			SpeedDown(m_owner);
-			is_dashed = false;
+			Acceleration(0.6f, 0.12f);
+
+			if (is_dashed == false && timer >= 0.3)
+			{
+				Dash(m_owner);
+			}
+			else if (is_dashed == true && timer >= 0.5)
+			{
+				SpeedDown(m_owner);
+				is_dashed = false;
+			}
 		}
 	}
 	else
 	{
-		if (m_owner->Get_Tag() != "throwing")
+		if (m_owner->Get_Tag() != "throwing" && m_owner->Get_Tag() != "lock")
 		{
 			JustMove();
 		}

@@ -63,10 +63,11 @@ void Engine::Init()
     sound.Play(SOUND::BGM);
 
     app_ = Application::Get_Application();
+	msg_manager = Message_Manager::Get_Message_Manager();
     object_manager = ObjectManager::GetObjectManager();
     state_manager = StateManager::GetStateManager();
     graphic = Graphic::GetGraphic();
-    msg_manager = Message_Manager::Get_Message_Manager();
+    
 	
     app_->Init();
     object_manager->Init();

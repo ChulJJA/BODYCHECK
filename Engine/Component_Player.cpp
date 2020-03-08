@@ -24,6 +24,7 @@
 #include "Player_Ui.h"
 #include "Component_Ui.h"
 #include "Physics.h"
+#include "Component_Lock.h"
 
 
 void Player::Init(Object* obj)
@@ -96,10 +97,39 @@ void Player::Update(float dt)
 			ObjectManager::GetObjectManager()->AddObject(throwing);
 		}
 	}
+	if(curr_state == Char_State::Locking)
+	{
+		if (input.Is_Key_Pressed(GLFW_KEY_SPACE))
+		{
+			curr_state = Char_State::None;
+
+			Object* lock = new Object();
+			lock->Set_Name("lock");
+			lock->Set_Tag("lock");
+			lock->AddComponent(new Sprite(lock, "../sprite/pen_red.png", m_owner->GetTransform().GetTranslation()));
+			lock->AddComponent(new Physics());
+			lock->AddComponent(new Lock());
+			lock->GetComponentByTemplate<Lock>()->Set_Timer(3.f);
+			lock->GetComponentByTemplate<Lock>()->Set_Speed(500.f);
+			lock->GetComponentByTemplate<Lock>()->Set_Throwing_Obj(m_owner);
+			lock->SetScale(2.f);
+			locking = lock;
+			ObjectManager::GetObjectManager()->AddObject(lock);
+		}
+	}
+	if(curr_state == Char_State::Magnatic)
+	{
+		std::cout << "mag!" << std::endl;
+		curr_state = Char_State::None;
+	}
 	if(hp_bar != nullptr)
 	{
 		hp_bar->GetTransform().GetTranslation_Reference().x = m_owner->GetTransform().GetTranslation().x;
 		hp_bar->GetTransform().GetTranslation_Reference().y = m_owner->GetTransform().GetTranslation().y - 100;
+	}
+	else
+	{
+		std::cout << "wtf" << std::endl;
 	}
 }
 
@@ -111,6 +141,13 @@ Item::Item_Kind Player::Get_Item_State()
 {
 	return belong_item;
 }
+
+void Player::Set_Locking_By(Object* obj)
+{
+	locking_by = obj;
+	obj->Add_Pointed_By(&locking_by);
+}
+
 //
 //void Player::Change_Ui_Info(Ui::Ui_Status_Base base, Ui::Ui_Status_Verb verb, Ui::Ui_Status_Obj obj)
 //{

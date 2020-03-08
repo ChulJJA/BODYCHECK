@@ -9,6 +9,7 @@
 #include "Message.h"
 #include "Damage_Calculator.h"
 #include "Component_Ui.h"
+#include "Component_Lock.h"
 
 
 void Msg_Func_Collision::Init()
@@ -39,6 +40,49 @@ void Msg_Func_Collision::Update(float dt)
 	}
 	else if (m_from->Get_Tag() == "throwing" && m_target->Get_Tag() == "throwing")
 	{
+		m_from->Set_Is_It_Collided(false);
+		m_target->Set_Is_It_Collided(false);
+	}
+	else if (m_from->Get_Tag() == "lock" && m_target->Get_Tag() == "player")
+	{
+		if (m_from->IsDead() == false)
+		{
+			m_target->Change_Sprite(m_target->Find_Component_By_Name("lock"));
+
+			if(m_from->GetComponentByTemplate<Lock>()->Get_Locking_Target() != nullptr)
+			{
+				if(m_from->GetComponentByTemplate<Lock>()->Get_Locking_Target() != m_target)
+				{
+					m_from->GetComponentByTemplate<Lock>()->Get_Locking_Target()->Change_Sprite(
+						m_from->GetComponentByTemplate<Lock>()->Get_Locking_Target()->Find_Component_By_Name("normal")
+					);
+				}
+			}
+			
+			m_from->GetComponentByTemplate<Lock>()->Set_Locking_Target(m_target);
+		}
+		m_from->Set_Is_It_Collided(false);
+		m_target->Set_Is_It_Collided(false);
+	}
+	else if (m_target->Get_Tag() == "lock" && m_from->Get_Tag() == "player")
+	{
+		if (m_target->IsDead() == false)
+		{
+			m_from->Change_Sprite(m_from->Find_Component_By_Name("lock"));
+
+			if (m_target->GetComponentByTemplate<Lock>()->Get_Locking_Target() != nullptr)
+			{
+				if (m_target->GetComponentByTemplate<Lock>()->Get_Locking_Target() != m_from)
+				{
+					m_target->GetComponentByTemplate<Lock>()->Get_Locking_Target()->Change_Sprite(
+						m_target->GetComponentByTemplate<Lock>()->Get_Locking_Target()->Find_Component_By_Name("normal")
+					);
+				}
+			}
+			
+			m_target->GetComponentByTemplate<Lock>()->Set_Locking_Target(m_from);
+		}
+		
 		m_from->Set_Is_It_Collided(false);
 		m_target->Set_Is_It_Collided(false);
 	}
@@ -77,6 +121,12 @@ void Msg_Func_Collision::Player_Get_Item(Object* player, Object* item)
 	{
 		player_info->Set_Item_State(Item::Item_Kind::Throwing);
 		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Hp);
+	}
+
+	if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Magnatic)
+	{
+		player_info->Set_Item_State(Item::Item_Kind::Magnatic);
+		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Magnatic);
 	}
 
 	player->Set_Is_It_Collided(false);

@@ -52,36 +52,36 @@ void Referee::Init()
 
 	for (int i = 0; i < player_first_life; i++)
 	{
-		player_first_temp[i] = Make_Player_Pool("../Sprite/pen_green.png", { 400,400 }, "first", "player", first_text);
+		player_first_temp[i] = Make_Player_Pool("pen_green", { 400,400 }, "first", "player", first_text);
 	}
 
 	for (int i = 0; i < player_sec_life; i++)
 	{
-		player_sec_temp[i] = Make_Player_Pool("../Sprite/pen_red.png", { 400,-400 }, "second", "player", second_text);
+		player_sec_temp[i] = Make_Player_Pool("pen_red", { 400,-400 }, "second", "player", second_text);
 	}
 	for (int i = 0; i < player_third_life; i++)
 	{
-		player_third_temp[i] = Make_Player_Pool("../Sprite/pen_purple.png", { -400,400 }, "third", "player", third_text);
+		player_third_temp[i] = Make_Player_Pool("pen_purple", { -400,400 }, "third", "player", third_text);
 	}
 	for (int i = 0; i < player_fourth_life; i++)
 	{
-		player_fourth_temp[i] = Make_Player_Pool("../Sprite/pen_normal.png", { -400,-400 }, "forth", "player", fourth_text);
+		player_fourth_temp[i] = Make_Player_Pool("pen_normal", { -400,-400 }, "forth", "player", fourth_text);
 	}
 
 
 	for (int i = 0; i < item_num; i++)
 	{
-		item_save[i] = Make_Item_Pool("../Sprite/item.png", { 0,0 }, "item", "item", Item::Item_Kind::Throwing);
+		item_save[i] = Make_Item_Pool("../Sprite/item.png", { 0,0 }, "item", "item", Item::Item_Kind::Magnatic);
 	}
 
 	for (int i = 0; i < item_num; i++)
 	{
-		item_save_hp[i] = Make_Item_Pool("../Sprite/item.png", { -400,0 }, "item", "item", Item::Item_Kind::Throwing);
+		item_save_hp[i] = Make_Item_Pool("../Sprite/item.png", { -400,0 }, "item", "item", Item::Item_Kind::Magnatic);
 	}
 
 	for (int i = 0; i < item_num; i++)
 	{
-		item_bulk_up[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Throwing);
+		item_bulk_up[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Magnatic);
 	}
 }
 
@@ -106,8 +106,18 @@ void Referee::Delete()
 
 Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::string name, std::string tag, Object* text)
 {
+	std::string sprite_path_normal = "../Sprite/";
+	sprite_path_normal += sprite_path;
+	sprite_path_normal += ".png";
+
+	std::string sprite_path_lock = "../Sprite/";
+	sprite_path_lock += sprite_path;
+	sprite_path_lock += "_lock";
+	sprite_path_lock += ".png";
+	
 	Object* player = new Object();
-	player->AddComponent(new Sprite(player, sprite_path.c_str(), pos));
+	player->AddComponent(new Sprite(player, sprite_path_normal.c_str(), pos), "normal", true);
+	player->AddComponent(new Sprite(player, sprite_path_lock.c_str(), pos), "lock", false);
 	player->AddComponent(new Physics(true));
 	player->Set_Name(name);
 	player->Set_Tag(tag);

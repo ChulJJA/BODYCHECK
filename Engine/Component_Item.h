@@ -22,7 +22,8 @@ public:
         Dash,
         HP,
         Bulkup,
-    	Throwing
+    	Throwing,
+    	Magnatic
     };
 
     void Init(Object* obj) override;

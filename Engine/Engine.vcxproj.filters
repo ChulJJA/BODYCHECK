@@ -169,6 +169,12 @@
     <ClCompile Include="Damage_Calculator.cpp">
       <Filter>Message_Function</Filter>
     </ClCompile>
+    <ClCompile Include="Component_Lock.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Message_Function_Item_Magnatic.cpp">
+      <Filter>Message_Function</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="angles.hpp">
@@ -364,6 +370,12 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Damage_Calculator.h">
+      <Filter>Message_Function</Filter>
+    </ClInclude>
+    <ClInclude Include="Component_Lock.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Item_Magnatic.h">
       <Filter>Message_Function</Filter>
     </ClInclude>
   </ItemGroup>

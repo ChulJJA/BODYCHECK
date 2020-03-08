@@ -25,7 +25,15 @@ public:
 		None,
 		Bulk_Up,
 		Regeneration,
-		Throwing
+		Throwing,
+		Magnatic,
+		Locking
+	};
+
+	enum class Char_State_By_Other
+	{
+		None,
+		Locked
 	};
 	
     void Init(Object* obj) override;
@@ -59,6 +67,25 @@ public:
     {
 		curr_state = state;
     }
+	Char_State_By_Other Get_Char_State_By_Other()
+    {
+		return curr_state_by_other;
+    }
+	void Set_Char_State_By_Other(Char_State_By_Other state)
+    {
+		curr_state_by_other = state;
+    }
+
+	Object* Get_Locking()
+    {
+		return locking;
+    }
+	void Set_Locking(Object* obj)
+    {
+		locking = obj;
+    }
+	void Set_Locking_By(Object* obj);
+	
 private:
     Object* hp_bar = nullptr;
     Item::Item_Kind belong_item = Item::Item_Kind::None;
@@ -67,4 +94,8 @@ private:
     float regeneration_timer = 0.f;
     float bulkup_timer = 0.f;
 	Char_State curr_state;
+	Char_State_By_Other curr_state_by_other;
+	Object* locking = nullptr;
+	Object* locking_by = nullptr;
+	
 };
