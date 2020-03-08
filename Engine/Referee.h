@@ -13,6 +13,7 @@
 #pragma once
 #include "Object.h"
 #include "vector"
+#include "Component_Item.h"
 
 class PLAYER_UI;
 
@@ -35,6 +36,13 @@ public:
     void Init();
     void Update(float dt);
     void Delete();
+
+	Object* Make_Player_Pool(std::string sprite_path, vector2 pos, std::string name, std::string tag, Object* text);
+	Object* Make_Item_Pool(std::string sprite_path, vector2 pos, std::string name, std::string tag, Item::Item_Kind kind);
+	void Respawn_Player(Stage_Statement state, float dt);
+	void Respawn_Item(float dt);
+
+	
     std::vector<Stage_Statement>& Get_Stage_Statement()
     {
         return stage_statements;

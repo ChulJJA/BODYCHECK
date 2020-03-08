@@ -48,7 +48,6 @@ private:
     Texture texture;
     Image image;
 
-
     float seconds = 0;
     int width = 1280, height = 720;
 

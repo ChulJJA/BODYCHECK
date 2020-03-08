@@ -87,6 +87,8 @@ vector3 operator-(const vector3& v1, const vector3& v2) noexcept
 
     return result_vec;
 }
+
+
 vector3 operator*(const vector3& v, float scale) noexcept
 {
     vector3 result_vec(v.x * scale, v.y * scale, v.z * scale);
