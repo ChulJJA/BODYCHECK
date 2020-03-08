@@ -16,9 +16,6 @@
 #include "Message_Function.h"
 #include "Object.h"
 
-
-
-
 void Message::Init()
 {
 	func = new Message_Func(this);

@@ -67,8 +67,7 @@ bool Collision::BoxToBoxCollision(Mesh mesh) const
 
 bool Collision::CircleToCircleCollision()
 {
-	bool if_it_is_collide = false;
-	unsigned int object_position_size = static_cast<unsigned int>(ObjectManager::GetObjectManager()->GetObjectManagerContainer().size());
+	const unsigned int object_position_size = static_cast<unsigned int>(ObjectManager::GetObjectManager()->GetObjectManagerContainer().size());
 
 	for (unsigned int i = 0; i < object_position_size; ++i)
 	{
@@ -93,23 +92,21 @@ bool Collision::CircleToCircleCollision()
 						const float distance = sqrt((obj_i_trans.x - obj_j_trans.x) * (obj_i_trans.x - obj_j_trans.x) + (obj_i_trans.y - obj_j_trans.y) * (obj_i_trans.y - obj_j_trans.y));
 						if (distance < obj_i_radius + obj_j_radius)
 						{
-							if (obj_i->GetComponentByTemplate<Physics>() != nullptr && obj_j->GetComponentByTemplate<Physics>() != nullptr)
+							Physics* obj_i_physics = obj_i->GetComponentByTemplate<Physics>();
+							Physics* obj_j_physics = obj_j->GetComponentByTemplate<Physics>();
+							
+							obj_i_physics->Get_Save_Acceleration_Reference().x = obj_i_physics->GetAcceleration().x;
+							obj_i_physics->Get_Save_Acceleration_Reference().y = obj_i_physics->GetAcceleration().y;
+							obj_j_physics->Get_Save_Acceleration_Reference().x = obj_j_physics->GetAcceleration().x;
+							obj_j_physics->Get_Save_Acceleration_Reference().y = obj_j_physics->GetAcceleration().y;
+							
+							Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_j, obj_i, "collision"));
+							obj_i->Set_Is_It_Collided(true);
+							obj_j->Set_Is_It_Collided(true);
+
+							if (obj_i->Get_Tag() != "item" && obj_j->Get_Tag() != "item")
 							{
-								if (!obj_i->GetComponentByTemplate<Physics>()->Get_Ghost_Collision_Reference() && !obj_j->GetComponentByTemplate<Physics>()->Get_Ghost_Collision_Reference())
-								{
-									obj_i->GetComponentByTemplate<Physics>()->Get_Save_Acceleration_Reference().x = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration().x;
-									obj_i->GetComponentByTemplate<Physics>()->Get_Save_Acceleration_Reference().y = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration().y;
-									obj_j->GetComponentByTemplate<Physics>()->Get_Save_Acceleration_Reference().x = obj_j->GetComponentByTemplate<Physics>()->GetAcceleration().x;
-									obj_j->GetComponentByTemplate<Physics>()->Get_Save_Acceleration_Reference().y = obj_j->GetComponentByTemplate<Physics>()->GetAcceleration().y;
-									Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_j, obj_i, "collision"));
-									obj_i->Set_Is_It_Collided(true);
-									obj_j->Set_Is_It_Collided(true);
-									
-									if (obj_i->Get_Tag() != "item" && obj_j->Get_Tag() != "item")
-									{
-										physics.KnockBack(obj_i, obj_j);
-									}
-								}
+								physics.KnockBack(obj_i, obj_j);
 							}
 						}
 					}
@@ -117,7 +114,7 @@ bool Collision::CircleToCircleCollision()
 			}
 		}
 	}
-	return if_it_is_collide;
+	return false;
 }
 
 void Collision::CircleArenaCollision()
@@ -289,6 +286,24 @@ bool Collision::Check_Need_To_Check_Collision(Object* obj_i, Object* obj_j)
 	{
 		return false;
 	}
+
+	/*
+	 * Check the both objects are have physics component.
+	 * If either object's physics state is ghost, return false.
+	 */
+	Physics* physics_obj_i = obj_i->GetComponentByTemplate<Physics>();
+	Physics* physics_obj_j = obj_j->GetComponentByTemplate<Physics>();
+
+	if (physics_obj_i == nullptr || physics_obj_j == nullptr)
+	{
+		return false;
+	}
+
+	if (physics_obj_i->Get_Ghost_Collision_Reference() || physics_obj_j->Get_Ghost_Collision_Reference())
+	{
+		return false;
+	}
+
 
 	/*
 	 * Otherwise, return true.

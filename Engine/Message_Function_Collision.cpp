@@ -86,42 +86,55 @@ void Msg_Func_Collision::Player_And_Player_Collision()
 {
 	std::pair<float, float> dmg_set = Damaege_Calculation(m_target, m_from);
 
-	m_target->GetComponentByTemplate<Player>()->Get_Regeneration_Timer() = 0.f;
-	m_from->GetComponentByTemplate<Player>()->Get_Regeneration_Timer() = 0.f;
+	Player* info_player_target = m_target->GetComponentByTemplate<Player>();
+	Player* info_player_from = m_from->GetComponentByTemplate<Player>();
 
-	m_target->Get_Dmg_Text()->GetComponentByTemplate<TextComp>()->GetText().SetString(L"-" + std::to_wstring(static_cast<int>(dmg_set.first)));
-	m_target->Get_Dmg_Text()->GetComponentByTemplate<TextComp>()->Get_Timer() = 1.f;
-	m_from->Get_Dmg_Text()->GetComponentByTemplate<TextComp>()->GetText().SetString(L"-" + std::to_wstring(static_cast<int>(dmg_set.second)));
-	m_from->Get_Dmg_Text()->GetComponentByTemplate<TextComp>()->Get_Timer() = 1.f;
-
-	m_target->Get_Dmg_Text()->GetTransform().GetTranslation_Reference().x = m_target->GetTransform().GetTranslation().x;
-	m_target->Get_Dmg_Text()->GetTransform().GetTranslation_Reference().y = m_target->GetTransform().GetTranslation().y;
-
-	m_from->Get_Dmg_Text()->GetTransform().GetTranslation_Reference().x = m_from->GetTransform().GetTranslation().x;
-	m_from->Get_Dmg_Text()->GetTransform().GetTranslation_Reference().y = m_from->GetTransform().GetTranslation().y;
-
-	if (m_from->GetComponentByTemplate<Player>() != nullptr)
+	if (info_player_from != nullptr && info_player_target != nullptr)
 	{
-		m_target->Set_Hitted_By(m_from);
+		info_player_target->Get_Regeneration_Timer() = 0.f;
+		info_player_from->Get_Regeneration_Timer() = 0.f;
+
+		TextComp* target_text_comp = m_target->Get_Dmg_Text()->GetComponentByTemplate<TextComp>();
+		TextComp* from_text_comp = m_target->Get_Dmg_Text()->GetComponentByTemplate<TextComp>();
+
+		if (from_text_comp != nullptr && target_text_comp != nullptr)
+		{
+			target_text_comp->GetText().SetString(L"-" + std::to_wstring(static_cast<int>(dmg_set.first)));
+			target_text_comp->Get_Timer() = 1.f;
+			from_text_comp->GetText().SetString(L"-" + std::to_wstring(static_cast<int>(dmg_set.second)));
+			from_text_comp->Get_Timer() = 1.f;
+
+			Object* target_text = m_target->Get_Dmg_Text();
+			Object* from_text = m_from->Get_Dmg_Text();
+			target_text->GetTransform().GetTranslation_Reference().x = m_target->GetTransform().GetTranslation().x;
+			target_text->GetTransform().GetTranslation_Reference().y = m_target->GetTransform().GetTranslation().y;
+			from_text->GetTransform().GetTranslation_Reference().x = m_from->GetTransform().GetTranslation().x;
+			from_text->GetTransform().GetTranslation_Reference().y = m_from->GetTransform().GetTranslation().y;
+
+			if (m_from->GetComponentByTemplate<Player>() != nullptr)
+			{
+				m_target->Set_Hitted_By(m_from);
+			}
+
+			if (m_target->GetComponentByTemplate<Player>() != nullptr)
+			{
+				m_from->Set_Hitted_By(m_target);
+			}
+
+			Object* target_hp_bar = m_target->Get_Belong_Object_By_Tag("hp_bar");
+			Object* from_hp_bar = m_from->Get_Belong_Object_By_Tag("hp_bar");
+
+			if (target_hp_bar != nullptr || from_hp_bar != nullptr)
+			{
+				//target_hp_bar->GetComponentByTemplate<Hp_Bar>()->Decrease(dmg_set.first / 50);
+				//from_hp_bar->GetComponentByTemplate<Hp_Bar>()->Decrease(dmg_set.second / 50);
+
+				target_hp_bar->GetComponentByTemplate<Hp_Bar>()->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
+				from_hp_bar->GetComponentByTemplate<Hp_Bar>()->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
+			}
+
+			m_from->Set_Is_It_Collided(false);
+			m_target->Set_Is_It_Collided(false);
+		}
 	}
-
-	if (m_target->GetComponentByTemplate<Player>() != nullptr)
-	{
-		m_from->Set_Hitted_By(m_target);
-	}
-
-	Object* target_hp_bar = m_target->Get_Belong_Object_By_Tag("hp_bar");
-	Object* from_hp_bar = m_from->Get_Belong_Object_By_Tag("hp_bar");
-
-	if (target_hp_bar != nullptr || from_hp_bar != nullptr)
-	{
-		//target_hp_bar->GetComponentByTemplate<Hp_Bar>()->Decrease(dmg_set.first / 50);
-		//from_hp_bar->GetComponentByTemplate<Hp_Bar>()->Decrease(dmg_set.second / 50);
-
-		target_hp_bar->GetComponentByTemplate<Hp_Bar>()->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
-		from_hp_bar->GetComponentByTemplate<Hp_Bar>()->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
-	}
-
-	m_from->Set_Is_It_Collided(false);
-	m_target->Set_Is_It_Collided(false);
 }
