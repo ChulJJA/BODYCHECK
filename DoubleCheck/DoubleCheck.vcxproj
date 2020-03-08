@@ -190,6 +190,7 @@
     <ClCompile Include="SoundOption.cpp" />
     <ClCompile Include="Testing_Level.cpp" />
     <ClCompile Include="TestLevel.cpp" />
+    <ClCompile Include="Tutorial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.vcxproj">
@@ -206,6 +207,7 @@
     <ClInclude Include="SoundOption.h" />
     <ClInclude Include="Testing_Level.h" />
     <ClInclude Include="TestLevel.h" />
+    <ClInclude Include="Tutorial.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

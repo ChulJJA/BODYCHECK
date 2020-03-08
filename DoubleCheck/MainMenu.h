@@ -22,6 +22,7 @@ class MainMenu : public State
     enum class BUTTON
     {
         START,
+        TUTORIAL,
         MUSIC,
         TEST
     };
@@ -42,6 +43,7 @@ public:
     }
 
     void SetPlayButton();
+    void SetTutorialButton();
     void SetMusicButton();
     void SetTestLevelButton();
     void ButtonSelector();
@@ -52,6 +54,8 @@ private:
 	
     Object* play_button;
     Object* play_button_hover;
+    Object* tutorial_button;
+    Object* tutorial_button_hover;
     Object* music_button;
     Object* music_button_hover;
     Object* test_button;

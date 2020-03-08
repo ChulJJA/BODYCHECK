@@ -75,6 +75,26 @@ public:
         fourth_text = ui;
     }
 
+    int Get_Player_First_Life()
+    {
+        return player_first_life;
+    }
+
+    int Get_Player_Second_Life()
+    {
+        return player_sec_life;
+    }
+
+    int Get_Player_Third_Life()
+    {
+        return player_third_life;
+    }
+    
+    int Get_Player_Fourth_Life()
+    {
+        return player_fourth_life;
+    }
+
 private:
     Referee() {}
     static Referee* referee;
