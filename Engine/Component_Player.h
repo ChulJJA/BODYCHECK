@@ -33,7 +33,14 @@ public:
 		Throwing,
 		Magnatic,
 		Lock_Ready,
-		Lock_Ing
+		Lock_Ing,
+	};
+
+	enum class Char_State_Additional
+	{
+		None,
+		Chasing,
+		Chasing_stop
 	};
 
 	enum class Char_State_By_Other
@@ -73,6 +80,16 @@ public:
     {
 		curr_state = state;
     }
+
+	void Set_Char_State_Additional(Char_State_Additional state)
+    {
+		curr_state_additional = state;
+    }
+	Char_State_Additional Get_Char_State_Additional()
+    {
+		return curr_state_additional;
+    }
+	
 	Char_State_By_Other Get_Char_State_By_Other()
     {
 		return curr_state_by_other;
@@ -84,14 +101,14 @@ public:
 
 	Object* Get_Locking()
     {
-		return locking;
+		return locking_pointer;
     }
 	void Set_Locking(Object* obj)
     {
     	if(obj != nullptr)
     	{
-			locking = obj;
-			obj->Add_Pointed_By(&locking);
+			locking_pointer = obj;
+			obj->Add_Pointed_By(&locking_pointer);
     	}
 		
     }
@@ -100,7 +117,13 @@ public:
 		return hp_bar;
     }
 	void Set_Locking_By(Object* obj);
-	
+	void Set_Locking_Result(Object* obj);
+	Object* Get_Locking_Result();
+
+	void Func_Bulk_Up(float dt);
+	void Func_Bulk_Throwing(float dt);
+	void Func_Lock_Ready(float dt);
+	void Func_Magnatic(float dt);
 private:
     Object* hp_bar = nullptr;
     Item::Item_Kind belong_item = Item::Item_Kind::None;
@@ -110,7 +133,10 @@ private:
     float bulkup_timer = 0.f;
 	Char_State curr_state;
 	Char_State_By_Other curr_state_by_other;
-	Object* locking = nullptr;
+	Object* locking_pointer = nullptr;
 	Object* locking_by = nullptr;
 	bool need_update_hp_bar;
+	float mag_angle;
+	Char_State_Additional curr_state_additional = Char_State_Additional::None;
+	Object* locking_result = nullptr;
 };

@@ -11,74 +11,26 @@ void Lock::Init(Object* obj)
 
 void Lock::Update(float dt)
 {
-	if(throwing_obj != nullptr)
+	if (locking_obj != nullptr)
 	{
+		
 		if (input.Is_Key_Pressed(GLFW_KEY_SPACE))
 		{
-			if (timer > 0.f)
-			{
-				if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
-				{
-					pos.x += (dt * speed);
-				}
-				if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
-				{
-					pos.x -= (dt * speed);
-				}
-				if (input.Is_Key_Pressed(GLFW_KEY_UP))
-				{
-					pos.y += (dt * speed);
-				}
-				if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
-				{
-					pos.y -= (dt * speed);
-				}
-
-				m_owner->GetTransform().SetTranslation(pos);
-				timer -= dt;
-			}
-			else
-			{
-				if (locking_target != nullptr)
-				{
-					locking_target->Add_Pointed_By(&locking_target);
-					Component* change_sprite_to = locking_target->Find_Sprite_By_Name("normal");
-					Component* lock_sprite = locking_target->Find_Sprite_By_Name("lock");
-
-					lock_sprite->Set_Need_Update(false);
-					change_sprite_to->Set_Need_Update(true);
-
-					throwing_obj->GetComponentByTemplate<Player>()->Set_Char_State(Player::Char_State::Magnatic);
-				}
-				else
-				{
-					throwing_obj->GetComponentByTemplate<Player>()->Set_Char_State(Player::Char_State::None);
-				}
-
-				throwing_obj->GetComponentByTemplate<Player>()->Set_Locking(nullptr);
-				m_owner->SetDeadCondition(true);
-			}
+			Control_Input(dt);
+			m_owner->GetTransform().SetTranslation(pos);
 		}
 		else
 		{
 			if (locking_target != nullptr)
 			{
 				locking_target->Add_Pointed_By(&locking_target);
-
-				Component* change_sprite_to = locking_target->Find_Sprite_By_Name("normal");
-				Component* lock_sprite = locking_target->Find_Sprite_By_Name("lock");
-
-				lock_sprite->Set_Need_Update(false);
-				change_sprite_to->Set_Need_Update(true);
-
-				throwing_obj->GetComponentByTemplate<Player>()->Set_Char_State(Player::Char_State::Magnatic);
+				Func_Set_Magnatic();
 			}
 			else
 			{
-				throwing_obj->GetComponentByTemplate<Player>()->Set_Char_State(Player::Char_State::None);
+				locking_obj->GetComponentByTemplate<Player>()->Set_Char_State(Player::Char_State::None);
 			}
-
-			throwing_obj->GetComponentByTemplate<Player>()->Set_Locking(nullptr);
+			locking_obj->GetComponentByTemplate<Player>()->Set_Locking(nullptr);
 			m_owner->SetDeadCondition(true);
 		}
 	}
@@ -88,15 +40,6 @@ void Lock::Update(float dt)
 	}
 }
 
-void Lock::Set_State(Status status)
-{
-	state = status;
-}
-
-Lock::Status Lock::Get_State()
-{
-	return state;
-}
 
 void Lock::Set_Timer(float timer_)
 {
@@ -108,18 +51,18 @@ void Lock::Set_Speed(float speed_)
 	speed = speed_;
 }
 
-void Lock::Set_Throwing_Obj(Object* obj)
+void Lock::Set_Locking_Obj(Object* obj)
 {
-	if(obj != nullptr)
+	if (obj != nullptr)
 	{
-		throwing_obj = obj;
-		obj->Add_Pointed_By(&throwing_obj);
+		locking_obj = obj;
+		obj->Add_Pointed_By(&locking_obj);
 	}
 }
 
-Object* Lock::Get_Throwing_Obj()
+Object* Lock::Get_Locking_Obj()
 {
-	return throwing_obj;
+	return locking_obj;
 }
 
 Object* Lock::Get_Locking_Target()
@@ -129,9 +72,38 @@ Object* Lock::Get_Locking_Target()
 
 void Lock::Set_Locking_Target(Object* obj)
 {
-	if(obj != nullptr)
+	if (obj != nullptr)
 	{
 		locking_target = obj;
 		obj->Add_Pointed_By(&locking_target);
 	}
+}
+
+void Lock::Control_Input(float dt)
+{
+	if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
+	{
+		pos.x += (dt * speed);
+	}
+	if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
+	{
+		pos.x -= (dt * speed);
+	}
+	if (input.Is_Key_Pressed(GLFW_KEY_UP))
+	{
+		pos.y += (dt * speed);
+	}
+	if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
+	{
+		pos.y -= (dt * speed);
+	}
+}
+
+void Lock::Func_Set_Magnatic()
+{
+	locking_target->Change_Sprite(locking_target->Find_Sprite_By_Name("normal"));
+	
+	Player* info_player = locking_obj->GetComponentByTemplate<Player>();
+	info_player->Set_Char_State(Player::Char_State::Magnatic);
+	info_player->Set_Locking_Result(locking_target);
 }

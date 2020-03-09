@@ -24,6 +24,7 @@ matrix3 Transform::GetModelToWorld() const noexcept
     return result;
 }
 
+
 matrix3 Transform::GetWorldToModel() const noexcept
 {
     matrix3 result = GetModelToWorld();

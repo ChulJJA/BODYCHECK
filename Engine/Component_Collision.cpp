@@ -108,41 +108,22 @@ bool Collision::CircleToCircleCollision()
 
 							if ((obj_i->Get_Tag() != "item" && obj_j->Get_Tag() != "item"))
 							{
-								if(obj_i->Get_Tag() == "lock" || obj_j->Get_Tag() == "lock")
+								if (obj_i->Get_Tag() == "lock" || obj_j->Get_Tag() == "lock")
 								{
 									continue;
 								}
 								physics.KnockBack(obj_i, obj_j);
 							}
 						}
-						else if (obj_i->Get_Tag() == "lock")
+						else if((obj_i->Get_Tag() == "lock" && obj_j->Get_Tag() == "player"))
 						{
-							if (obj_j->Get_Tag() == "player")
-							{
-								if (obj_i->GetComponentByTemplate<Lock>()->Get_Locking_Target() == obj_j)
-								{
-									Component* change_sprite_to = obj_j->Find_Sprite_By_Name("normal");
-									Component* current_sprite = obj_j->Find_Sprite_By_Name("lock");
-									change_sprite_to->Set_Need_Update(true);
-									current_sprite->Set_Need_Update(false);
-									obj_i->GetComponentByTemplate<Lock>()->Set_Locking_Target(nullptr);
-								}
-							}
+							Collision_Off_Lock_And_Player(obj_j, obj_i);
 						}
-						else if (obj_j->Get_Tag() == "lock")
+						else if ((obj_j->Get_Tag() == "lock" && obj_i->Get_Tag() == "player"))
 						{
-							if (obj_i->Get_Tag() == "player")
-							{
-								if (obj_j->GetComponentByTemplate<Lock>()->Get_Locking_Target() == obj_i)
-								{
-									Component* change_sprite_to = obj_i->Find_Sprite_By_Name("normal");
-									Component* current_sprite = obj_i->Find_Sprite_By_Name("lock");
-									change_sprite_to->Set_Need_Update(true);
-									current_sprite->Set_Need_Update(false);
-									obj_j->GetComponentByTemplate<Lock>()->Set_Locking_Target(nullptr);
-								}
-							}
+							Collision_Off_Lock_And_Player(obj_i, obj_j);
 						}
+						
 					}
 				}
 			}
@@ -322,7 +303,7 @@ bool Collision::Check_Need_To_Check_Collision(Object* obj_i, Object* obj_j)
 		{
 			return false;
 		}
-		if (obj_i->GetComponentByTemplate<Lock>()->Get_Throwing_Obj() == obj_j)
+		if (obj_i->GetComponentByTemplate<Lock>()->Get_Locking_Obj() == obj_j)
 		{
 			return false;
 		}
@@ -334,7 +315,7 @@ bool Collision::Check_Need_To_Check_Collision(Object* obj_i, Object* obj_j)
 		{
 			return false;
 		}
-		if (obj_j->GetComponentByTemplate<Lock>()->Get_Throwing_Obj() == obj_i)
+		if (obj_j->GetComponentByTemplate<Lock>()->Get_Locking_Obj() == obj_i)
 		{
 			return false;
 		}
@@ -380,6 +361,21 @@ bool Collision::Filter_Object(Object* obj)
 		return true;
 	}
 	return false;
+}
+
+void Collision::Collision_Off_Lock_And_Player(Object* player, Object* lock)
+{
+	Lock* info_lock = lock->GetComponentByTemplate<Lock>();
+
+	if(info_lock != nullptr)
+	{
+		if (info_lock->Get_Locking_Target() == player)
+		{
+			player->Change_Sprite(player->Find_Sprite_By_Name("normal"));
+		}
+		info_lock->Set_Locking_Target(nullptr);
+	}
+	
 }
 
 void Collision::Update(float dt)

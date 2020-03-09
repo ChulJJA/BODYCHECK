@@ -16,7 +16,6 @@
 #include <string>
 #include "Object_Component_Info.h"
 #include <iostream>
-//#include "Component.hpp"
 
 class Component;
 
@@ -30,9 +29,12 @@ private:
     Transform m_transform;
     Mesh m_mesh;
     Mesh m_debug_mesh;
+	
 	std::vector<Object**> pointed_by;
+	
     std::vector<Component*>components_;
 	std::vector<Component*>comp_sprite;
+	
     std::vector<Object*> belongs_object;
     bool is_dead{};
     std::string m_name;
@@ -43,7 +45,6 @@ private:
     bool need_change_translation = false;
     vector2 convert_translation;
     Object_Component_Info component_info;
-
     bool is_selected = false;
     std::string tag;
     bool need_update_points = false;
@@ -57,7 +58,6 @@ private:
     Object* dmg_text = nullptr;
     float dmg_plus = 0.f;
 	bool is_it_collided;
-
 	Component* current_showing_sprite;
 
 public:

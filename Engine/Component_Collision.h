@@ -28,6 +28,7 @@ public:
 
 	bool Check_Need_To_Check_Collision(Object* obj_i, Object* obj_j);
 	bool Filter_Object(Object* obj);
+	void Collision_Off_Lock_And_Player(Object* obj_i, Object* obj_j);
 private:
     Physics physics;
     float timer = 0;

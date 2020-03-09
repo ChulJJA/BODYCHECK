@@ -45,50 +45,47 @@ void Msg_Func_Collision::Update(float dt)
 	}
 	else if (m_from->Get_Tag() == "lock" && m_target->Get_Tag() == "player")
 	{
-		if (m_from->IsDead() == false)
-		{
-			m_target->Change_Sprite(m_target->Find_Sprite_By_Name("lock"));
-
-			if(m_from->GetComponentByTemplate<Lock>()->Get_Locking_Target() != nullptr)
-			{
-				if(m_from->GetComponentByTemplate<Lock>()->Get_Locking_Target() != m_target)
-				{
-					m_from->GetComponentByTemplate<Lock>()->Get_Locking_Target()->Change_Sprite(
-						m_from->GetComponentByTemplate<Lock>()->Get_Locking_Target()->Find_Sprite_By_Name("normal")
-					);
-				}
-			}
-			
-			m_from->GetComponentByTemplate<Lock>()->Set_Locking_Target(m_target);
-		}
-		m_from->Set_Is_It_Collided(false);
-		m_target->Set_Is_It_Collided(false);
+		Player_And_Lock_Collision(m_target, m_from);
 	}
 	else if (m_target->Get_Tag() == "lock" && m_from->Get_Tag() == "player")
 	{
-		if (m_target->IsDead() == false)
-		{
-			m_from->Change_Sprite(m_from->Find_Sprite_By_Name("lock"));
-
-			if (m_target->GetComponentByTemplate<Lock>()->Get_Locking_Target() != nullptr)
-			{
-				if (m_target->GetComponentByTemplate<Lock>()->Get_Locking_Target() != m_from)
-				{
-					m_target->GetComponentByTemplate<Lock>()->Get_Locking_Target()->Change_Sprite(
-						m_target->GetComponentByTemplate<Lock>()->Get_Locking_Target()->Find_Sprite_By_Name("normal")
-					);
-				}
-			}
-			
-			m_target->GetComponentByTemplate<Lock>()->Set_Locking_Target(m_from);
-		}
-		
-		m_from->Set_Is_It_Collided(false);
-		m_target->Set_Is_It_Collided(false);
+		Player_And_Lock_Collision(m_from, m_target);
 	}
 	else if (m_from->Get_Tag() == "player" && m_target->Get_Tag() == "player")
 	{
 		Player_And_Player_Collision();
+		Player* player_from_info = m_from->GetComponentByTemplate<Player>();
+		Player* player_target_info = m_target->GetComponentByTemplate<Player>();
+
+		if(player_from_info->Get_Char_State() == Player::Char_State::Lock_Ing)
+		{
+			Object* pointer = player_from_info->Get_Locking();
+			pointer->SetDeadCondition(true);
+			player_from_info->Set_Char_State(Player::Char_State::None);
+		}
+		else if(player_target_info->Get_Char_State() == Player::Char_State::Lock_Ing)
+		{
+			Object* pointer = player_target_info->Get_Locking();
+			pointer->SetDeadCondition(true);
+			player_target_info->Set_Char_State(Player::Char_State::None);
+		}
+
+		if(player_from_info->Get_Char_State_Additional() == Player::Char_State_Additional::Chasing)
+		{
+			if(player_from_info->Get_Locking_Result() == m_target)
+			{
+				player_from_info->Set_Char_State(Player::Char_State::None);
+				player_from_info->Set_Char_State_Additional(Player::Char_State_Additional::None);
+			}
+		}
+		else if(player_target_info->Get_Char_State_Additional() == Player::Char_State_Additional::Chasing)
+		{
+			if (player_target_info->Get_Locking_Result() == m_from)
+			{
+				player_target_info->Set_Char_State(Player::Char_State::None);
+				player_target_info->Set_Char_State_Additional(Player::Char_State_Additional::None);
+			}
+		}
 	}
 
 	msg->Set_Should_Delete(true);
@@ -187,4 +184,27 @@ void Msg_Func_Collision::Player_And_Player_Collision()
 			m_target->Set_Is_It_Collided(false);
 		}
 	}
+}
+
+void Msg_Func_Collision::Player_And_Lock_Collision(Object* player, Object* lock)
+{
+	Lock* info_lock = lock->GetComponentByTemplate<Lock>();
+	
+	if (lock->IsDead() == false)
+	{
+		player->Change_Sprite(player->Find_Sprite_By_Name("lock"));
+
+		if (info_lock->Get_Locking_Target() != nullptr)
+		{
+			if (info_lock->Get_Locking_Target() != player)
+			{
+				info_lock->Get_Locking_Target()->Change_Sprite(
+					info_lock->Get_Locking_Target()->Find_Sprite_By_Name("normal")
+				);
+			}
+		}
+		info_lock->Set_Locking_Target(player);
+	}
+	player->Set_Is_It_Collided(false);
+	lock->Set_Is_It_Collided(false);
 }

@@ -24,6 +24,7 @@ public:
 
 	void Player_Get_Item(Object* player, Object* item);
 	void Player_And_Player_Collision();
+	void Player_And_Lock_Collision(Object* player, Object* lock);
 
 private:
 

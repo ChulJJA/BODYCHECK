@@ -25,7 +25,7 @@
 #include "Component_Ui.h"
 #include "Physics.h"
 #include "Component_Lock.h"
-
+#include "angles.hpp"
 
 void Player::Init(Object* obj)
 {
@@ -57,69 +57,15 @@ void Player::Update(float dt)
 	//Attack();
 	if (curr_state == Char_State::Bulk_Up)
 	{
-		if (bulkup_timer > 0.f)
-		{
-			bulkup_timer -= dt;
-
-			if (m_owner->GetTransform().GetScale().x <= 5.f)
-			{
-				m_owner->Get_Plus_Dmg() = 2.f;
-				m_owner->GetTransform().GetScale_Reference().x += dt;
-				m_owner->GetTransform().GetScale_Reference().y += dt;
-			}
-		}
-		else
-		{
-			if (m_owner->GetTransform().GetScale().x >= 3.f)
-			{
-				m_owner->GetTransform().GetScale_Reference().x -= dt;
-				m_owner->GetTransform().GetScale_Reference().y -= dt;
-			}
-			else
-			{
-				m_owner->Get_Plus_Dmg() = 0.f;
-				curr_state = Char_State::None;
-			}
-		}
+		Func_Bulk_Up(dt);
 	}
 	if (curr_state == Char_State::Throwing)
 	{
-		if (input.Is_Key_Pressed(GLFW_KEY_SPACE))
-		{
-			curr_state = Char_State::None;
-
-			Object* throwing = new Object();
-			throwing->Set_Name("throwing");
-			throwing->Set_Tag("throwing");
-			throwing->AddComponent(new Sprite(throwing, "../sprite/pen_green.png", m_owner->GetTransform().GetTranslation()));
-			throwing->AddComponent(new Physics());
-			throwing->AddComponent(new Throwing);
-			throwing->GetComponentByTemplate<Throwing>()->Set_Timer(3.f);
-			throwing->GetComponentByTemplate<Throwing>()->Set_Angle(m_owner->GetTransform().GetRotation());
-			throwing->GetComponentByTemplate<Throwing>()->Set_Throwing_Obj(m_owner);
-			throwing->SetScale(2.f);
-			ObjectManager::GetObjectManager()->AddObject(throwing);
-		}
+		Func_Bulk_Throwing(dt);
 	}
 	if(curr_state == Char_State::Lock_Ready)
 	{
-		if (input.Is_Key_Pressed(GLFW_KEY_SPACE))
-		{
-			curr_state = Char_State::Lock_Ing;
-
-			Object* lock = new Object();
-			lock->Set_Name("lock");
-			lock->Set_Tag("lock");
-			lock->AddComponent(new Sprite(lock, "../sprite/pen_red.png", m_owner->GetTransform().GetTranslation()));
-			lock->AddComponent(new Physics());
-			lock->AddComponent(new Lock());
-			lock->GetComponentByTemplate<Lock>()->Set_Timer(3.f);
-			lock->GetComponentByTemplate<Lock>()->Set_Speed(500.f);
-			lock->GetComponentByTemplate<Lock>()->Set_Throwing_Obj(m_owner);
-			lock->SetScale(2.f);
-			locking = lock;
-			ObjectManager::GetObjectManager()->AddObject(lock);
-		}
+		Func_Lock_Ready(dt);
 	}
 	if(curr_state == Char_State::Lock_Ing)
 	{
@@ -127,18 +73,12 @@ void Player::Update(float dt)
 	}
 	if(curr_state == Char_State::Magnatic)
 	{
-		std::cout << "mag!" << std::endl;
-		curr_state = Char_State::None;
+		Func_Magnatic(dt);
 	}
 	if(hp_bar != nullptr)
 	{
-
 		hp_bar->GetTransform().GetTranslation_Reference().x = m_owner->GetTransform().GetTranslation().x;
 		hp_bar->GetTransform().GetTranslation_Reference().y = m_owner->GetTransform().GetTranslation().y - 100;
-	}
-	else
-	{
-		std::cout << "wtf" << std::endl;
 	}
 }
 
@@ -161,20 +101,139 @@ void Player::Set_Locking_By(Object* obj)
 	
 }
 
-//
-//void Player::Change_Ui_Info(Ui::Ui_Status_Base base, Ui::Ui_Status_Verb verb, Ui::Ui_Status_Obj obj)
-//{
-//	if(base == Ui::Ui_Status_Base::Item)
-//	{
-//		//Object* setting_ui = this_ui->Get_Item_Info();
-//		Ui* ui_info = this_ui->GetComponentByTemplate<Ui>();
-//
-//		ui_info->Set_Status_Base(base);
-//		ui_info->Set_Status_Verb(verb);
-//		ui_info->Set_Status_Obj(obj);		
-//		this_ui->GetMesh().Get_Is_Moved() = true;
-//	}
-//}
+void Player::Set_Locking_Result(Object* obj)
+{
+	if(obj != nullptr)
+	{
+		locking_result = obj;
+		obj->Add_Pointed_By(&locking_result);
+	}
+	
+}
+
+Object* Player::Get_Locking_Result()
+{
+	return locking_result;
+}
+
+void Player::Func_Bulk_Up(float dt)
+{
+	if (bulkup_timer > 0.f)
+	{
+		bulkup_timer -= dt;
+
+		if (m_owner->GetTransform().GetScale().x <= 5.f)
+		{
+			m_owner->Get_Plus_Dmg() = 2.f;
+			m_owner->GetTransform().GetScale_Reference().x += dt;
+			m_owner->GetTransform().GetScale_Reference().y += dt;
+		}
+	}
+	else
+	{
+		if (m_owner->GetTransform().GetScale().x >= 3.f)
+		{
+			m_owner->GetTransform().GetScale_Reference().x -= dt;
+			m_owner->GetTransform().GetScale_Reference().y -= dt;
+		}
+		else
+		{
+			m_owner->Get_Plus_Dmg() = 0.f;
+			curr_state = Char_State::None;
+		}
+	}
+}
+
+void Player::Func_Bulk_Throwing(float dt)
+{
+	if (input.Is_Key_Pressed(GLFW_KEY_SPACE))
+	{
+		curr_state = Char_State::None;
+
+		Object* throwing = new Object();
+		throwing->Set_Name("throwing");
+		throwing->Set_Tag("throwing");
+		throwing->AddComponent(new Sprite(throwing, "../sprite/pen_green.png", m_owner->GetTransform().GetTranslation()));
+		throwing->AddComponent(new Physics());
+		throwing->AddComponent(new Throwing);
+		throwing->GetComponentByTemplate<Throwing>()->Set_Timer(3.f);
+		throwing->GetComponentByTemplate<Throwing>()->Set_Angle(m_owner->GetTransform().GetRotation());
+		throwing->GetComponentByTemplate<Throwing>()->Set_Throwing_Obj(m_owner);
+		throwing->SetScale(2.f);
+		ObjectManager::GetObjectManager()->AddObject(throwing);
+	}
+}
+
+void Player::Func_Lock_Ready(float dt)
+{
+	if (input.Is_Key_Pressed(GLFW_KEY_SPACE))
+	{
+		curr_state = Char_State::Lock_Ing;
+
+		Object* lock = new Object();
+		lock->Set_Name("lock");
+		lock->Set_Tag("lock");
+		lock->AddComponent(new Sprite(lock, "../sprite/pen_red.png", m_owner->GetTransform().GetTranslation()));
+		lock->AddComponent(new Physics());
+		lock->AddComponent(new Lock());
+		lock->GetComponentByTemplate<Lock>()->Set_Speed(1000.f);
+		lock->GetComponentByTemplate<Lock>()->Set_Locking_Obj(m_owner);
+		lock->SetScale(2.f);
+		locking_pointer = lock;
+		ObjectManager::GetObjectManager()->AddObject(lock);
+	}
+}
+
+void Player::Func_Magnatic(float dt)
+{
+	if (locking_result != nullptr)
+	{
+		curr_state_additional = Char_State_Additional::Chasing;
+
+		vector2 target = locking_result->GetTransform().GetTranslation() - m_owner->GetTransform().GetTranslation();
+
+		vector2 target_dir = normalize(target);
+		vector2 own_pos = m_owner->GetTransform().GetTranslation();
+
+		own_pos.x += (target_dir.x * 10);
+		own_pos.y += (target_dir.y * 10);
+
+		vector2 this_pos = m_owner->GetTransform().GetTranslation();
+		vector2 obj_pos = locking_result->GetTransform().GetTranslation();
+		float value = cross({ target.x, target.y, 0.f }, { this_pos.x, this_pos.y, 0.f }).z;
+
+		float angle_in_radian = atan2(this_pos.y - obj_pos.y, this_pos.x - obj_pos.x);
+		float angle = to_degrees(angle_in_radian);
+		angle += 90;
+		mag_angle = angle;
+
+		m_owner->GetComponentByTemplate<Physics>()->SetAcceleration(
+			{ sin(angle_in_radian) * -20, cos(angle_in_radian) * 20 }
+		);
+
+		m_owner->SetRotation(angle);
+
+		if (value > 0)
+		{
+			vector3 convert_pos(own_pos.x, own_pos.y, 1.f);
+
+			convert_pos = MATRIX3::build_rotation(to_radians(10)) * convert_pos;
+
+			own_pos.x = convert_pos.x;
+			own_pos.y = convert_pos.y;
+		}
+		else if (value < 0)
+		{
+			vector3 convert_pos(own_pos.x, own_pos.y, 1.f);
+
+			convert_pos = MATRIX3::build_rotation(to_radians(-10)) * convert_pos;
+
+			own_pos.x = convert_pos.x;
+			own_pos.y = convert_pos.y;
+		}
+		m_owner->GetTransform().SetTranslation(own_pos);
+	}
+}
 
 void Player::Set_This_UI_info(PLAYER_UI* ui)
 {
