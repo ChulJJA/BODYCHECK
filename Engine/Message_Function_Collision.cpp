@@ -76,6 +76,7 @@ void Msg_Func_Collision::Update(float dt)
 			{
 				player_from_info->Set_Char_State(Player::Char_State::None);
 				player_from_info->Set_Char_State_Additional(Player::Char_State_Additional::None);
+				m_from->Change_Sprite(m_from->Find_Sprite_By_Name("normal"));
 			}
 		}
 		else if(player_target_info->Get_Char_State_Additional() == Player::Char_State_Additional::Chasing)
@@ -84,6 +85,7 @@ void Msg_Func_Collision::Update(float dt)
 			{
 				player_target_info->Set_Char_State(Player::Char_State::None);
 				player_target_info->Set_Char_State_Additional(Player::Char_State_Additional::None);
+				m_target->Change_Sprite(m_target->Find_Sprite_By_Name("normal"));
 			}
 		}
 	}

@@ -114,6 +114,10 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	sprite_path_lock += sprite_path;
 	sprite_path_lock += "_lock";
 	sprite_path_lock += ".png";
+
+	std::string sprite_path_chase = "../Sprite/";
+	sprite_path_chase += sprite_path;
+	sprite_path_chase += "_chase.png";
 	
 	Object* player = new Object();
 	player->Set_Name(name);
@@ -121,6 +125,7 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	player->AddComponent(new Player(false));
 	player->AddComponent(new Sprite(player, sprite_path_normal.c_str(), pos), "normal", true);
 	player->AddComponent(new Sprite(player, sprite_path_lock.c_str(), pos), "lock", false);
+	player->AddComponent(new Sprite(player, sprite_path_chase.c_str(), pos), "chase", false);
 	player->AddComponent(new Physics(true));
 	player->Set_Current_Sprite(player->Find_Sprite_By_Name("normal"));
 	player->SetScale({ 3.f,3.f });

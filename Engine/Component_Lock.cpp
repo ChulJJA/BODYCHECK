@@ -106,4 +106,6 @@ void Lock::Func_Set_Magnatic()
 	Player* info_player = locking_obj->GetComponentByTemplate<Player>();
 	info_player->Set_Char_State(Player::Char_State::Magnatic);
 	info_player->Set_Locking_Result(locking_target);
+
+	locking_obj->Change_Sprite(locking_obj->Find_Sprite_By_Name("chase"));
 }

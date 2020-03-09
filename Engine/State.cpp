@@ -16,8 +16,12 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 
 	std::string sprite_path_lock = "../Sprite/";
 	sprite_path_lock += sprite_path;
-	sprite_path_lock += "_lock";
-	sprite_path_lock += ".png";
+	sprite_path_lock += "_lock.png";
+
+	std::string sprite_path_chase = "../Sprite/";
+	sprite_path_chase += sprite_path;
+	sprite_path_chase += "_chase.png";
+
 	
 	Object* player;
 	player = new Object();
@@ -27,6 +31,7 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 	player->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
 	player->AddComponent(new Sprite(player, sprite_path_normal.c_str(), pos), "normal", true);
 	player->AddComponent(new Sprite(player, sprite_path_lock.c_str(), pos), "lock", false);
+	player->AddComponent(new Sprite(player, sprite_path_chase.c_str(), pos), "chase", false);
 	player->AddComponent(new Physics());
 	player->Set_Current_Sprite(player->Find_Sprite_By_Name("normal"));
 	player->GetTransform().SetScale(scale);
