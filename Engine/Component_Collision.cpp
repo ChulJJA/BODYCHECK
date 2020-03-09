@@ -121,8 +121,8 @@ bool Collision::CircleToCircleCollision()
 							{
 								if (obj_i->GetComponentByTemplate<Lock>()->Get_Locking_Target() == obj_j)
 								{
-									Component* change_sprite_to = obj_j->Find_Component_By_Name("normal");
-									Component* current_sprite = obj_j->Find_Component_By_Name("lock");
+									Component* change_sprite_to = obj_j->Find_Sprite_By_Name("normal");
+									Component* current_sprite = obj_j->Find_Sprite_By_Name("lock");
 									change_sprite_to->Set_Need_Update(true);
 									current_sprite->Set_Need_Update(false);
 									obj_i->GetComponentByTemplate<Lock>()->Set_Locking_Target(nullptr);
@@ -135,8 +135,8 @@ bool Collision::CircleToCircleCollision()
 							{
 								if (obj_j->GetComponentByTemplate<Lock>()->Get_Locking_Target() == obj_i)
 								{
-									Component* change_sprite_to = obj_i->Find_Component_By_Name("normal");
-									Component* current_sprite = obj_i->Find_Component_By_Name("lock");
+									Component* change_sprite_to = obj_i->Find_Sprite_By_Name("normal");
+									Component* current_sprite = obj_i->Find_Sprite_By_Name("lock");
 									change_sprite_to->Set_Need_Update(true);
 									current_sprite->Set_Need_Update(false);
 									obj_j->GetComponentByTemplate<Lock>()->Set_Locking_Target(nullptr);

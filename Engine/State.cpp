@@ -28,7 +28,7 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 	player->AddComponent(new Sprite(player, sprite_path_normal.c_str(), pos), "normal", true);
 	player->AddComponent(new Sprite(player, sprite_path_lock.c_str(), pos), "lock", false);
 	player->AddComponent(new Physics());
-	player->Set_Current_Sprite(player->Find_Component_By_Name("normal"));
+	player->Set_Current_Sprite(player->Find_Sprite_By_Name("normal"));
 	player->GetTransform().SetScale(scale);
 	ObjectManager::GetObjectManager()->AddObject(player);
 

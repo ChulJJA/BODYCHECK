@@ -809,7 +809,7 @@ void Physics::Update(float dt)
 	{
 		Player* info_player = m_owner->GetComponentByTemplate<Player>();
 
-		if (info_player->Get_Locking() == nullptr)
+		if (info_player->Get_Char_State() == Player::Char_State::None)
 		{
 			Acceleration(0.6f, 0.12f);
 
@@ -828,7 +828,7 @@ void Physics::Update(float dt)
 	{
 		Player* info_player = m_owner->GetComponentByTemplate<Player>();
 
-		if (info_player->Get_Locking() == nullptr)
+		if (info_player->Get_Char_State() == Player::Char_State::None)
 		{
 			Acceleration(0.6f, 0.12f);
 
@@ -847,7 +847,7 @@ void Physics::Update(float dt)
 	{
 		Player* info_player = m_owner->GetComponentByTemplate<Player>();
 
-		if (info_player->Get_Locking() == nullptr)
+		if (info_player->Get_Char_State() == Player::Char_State::None)
 		{
 			Acceleration(0.6f, 0.12f);
 
@@ -866,7 +866,7 @@ void Physics::Update(float dt)
 	{
 		Player* info_player = m_owner->GetComponentByTemplate<Player>();
 
-		if (info_player->Get_Locking() == nullptr)
+		if (info_player->Get_Char_State() == Player::Char_State::None)
 		{
 			Acceleration(0.6f, 0.12f);
 

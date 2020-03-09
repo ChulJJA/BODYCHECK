@@ -48,9 +48,9 @@ void Object::DeleteComponent(Component* comp)
     delete for_erase;
 }
 
-Component* Object::Find_Component_By_Name(std::string name)
+Component* Object::Find_Sprite_By_Name(std::string name)
 {
-	for(auto component : components_)
+	for(auto component : comp_sprite)
 	{
 		if(component->GetComponentName() == name)
 		{

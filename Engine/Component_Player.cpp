@@ -37,20 +37,24 @@ void Player::Init(Object* obj)
 	hp_bar_pos.y -= 100;
 	hp_bar->SetTranslation(hp_bar_pos);
 	hp_bar->SetScale({1.f, 2.5f});
-	hp_bar->AddComponent(new Sprite(hp_bar, "../Sprite/HP.png", hp_bar_pos, false));
+	hp_bar->AddComponent(new Sprite(hp_bar, "../Sprite/HP.png", hp_bar_pos, false), "sprite_hp_bar", need_update_hp_bar);
 	hp_bar->AddComponent(new Hp_Bar());
 	hp_bar->Set_Name(m_owner->Get_Name() + "hp_bar");
 	hp_bar->Set_Tag("hp_bar");
 	hp_bar->Set_This_Obj_Owner(m_owner);
 	this->hp_bar = hp_bar;
 	m_owner->Get_Belongs_Objects().push_back(hp_bar);
-	ObjectManager::GetObjectManager()->AddObject(hp_bar);
+
+	if(m_owner->Get_Tag() != "save")
+	{
+		ObjectManager::GetObjectManager()->AddObject(hp_bar);
+	}
+	
 }
 
 void Player::Update(float dt)
 {
 	//Attack();
-
 	if (curr_state == Char_State::Bulk_Up)
 	{
 		if (bulkup_timer > 0.f)
@@ -97,11 +101,11 @@ void Player::Update(float dt)
 			ObjectManager::GetObjectManager()->AddObject(throwing);
 		}
 	}
-	if(curr_state == Char_State::Locking)
+	if(curr_state == Char_State::Lock_Ready)
 	{
 		if (input.Is_Key_Pressed(GLFW_KEY_SPACE))
 		{
-			curr_state = Char_State::None;
+			curr_state = Char_State::Lock_Ing;
 
 			Object* lock = new Object();
 			lock->Set_Name("lock");
@@ -117,6 +121,10 @@ void Player::Update(float dt)
 			ObjectManager::GetObjectManager()->AddObject(lock);
 		}
 	}
+	if(curr_state == Char_State::Lock_Ing)
+	{
+		
+	}
 	if(curr_state == Char_State::Magnatic)
 	{
 		std::cout << "mag!" << std::endl;
@@ -124,6 +132,7 @@ void Player::Update(float dt)
 	}
 	if(hp_bar != nullptr)
 	{
+
 		hp_bar->GetTransform().GetTranslation_Reference().x = m_owner->GetTransform().GetTranslation().x;
 		hp_bar->GetTransform().GetTranslation_Reference().y = m_owner->GetTransform().GetTranslation().y - 100;
 	}
@@ -144,8 +153,12 @@ Item::Item_Kind Player::Get_Item_State()
 
 void Player::Set_Locking_By(Object* obj)
 {
-	locking_by = obj;
-	obj->Add_Pointed_By(&locking_by);
+	if(obj != nullptr)
+	{
+		locking_by = obj;
+		obj->Add_Pointed_By(&locking_by);
+	}
+	
 }
 
 //

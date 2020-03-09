@@ -39,7 +39,7 @@ void Ui::Change_Item_Ui()
 	if (status_info_verb == Ui_Status_Verb::Use)
 	{
 		Component* current_using_sprite = item_ui->Get_Current_Sprite();
-		Component* change_to_sprite = item_ui->Find_Component_By_Name("none");
+		Component* change_to_sprite = item_ui->Find_Sprite_By_Name("none");
 		
 		if(current_using_sprite != nullptr && change_to_sprite != nullptr)
 		{
@@ -56,27 +56,27 @@ void Ui::Change_Item_Ui()
 		
 		if(status_info_obj == Ui_Status_Obj::Item_Bulkup)
 		{
-			change_to_sprite = item_ui->Find_Component_By_Name("bulkup");
+			change_to_sprite = item_ui->Find_Sprite_By_Name("bulkup");
 		}
 		else if (status_info_obj == Ui_Status_Obj::Item_Dash)
 		{
-			change_to_sprite = item_ui->Find_Component_By_Name("dash");
+			change_to_sprite = item_ui->Find_Sprite_By_Name("dash");
 		}
 		else if (status_info_obj == Ui_Status_Obj::Item_Hp)
 		{
-			change_to_sprite = item_ui->Find_Component_By_Name("heal");
+			change_to_sprite = item_ui->Find_Sprite_By_Name("heal");
 		}
 		else if (status_info_obj == Ui_Status_Obj::Item_Throwing)
 		{
-			change_to_sprite = item_ui->Find_Component_By_Name("throwing");
+			change_to_sprite = item_ui->Find_Sprite_By_Name("throwing");
 		}
 		else if (status_info_obj == Ui_Status_Obj::Item_Magnatic)
 		{
-			change_to_sprite = item_ui->Find_Component_By_Name("magnatic");
+			change_to_sprite = item_ui->Find_Sprite_By_Name("magnatic");
 		}
 		else
 		{
-			change_to_sprite = item_ui->Find_Component_By_Name("none");
+			change_to_sprite = item_ui->Find_Sprite_By_Name("none");
 		}
 
 		change_to_sprite->Set_Need_Update(true);

@@ -20,6 +20,11 @@ class PLAYER_UI;
 class Player : public Component
 {
 public:
+	Player(bool need_update_hp = true)
+	{
+		need_update_hp_bar = need_update_hp;
+	}
+	
 	enum class Char_State
 	{
 		None,
@@ -27,7 +32,8 @@ public:
 		Regeneration,
 		Throwing,
 		Magnatic,
-		Locking
+		Lock_Ready,
+		Lock_Ing
 	};
 
 	enum class Char_State_By_Other
@@ -36,7 +42,7 @@ public:
 		Locked
 	};
 	
-    void Init(Object* obj) override;
+    void Init(Object* obj);
     void Update(float dt) override;
     void Attack();
     int Get_Damage()
@@ -82,7 +88,16 @@ public:
     }
 	void Set_Locking(Object* obj)
     {
-		locking = obj;
+    	if(obj != nullptr)
+    	{
+			locking = obj;
+			obj->Add_Pointed_By(&locking);
+    	}
+		
+    }
+	Object* Get_Hp_Bar()
+    {
+		return hp_bar;
     }
 	void Set_Locking_By(Object* obj);
 	
@@ -97,5 +112,5 @@ private:
 	Char_State_By_Other curr_state_by_other;
 	Object* locking = nullptr;
 	Object* locking_by = nullptr;
-	
+	bool need_update_hp_bar;
 };

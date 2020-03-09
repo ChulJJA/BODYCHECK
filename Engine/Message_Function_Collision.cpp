@@ -47,14 +47,14 @@ void Msg_Func_Collision::Update(float dt)
 	{
 		if (m_from->IsDead() == false)
 		{
-			m_target->Change_Sprite(m_target->Find_Component_By_Name("lock"));
+			m_target->Change_Sprite(m_target->Find_Sprite_By_Name("lock"));
 
 			if(m_from->GetComponentByTemplate<Lock>()->Get_Locking_Target() != nullptr)
 			{
 				if(m_from->GetComponentByTemplate<Lock>()->Get_Locking_Target() != m_target)
 				{
 					m_from->GetComponentByTemplate<Lock>()->Get_Locking_Target()->Change_Sprite(
-						m_from->GetComponentByTemplate<Lock>()->Get_Locking_Target()->Find_Component_By_Name("normal")
+						m_from->GetComponentByTemplate<Lock>()->Get_Locking_Target()->Find_Sprite_By_Name("normal")
 					);
 				}
 			}
@@ -68,14 +68,14 @@ void Msg_Func_Collision::Update(float dt)
 	{
 		if (m_target->IsDead() == false)
 		{
-			m_from->Change_Sprite(m_from->Find_Component_By_Name("lock"));
+			m_from->Change_Sprite(m_from->Find_Sprite_By_Name("lock"));
 
 			if (m_target->GetComponentByTemplate<Lock>()->Get_Locking_Target() != nullptr)
 			{
 				if (m_target->GetComponentByTemplate<Lock>()->Get_Locking_Target() != m_from)
 				{
 					m_target->GetComponentByTemplate<Lock>()->Get_Locking_Target()->Change_Sprite(
-						m_target->GetComponentByTemplate<Lock>()->Get_Locking_Target()->Find_Component_By_Name("normal")
+						m_target->GetComponentByTemplate<Lock>()->Get_Locking_Target()->Find_Sprite_By_Name("normal")
 					);
 				}
 			}

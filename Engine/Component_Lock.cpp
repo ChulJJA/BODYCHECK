@@ -42,8 +42,8 @@ void Lock::Update(float dt)
 				if (locking_target != nullptr)
 				{
 					locking_target->Add_Pointed_By(&locking_target);
-					Component* change_sprite_to = locking_target->Find_Component_By_Name("normal");
-					Component* lock_sprite = locking_target->Find_Component_By_Name("lock");
+					Component* change_sprite_to = locking_target->Find_Sprite_By_Name("normal");
+					Component* lock_sprite = locking_target->Find_Sprite_By_Name("lock");
 
 					lock_sprite->Set_Need_Update(false);
 					change_sprite_to->Set_Need_Update(true);
@@ -65,8 +65,8 @@ void Lock::Update(float dt)
 			{
 				locking_target->Add_Pointed_By(&locking_target);
 
-				Component* change_sprite_to = locking_target->Find_Component_By_Name("normal");
-				Component* lock_sprite = locking_target->Find_Component_By_Name("lock");
+				Component* change_sprite_to = locking_target->Find_Sprite_By_Name("normal");
+				Component* lock_sprite = locking_target->Find_Sprite_By_Name("lock");
 
 				lock_sprite->Set_Need_Update(false);
 				change_sprite_to->Set_Need_Update(true);
@@ -110,8 +110,11 @@ void Lock::Set_Speed(float speed_)
 
 void Lock::Set_Throwing_Obj(Object* obj)
 {
-	throwing_obj = obj;
-	obj->Add_Pointed_By(&throwing_obj);
+	if(obj != nullptr)
+	{
+		throwing_obj = obj;
+		obj->Add_Pointed_By(&throwing_obj);
+	}
 }
 
 Object* Lock::Get_Throwing_Obj()
@@ -126,6 +129,9 @@ Object* Lock::Get_Locking_Target()
 
 void Lock::Set_Locking_Target(Object* obj)
 {
-	locking_target = obj;
-	obj->Add_Pointed_By(&locking_target);
+	if(obj != nullptr)
+	{
+		locking_target = obj;
+		obj->Add_Pointed_By(&locking_target);
+	}
 }
