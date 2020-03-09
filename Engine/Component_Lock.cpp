@@ -127,4 +127,5 @@ Object* Lock::Get_Locking_Target()
 void Lock::Set_Locking_Target(Object* obj)
 {
 	locking_target = obj;
+	obj->Add_Pointed_By(&locking_target);
 }
