@@ -75,10 +75,10 @@ void Level1::Load()
     arena->SetScale({ 20, 20 });
     ObjectManager::GetObjectManager()->AddObject(arena);
 	
-    player = Make_Player("first", "player", "../sprite/pen_green.png", { 400.f, 400.f }, { 3.f,3.f });
-	player_sec = Make_Player("second", "player", "../sprite/pen_red.png", { 400.f, -400.f }, { 3.f, 3.f });
-	player_third = Make_Player("third", "player", "../sprite/pen_purple.png", { -400.f, 400.f }, { 3.f, 3.f });
-	player_forth = Make_Player("forth", "player", "../sprite/pen_normal.png", { -400.f, -400.f }, { 3.f, 3.f });
+    player = Make_Player("first", "player", "pen_green", { 400.f, 400.f }, { 3.f,3.f });
+	player_sec = Make_Player("second", "player", "pen_red", { 400.f, -400.f }, { 3.f, 3.f });
+	player_third = Make_Player("third", "player", "pen_purple", { -400.f, 400.f }, { 3.f, 3.f });
+	player_forth = Make_Player("forth", "player", "pen_normal", { -400.f, -400.f }, { 3.f, 3.f });
 
 	text = Make_Set_Text("red_text", "text", { 200,0 }, player, { 0,1,0,1 }, { 150,150 }, &font);
 	text_2 = Make_Set_Text("green_text", "text", { 200,-200 }, player_sec, { 1,0,0,1 }, { 150,150 }, &font);
