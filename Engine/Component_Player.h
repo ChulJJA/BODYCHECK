@@ -30,7 +30,7 @@ public:
 	
     void Init(Object* obj) override;
     void Update(float dt) override;
-    void SetHPBar();
+    void Attack();
     int Get_Damage()
     {
         return damage;
@@ -59,7 +59,6 @@ public:
     {
 		curr_state = state;
     }
-    void PlayerMove(float max_velocity, float min_velocity);
 private:
     Object* hp_bar = nullptr;
     Item::Item_Kind belong_item = Item::Item_Kind::None;
@@ -68,5 +67,4 @@ private:
     float regeneration_timer = 0.f;
     float bulkup_timer = 0.f;
 	Char_State curr_state;
-    vector2 velocity{};
 };
