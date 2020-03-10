@@ -50,14 +50,6 @@ void Player::Update(float dt)
 	}
 	if(curr_state == Char_State::Lock_Ing)
 	{
-		/*vector2 this_pos = m_owner->GetTransform().GetTranslation();
-		vector2 obj_pos = locking_pointer->GetTransform().GetTranslation();
-		
-		float angle_in_radian = atan2(this_pos.y - obj_pos.y, this_pos.x - obj_pos.x);
-		float angle = to_degrees(angle_in_radian);
-		angle += 90;
-
-		m_owner->SetRotation(angle);*/
 	}
 	if(curr_state == Char_State::Magnatic)
 	{
@@ -69,8 +61,8 @@ void Player::Update(float dt)
 		hp_bar->GetTransform().GetTranslation_Reference().y = m_owner->GetTransform().GetTranslation().y - 100;
 	}
 	
-	PlayerMove(0.6f, 0.12f);
-	m_owner->GetTransform().AddTranslation(velocity);
+	//PlayerMove(0.6f, 0.12f);
+	//m_owner->GetTransform().AddTranslation(velocity);
 }
 
 void Player::SetHPBar()
