@@ -64,35 +64,17 @@ void TestLevel::Load()
     b = new Object();
     ObjectManager::GetObjectManager()->AddObject(b);
     b->AddComponent(new Sprite(b, "../Sprite/pen_purple.png", { -400,400 }));
-
     ObjectManager::GetObjectManager()->AddObject(b);
-    b->AddComponent(new Sprite(b, "../Sprite/pen_purple.png", { -400,400 }));
-
     ObjectManager::GetObjectManager()->AddObject(b);
-
-    b->AddComponent(new Sprite(b, "../Sprite/pen_purple.png", { -400,400 }));
     ObjectManager::GetObjectManager()->AddObject(b);
-
-    b->AddComponent(new Sprite(b, "../Sprite/pen_purple.png", { -400,400 }));
     ObjectManager::GetObjectManager()->AddObject(b);
-
-    b->AddComponent(new Sprite(b, "../Sprite/pen_purple.png", { -400,400 }));
     ObjectManager::GetObjectManager()->AddObject(b);
-
-    b->AddComponent(new Sprite(b, "../Sprite/pen_purple.png", { -400,400 }));
     ObjectManager::GetObjectManager()->AddObject(b);
-    b->AddComponent(new Sprite(b, "../Sprite/pen_purple.png", { -400,400 }));
-    b->AddComponent(new Sprite(b, "../Sprite/pen_purple.png", { -400,400 }));
     ObjectManager::GetObjectManager()->AddObject(b);
-    b->AddComponent(new Sprite(b, "../Sprite/pen_purple.png", { -400,400 }));
     ObjectManager::GetObjectManager()->AddObject(b);
-    b->AddComponent(new Sprite(b, "../Sprite/pen_purple.png", { -400,400 }));
     ObjectManager::GetObjectManager()->AddObject(b);
-    b->AddComponent(new Sprite(b, "../Sprite/pen_purple.png", { -400,400 }));
     ObjectManager::GetObjectManager()->AddObject(b);
-    b->AddComponent(new Sprite(b, "../Sprite/pen_purple.png", { -400,400 }));
     ObjectManager::GetObjectManager()->AddObject(b);
-    b->AddComponent(new Sprite(b, "../Sprite/pen_purple.png", { -400,400 }));
     ObjectManager::GetObjectManager()->AddObject(b);
     ObjectManager::GetObjectManager()->AddObject(b);
     ObjectManager::GetObjectManager()->AddObject(b);
