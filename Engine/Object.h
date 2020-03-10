@@ -16,7 +16,6 @@
 #include <string>
 #include "Object_Component_Info.h"
 #include <iostream>
-//#include "Component.hpp"
 
 class Component;
 
@@ -30,8 +29,12 @@ private:
     Transform m_transform;
     Mesh m_mesh;
     Mesh m_debug_mesh;
-
+	
+	std::vector<Object**> pointed_by;
+	
     std::vector<Component*>components_;
+	std::vector<Component*>comp_sprite;
+	
     std::vector<Object*> belongs_object;
     bool is_dead{};
     std::string m_name;
@@ -42,7 +45,6 @@ private:
     bool need_change_translation = false;
     vector2 convert_translation;
     Object_Component_Info component_info;
-
     bool is_selected = false;
     std::string tag;
     bool need_update_points = false;
@@ -56,10 +58,25 @@ private:
     Object* dmg_text = nullptr;
     float dmg_plus = 0.f;
 	bool is_it_collided;
-
 	Component* current_showing_sprite;
 
 public:
+	void Add_Sprite_List(Component* comp)
+	{
+		comp_sprite.push_back(comp);
+	}
+	void Add_Pointed_By(Object** ptr)
+	{
+		if(std::find(pointed_by.begin(), pointed_by.end(), ptr) == pointed_by.end())
+		{
+			pointed_by.push_back(ptr);
+		}
+	}
+	std::vector<Object**> Get_Pointed_By()
+	{
+		return pointed_by;
+	}
+	
     Object* Get_Hitted_By()
     {
         return hitted_by;
@@ -80,7 +97,12 @@ public:
 
     void Set_Hitted_By(Object* hitted_by)
     {
-        this->hitted_by = hitted_by;
+		if(hitted_by != nullptr)
+		{
+			this->hitted_by = hitted_by;
+			hitted_by->Add_Pointed_By(&this->hitted_by);
+		}
+        
     }
 
     Object_Component_Info& Get_Component_Info_Reference()
@@ -235,8 +257,14 @@ public:
     }
     void Set_This_Obj_Owner(Object* owner)
     {
-        this->this_obj_owner = owner;
+    	if(owner != nullptr)
+    	{
+			this->this_obj_owner = owner;
+			owner->Add_Pointed_By(&this_obj_owner);
+    	}
+        
     }
+	void Change_Sprite(Component* sprite);
 
 	Component* Get_Current_Sprite();
 	void Set_Current_Sprite(Component* sprite);
@@ -248,7 +276,7 @@ public:
     bool IsDead() { return is_dead; }
     void AddComponent(Component* comp, std::string name = "component", bool toggle = true);
     void DeleteComponent(Component* comp);
-	Component* Find_Component_By_Name(std::string name);
+	Component* Find_Sprite_By_Name(std::string name);
     void SetTranslation(vector2 pos);
 
     void SetRotation(float angle);

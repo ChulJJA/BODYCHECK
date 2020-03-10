@@ -45,7 +45,12 @@ void Throwing::Set_Angle(float angle)
 
 void Throwing::Set_Throwing_Obj(Object* obj)
 {
-	throwing_obj = obj;
+	if(obj != nullptr)
+	{
+		throwing_obj = obj;
+		obj->Add_Pointed_By(&throwing_obj);
+	}
+	
 }
 
 Object* Throwing::Get_Throwing_Obj()

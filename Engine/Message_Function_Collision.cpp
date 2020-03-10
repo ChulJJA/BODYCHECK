@@ -9,6 +9,7 @@
 #include "Message.h"
 #include "Damage_Calculator.h"
 #include "Component_Ui.h"
+#include "Component_Lock.h"
 
 
 void Msg_Func_Collision::Init()
@@ -42,9 +43,72 @@ void Msg_Func_Collision::Update(float dt)
 		m_from->Set_Is_It_Collided(false);
 		m_target->Set_Is_It_Collided(false);
 	}
+	else if (m_from->Get_Tag() == "lock" && m_target->Get_Tag() == "player")
+	{
+		Player_And_Lock_Collision(m_target, m_from);
+	}
+	else if (m_target->Get_Tag() == "lock" && m_from->Get_Tag() == "player")
+	{
+		Player_And_Lock_Collision(m_from, m_target);
+	}
 	else if (m_from->Get_Tag() == "player" && m_target->Get_Tag() == "player")
 	{
 		Player_And_Player_Collision();
+		Player* player_from_info = m_from->GetComponentByTemplate<Player>();
+		Player* player_target_info = m_target->GetComponentByTemplate<Player>();
+
+		if (player_from_info->Get_Char_State() == Player::Char_State::Lock_Ing)
+		{
+			Object* pointer = player_from_info->Get_Locking();
+
+			if (pointer != nullptr)
+			{
+				pointer->SetDeadCondition(true);
+				m_from->Change_Sprite(m_from->Find_Sprite_By_Name("normal"));
+				player_from_info->Set_Char_State(Player::Char_State::None);
+
+				Object* pointer_target = pointer->GetComponentByTemplate<Lock>()->Get_Locking_Target();
+				if (pointer_target != nullptr)
+				{
+					pointer_target->Change_Sprite(pointer_target->Find_Sprite_By_Name("normal"));
+				}
+			}
+		}
+		else if (player_target_info->Get_Char_State() == Player::Char_State::Lock_Ing)
+		{
+			Object* pointer = player_target_info->Get_Locking();
+			if (pointer != nullptr)
+			{
+				pointer->SetDeadCondition(true);
+				m_target->Change_Sprite(m_target->Find_Sprite_By_Name("normal"));
+				player_target_info->Set_Char_State(Player::Char_State::None);
+
+				Object* pointer_target = pointer->GetComponentByTemplate<Lock>()->Get_Locking_Target();
+				if (pointer_target != nullptr)
+				{
+					pointer_target->Change_Sprite(pointer_target->Find_Sprite_By_Name("normal"));
+				}
+			}
+		}
+
+		if (player_from_info->Get_Char_State_Additional() == Player::Char_State_Additional::Chasing)
+		{
+			if (player_from_info->Get_Locking_Result() == m_target)
+			{
+				player_from_info->Set_Char_State(Player::Char_State::None);
+				player_from_info->Set_Char_State_Additional(Player::Char_State_Additional::None);
+				m_from->Change_Sprite(m_from->Find_Sprite_By_Name("normal"));
+			}
+		}
+		else if (player_target_info->Get_Char_State_Additional() == Player::Char_State_Additional::Chasing)
+		{
+			if (player_target_info->Get_Locking_Result() == m_from)
+			{
+				player_target_info->Set_Char_State(Player::Char_State::None);
+				player_target_info->Set_Char_State_Additional(Player::Char_State_Additional::None);
+				m_target->Change_Sprite(m_target->Find_Sprite_By_Name("normal"));
+			}
+		}
 	}
 
 	msg->Set_Should_Delete(true);
@@ -76,7 +140,13 @@ void Msg_Func_Collision::Player_Get_Item(Object* player, Object* item)
 	if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Throwing)
 	{
 		player_info->Set_Item_State(Item::Item_Kind::Throwing);
-		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Hp);
+		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Throwing);
+	}
+
+	if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Magnatic)
+	{
+		player_info->Set_Item_State(Item::Item_Kind::Magnatic);
+		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Magnatic);
 	}
 
 	player->Set_Is_It_Collided(false);
@@ -137,4 +207,27 @@ void Msg_Func_Collision::Player_And_Player_Collision()
 			m_target->Set_Is_It_Collided(false);
 		}
 	}
+}
+
+void Msg_Func_Collision::Player_And_Lock_Collision(Object* player, Object* lock)
+{
+	Lock* info_lock = lock->GetComponentByTemplate<Lock>();
+
+	if (lock->IsDead() == false)
+	{
+		player->Change_Sprite(player->Find_Sprite_By_Name("lock"));
+
+		if (info_lock->Get_Locking_Target() != nullptr)
+		{
+			if (info_lock->Get_Locking_Target() != player)
+			{
+				info_lock->Get_Locking_Target()->Change_Sprite(
+					info_lock->Get_Locking_Target()->Find_Sprite_By_Name("normal")
+				);
+			}
+		}
+		info_lock->Set_Locking_Target(player);
+	}
+	player->Set_Is_It_Collided(false);
+	lock->Set_Is_It_Collided(false);
 }

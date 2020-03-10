@@ -52,36 +52,37 @@ void Referee::Init()
 
 	for (int i = 0; i < player_first_life; i++)
 	{
-		player_first_temp[i] = Make_Player_Pool("../Sprite/pen_green.png", { 400,400 }, "first", "player", first_text);
+		player_first_temp[i] = Make_Player_Pool("pen_green", { 400,400 }, "first", "save", first_text);
 	}
 
 	for (int i = 0; i < player_sec_life; i++)
 	{
-		player_sec_temp[i] = Make_Player_Pool("../Sprite/pen_red.png", { 400,-400 }, "second", "player", second_text);
+		player_sec_temp[i] = Make_Player_Pool("pen_red", { 400,-400 }, "second", "save", second_text);
 	}
 	for (int i = 0; i < player_third_life; i++)
 	{
-		player_third_temp[i] = Make_Player_Pool("../Sprite/pen_purple.png", { -400,400 }, "third", "player", third_text);
+		player_third_temp[i] = Make_Player_Pool("pen_purple", { -400,400 }, "third", "save", third_text);
 	}
 	for (int i = 0; i < player_fourth_life; i++)
 	{
-		player_fourth_temp[i] = Make_Player_Pool("../Sprite/pen_normal.png", { -400,-400 }, "forth", "player", fourth_text);
+		player_fourth_temp[i] = Make_Player_Pool("pen_normal", { -400,-400 }, "forth", "save", fourth_text);
 	}
 
 
 	for (int i = 0; i < item_num; i++)
 	{
-		item_save[i] = Make_Item_Pool("../Sprite/item.png", { 0,0 }, "item", "item", Item::Item_Kind::Dash);
+		item_save[i] = Make_Item_Pool("../Sprite/item.png", { 0,0 }, "item", "item", Item::Item_Kind::Magnatic);
 	}
 
 	for (int i = 0; i < item_num; i++)
 	{
-		item_save_hp[i] = Make_Item_Pool("../Sprite/item.png", { -400,0 }, "item", "item", Item::Item_Kind::Dash);
+
+		item_save_hp[i] = Make_Item_Pool("../Sprite/item.png", { -400,0 }, "item", "item", Item::Item_Kind::Throwing);
 	}
 
 	for (int i = 0; i < item_num; i++)
 	{
-		item_bulk_up[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Dash);
+		item_bulk_up[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Magnatic);
 	}
 }
 
@@ -106,11 +107,34 @@ void Referee::Delete()
 
 Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::string name, std::string tag, Object* text)
 {
+	std::string sprite_path_normal = "../Sprite/";
+	sprite_path_normal += sprite_path;
+	sprite_path_normal += ".png";
+
+	std::string sprite_path_lock = "../Sprite/";
+	sprite_path_lock += sprite_path;
+	sprite_path_lock += "_lock";
+	sprite_path_lock += ".png";
+
+	std::string sprite_path_chase = "../Sprite/";
+	sprite_path_chase += sprite_path;
+	sprite_path_chase += "_chase.png";
+
+	std::string sprite_path_thinking = "../Sprite/";
+	sprite_path_thinking += sprite_path;
+	sprite_path_thinking += "_thinking.png";
+
+	
 	Object* player = new Object();
-	player->AddComponent(new Sprite(player, sprite_path.c_str(), pos));
-	player->AddComponent(new Physics(true));
 	player->Set_Name(name);
 	player->Set_Tag(tag);
+	player->AddComponent(new Player(false));
+	player->AddComponent(new Sprite(player, sprite_path_normal.c_str(), pos), "normal", true);
+	player->AddComponent(new Sprite(player, sprite_path_lock.c_str(), pos), "lock", false);
+	player->AddComponent(new Sprite(player, sprite_path_chase.c_str(), pos), "chase", false);
+	player->AddComponent(new Sprite(player, sprite_path_thinking.c_str(), pos), "thinking", false);
+	player->AddComponent(new Physics(true));
+	player->Set_Current_Sprite(player->Find_Sprite_By_Name("normal"));
 	player->SetScale({ 3.f,3.f });
 	player->Set_Dmg_Text(text);
 
@@ -245,30 +269,42 @@ void Referee::Respawn(Stage_Statement statement)
 	switch (statement)
 	{
 	case Stage_Statement::PLAYER_SECOND_DIE:
-		player_sec_temp[player_sec_life - 1]->AddComponent(new Player());
+		player_sec_temp[player_sec_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar()->GetComponentByTemplate<Sprite>()->Set_Need_Update(true);
+		player_sec_temp[player_sec_life - 1]->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
 		player_sec_temp[player_sec_life - 1]->GetComponentByTemplate<Player>()->Set_This_UI_info(second_ui);
+		player_sec_temp[player_sec_life - 1]->Set_Tag("player");
 		ObjectManager::GetObjectManager()->AddObject(player_sec_temp[player_sec_life - 1]);
+		ObjectManager::GetObjectManager()->AddObject(player_sec_temp[player_sec_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar());
 		second_ui->Reset();
 		break;
 
 	case Stage_Statement::PLAYER_FIRST_DIE:
-		player_first_temp[player_first_life - 1]->AddComponent(new Player());
+		player_first_temp[player_first_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar()->GetComponentByTemplate<Sprite>()->Set_Need_Update(true);
+		player_first_temp[player_first_life - 1]->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
 		player_first_temp[player_first_life - 1]->GetComponentByTemplate<Player>()->Set_This_UI_info(first_ui);
+		player_first_temp[player_first_life - 1]->Set_Tag("player");
 		ObjectManager::GetObjectManager()->AddObject(player_first_temp[player_first_life - 1]);
+		ObjectManager::GetObjectManager()->AddObject(player_first_temp[player_first_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar());
 		first_ui->Reset();
 		break;
 
 	case Stage_Statement::PLAYER_THIRD_DIE:
-		player_third_temp[player_third_life - 1]->AddComponent(new Player());
+		player_third_temp[player_third_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar()->GetComponentByTemplate<Sprite>()->Set_Need_Update(true);
+		player_third_temp[player_third_life - 1]->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
 		player_third_temp[player_third_life - 1]->GetComponentByTemplate<Player>()->Set_This_UI_info(third_ui);
+		player_third_temp[player_third_life - 1]->Set_Tag("player");
 		ObjectManager::GetObjectManager()->AddObject(player_third_temp[player_third_life - 1]);
+		ObjectManager::GetObjectManager()->AddObject(player_third_temp[player_third_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar());
 		third_ui->Reset();
 		break;
 
 	case Stage_Statement::PLAYER_FOURTH_DIE:
-		player_fourth_temp[player_fourth_life - 1]->AddComponent(new Player());
+		player_fourth_temp[player_fourth_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar()->GetComponentByTemplate<Sprite>()->Set_Need_Update(true);
+		player_fourth_temp[player_fourth_life - 1]->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
 		player_fourth_temp[player_fourth_life - 1]->GetComponentByTemplate<Player>()->Set_This_UI_info(fourth_ui);
+		player_fourth_temp[player_fourth_life - 1]->Set_Tag("player");
 		ObjectManager::GetObjectManager()->AddObject(player_fourth_temp[player_fourth_life - 1]);
+		ObjectManager::GetObjectManager()->AddObject(player_fourth_temp[player_fourth_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar());
 		fourth_ui->Reset();
 		break;
 	}
