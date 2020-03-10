@@ -49,8 +49,8 @@ public:
     void ButtonSelector();
 	
 private:
-    int pointer = 0;
-    float button_timer = 0;
+    int pointer;
+    float button_timer;
 	
     Object* play_button;
     Object* play_button_hover;

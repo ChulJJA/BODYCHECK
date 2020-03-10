@@ -38,6 +38,8 @@ void MainMenu::Load()
     Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
     Graphic::GetGraphic()->get_need_update_sprite() = true;
 
+    pointer = 0;
+    button_timer = 0;
     SetPlayButton();
     SetTutorialButton();
     SetMusicButton();
@@ -46,24 +48,13 @@ void MainMenu::Load()
 
 void MainMenu::Update(float dt)
 {
-    //std::cout << pointer << std::endl;
-    //std::cout << button_timer << std::endl;
+
     button_timer++;
 	
     if (button_timer >= 10)
     {
         ButtonSelector();
     }
- //   if (glfwGetGamepadState(GLFW_JOYSTICK_1, &state))
- //   {
- //       if (state.buttons[GLFW_GAMEPAD_BUTTON_A])
- //       {
- //           sound.play(SOUND::Click);
- //           is_next = true;
- //           next_level = "Level1";
- //           Clear();
- //       }
- //   }
 }
 
 void MainMenu::Clear()
@@ -198,6 +189,7 @@ void MainMenu::ButtonSelector()
 
 	if(input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::START))
 	{
+        pointer = static_cast<int>(BUTTON::START);
         sound.Play(SOUND::Click);
         is_next = true;
         next_level = "Level1";
@@ -212,6 +204,7 @@ void MainMenu::ButtonSelector()
     }
     else if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::MUSIC))
     {
+        pointer = static_cast<int>(BUTTON::START);
         sound.Play(SOUND::Click);
         is_next = true;
         next_level = "SoundOption";
@@ -219,6 +212,7 @@ void MainMenu::ButtonSelector()
     }
     else if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::TEST))
     {
+        pointer = static_cast<int>(BUTTON::START);
         sound.Play(SOUND::Click);
         is_next = true;
         next_level = "TestLevel";

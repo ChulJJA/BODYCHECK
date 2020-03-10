@@ -19,9 +19,9 @@ void Msg_Func_Item_Dash::Init()
 		//vector2 acceleration(1.f);
 
 		
-		vector2 acceleration = info_physics->GetAcceleration();
-		acceleration = normalize(acceleration);
-		acceleration += {50 * acceleration.x, 50 * acceleration.y};
+		vector2 direction = info_physics->GetObjectAngle();
+		//acceleration = normalize(acceleration);
+		//acceleration += {50 * acceleration.x, 50 * acceleration.y};
 
 		//float angle = obj->GetTransform().GetRotation();
 		//float angle_in_radian = to_radians(angle);
@@ -46,7 +46,7 @@ void Msg_Func_Item_Dash::Init()
 		//}
 
 		
-		info_physics->SetAcceleration(acceleration);
+		info_physics->SetAcceleration(direction * 50);
 
 		
 		obj->GetMesh().Get_Is_Moved() = true;

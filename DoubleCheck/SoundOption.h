@@ -53,7 +53,6 @@ private:
     Object* music_icon[3];
     Object* volume_box[3];
     Object* volume_box_hover[3];
-    Object* music_volume_text;
     Object* mute_button[3];
     Object* unmute_button[3];
     Object* back_button;
@@ -62,7 +61,7 @@ private:
 	
     BitmapFont      font{};
 
-    float mute_timer = 0;
-    float button_timer = 0;
-    int pointer = 0;
+    float volume_timer;
+    float button_timer;
+    int pointer;
 };
