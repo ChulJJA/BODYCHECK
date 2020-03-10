@@ -333,6 +333,7 @@ void Physics::Dash(Object* object)
 	{
 		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, "magnatic", 0.f));
 	}
+
 	return;
 }
 
