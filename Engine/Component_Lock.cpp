@@ -28,6 +28,7 @@ void Lock::Update(float dt)
 			}
 			else
 			{
+				locking_obj->Change_Sprite(locking_obj->Find_Sprite_By_Name("normal"));
 				locking_obj->GetComponentByTemplate<Player>()->Set_Char_State(Player::Char_State::None);
 			}
 			locking_obj->GetComponentByTemplate<Player>()->Set_Locking(nullptr);
