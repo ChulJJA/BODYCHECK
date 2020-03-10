@@ -16,10 +16,38 @@ void Msg_Func_Item_Dash::Init()
 		Player* info_player = obj->GetComponentByTemplate<Player>();
 		PLAYER_UI* info_ui = info_player->Get_Ui();
 		Physics* info_physics = obj->GetComponentByTemplate<Physics>();
+		//vector2 acceleration(1.f);
+
 		
 		vector2 direction = info_physics->GetObjectAngle();
+		//acceleration = normalize(acceleration);
+		//acceleration += {50 * acceleration.x, 50 * acceleration.y};
 
+		//float angle = obj->GetTransform().GetRotation();
+		//float angle_in_radian = to_radians(angle);
+		//acceleration.x += (-sin(angle_in_radian) * 10);
+		//acceleration.y += (cos(angle_in_radian) * 10);
+
+		//if(-sin(angle_in_radian) > 0)
+		//{
+		//	std::cout << "x : +" << std::endl;
+		//}
+		//else
+		//{
+		//	std::cout << "x : -" << std::endl;
+		//}
+		//if(cos(angle_in_radian) > 0)
+		//{
+		//	std::cout << "y : +" << std::endl;
+		//}
+		//else
+		//{
+		//	std::cout << "y : -" << std::endl;
+		//}
+
+		
 		info_physics->SetAcceleration(direction * 50);
+
 		
 		obj->GetMesh().Get_Is_Moved() = true;
 		info_player->Set_Item_State(Item::Item_Kind::None);

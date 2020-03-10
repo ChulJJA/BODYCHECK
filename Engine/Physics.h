@@ -24,8 +24,10 @@ public:
     void JustMove();
     void KnockBack(Object* object_1, Object* object_2);
     void Dash(Object* object);
+    void BasicMovement();
     void SpeedDown(Object* object);
     void Update(float dt) override;
+    void PlayerDirection();
     void SetAcceleration(vector2 accel)
     {
         acceleration = accel;
@@ -47,6 +49,7 @@ public:
     {
         return ghost_collision_mode;
     }
+
     vector2 GetObjectAngle()
     {
         return object_angle;
@@ -56,6 +59,7 @@ public:
 
 private:
     vector2 acceleration{};
+    vector2 velocity{};
     mutable float timer = 0;
     vector2 accel_save{};
 

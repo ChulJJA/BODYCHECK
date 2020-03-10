@@ -190,7 +190,7 @@ void Physics::Acceleration(float max_accel, float min_accel)
 	if (input.Is_Key_Pressed(GLFW_KEY_RIGHT) || input.Is_Key_Pressed(GLFW_KEY_LEFT) ||
 		input.Is_Key_Pressed(GLFW_KEY_DOWN) || input.Is_Key_Pressed(GLFW_KEY_UP))
 	{
-		vector2 obj_pos = { 0, 0 };
+		vector2 obj_pos = {0, 0};
 
 		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
 		{
@@ -248,7 +248,7 @@ void Physics::Acceleration(float max_accel, float min_accel)
 		}
 
 		float angle = RadianToDegree(angle_between({ 0,1 }, obj_pos));
-		if (obj_pos.x >= 0)
+		if(obj_pos.x >= 0)
 		{
 			angle *= -1;
 		}
@@ -328,6 +328,62 @@ void Physics::Dash(Object* object)
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && object->GetComponentByTemplate<Player>()->Get_Item_State() == Item::Item_Kind::Throwing)
 	{
 		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, "throwing", 0.f));
+	}
+	return;
+}
+
+void Physics::BasicMovement()
+{
+
+	if (input.Is_Key_Pressed(GLFW_KEY_W))
+	{
+		if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_A))
+		{
+			velocity = { -1, 1 };
+			m_owner->GetTransform().AddTranslation(velocity);
+		}
+		else if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_D))
+		{
+			velocity = { 1, 1 };
+			m_owner->GetTransform().AddTranslation(velocity);
+		}
+		else
+		{
+			velocity = { 0, 1 };
+			m_owner->GetTransform().AddTranslation(velocity);
+		}
+	}
+	else if (input.Is_Key_Pressed(GLFW_KEY_A))
+	{
+		if (input.Is_Key_Pressed(GLFW_KEY_A) && input.Is_Key_Pressed(GLFW_KEY_S))
+		{
+			velocity = { -1, -1 };
+			m_owner->GetTransform().AddTranslation(velocity);
+		}
+		else
+		{
+			velocity = { 1, 0 };
+			velocity = { -1, 0 };
+			m_owner->GetTransform().AddTranslation(velocity);
+		}
+	}
+	else if (input.Is_Key_Pressed(GLFW_KEY_S))
+	{
+		if (input.Is_Key_Pressed(GLFW_KEY_S) && input.Is_Key_Pressed(GLFW_KEY_D))
+		{
+			velocity = { 1, -1 };
+			m_owner->GetTransform().AddTranslation(velocity);
+		}
+		else
+		{
+			velocity = { 0, -1 };
+			m_owner->GetTransform().AddTranslation(velocity);
+		}
+	}
+	else if (input.Is_Key_Pressed(GLFW_KEY_D))
+	{
+		velocity = { 1, 0 };
+		m_owner->GetTransform().AddTranslation(velocity);
 	}
 	return;
 }
