@@ -74,83 +74,8 @@ void Level1::Load()
     arena->AddComponent(new Sprite(arena, "../Sprite/IceGround.png", { 0,0 }, false));
     arena->SetScale({ 20, 20 });
     ObjectManager::GetObjectManager()->AddObject(arena);
-
-    player = new Object();
-
-    ifstream readFile("../Data/Objects/Objects.txt");
-
-    if (readFile.is_open())
-    {
-        string line;
-        string type;
-        string objectType;
-        string name;
-        string locate;
-        string animate;     
-        int result = 0, frame = 0;
-        float value_x = 0, value_y = 0;
-        while (std::getline(readFile, line))
-        {
-            std::stringstream keystream(line);
-            keystream >> type;
-
-            if (type == "Type:")
-            {
-                keystream >> objectType;
-                player->AddComponent(new Player());
-                player->AddComponent(new Physics());
-                player->Set_Tag(objectType);
-
-            }
-            else if (type == "Name:")
-            {
-                keystream >> name;
-                player->Set_Name(name);
-            }
-            else if (type == "Sprite:")
-            {
-                keystream >> locate;
-                keystream >> animate;
-                keystream >> frame;
-
-                if (animate == "true")
-                {
-                    result = 1;
-                }
-                else if (animate == "false")
-                {
-                    result = 0;
-                }
-
-
-                player->AddComponent(new Sprite(player, locate.c_str(), { value_x,value_y }));
-                player->Set_path(locate);
-                player->Set_AniState(animate);
-                player->Set_Frame(frame);
-            }
-            else if (type == "Position:")
-            {
-                keystream >> value_x;
-                keystream >> value_y;
-
-                player->SetTranslation(vector2(value_x, value_y));
-            }
-            else if (type == "Scale:")
-            {
-                keystream >> value_x;
-                keystream >> value_y;
-
-                player->SetScale(vector2(value_x, value_y));
-                result = 0; frame = 0; value_x = 0; value_y = 0;
-            }
-        }
-    }
-
-    ObjectManager::GetObjectManager()->AddObject(player);
 	
-    player->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
-    player->GetTransform().SetScale({ 3.f, 3.f });
-	
+    player = Make_Player("first", "player", "../sprite/pen_green.png", { 400.f, 400.f }, { 3.f,3.f });
 	player_sec = Make_Player("second", "player", "../sprite/pen_red.png", { 400.f, -400.f }, { 3.f, 3.f });
 	player_third = Make_Player("third", "player", "../sprite/pen_purple.png", { -400.f, 400.f }, { 3.f, 3.f });
 	player_forth = Make_Player("forth", "player", "../sprite/pen_normal.png", { -400.f, -400.f }, { 3.f, 3.f });
