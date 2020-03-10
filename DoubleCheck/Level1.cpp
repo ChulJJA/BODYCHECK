@@ -75,7 +75,7 @@ void Level1::Load()
 		arena->SetScale({ 20, 20 });
 		ObjectManager::GetObjectManager()->AddObject(arena);
 
-		player = new Object();
+		/*player = new Object();
 
 		ifstream readFile("../Data/Objects/Objects.txt");
 
@@ -149,8 +149,8 @@ void Level1::Load()
 		ObjectManager::GetObjectManager()->AddObject(player);
 
 		player->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
-		player->GetTransform().SetScale({ 3.f, 3.f });
-
+		player->GetTransform().SetScale({ 3.f, 3.f });*/
+		player = Make_Player("first", "player", "pen_green", { 400.f, 400.f }, { 3.f, 3.f });
 		player_sec = Make_Player("second", "player", "pen_red", { 400.f, -400.f }, { 3.f, 3.f });
 		player_third = Make_Player("third", "player", "pen_purple", { -400.f, 400.f }, { 3.f, 3.f });
 		player_forth = Make_Player("forth", "player", "pen_normal", { -400.f, -400.f }, { 3.f, 3.f });

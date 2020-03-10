@@ -77,7 +77,7 @@ void Referee::Init()
 	for (int i = 0; i < item_num; i++)
 	{
 
-		item_save_hp[i] = Make_Item_Pool("../Sprite/item.png", { -400,0 }, "item", "item", Item::Item_Kind::Magnatic);
+		item_save_hp[i] = Make_Item_Pool("../Sprite/item.png", { -400,0 }, "item", "item", Item::Item_Kind::Throwing);
 	}
 
 	for (int i = 0; i < item_num; i++)
@@ -119,6 +119,11 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	std::string sprite_path_chase = "../Sprite/";
 	sprite_path_chase += sprite_path;
 	sprite_path_chase += "_chase.png";
+
+	std::string sprite_path_thinking = "../Sprite/";
+	sprite_path_thinking += sprite_path;
+	sprite_path_thinking += "_thinking.png";
+
 	
 	Object* player = new Object();
 	player->Set_Name(name);
@@ -127,6 +132,7 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	player->AddComponent(new Sprite(player, sprite_path_normal.c_str(), pos), "normal", true);
 	player->AddComponent(new Sprite(player, sprite_path_lock.c_str(), pos), "lock", false);
 	player->AddComponent(new Sprite(player, sprite_path_chase.c_str(), pos), "chase", false);
+	player->AddComponent(new Sprite(player, sprite_path_thinking.c_str(), pos), "thinking", false);
 	player->AddComponent(new Physics(true));
 	player->Set_Current_Sprite(player->Find_Sprite_By_Name("normal"));
 	player->SetScale({ 3.f,3.f });

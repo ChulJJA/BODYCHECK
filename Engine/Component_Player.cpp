@@ -69,14 +69,14 @@ void Player::Update(float dt)
 	}
 	if(curr_state == Char_State::Lock_Ing)
 	{
-		vector2 this_pos = m_owner->GetTransform().GetTranslation();
+		/*vector2 this_pos = m_owner->GetTransform().GetTranslation();
 		vector2 obj_pos = locking_pointer->GetTransform().GetTranslation();
 		
 		float angle_in_radian = atan2(this_pos.y - obj_pos.y, this_pos.x - obj_pos.x);
 		float angle = to_degrees(angle_in_radian);
 		angle += 90;
 
-		m_owner->SetRotation(angle);
+		m_owner->SetRotation(angle);*/
 	}
 	if(curr_state == Char_State::Magnatic)
 	{
@@ -180,7 +180,7 @@ void Player::Func_Lock_Ready(float dt)
 		Object* lock = new Object();
 		lock->Set_Name("lock");
 		lock->Set_Tag("lock");
-		lock->AddComponent(new Sprite(lock, "../sprite/pen_red.png", m_owner->GetTransform().GetTranslation()));
+		lock->AddComponent(new Sprite(lock, "../sprite/zoom.png", m_owner->GetTransform().GetTranslation()));
 		lock->AddComponent(new Physics());
 		lock->AddComponent(new Lock());
 		lock->GetComponentByTemplate<Lock>()->Set_Speed(1000.f);
@@ -188,6 +188,8 @@ void Player::Func_Lock_Ready(float dt)
 		lock->SetScale(2.f);
 		locking_pointer = lock;
 		ObjectManager::GetObjectManager()->AddObject(lock);
+
+		m_owner->Change_Sprite(m_owner->Find_Sprite_By_Name("thinking"));
 	}
 }
 
@@ -239,6 +241,11 @@ void Player::Func_Magnatic(float dt)
 			own_pos.y = convert_pos.y;
 		}
 		m_owner->GetTransform().SetTranslation(own_pos);
+	}
+	else
+	{
+		curr_state = Char_State::None;
+		m_owner->Change_Sprite(m_owner->Find_Sprite_By_Name("normal"));
 	}
 }
 
