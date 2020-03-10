@@ -21,22 +21,8 @@
 #include "Component_Throwing.h"
 #include "Component_Lock.h"
 #include "Component_Player.h"
-
+#include "UsefulTools.hpp"
 #define  PI  3.14159265359
-
-float RadianToDegree(float radian)
-{
-	float degree = static_cast<float>(radian * (180 / PI));
-
-	return degree;
-}
-
-float DegreeToRadian(float degree)
-{
-	float radian = static_cast<float>(degree * (PI / 180));
-
-	return radian;
-}
 
 void Collision::Init(Object* obj)
 {

@@ -46,8 +46,6 @@ public:
     void    SetScale(const float& new_scale) noexcept;
     void    SetScale(const vector2 & new_scale) noexcept;
 
-    void SetAcceleration(const vector2 & new_acceleration) noexcept;
-
     float GetRotation() const noexcept;
     void  SetRotation(float new_rotation) noexcept;
 

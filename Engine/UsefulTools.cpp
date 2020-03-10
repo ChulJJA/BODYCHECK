@@ -3,6 +3,7 @@
 #include "Component_Text.h"
 #include "Object.h"
 #include "UsefulTools.hpp"
+#include "angles.hpp"
 
 bool MouseCollision(vector2 object_pos_max, vector2 object_pos_min, vector2 mouse_pos)
 {
@@ -28,4 +29,18 @@ std::wstring StringToWstring(std::string str)
     std::wstring str_to_wstr;
     str_to_wstr.assign(str.begin(), str.end());
     return str_to_wstr;
+}
+
+float RadianToDegree(float radian)
+{
+    float degree = static_cast<float>(radian * (180 / PI));
+
+    return degree;
+}
+
+float DegreeToRadian(float degree)
+{
+    float radian = static_cast<float>(degree * (PI / 180));
+
+    return radian;
 }

@@ -21,6 +21,8 @@ void Msg_Func_Item_Dash::Init()
 		acceleration = normalize(acceleration);
 		acceleration += {50 * acceleration.x, 50 * acceleration.y};
 		info_physics->SetAcceleration(acceleration);
+		vector2 direction = info_physics->GetObjectAngle();
+		info_physics->SetAcceleration(direction * 50);
 
 		obj->GetMesh().Get_Is_Moved() = true;
 		info_player->Set_Item_State(Item::Item_Kind::None);

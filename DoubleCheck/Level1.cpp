@@ -185,7 +185,6 @@ void Level1::Load()
 		Graphic::GetGraphic()->get_need_update_sprite() = true;
 	}
 
-	
 	loading->Set_Done(false);
 	if(loading_thread.joinable())
 	{

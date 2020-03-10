@@ -306,71 +306,71 @@
     <ClInclude Include="UsefulTools.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Message_Function.h">
-      <Filter>Message_Function</Filter>
-    </ClInclude>
-    <ClInclude Include="Message_Function_Base.h">
-      <Filter>Message_Function</Filter>
-    </ClInclude>
-    <ClInclude Include="Message_Function_Collision.h">
-      <Filter>Message_Function</Filter>
-    </ClInclude>
-    <ClInclude Include="Message_Function_Respawn.h">
-      <Filter>Message_Function</Filter>
-    </ClInclude>
-    <ClInclude Include="Message_Function_Wall_Collision.h">
-      <Filter>Message_Function</Filter>
-    </ClInclude>
-    <ClInclude Include="Message_Function_Item_Bulkup.h">
-      <Filter>Message_Function</Filter>
-    </ClInclude>
-    <ClInclude Include="Message_Function_Item_Recover.h">
-      <Filter>Message_Function</Filter>
-    </ClInclude>
-    <ClInclude Include="Message_Function_Item_Dash.h">
-      <Filter>Message_Function</Filter>
-    </ClInclude>
     <ClInclude Include="Component.hpp">
-      <Filter>Components</Filter>
+      <Filter>Components\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Component_Collision.h">
-      <Filter>Components</Filter>
+      <Filter>Components\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Component_Enemy.h">
-      <Filter>Components</Filter>
+      <Filter>Components\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Component_Hpbar.h">
-      <Filter>Components</Filter>
+      <Filter>Components\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Component_Item.h">
-      <Filter>Components</Filter>
+      <Filter>Components\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Component_Player.h">
-      <Filter>Components</Filter>
+      <Filter>Components\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Component_Sprite.h">
-      <Filter>Components</Filter>
+      <Filter>Components\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Component_Text.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Message.h">
-      <Filter>Message_Function</Filter>
-    </ClInclude>
-    <ClInclude Include="Message_Manager.h">
-      <Filter>Message_Function</Filter>
-    </ClInclude>
-    <ClInclude Include="Message_Function_Item_Throwing.h">
-      <Filter>Message_Function</Filter>
+      <Filter>Components\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Component_Throwing.h">
-      <Filter>Components</Filter>
+      <Filter>Components\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Component_Ui.h">
-      <Filter>Components</Filter>
+      <Filter>Components\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Damage_Calculator.h">
-      <Filter>Message_Function</Filter>
+      <Filter>Message_Function\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message.h">
+      <Filter>Message_Function\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function.h">
+      <Filter>Message_Function\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Base.h">
+      <Filter>Message_Function\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Collision.h">
+      <Filter>Message_Function\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Item_Bulkup.h">
+      <Filter>Message_Function\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Item_Dash.h">
+      <Filter>Message_Function\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Item_Recover.h">
+      <Filter>Message_Function\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Item_Throwing.h">
+      <Filter>Message_Function\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Respawn.h">
+      <Filter>Message_Function\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Wall_Collision.h">
+      <Filter>Message_Function\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Manager.h">
+      <Filter>Message_Function\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Component_Lock.h">
       <Filter>Components</Filter>
@@ -386,9 +386,6 @@
     <Filter Include="Components">
       <UniqueIdentifier>{eae18d40-6fd2-4786-ba83-faa6bd538416}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headers">
-      <UniqueIdentifier>{c8a5ec4b-453c-42f2-ae0e-4c791eceac30}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source">
       <UniqueIdentifier>{fbe3ba4d-7c89-4f6b-bfc9-9613d986a2e9}</UniqueIdentifier>
     </Filter>
@@ -397,6 +394,15 @@
     </Filter>
     <Filter Include="Message_Function">
       <UniqueIdentifier>{eda70402-eff3-49fb-8bfa-9f118f34a5a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Message_Function\Headers">
+      <UniqueIdentifier>{435f88d7-1db5-4482-8ae9-00eaa66cdd4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{c8a5ec4b-453c-42f2-ae0e-4c791eceac30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Headers">
+      <UniqueIdentifier>{eaccbccc-2aca-4479-916d-be242aab161b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
