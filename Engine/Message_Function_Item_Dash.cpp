@@ -47,7 +47,7 @@ void Msg_Func_Item_Dash::Init()
 
 		
 		info_physics->SetAcceleration(acceleration);
-
+		
 		
 		obj->GetMesh().Get_Is_Moved() = true;
 		info_player->Set_Item_State(Item::Item_Kind::None);

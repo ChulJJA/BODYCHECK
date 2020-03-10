@@ -43,22 +43,18 @@ void Physics::Acceleration(float max_accel, float min_accel)
 			if (acceleration.x >= 0 && acceleration.y >= 0)
 			{
 				acceleration += {-max_accel, min_accel};
-				m_owner->GetTransform().AddTranslation(acceleration);
 			}
 			else if (acceleration.x >= 0 && acceleration.y < 0)
 			{
 				acceleration += {-max_accel, max_accel};
-				m_owner->GetTransform().AddTranslation(acceleration);
 			}
 			else if (acceleration.x < 0 && acceleration.y >= 0)
 			{
 				acceleration += {-min_accel, min_accel};
-				m_owner->GetTransform().AddTranslation(acceleration);
 			}
 			else
 			{
 				acceleration += {-min_accel, max_accel};
-				m_owner->GetTransform().AddTranslation(acceleration);
 			}
 		}
 		else if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_D))
@@ -66,22 +62,18 @@ void Physics::Acceleration(float max_accel, float min_accel)
 			if (acceleration.x >= 0 && acceleration.y >= 0)
 			{
 				acceleration += {min_accel, min_accel};
-				m_owner->GetTransform().AddTranslation(acceleration);
 			}
 			else if (acceleration.x >= 0 && acceleration.y < 0)
 			{
 				acceleration += {min_accel, max_accel};
-				m_owner->GetTransform().AddTranslation(acceleration);
 			}
 			else if (acceleration.x < 0 && acceleration.y >= 0)
 			{
 				acceleration += {max_accel, min_accel};
-				m_owner->GetTransform().AddTranslation(acceleration);
 			}
 			else
 			{
 				acceleration += {max_accel, max_accel};
-				m_owner->GetTransform().AddTranslation(acceleration);
 			}
 		}
 		else
@@ -93,12 +85,10 @@ void Physics::Acceleration(float max_accel, float min_accel)
 			if (acceleration.y >= 0)
 			{
 				acceleration += {0.00, min_accel};
-				m_owner->GetTransform().AddTranslation(acceleration);
 			}
 			else if (acceleration.y < 0)
 			{
 				acceleration += {0.00, max_accel};
-				m_owner->GetTransform().AddTranslation(acceleration);
 			}
 		}
 	}
@@ -109,22 +99,18 @@ void Physics::Acceleration(float max_accel, float min_accel)
 			if (acceleration.x >= 0 && acceleration.y >= 0)
 			{
 				acceleration += {-max_accel, -max_accel};
-				m_owner->GetTransform().AddTranslation(acceleration);
 			}
 			else if (acceleration.x >= 0 && acceleration.y < 0)
 			{
 				acceleration += {-max_accel, -min_accel};
-				m_owner->GetTransform().AddTranslation(acceleration);
 			}
 			else if (acceleration.x < 0 && acceleration.y >= 0)
 			{
 				acceleration += {-min_accel, -max_accel};
-				m_owner->GetTransform().AddTranslation(acceleration);
 			}
 			else
 			{
 				acceleration += {-min_accel, -min_accel};
-				m_owner->GetTransform().AddTranslation(acceleration);
 			}
 		}
 		else
@@ -132,12 +118,10 @@ void Physics::Acceleration(float max_accel, float min_accel)
 			if (acceleration.x >= 0)
 			{
 				acceleration.x += -max_accel;
-				m_owner->GetTransform().AddTranslation(acceleration);
 			}
 			else
 			{
 				acceleration.x += -min_accel;
-				m_owner->GetTransform().AddTranslation(acceleration);
 			}
 			if (abs(acceleration.y) >= 0)
 			{
@@ -152,22 +136,18 @@ void Physics::Acceleration(float max_accel, float min_accel)
 			if (acceleration.x >= 0 && acceleration.y >= 0)
 			{
 				acceleration += {min_accel, -max_accel};
-				m_owner->GetTransform().AddTranslation(acceleration);
 			}
 			else if (acceleration.x >= 0 && acceleration.y < 0)
 			{
 				acceleration += {min_accel, -min_accel};
-				m_owner->GetTransform().AddTranslation(acceleration);
 			}
 			else if (acceleration.x < 0 && acceleration.y >= 0)
 			{
 				acceleration += {max_accel, -max_accel};
-				m_owner->GetTransform().AddTranslation(acceleration);
 			}
 			else
 			{
 				acceleration += {max_accel, -min_accel};
-				m_owner->GetTransform().AddTranslation(acceleration);
 			}
 		}
 		else
@@ -179,12 +159,10 @@ void Physics::Acceleration(float max_accel, float min_accel)
 			if (acceleration.y >= 0)
 			{
 				acceleration.y += -max_accel;
-				m_owner->GetTransform().AddTranslation(acceleration);
 			}
 			else
 			{
 				acceleration.y += -min_accel;
-				m_owner->GetTransform().AddTranslation(acceleration);
 			}
 		}
 	}
@@ -193,12 +171,10 @@ void Physics::Acceleration(float max_accel, float min_accel)
 		if (acceleration.x >= 0)
 		{
 			acceleration.x += min_accel;
-			m_owner->GetTransform().AddTranslation(acceleration);
 		}
 		else
 		{
 			acceleration.x += max_accel;
-			m_owner->GetTransform().AddTranslation(acceleration);
 		}
 		if (abs(acceleration.y) >= 0)
 		{
@@ -208,7 +184,6 @@ void Physics::Acceleration(float max_accel, float min_accel)
 	else
 	{
 		acceleration += {-acceleration.x / 100, -acceleration.y / 100};
-		m_owner->GetTransform().AddTranslation(acceleration);
 	}
 
 	if (input.Is_Key_Pressed(GLFW_KEY_RIGHT) || input.Is_Key_Pressed(GLFW_KEY_LEFT) ||
@@ -284,7 +259,6 @@ void Physics::Acceleration(float max_accel, float min_accel)
 void Physics::JustMove()
 {
 	acceleration += {-acceleration.x / 100, -acceleration.y / 100};
-	m_owner->GetTransform().AddTranslation(acceleration);
 }
 
 void Physics::KnockBack(Object* object_1, Object* object_2)
@@ -416,8 +390,6 @@ void Physics::BasicMovement()
 	return;
 }
 
-
-
 void Physics::SpeedDown(Object* object)
 {
 	vector2 acceleration = object->GetComponentByTemplate<Physics>()->GetAcceleration();
@@ -434,7 +406,7 @@ void Physics::Update(float dt)
 	if (m_owner->GetName() == "first")
 	{
 		Acceleration(0.6f, 0.12f);
-
+		m_owner->GetTransform().AddTranslation(acceleration);
 		if (is_dashed == false && timer >= 0.3)
 		{
 			Dash(m_owner);
@@ -448,6 +420,7 @@ void Physics::Update(float dt)
 	else if (m_owner->GetName() == "second")
 	{
 		Acceleration(0.6f, 0.12f);
+		m_owner->GetTransform().AddTranslation(acceleration);
 
 		if (is_dashed == false && timer >= 0.3)
 		{
@@ -462,6 +435,7 @@ void Physics::Update(float dt)
 	else if (m_owner->GetName() == "third")
 	{
 		Acceleration(0.6f, 0.12f);
+		m_owner->GetTransform().AddTranslation(acceleration);
 
 		if (is_dashed == false && timer >= 0.3)
 		{
@@ -476,6 +450,7 @@ void Physics::Update(float dt)
 	else if (m_owner->GetName() == "forth")
 	{
 		Acceleration(0.6f, 0.12f);
+		m_owner->GetTransform().AddTranslation(acceleration);
 
 		if (is_dashed == false && timer >= 0.3)
 		{

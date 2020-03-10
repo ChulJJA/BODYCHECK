@@ -27,10 +27,11 @@ public:
     void BasicMovement();
     void SpeedDown(Object* object);
     void Update(float dt) override;
-
+    
     void SetAcceleration(vector2 accel)
     {
         acceleration = accel;
+    	
     }
     vector2 GetAcceleration() const
     {
