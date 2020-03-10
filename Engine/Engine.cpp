@@ -64,10 +64,11 @@ void Engine::Init()
     sound.Play(SOUND::BGM);
 
     app_ = Application::Get_Application();
+	msg_manager = Message_Manager::Get_Message_Manager();
     object_manager = ObjectManager::GetObjectManager();
     state_manager = StateManager::GetStateManager();
     graphic = Graphic::GetGraphic();
-    msg_manager = Message_Manager::Get_Message_Manager();
+    
 	
     app_->Init();
     object_manager->Init();
@@ -94,8 +95,8 @@ void Engine::Update()
     app_->Update(m_dt);
     graphic->Update(m_dt);
 	state_manager->Update(m_dt);
+	msg_manager->Update(m_dt);
     object_manager->Update(m_dt);
-    msg_manager->Update(m_dt);
 
     if (input.Is_Key_Triggered(GLFW_KEY_1))
     {

@@ -38,6 +38,8 @@ void PLAYER_UI::Initialize()
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/bulkup.png", { this_trans.x + 200, this_trans.y - 200 }), "bulkup", false);
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/dash.png", { this_trans.x + 200, this_trans.y - 200 }), "dash", false);
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/heal.png", { this_trans.x + 200, this_trans.y - 200 }), "heal", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/throw.png", { this_trans.x + 200, this_trans.y - 200 }), "throwing", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/magnet.png", { this_trans.x + 200, this_trans.y - 200 }), "magnatic", false);
     info_item->Set_Tag("item_info");
     info_item->Set_Name(this->GetName() + "info_item");
     ObjectManager::GetObjectManager()->AddObject(info_item);
@@ -65,11 +67,6 @@ void PLAYER_UI::Reset()
     info_hp_bar->GetMesh().Get_Is_Moved() = true;
 
 	info_item->GetTransform().SetTranslation({ this_trans.x + 400, this_trans.y - 200 });
-	
-	if(info_item_sprite != nullptr)
-	{
-		info_item->DeleteComponent(info_item->GetComponentByTemplate<Sprite>());
-	}
 	
     info_item->GetMesh().Get_Is_Moved() = true;
 }

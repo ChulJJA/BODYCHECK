@@ -190,7 +190,7 @@ void Physics::Acceleration(float max_accel, float min_accel)
 	if (input.Is_Key_Pressed(GLFW_KEY_RIGHT) || input.Is_Key_Pressed(GLFW_KEY_LEFT) ||
 		input.Is_Key_Pressed(GLFW_KEY_DOWN) || input.Is_Key_Pressed(GLFW_KEY_UP))
 	{
-		vector2 obj_pos = {0, 0};
+		vector2 obj_pos = { 0, 0 };
 
 		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
 		{
@@ -248,7 +248,7 @@ void Physics::Acceleration(float max_accel, float min_accel)
 		}
 
 		float angle = RadianToDegree(angle_between({ 0,1 }, obj_pos));
-		if(obj_pos.x >= 0)
+		if (obj_pos.x >= 0)
 		{
 			angle *= -1;
 		}
@@ -329,61 +329,9 @@ void Physics::Dash(Object* object)
 	{
 		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, "throwing", 0.f));
 	}
-	return;
-}
-
-void Physics::BasicMovement()
-{
-
-	if (input.Is_Key_Pressed(GLFW_KEY_W))
+	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && object->GetComponentByTemplate<Player>()->Get_Item_State() == Item::Item_Kind::Magnatic)
 	{
-		if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_A))
-		{
-			velocity = { -1, 1 };
-			m_owner->GetTransform().AddTranslation(velocity);
-		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_D))
-		{
-			velocity = { 1, 1 };
-			m_owner->GetTransform().AddTranslation(velocity);
-		}
-		else
-		{
-			velocity = { 0, 1 };
-			m_owner->GetTransform().AddTranslation(velocity);
-		}
-	}
-	else if (input.Is_Key_Pressed(GLFW_KEY_A))
-	{
-		if (input.Is_Key_Pressed(GLFW_KEY_A) && input.Is_Key_Pressed(GLFW_KEY_S))
-		{
-			velocity = { -1, -1 };
-			m_owner->GetTransform().AddTranslation(velocity);
-		}
-		else
-		{
-			velocity = { 1, 0 };
-			velocity = { -1, 0 };
-			m_owner->GetTransform().AddTranslation(velocity);
-		}
-	}
-	else if (input.Is_Key_Pressed(GLFW_KEY_S))
-	{
-		if (input.Is_Key_Pressed(GLFW_KEY_S) && input.Is_Key_Pressed(GLFW_KEY_D))
-		{
-			velocity = { 1, -1 };
-			m_owner->GetTransform().AddTranslation(velocity);
-		}
-		else
-		{
-			velocity = { 0, -1 };
-			m_owner->GetTransform().AddTranslation(velocity);
-		}
-	}
-	else if (input.Is_Key_Pressed(GLFW_KEY_D))
-	{
-		velocity = { 1, 0 };
-		m_owner->GetTransform().AddTranslation(velocity);
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, "magnatic", 0.f));
 	}
 	return;
 }
@@ -403,61 +351,81 @@ void Physics::Update(float dt)
 
 	if (m_owner->GetName() == "first")
 	{
-		Acceleration(0.6f, 0.12f);
-		m_owner->GetTransform().AddTranslation(acceleration);
-		if (is_dashed == false && timer >= 0.3)
+		Player* info_player = m_owner->GetComponentByTemplate<Player>();
+
+		if (info_player->Get_Char_State() == Player::Char_State::None)
 		{
-			Dash(m_owner);
-		}
-		else if (is_dashed == true && timer >= 0.5)
-		{
-			SpeedDown(m_owner);
-			is_dashed = false;
+			Acceleration(0.6f, 0.12f);
+			m_owner->GetTransform().AddTranslation(acceleration);
+			if (is_dashed == false && timer >= 0.3)
+			{
+				Dash(m_owner);
+			}
+			else if (is_dashed == true && timer >= 0.5)
+			{
+				SpeedDown(m_owner);
+				is_dashed = false;
+			}
 		}
 	}
 	else if (m_owner->GetName() == "second")
 	{
-		Acceleration(0.6f, 0.12f);
-		m_owner->GetTransform().AddTranslation(acceleration);
+		Player* info_player = m_owner->GetComponentByTemplate<Player>();
 
-		if (is_dashed == false && timer >= 0.3)
+		if (info_player->Get_Char_State() == Player::Char_State::None)
 		{
-			Dash(m_owner);
-		}
-		else if (is_dashed == true && timer >= 0.5)
-		{
-			SpeedDown(m_owner);
-			is_dashed = false;
+			Acceleration(0.6f, 0.12f);
+			m_owner->GetTransform().AddTranslation(acceleration);
+
+			if (is_dashed == false && timer >= 0.3)
+			{
+				Dash(m_owner);
+			}
+			else if (is_dashed == true && timer >= 0.5)
+			{
+				SpeedDown(m_owner);
+				is_dashed = false;
+			}
 		}
 	}
 	else if (m_owner->GetName() == "third")
 	{
-		Acceleration(0.6f, 0.12f);
-		m_owner->GetTransform().AddTranslation(acceleration);
+		Player* info_player = m_owner->GetComponentByTemplate<Player>();
 
-		if (is_dashed == false && timer >= 0.3)
+		if (info_player->Get_Char_State() == Player::Char_State::None)
 		{
-			Dash(m_owner);
-		}
-		else if (is_dashed == true && timer >= 0.5)
-		{
-			SpeedDown(m_owner);
-			is_dashed = false;
+			Acceleration(0.6f, 0.12f);
+			m_owner->GetTransform().AddTranslation(acceleration);
+
+			if (is_dashed == false && timer >= 0.3)
+			{
+				Dash(m_owner);
+			}
+			else if (is_dashed == true && timer >= 0.5)
+			{
+				SpeedDown(m_owner);
+				is_dashed = false;
+			}
 		}
 	}
 	else if (m_owner->GetName() == "forth")
 	{
-		Acceleration(0.6f, 0.12f);
-		m_owner->GetTransform().AddTranslation(acceleration);
+		Player* info_player = m_owner->GetComponentByTemplate<Player>();
 
-		if (is_dashed == false && timer >= 0.3)
+		if (info_player->Get_Char_State() == Player::Char_State::None)
 		{
-			Dash(m_owner);
-		}
-		else if (is_dashed == true && timer >= 0.5)
-		{
-			SpeedDown(m_owner);
-			is_dashed = false;
+			Acceleration(0.6f, 0.12f);
+			m_owner->GetTransform().AddTranslation(acceleration);
+
+			if (is_dashed == false && timer >= 0.3)
+			{
+				Dash(m_owner);
+			}
+			else if (is_dashed == true && timer >= 0.5)
+			{
+				SpeedDown(m_owner);
+				is_dashed = false;
+			}
 		}
 	}
 	else

@@ -37,7 +37,8 @@ public:
 		Item_Dash,
 		Item_Hp,
 		Item_Bulkup,
-		Item_Throwing
+		Item_Throwing,
+		Item_Magnatic
 		
 	};
 

@@ -13,6 +13,16 @@
 #include "Object.h"
 #include "Component_Sprite.h"
 
+void Object::Change_Sprite(Component* sprite)
+{
+	if(sprite != nullptr)
+	{
+		current_showing_sprite->Set_Need_Update(false);
+		sprite->Set_Need_Update(true);
+		current_showing_sprite = sprite;
+	}
+}
+
 Component* Object::Get_Current_Sprite()
 {
 	return current_showing_sprite;
@@ -38,9 +48,9 @@ void Object::DeleteComponent(Component* comp)
     delete for_erase;
 }
 
-Component* Object::Find_Component_By_Name(std::string name)
+Component* Object::Find_Sprite_By_Name(std::string name)
 {
-	for(auto component : components_)
+	for(auto component : comp_sprite)
 	{
 		if(component->GetComponentName() == name)
 		{

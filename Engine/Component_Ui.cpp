@@ -28,51 +28,38 @@ void Ui::Update(float dt)
 void Ui::Change_Item_Ui()
 {
 	Object* item_ui = ui_info->Get_Item_Info();
-	Sprite* ui_sprite = item_ui->GetComponentByTemplate<Sprite>();
-
-	if(ui_sprite != nullptr)
-	{
-		//item_ui->DeleteComponent(ui_sprite);
-		
-	}
 
 	if (status_info_verb == Ui_Status_Verb::Use)
 	{
-		Component* current_using_sprite = item_ui->Get_Current_Sprite();
-		Component* change_to_sprite = item_ui->Find_Component_By_Name("none");
-		
-		if(current_using_sprite != nullptr && change_to_sprite != nullptr)
-		{
-			change_to_sprite->Set_Need_Update(true);
-			current_using_sprite->Set_Need_Update(false);
-		}
+		item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("none"));
 	}
 	
 	else if (status_info_verb == Ui_Status_Verb::Get)
 	{
-		vector2 pos = item_ui->GetTransform().GetTranslation();
-		Component* current_using_sprite = item_ui->Get_Current_Sprite();
-		Component* change_to_sprite = nullptr;
-		
 		if(status_info_obj == Ui_Status_Obj::Item_Bulkup)
 		{
-			change_to_sprite = item_ui->Find_Component_By_Name("bulkup");
+			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("bulkup"));
 		}
 		else if (status_info_obj == Ui_Status_Obj::Item_Dash)
 		{
-			change_to_sprite = item_ui->Find_Component_By_Name("dash");
+			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("dash"));
 		}
 		else if (status_info_obj == Ui_Status_Obj::Item_Hp)
 		{
-			change_to_sprite = item_ui->Find_Component_By_Name("heal");
+			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("heal"));
+		}
+		else if (status_info_obj == Ui_Status_Obj::Item_Throwing)
+		{
+			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("throwing"));
+		}
+		else if (status_info_obj == Ui_Status_Obj::Item_Magnatic)
+		{
+			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("magnatic"));
 		}
 		else
 		{
-			change_to_sprite = item_ui->Find_Component_By_Name("none");
+			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("none"));
 		}
-
-		change_to_sprite->Set_Need_Update(true);
-		current_using_sprite->Set_Need_Update(false);
 	}
 
 	

@@ -8,6 +8,7 @@
 #include "Message_Function_Item_Recover.h"
 #include "Message_Function_Item_Dash.h"
 #include "Message_Function_Item_Throwing.h"
+#include "Message_Function_Item_Magnatic.h"
 
 std::mutex guard;
 
@@ -51,6 +52,10 @@ void Message_Func::Functioning(float dt)
 		else if(message_name == "throwing")
 		{
 			function = new Msg_Func_Item_Throwing(m_from, m_target, 1.f, msg_);
+		}
+		else if (message_name == "magnatic")
+		{
+			function = new Msg_Func_Item_Magnatic(m_from, m_target, 1.f, msg_);
 		}
 
 		function->Init();

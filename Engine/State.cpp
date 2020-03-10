@@ -10,14 +10,35 @@
 
 Object* State::Make_Player(std::string name, std::string tag, std::string sprite_path, vector2 pos, vector2 scale)
 {
+	std::string sprite_path_normal = "../Sprite/";
+	sprite_path_normal += sprite_path;
+	sprite_path_normal += ".png";
+
+	std::string sprite_path_lock = "../Sprite/";
+	sprite_path_lock += sprite_path;
+	sprite_path_lock += "_lock.png";
+
+	std::string sprite_path_chase = "../Sprite/";
+	sprite_path_chase += sprite_path;
+	sprite_path_chase += "_chase.png";
+
+	std::string sprite_path_thinking = "../Sprite/";
+	sprite_path_thinking += sprite_path;
+	sprite_path_thinking += "_thinking.png";
+
+	
 	Object* player;
 	player = new Object();
 	player->Set_Name(name);
 	player->Set_Tag(tag);
 	player->AddComponent(new Player());
 	player->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
-	player->AddComponent(new Sprite(player, sprite_path.c_str(), pos));
+	player->AddComponent(new Sprite(player, sprite_path_normal.c_str(), pos), "normal", true);
+	player->AddComponent(new Sprite(player, sprite_path_lock.c_str(), pos), "lock", false);
+	player->AddComponent(new Sprite(player, sprite_path_chase.c_str(), pos), "chase", false);
+	player->AddComponent(new Sprite(player, sprite_path_thinking.c_str(), pos), "thinking", false);
 	player->AddComponent(new Physics());
+	player->Set_Current_Sprite(player->Find_Sprite_By_Name("normal"));
 	player->GetTransform().SetScale(scale);
 	ObjectManager::GetObjectManager()->AddObject(player);
 

@@ -13,6 +13,7 @@
 #include <functional>
 #include "StateManager.h"
 #include "Component.hpp"
+#include "Component_Player.h"
 
 ObjectManager* ObjectManager::object_manager = nullptr;
 
@@ -49,7 +50,10 @@ void ObjectManager::Update(float dt)
                 }
             }
             if (obj->IsDead())
-                delete_obj.push_back(obj);
+            {
+				delete_obj.push_back(obj);
+            }
+                
         }
         for (auto& remove_obj : delete_obj)
         {
@@ -83,7 +87,14 @@ void ObjectManager::AddObject(Object* obj)
 
 void ObjectManager::DeleteObject(std::shared_ptr<Object> obj)
 {
-    objects.erase(std::find(objects.begin(), objects.end(), obj));
+	if(!obj->Get_Pointed_By().empty())
+	{
+		for(auto ptr : obj->Get_Pointed_By())
+		{
+			*ptr = nullptr;
+		}
+	}
+     objects.erase(std::find(objects.begin(), objects.end(), obj));
 }
 
 std::vector<Object*> ObjectManager::Find_Objects_By_Tag(std::string tag)
