@@ -69,8 +69,8 @@ void Player::Update(float dt)
 		hp_bar->GetTransform().GetTranslation_Reference().y = m_owner->GetTransform().GetTranslation().y - 100;
 	}
 	
-	PlayerMove(0.6f, 0.12f);
-	m_owner->GetTransform().AddTranslation(velocity);
+	//PlayerMove(0.6f, 0.12f);
+	//m_owner->GetTransform().AddTranslation(velocity);
 }
 
 void Player::SetHPBar()

@@ -83,11 +83,6 @@ bool Collision::CircleToCircleCollision()
 							Physics* obj_i_physics = obj_i->GetComponentByTemplate<Physics>();
 							Physics* obj_j_physics = obj_j->GetComponentByTemplate<Physics>();
 
-							obj_i_physics->Get_Save_Acceleration_Reference().x = obj_i_physics->GetAcceleration().x;
-							obj_i_physics->Get_Save_Acceleration_Reference().y = obj_i_physics->GetAcceleration().y;
-							obj_j_physics->Get_Save_Acceleration_Reference().x = obj_j_physics->GetAcceleration().x;
-							obj_j_physics->Get_Save_Acceleration_Reference().y = obj_j_physics->GetAcceleration().y;
-
 							Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_j, obj_i, "collision"));
 							obj_i->Set_Is_It_Collided(true);
 							obj_j->Set_Is_It_Collided(true);
@@ -168,9 +163,6 @@ void Collision::SquareArenaCollision()
 			direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
 			obj_i->GetComponentByTemplate<Physics>()->SetAcceleration(direction_to_go);
 
-			obj_i->GetComponentByTemplate<Physics>()->Get_Save_Acceleration_Reference().x = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration().x;
-			obj_i->GetComponentByTemplate<Physics>()->Get_Save_Acceleration_Reference().y = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration().y;
-
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, "wall_collision"));
 		}
 		else if (line_max_point - max_y < 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr)
@@ -184,9 +176,6 @@ void Collision::SquareArenaCollision()
 			angle = 360 - angle2;
 			direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
 			obj_i->GetComponentByTemplate<Physics>()->SetAcceleration(direction_to_go);
-
-			obj_i->GetComponentByTemplate<Physics>()->Get_Save_Acceleration_Reference().x = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration().x;
-			obj_i->GetComponentByTemplate<Physics>()->Get_Save_Acceleration_Reference().y = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration().y;
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, "wall_collision"));
 		}
@@ -202,9 +191,6 @@ void Collision::SquareArenaCollision()
 			direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
 			obj_i->GetComponentByTemplate<Physics>()->SetAcceleration(direction_to_go);
 
-			obj_i->GetComponentByTemplate<Physics>()->Get_Save_Acceleration_Reference().x = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration().x;
-			obj_i->GetComponentByTemplate<Physics>()->Get_Save_Acceleration_Reference().y = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration().y;
-
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, "wall_collision"));
 		}
 		else if (line_min_point - min_y > 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr)
@@ -218,10 +204,7 @@ void Collision::SquareArenaCollision()
 			angle = 360 - angle2;
 			direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
 			obj_i->GetComponentByTemplate<Physics>()->SetAcceleration(direction_to_go);
-
-			obj_i->GetComponentByTemplate<Physics>()->Get_Save_Acceleration_Reference().x = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration().x;
-			obj_i->GetComponentByTemplate<Physics>()->Get_Save_Acceleration_Reference().y = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration().y;
-
+			
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, "wall_collision"));
 		}
 	}

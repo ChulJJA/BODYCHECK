@@ -29,19 +29,10 @@ public:
     void SetAcceleration(vector2 accel)
     {
         acceleration = accel;
-
     }
     vector2 GetAcceleration() const
     {
         return acceleration;
-    }
-    vector2& GetAcceleration_Reference()
-    {
-        return acceleration;
-    }
-    vector2& Get_Save_Acceleration_Reference()
-    {
-        return accel_save;
     }
     bool& Get_Ghost_Collision_Reference()
     {
@@ -57,7 +48,6 @@ public:
 private:
     vector2 acceleration{};
     mutable float timer = 0;
-    vector2 accel_save{};
 
     bool ghost_collision_mode;
     float ghost_collision_timer = 5.0f;

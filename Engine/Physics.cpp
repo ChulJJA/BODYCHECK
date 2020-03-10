@@ -349,7 +349,7 @@ void Physics::SpeedDown(Object* object)
 void Physics::Update(float dt)
 {
 	timer += dt;
-
+	
 	if (m_owner->GetName() == "first")
 	{
 		Player* info_player = m_owner->GetComponentByTemplate<Player>();
@@ -375,7 +375,7 @@ void Physics::Update(float dt)
 
 		if (info_player->Get_Char_State() == Player::Char_State::None)
 		{
-			Acceleration(0.6f, 0.12f);
+			//Acceleration(0.6f, 0.12f);
 			m_owner->GetTransform().AddTranslation(acceleration);
 
 			if (is_dashed == false && timer >= 0.3)
@@ -395,7 +395,7 @@ void Physics::Update(float dt)
 
 		if (info_player->Get_Char_State() == Player::Char_State::None)
 		{
-			Acceleration(0.6f, 0.12f);
+			//Acceleration(0.6f, 0.12f);
 			m_owner->GetTransform().AddTranslation(acceleration);
 
 			if (is_dashed == false && timer >= 0.3)
@@ -415,7 +415,7 @@ void Physics::Update(float dt)
 
 		if (info_player->Get_Char_State() == Player::Char_State::None)
 		{
-			Acceleration(0.6f, 0.12f);
+			//Acceleration(0.6f, 0.12f);
 			m_owner->GetTransform().AddTranslation(acceleration);
 
 			if (is_dashed == false && timer >= 0.3)
