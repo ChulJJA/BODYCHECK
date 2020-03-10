@@ -23,6 +23,7 @@
 #include "Message.h"
 #include "Application.hpp"
 #include "angles.hpp"
+#include "UsefulTools.hpp"
 
 Physics::Physics(bool ghost_collision_mode) : ghost_collision_mode(ghost_collision_mode)
 {
@@ -189,69 +190,71 @@ void Physics::Acceleration(float max_accel, float min_accel)
 	if (input.Is_Key_Pressed(GLFW_KEY_RIGHT) || input.Is_Key_Pressed(GLFW_KEY_LEFT) ||
 		input.Is_Key_Pressed(GLFW_KEY_DOWN) || input.Is_Key_Pressed(GLFW_KEY_UP))
 	{
-		vector2 obj_pos = m_owner->GetTransform().GetTranslation();
-		vector2 this_pos = m_owner->GetTransform().GetTranslation();
+		vector2 obj_pos = {0, 0};
 
 		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
 		{
-			obj_pos.y += 10.f;
+			obj_pos.x += 10.f;
 
 			if (input.Is_Key_Pressed(GLFW_KEY_UP))
 			{
-				obj_pos.x -= 10.f;
+				obj_pos.y += 10.f;
 			}
 			if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
 			{
-				obj_pos.x += 10.f;
+				obj_pos.y -= 10.f;
 			}
 		}
 		if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
 		{
-			obj_pos.y -= 10.f;
+			obj_pos.x -= 10.f;
 
 			if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
 			{
-				obj_pos.x += 10.f;
+				obj_pos.y -= 10.f;
 			}
 			if (input.Is_Key_Pressed(GLFW_KEY_UP))
 			{
-				obj_pos.x -= 10.f;
+				obj_pos.y += 10.f;
 			}
 		}
 
 		if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
 		{
-			obj_pos.x += 10.f;
+			obj_pos.y -= 10.f;
 
 			if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
 			{
-				obj_pos.y += 10.f;
+				obj_pos.x += 10.f;
 			}
 			if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
 			{
-				obj_pos.y -= 10.f;
+				obj_pos.x -= 10.f;
 			}
 		}
 
 		if (input.Is_Key_Pressed(GLFW_KEY_UP))
 		{
-			obj_pos.x -= 10.f;
+			obj_pos.y += 10.f;
 
 			if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
 			{
-				obj_pos.y += 10.f;
+				obj_pos.x += 10.f;
 			}
 			if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
 			{
-				obj_pos.y -= 10.f;
+				obj_pos.x -= 10.f;
 			}
 		}
-		float angle_in_radian = atan2(this_pos.y - obj_pos.y, this_pos.x - obj_pos.x);
-		float angle = to_degrees(angle_in_radian);
 
+		float angle = RadianToDegree(angle_between({ 0,1 }, obj_pos));
+		if(obj_pos.x >= 0)
+		{
+			angle *= -1;
+		}
 		m_owner->SetRotation(angle);
+		object_angle = normalize(obj_pos);
 	}
-
 	return;
 }
 
@@ -302,9 +305,6 @@ void Physics::KnockBack(Object* object_1, Object* object_2)
 
 void Physics::Dash(Object* object)
 {
-	vector2 acceleration = object->GetComponentByTemplate<Physics>()->GetAcceleration();
-	acceleration = normalize(acceleration);
-
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && object->GetComponentByTemplate<Player>()->Get_Item_State() == Item::Item_Kind::Dash)
 	{
 		sound.Play(SOUND::Dash);
@@ -329,8 +329,6 @@ void Physics::Dash(Object* object)
 	{
 		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, "throwing", 0.f));
 	}
-
-
 	return;
 }
 
