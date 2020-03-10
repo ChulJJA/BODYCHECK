@@ -31,30 +31,11 @@ void Player::Init(Object* obj)
 {
 	m_owner = obj;
 	m_owner->Get_Component_Info_Reference().component_info_player = true;
-
-	Object* hp_bar = new Object();
-	vector2 hp_bar_pos = m_owner->GetTransform().GetTranslation();
-	hp_bar_pos.y -= 100;
-	hp_bar->SetTranslation(hp_bar_pos);
-	hp_bar->SetScale({1.f, 2.5f});
-	hp_bar->AddComponent(new Sprite(hp_bar, "../Sprite/HP.png", hp_bar_pos, false), "sprite_hp_bar", need_update_hp_bar);
-	hp_bar->AddComponent(new Hp_Bar());
-	hp_bar->Set_Name(m_owner->Get_Name() + "hp_bar");
-	hp_bar->Set_Tag("hp_bar");
-	hp_bar->Set_This_Obj_Owner(m_owner);
-	this->hp_bar = hp_bar;
-	m_owner->Get_Belongs_Objects().push_back(hp_bar);
-
-	if(m_owner->Get_Tag() != "save")
-	{
-		ObjectManager::GetObjectManager()->AddObject(hp_bar);
-	}
-	
+	SetHPBar();
 }
 
 void Player::Update(float dt)
 {
-	//Attack();
 	if (curr_state == Char_State::Bulk_Up)
 	{
 		Func_Bulk_Up(dt);
@@ -87,15 +68,188 @@ void Player::Update(float dt)
 		hp_bar->GetTransform().GetTranslation_Reference().x = m_owner->GetTransform().GetTranslation().x;
 		hp_bar->GetTransform().GetTranslation_Reference().y = m_owner->GetTransform().GetTranslation().y - 100;
 	}
+	
+	PlayerMove(0.6f, 0.12f);
+	m_owner->GetTransform().AddTranslation(velocity);
 }
 
-void Player::Attack()
+void Player::SetHPBar()
 {
+	Object* hp_bar = new Object();
+	vector2 hp_bar_pos = m_owner->GetTransform().GetTranslation();
+	hp_bar_pos.y -= 100;
+	hp_bar->SetTranslation(hp_bar_pos);
+	hp_bar->SetScale({ 1.f, 2.5f });
+	hp_bar->AddComponent(new Sprite(hp_bar, "../Sprite/HP.png", hp_bar_pos, false), "sprite_hp_bar", need_update_hp_bar);
+	hp_bar->AddComponent(new Hp_Bar());
+	hp_bar->Set_Name(m_owner->Get_Name() + "hp_bar");
+	hp_bar->Set_Tag("hp_bar");
+	hp_bar->Set_This_Obj_Owner(m_owner);
+	this->hp_bar = hp_bar;
+	m_owner->Get_Belongs_Objects().push_back(hp_bar);
+
+	if (m_owner->Get_Tag() != "save")
+	{
+		ObjectManager::GetObjectManager()->AddObject(hp_bar);
+	}
 }
 
 Item::Item_Kind Player::Get_Item_State()
 {
 	return belong_item;
+}
+
+void Player::PlayerMove(float max_velocity, float min_velocity)
+{
+	if (input.Is_Key_Pressed(GLFW_KEY_W))
+	{
+		if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_A))
+		{
+			if (velocity.x >= 0 && velocity.y >= 0)
+			{
+				velocity += {-max_velocity, min_velocity};
+			}
+			else if (velocity.x >= 0 && velocity.y < 0)
+			{
+				velocity += {-max_velocity, max_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y >= 0)
+			{
+				velocity += {-min_velocity, min_velocity};
+			}
+			else if(velocity.x < 0 && velocity.y < 0)
+			{
+				velocity += {-min_velocity, max_velocity};
+			}
+		}
+		else if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_D))
+		{
+			if (velocity.x >= 0 && velocity.y >= 0)
+			{
+				velocity += {min_velocity, min_velocity};
+			}
+			else if (velocity.x >= 0 && velocity.y < 0)
+			{
+				velocity += {min_velocity, max_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y >= 0)
+			{
+				velocity += {max_velocity, min_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y < 0)
+			{
+				velocity += {max_velocity, max_velocity};
+			}
+		}
+		else
+		{
+			if (abs(velocity.x) >= 0)
+			{
+				velocity.x -= velocity.x / 100;
+			}
+			if (velocity.y >= 0)
+			{
+				velocity += {0.00, min_velocity};
+			}
+			else if (velocity.y < 0)
+			{
+				velocity += {0.00, max_velocity};
+			}
+		}
+	}
+	else if (input.Is_Key_Pressed(GLFW_KEY_A))
+	{
+		if (input.Is_Key_Pressed(GLFW_KEY_A) && input.Is_Key_Pressed(GLFW_KEY_S))
+		{
+			if (velocity.x >= 0 && velocity.y >= 0)
+			{
+				velocity += {-max_velocity, -max_velocity};
+			}
+			else if (velocity.x >= 0 && velocity.y < 0)
+			{
+				velocity += {-max_velocity, -min_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y >= 0)
+			{
+				velocity += {-min_velocity, -max_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y < 0)
+			{
+				velocity += {-min_velocity, -min_velocity};
+			}
+		}
+		else
+		{
+			if (velocity.x >= 0)
+			{
+				velocity.x += -max_velocity;
+			}
+			else
+			{
+				velocity.x += -min_velocity;
+			}
+			if (abs(velocity.y) >= 0)
+			{
+				velocity.y -= velocity.y / 100;
+			}
+		}
+	}
+	else if (input.Is_Key_Pressed(GLFW_KEY_S))
+	{
+		if (input.Is_Key_Pressed(GLFW_KEY_S) && input.Is_Key_Pressed(GLFW_KEY_D))
+		{
+			if (velocity.x >= 0 && velocity.y >= 0)
+			{
+				velocity += {min_velocity, -max_velocity};
+			}
+			else if (velocity.x >= 0 && velocity.y < 0)
+			{
+				velocity += {min_velocity, -min_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y >= 0)
+			{
+				velocity += {max_velocity, -max_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y < 0)
+			{
+				velocity += {max_velocity, -min_velocity};
+			}
+		}
+		else
+		{
+			if (abs(velocity.x) >= 0)
+			{
+				velocity.x -= velocity.x / 100;
+			}
+			if (velocity.y >= 0)
+			{
+				velocity.y += -max_velocity;
+			}
+			else
+			{
+				velocity.y += -min_velocity;
+			}
+		}
+	}
+	else if (input.Is_Key_Pressed(GLFW_KEY_D))
+	{
+		if (velocity.x >= 0)
+		{
+			velocity.x += min_velocity;
+		}
+		else
+		{
+			velocity.x += max_velocity;
+		}
+		if (abs(velocity.y) >= 0)
+		{
+			velocity.y -= velocity.y / 100;
+		}
+	}
+	else
+	{
+		velocity += {-velocity.x / 100, -velocity.y / 100};
+	}
 }
 
 void Player::Set_Locking_By(Object* obj)

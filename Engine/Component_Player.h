@@ -51,7 +51,7 @@ public:
 	
     void Init(Object* obj);
     void Update(float dt) override;
-    void Attack();
+    void SetHPBar();
     int Get_Damage()
     {
         return damage;
@@ -80,6 +80,7 @@ public:
     {
 		curr_state = state;
     }
+    void PlayerMove(float max_velocity, float min_velocity);
 
 	void Set_Char_State_Additional(Char_State_Additional state)
     {
@@ -132,6 +133,7 @@ private:
     float regeneration_timer = 0.f;
     float bulkup_timer = 0.f;
 	Char_State curr_state;
+    vector2 velocity{};
 	Char_State_By_Other curr_state_by_other;
 	Object* locking_pointer = nullptr;
 	Object* locking_by = nullptr;

@@ -23,7 +23,6 @@ void Msg_Func_Item_Dash::Init()
 		info_physics->SetAcceleration(acceleration);
 		vector2 direction = info_physics->GetObjectAngle();
 		info_physics->SetAcceleration(direction * 50);
-
 		obj->GetMesh().Get_Is_Moved() = true;
 		info_player->Set_Item_State(Item::Item_Kind::None);
 		info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Use, Ui::Ui_Status_Obj::Item_Dash);
