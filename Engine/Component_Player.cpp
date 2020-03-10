@@ -202,8 +202,8 @@ void Player::Func_Magnatic(float dt)
 		vector2 target_dir = normalize(target);
 		vector2 own_pos = m_owner->GetTransform().GetTranslation();
 
-		own_pos.x += (target_dir.x * 10);
-		own_pos.y += (target_dir.y * 10);
+		own_pos.x += (target_dir.x * 13);
+		own_pos.y += (target_dir.y * 13);
 
 		vector2 this_pos = m_owner->GetTransform().GetTranslation();
 		vector2 obj_pos = locking_result->GetTransform().GetTranslation();

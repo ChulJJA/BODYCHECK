@@ -57,29 +57,48 @@ void Msg_Func_Collision::Update(float dt)
 		Player* player_from_info = m_from->GetComponentByTemplate<Player>();
 		Player* player_target_info = m_target->GetComponentByTemplate<Player>();
 
-		if(player_from_info->Get_Char_State() == Player::Char_State::Lock_Ing)
+		if (player_from_info->Get_Char_State() == Player::Char_State::Lock_Ing)
 		{
 			Object* pointer = player_from_info->Get_Locking();
-			pointer->SetDeadCondition(true);
-			player_from_info->Set_Char_State(Player::Char_State::None);
+
+			if (pointer != nullptr)
+			{
+				pointer->SetDeadCondition(true);
+				player_from_info->Set_Char_State(Player::Char_State::None);
+
+				Object* pointer_target = pointer->GetComponentByTemplate<Lock>()->Get_Locking_Target();
+				if (pointer_target != nullptr)
+				{
+					pointer_target->Change_Sprite(pointer_target->Find_Sprite_By_Name("normal"));
+				}
+			}
 		}
-		else if(player_target_info->Get_Char_State() == Player::Char_State::Lock_Ing)
+		else if (player_target_info->Get_Char_State() == Player::Char_State::Lock_Ing)
 		{
 			Object* pointer = player_target_info->Get_Locking();
-			pointer->SetDeadCondition(true);
-			player_target_info->Set_Char_State(Player::Char_State::None);
+			if (pointer != nullptr)
+			{
+				pointer->SetDeadCondition(true);
+				player_target_info->Set_Char_State(Player::Char_State::None);
+
+				Object* pointer_target = pointer->GetComponentByTemplate<Lock>()->Get_Locking_Target();
+				if (pointer_target != nullptr)
+				{
+					pointer_target->Change_Sprite(pointer_target->Find_Sprite_By_Name("normal"));
+				}
+			}
 		}
 
-		if(player_from_info->Get_Char_State_Additional() == Player::Char_State_Additional::Chasing)
+		if (player_from_info->Get_Char_State_Additional() == Player::Char_State_Additional::Chasing)
 		{
-			if(player_from_info->Get_Locking_Result() == m_target)
+			if (player_from_info->Get_Locking_Result() == m_target)
 			{
 				player_from_info->Set_Char_State(Player::Char_State::None);
 				player_from_info->Set_Char_State_Additional(Player::Char_State_Additional::None);
 				m_from->Change_Sprite(m_from->Find_Sprite_By_Name("normal"));
 			}
 		}
-		else if(player_target_info->Get_Char_State_Additional() == Player::Char_State_Additional::Chasing)
+		else if (player_target_info->Get_Char_State_Additional() == Player::Char_State_Additional::Chasing)
 		{
 			if (player_target_info->Get_Locking_Result() == m_from)
 			{
@@ -191,7 +210,7 @@ void Msg_Func_Collision::Player_And_Player_Collision()
 void Msg_Func_Collision::Player_And_Lock_Collision(Object* player, Object* lock)
 {
 	Lock* info_lock = lock->GetComponentByTemplate<Lock>();
-	
+
 	if (lock->IsDead() == false)
 	{
 		player->Change_Sprite(player->Find_Sprite_By_Name("lock"));
