@@ -26,6 +26,7 @@ public:
     Sprite(Object* obj, const char* aniamtedSpritePath, bool animated, int frames, float m_speed, vector2 position, vector2 scale, Color4ub color = { 255,255,255,255 });
     void Init(Object* obj) override;
     void Update(float dt) override;
+	void Update_Instancing(float dt);
     bool Can_Load_To_Texture(Texture& texture, const char* file_path);
 
     material& Get_Material()

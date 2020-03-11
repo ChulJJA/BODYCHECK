@@ -154,7 +154,7 @@ void Msg_Func_Collision::Player_Get_Item(Object* player, Object* item)
 
 void Msg_Func_Collision::Player_And_Player_Collision()
 {
-	std::pair<float, float> dmg_set = Damaege_Calculation(m_target, m_from);
+	std::pair<float, float> dmg_set = DamageCalculator(m_target, m_from);
 
 	Player* info_player_target = m_target->GetComponentByTemplate<Player>();
 	Player* info_player_from = m_from->GetComponentByTemplate<Player>();
@@ -196,8 +196,8 @@ void Msg_Func_Collision::Player_And_Player_Collision()
 
 			if (target_hp_bar != nullptr || from_hp_bar != nullptr)
 			{
-				//target_hp_bar->GetComponentByTemplate<Hp_Bar>()->Decrease(dmg_set.first / 50);
-				//from_hp_bar->GetComponentByTemplate<Hp_Bar>()->Decrease(dmg_set.second / 50);
+				target_hp_bar->GetComponentByTemplate<Hp_Bar>()->Decrease(dmg_set.first / 50);
+				from_hp_bar->GetComponentByTemplate<Hp_Bar>()->Decrease(dmg_set.second / 50);
 
 				target_hp_bar->GetComponentByTemplate<Hp_Bar>()->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
 				from_hp_bar->GetComponentByTemplate<Hp_Bar>()->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
