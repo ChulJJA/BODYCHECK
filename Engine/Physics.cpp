@@ -37,156 +37,6 @@ void Physics::Init(Object* obj)
 
 void Physics::Acceleration(float max_accel, float min_accel)
 {
-	if (input.Is_Key_Pressed(GLFW_KEY_W))
-	{
-		if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_A))
-		{
-			if (acceleration.x >= 0 && acceleration.y >= 0)
-			{
-				acceleration += {-max_accel, min_accel};
-			}
-			else if (acceleration.x >= 0 && acceleration.y < 0)
-			{
-				acceleration += {-max_accel, max_accel};
-			}
-			else if (acceleration.x < 0 && acceleration.y >= 0)
-			{
-				acceleration += {-min_accel, min_accel};
-			}
-			else
-			{
-				acceleration += {-min_accel, max_accel};
-			}
-		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_D))
-		{
-			if (acceleration.x >= 0 && acceleration.y >= 0)
-			{
-				acceleration += {min_accel, min_accel};
-			}
-			else if (acceleration.x >= 0 && acceleration.y < 0)
-			{
-				acceleration += {min_accel, max_accel};
-			}
-			else if (acceleration.x < 0 && acceleration.y >= 0)
-			{
-				acceleration += {max_accel, min_accel};
-			}
-			else
-			{
-				acceleration += {max_accel, max_accel};
-			}
-		}
-		else
-		{
-			if (abs(acceleration.x) >= 0)
-			{
-				acceleration.x -= acceleration.x / 100;
-			}
-			if (acceleration.y >= 0)
-			{
-				acceleration += {0.00, min_accel};
-			}
-			else if (acceleration.y < 0)
-			{
-				acceleration += {0.00, max_accel};
-			}
-		}
-	}
-	else if (input.Is_Key_Pressed(GLFW_KEY_A))
-	{
-		if (input.Is_Key_Pressed(GLFW_KEY_A) && input.Is_Key_Pressed(GLFW_KEY_S))
-		{
-			if (acceleration.x >= 0 && acceleration.y >= 0)
-			{
-				acceleration += {-max_accel, -max_accel};
-			}
-			else if (acceleration.x >= 0 && acceleration.y < 0)
-			{
-				acceleration += {-max_accel, -min_accel};
-			}
-			else if (acceleration.x < 0 && acceleration.y >= 0)
-			{
-				acceleration += {-min_accel, -max_accel};
-			}
-			else
-			{
-				acceleration += {-min_accel, -min_accel};
-			}
-		}
-		else
-		{
-			if (acceleration.x >= 0)
-			{
-				acceleration.x += -max_accel;
-			}
-			else
-			{
-				acceleration.x += -min_accel;
-			}
-			if (abs(acceleration.y) >= 0)
-			{
-				acceleration.y -= acceleration.y / 100;
-			}
-		}
-	}
-	else if (input.Is_Key_Pressed(GLFW_KEY_S))
-	{
-		if (input.Is_Key_Pressed(GLFW_KEY_S) && input.Is_Key_Pressed(GLFW_KEY_D))
-		{
-			if (acceleration.x >= 0 && acceleration.y >= 0)
-			{
-				acceleration += {min_accel, -max_accel};
-			}
-			else if (acceleration.x >= 0 && acceleration.y < 0)
-			{
-				acceleration += {min_accel, -min_accel};
-			}
-			else if (acceleration.x < 0 && acceleration.y >= 0)
-			{
-				acceleration += {max_accel, -max_accel};
-			}
-			else
-			{
-				acceleration += {max_accel, -min_accel};
-			}
-		}
-		else
-		{
-			if (abs(acceleration.x) >= 0)
-			{
-				acceleration.x -= acceleration.x / 100;
-			}
-			if (acceleration.y >= 0)
-			{
-				acceleration.y += -max_accel;
-			}
-			else
-			{
-				acceleration.y += -min_accel;
-			}
-		}
-	}
-	else if (input.Is_Key_Pressed(GLFW_KEY_D))
-	{
-		if (acceleration.x >= 0)
-		{
-			acceleration.x += min_accel;
-		}
-		else
-		{
-			acceleration.x += max_accel;
-		}
-		if (abs(acceleration.y) >= 0)
-		{
-			acceleration.y -= acceleration.y / 100;
-		}
-	}
-	else
-	{
-		acceleration += {-acceleration.x / 100, -acceleration.y / 100};
-	}
-
 	if (input.Is_Key_Pressed(GLFW_KEY_RIGHT) || input.Is_Key_Pressed(GLFW_KEY_LEFT) ||
 		input.Is_Key_Pressed(GLFW_KEY_DOWN) || input.Is_Key_Pressed(GLFW_KEY_UP))
 	{
@@ -270,8 +120,8 @@ void Physics::KnockBack(Object* object_1, Object* object_2)
 	{
 		vector2 object_1_pos = object_1->GetTransform().GetTranslation();
 		vector2 object_2_pos = object_2->GetTransform().GetTranslation();
-		vector2 object_1_acceleration = object_1->GetComponentByTemplate<Physics>()->GetAcceleration();
-		vector2 object_2_acceleration = object_2->GetComponentByTemplate<Physics>()->GetAcceleration();
+		vector2 object_1_acceleration = object_1->GetComponentByTemplate<Player>()->GetPlayerVelocity();
+		vector2 object_2_acceleration = object_2->GetComponentByTemplate<Player>()->GetPlayerVelocity();
 		vector2 direction_to_go;
 
 		float object_1_speed = sqrt((object_1_acceleration.x * object_1_acceleration.x) + (object_1_acceleration.y * object_1_acceleration.y));
@@ -282,11 +132,11 @@ void Physics::KnockBack(Object* object_1, Object* object_2)
 			sound.Play(SOUND::Crack);
 			direction_to_go = normalize(object_1_pos - object_2_pos);
 
-			object_1->GetComponentByTemplate<Physics>()->SetAcceleration(direction_to_go * object_2_speed);
-			object_1->GetTransform().AddTranslation(object_1->GetComponentByTemplate<Physics>()->GetAcceleration());
+			object_1->GetComponentByTemplate<Player>()->SetPlayerVelocity(direction_to_go * object_2_speed);
+			object_1->GetTransform().AddTranslation(object_1->GetComponentByTemplate<Player>()->GetPlayerVelocity());
 
-			object_2->GetComponentByTemplate<Physics>()->SetAcceleration(-direction_to_go * object_2_speed / 2);
-			object_2->GetTransform().AddTranslation(object_2->GetComponentByTemplate<Physics>()->GetAcceleration());
+			object_2->GetComponentByTemplate<Player>()->SetPlayerVelocity(-direction_to_go * object_2_speed / 2);
+			object_2->GetTransform().AddTranslation(object_2->GetComponentByTemplate<Player>()->GetPlayerVelocity());
 		}
 		else if (object_2_speed < object_1_speed)
 		{
@@ -294,11 +144,11 @@ void Physics::KnockBack(Object* object_1, Object* object_2)
 
 			direction_to_go = normalize(object_2_pos - object_1_pos);
 
-			object_2->GetComponentByTemplate<Physics>()->SetAcceleration(direction_to_go * object_1_speed);
-			object_2->GetTransform().AddTranslation(object_1->GetComponentByTemplate<Physics>()->GetAcceleration());
+			object_2->GetComponentByTemplate<Player>()->SetPlayerVelocity(direction_to_go * object_1_speed);
+			object_2->GetTransform().AddTranslation(object_1->GetComponentByTemplate<Player>()->GetPlayerVelocity());
 
-			object_1->GetComponentByTemplate<Physics>()->SetAcceleration(-direction_to_go * object_1_speed / 2);
-			object_1->GetTransform().AddTranslation(object_1->GetComponentByTemplate<Physics>()->GetAcceleration());
+			object_1->GetComponentByTemplate<Player>()->SetPlayerVelocity(-direction_to_go * object_1_speed / 2);
+			object_1->GetTransform().AddTranslation(object_1->GetComponentByTemplate<Player>()->GetPlayerVelocity());
 		}
 	}
 }
@@ -339,11 +189,11 @@ void Physics::Dash(Object* object)
 
 void Physics::SpeedDown(Object* object)
 {
-	vector2 acceleration = object->GetComponentByTemplate<Physics>()->GetAcceleration();
+	vector2 acceleration = object->GetComponentByTemplate<Player>()->GetPlayerVelocity();
 
 	acceleration /= 5;
 
-	object->GetComponentByTemplate<Physics>()->SetAcceleration(acceleration);
+	object->GetComponentByTemplate<Player>()->SetPlayerVelocity(acceleration);
 }
 
 void Physics::Update(float dt)

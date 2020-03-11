@@ -2,11 +2,12 @@
 #include "Object.h"
 #include "Physics.h"
 #include "UsefulTools.hpp"
+#include "Component_Player.h"
 
 std::pair<float, float> DamageCalculator(Object* target, Object* from)
 {
-	vector2 target_velocity = target->GetComponentByTemplate<Physics>()->GetAcceleration();
-	vector2 from_velocity = from->GetComponentByTemplate<Physics>()->GetAcceleration();
+	vector2 target_velocity = target->GetComponentByTemplate<Player>()->GetPlayerVelocity();
+	vector2 from_velocity = from->GetComponentByTemplate<Player>()->GetPlayerVelocity();
 	float target_power = (VectorToScalar(target_velocity) * target->GetTransform().GetScale().x);
 	float from_power = (VectorToScalar(from_velocity) * from->GetTransform().GetScale().x);
 	float total_power = target_power - from_power;

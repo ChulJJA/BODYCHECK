@@ -69,8 +69,8 @@ void Player::Update(float dt)
 		hp_bar->GetTransform().GetTranslation_Reference().y = m_owner->GetTransform().GetTranslation().y - 100;
 	}
 	
-	//SetPlayerMove(0.6f, 0.12f);
-	//m_owner->GetTransform().AddTranslation(velocity);
+	PlayerMovement(0.6f, 0.12f);
+	m_owner->GetTransform().AddTranslation(velocity);
 }
 
 void Player::SetHPBar()
@@ -99,7 +99,7 @@ Item::Item_Kind Player::Get_Item_State()
 	return belong_item;
 }
 
-void Player::SetPlayerMove(float max_velocity, float min_velocity)
+void Player::PlayerMovement(float max_velocity, float min_velocity)
 {
 	if (input.Is_Key_Pressed(GLFW_KEY_W))
 	{
@@ -252,6 +252,16 @@ void Player::SetPlayerMove(float max_velocity, float min_velocity)
 	}
 }
 
+void Player::SetPlayerVelocity(vector2 current_velocity)
+{
+	velocity = current_velocity;
+}
+
+vector2 Player::GetPlayerVelocity()
+{
+	return velocity;
+}
+
 void Player::Set_Locking_By(Object* obj)
 {
 	if(obj != nullptr)
@@ -370,7 +380,7 @@ void Player::Func_Magnatic(float dt)
 		angle += 90;
 		mag_angle = angle;
 
-		m_owner->GetComponentByTemplate<Physics>()->SetAcceleration(
+		m_owner->GetComponentByTemplate<Player>()->SetPlayerVelocity(
 			{ sin(angle_in_radian) * -20, cos(angle_in_radian) * 20 }
 		);
 

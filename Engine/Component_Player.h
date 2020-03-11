@@ -80,8 +80,9 @@ public:
     {
 		curr_state = state;
     }
-    void SetPlayerMove(float max_velocity, float min_velocity);
-
+    void PlayerMovement(float max_velocity, float min_velocity);
+	void SetPlayerVelocity(vector2 current_velocity);
+	vector2 GetPlayerVelocity();
 	void Set_Char_State_Additional(Char_State_Additional state)
     {
 		curr_state_additional = state;
@@ -125,6 +126,7 @@ public:
 	void Func_Bulk_Throwing(float dt);
 	void Func_Lock_Ready(float dt);
 	void Func_Magnatic(float dt);
+	
 private:
     Object* hp_bar = nullptr;
     Item::Item_Kind belong_item = Item::Item_Kind::None;

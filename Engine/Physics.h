@@ -26,14 +26,14 @@ public:
     void Dash(Object* object);
     void SpeedDown(Object* object);
     void Update(float dt) override;
-    void SetAcceleration(vector2 accel)
-    {
-        acceleration = accel;
-    }
-    vector2 GetAcceleration() const
-    {
-        return acceleration;
-    }
+    //void SetAcceleration(vector2 accel)
+    //{
+    //    acceleration = accel;
+    //}
+    //vector2 GetAcceleration() const
+    //{
+    //    return acceleration;
+    //}
     bool& Get_Ghost_Collision_Reference()
     {
         return ghost_collision_mode;

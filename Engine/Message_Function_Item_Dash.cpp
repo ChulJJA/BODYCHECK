@@ -17,10 +17,10 @@ void Msg_Func_Item_Dash::Init()
 		PLAYER_UI* info_ui = info_player->Get_Ui();
 		Physics* info_physics = obj->GetComponentByTemplate<Physics>();
 		
-		vector2 acceleration = info_physics->GetAcceleration();
+		vector2 acceleration = info_player->GetPlayerVelocity();
 
 		vector2 direction = info_physics->GetObjectAngle();
-		info_physics->SetAcceleration(acceleration + direction * 30);
+		info_player->SetPlayerVelocity(acceleration + direction * 30);
 		info_player->Set_Item_State(Item::Item_Kind::None);
 		info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Use, Ui::Ui_Status_Obj::Item_Dash);
 	}
