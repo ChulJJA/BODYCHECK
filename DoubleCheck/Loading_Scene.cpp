@@ -32,11 +32,13 @@ void Loading_Scene::Update(float dt)
 	image->Set_Name("loading_image");
 	image->Set_Tag("image");
 
-	image->AddComponent(new Sprite(image, "../sprite/pen_red_ani.png", true, 8, 2, {0.f, 0.f}, 
-		{200.f, 200.f}, {255,255,255,255}));
+	/*image->AddComponent(new Sprite(image, "../sprite/pen_red_ani.png", true, 8, 2, {0.f, 0.f}, 
+		{200.f, 200.f}, {255,255,255,255}));*/
+
+	image->AddComponent(new Sprite(image, "../Sprite/HowToPlay.png", { 0, 0 }, false));
 
 	//image->AddComponent(new Sprite(image, "../sprite/loadingscene.png", { 0.f, 0.f }));
-	image->SetScale(10.f);
+	image->SetScale(20.f);
 	
 	while(done)
 	{

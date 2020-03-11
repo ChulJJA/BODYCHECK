@@ -23,10 +23,12 @@
 #include "StateManager.h"
 #include "Component_Text.h"
 #include "Application.hpp"
+#include "State.h"
 
 Referee* Referee::referee = nullptr;
 StateManager* state_manager = nullptr;
 Application* app = nullptr;
+
 
 Referee* Referee::Get_Referee()
 {
@@ -39,6 +41,7 @@ Referee* Referee::Get_Referee()
 
 void Referee::Init()
 {
+
 	stage_statements.clear();
 	player_first_temp = new Object * [player_first_life]();
 	player_sec_temp = new Object * [player_sec_life]();
@@ -308,4 +311,12 @@ void Referee::Respawn(Stage_Statement statement)
 		fourth_ui->Reset();
 		break;
 	}
+}
+
+void Referee::SetTutorialLife()
+{
+	player_first_life = 2;
+	player_sec_life = 2;
+	player_third_life = 2;
+	player_fourth_life = 2;
 }

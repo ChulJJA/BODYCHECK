@@ -10,6 +10,8 @@
  *
  *				 copyright   All content ?2019 DigiPen (USA) Corporation, all rights reserved
  */
+
+
 #include "Windows.h"
 #include "Tutorial.hpp"
 #include "Component_Collision.h"
@@ -18,6 +20,14 @@
 #include "Player_Ui.h"
 #include "Engine.hpp"
 #include "UsefulTools.hpp"
+#include "Application.hpp"
+#include "Loading_Scene.h"
+
+
+#define GLFW_EXPOSE_NATIVE_WGL
+#define GLFW_EXPOSE_NATIVE_WIN32 
+#include <GLFW/glfw3native.h>
+#include <mutex>
 
 namespace
 {
@@ -29,6 +39,25 @@ namespace
 
 void Tutorial::Load()
 {
+    Loading_Scene* loading = new Loading_Scene();
+    loading->Load();
+
+    HDC hdc = GetDC(glfwGetWin32Window(Application::Get_Application()->Get_Window()));
+    HGLRC main_context = wglGetCurrentContext();
+    HGLRC loading_context = wglCreateContext(hdc);
+    wglShareLists(main_context, loading_context);
+
+
+    std::thread loading_thread([&]()
+        {
+            BOOL check = wglMakeCurrent(hdc, loading_context);
+            loading->Update(0.05f);
+            wglMakeCurrent(nullptr, nullptr);
+            wglDeleteContext(loading_context);
+        }
+    );
+
+    {
     current_state = GameState::Tutorial;
     referee = Referee::Get_Referee();
 
@@ -49,8 +78,16 @@ void Tutorial::Load()
 
 
     referee->AddComponent(new Collision());
+    referee->SetTutorialLife();
     referee->Init();
     Graphic::GetGraphic()->get_need_update_sprite() = true;
+    }
+
+    loading->Set_Done(false);
+    if (loading_thread.joinable())
+    {
+        loading_thread.join();
+    }
 }
 
 void Tutorial::Update(float dt)
@@ -158,8 +195,8 @@ void Tutorial::SetStaffAndExplanation()
 {
     Explanation_Staff = new Object();
     Explanation_Staff->Set_Name("explanation_staff");
-    Explanation_Staff->AddComponent(new Sprite(Explanation_Staff, "../Sprite/ExplanationStaff.png", { 1450, 0 }, false));
-    Explanation_Staff->GetTransform().SetScale({ 9.f, 9.f });
+    Explanation_Staff->AddComponent(new Sprite(Explanation_Staff, "../Sprite/HowToPlay.png", { 1400, 0 }, false));
+    Explanation_Staff->GetTransform().SetScale(9.f);
     ObjectManager::GetObjectManager()->AddObject(Explanation_Staff);
 
     /*Explanation_Text_First = new Object();
