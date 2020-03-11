@@ -21,8 +21,7 @@ void Msg_Func_Wall_Collision::Update(float dt)
 			{
 				float damage_to_target = 0;
 				Physics* temp_physics = m_target->GetComponentByTemplate<Physics>();
-				damage_to_target += (sqrt((temp_physics->Get_Save_Acceleration_Reference().x * temp_physics->Get_Save_Acceleration_Reference().x) +
-					(temp_physics->Get_Save_Acceleration_Reference().y * temp_physics->Get_Save_Acceleration_Reference().y)));
+
 				damage_to_target -= m_target->Get_Plus_Dmg();
 				
 

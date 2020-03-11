@@ -37,7 +37,7 @@ void TestLevel::Load()
 
     SetArena();
     SetFirstPlayer();
-    //SetSecondPlayer();
+    SetSecondPlayer();
     //SetThirdPlayer();
     //SetFourthPlayer();
 	

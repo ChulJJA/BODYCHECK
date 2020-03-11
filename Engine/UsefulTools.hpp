@@ -7,3 +7,4 @@ void ObjectHover(Object* current_obj, Object* next_obj);
 std::wstring StringToWstring(std::string str);
 float RadianToDegree(float radian);
 float DegreeToRadian(float degree);
+float VectorToScalar(vector2 vector);

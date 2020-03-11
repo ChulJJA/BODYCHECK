@@ -44,3 +44,10 @@ float DegreeToRadian(float degree)
 
     return radian;
 }
+
+float VectorToScalar(vector2 vector)
+{
+    float result = sqrt((vector.x * vector.x) + (vector.y * vector.y));
+
+    return result;
+}
