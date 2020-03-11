@@ -26,35 +26,17 @@
 #include "Physics.h"
 #include "Component_Lock.h"
 #include "angles.hpp"
+#include "UsefulTools.hpp"
 
 void Player::Init(Object* obj)
 {
 	m_owner = obj;
 	m_owner->Get_Component_Info_Reference().component_info_player = true;
-
-	Object* hp_bar = new Object();
-	vector2 hp_bar_pos = m_owner->GetTransform().GetTranslation();
-	hp_bar_pos.y -= 100;
-	hp_bar->SetTranslation(hp_bar_pos);
-	hp_bar->SetScale({1.f, 2.5f});
-	hp_bar->AddComponent(new Sprite(hp_bar, "../Sprite/HP.png", hp_bar_pos, false), "sprite_hp_bar", need_update_hp_bar);
-	hp_bar->AddComponent(new Hp_Bar());
-	hp_bar->Set_Name(m_owner->Get_Name() + "hp_bar");
-	hp_bar->Set_Tag("hp_bar");
-	hp_bar->Set_This_Obj_Owner(m_owner);
-	this->hp_bar = hp_bar;
-	m_owner->Get_Belongs_Objects().push_back(hp_bar);
-
-	if(m_owner->Get_Tag() != "save")
-	{
-		ObjectManager::GetObjectManager()->AddObject(hp_bar);
-	}
-	
+	SetHPBar();
 }
 
 void Player::Update(float dt)
 {
-	//Attack();
 	if (curr_state == Char_State::Bulk_Up)
 	{
 		Func_Bulk_Up(dt);
@@ -63,22 +45,22 @@ void Player::Update(float dt)
 	{
 		Func_Bulk_Throwing(dt);
 	}
-	if(curr_state == Char_State::Lock_Ready)
+	if (curr_state == Char_State::Lock_Ready)
 	{
 		Func_Lock_Ready(dt);
 	}
-	if(curr_state == Char_State::Lock_Ing)
+	if (curr_state == Char_State::Lock_Ing)
 	{
 		/*vector2 this_pos = m_owner->GetTransform().GetTranslation();
 		vector2 obj_pos = locking_pointer->GetTransform().GetTranslation();
-		
+
 		float angle_in_radian = atan2(this_pos.y - obj_pos.y, this_pos.x - obj_pos.x);
 		float angle = to_degrees(angle_in_radian);
 		angle += 90;
 
 		m_owner->SetRotation(angle);*/
 	}
-	if(curr_state == Char_State::Magnatic)
+	if (curr_state == Char_State::Magnatic)
 	{
 		Func_Magnatic(dt);
 	}
@@ -95,10 +77,38 @@ void Player::Update(float dt)
 		hp_bar->GetTransform().GetTranslation_Reference().x = m_owner->GetTransform().GetTranslation().x;
 		hp_bar->GetTransform().GetTranslation_Reference().y = m_owner->GetTransform().GetTranslation().y - 100;
 	}
+
+
+
+	PlayerMovement(0.6f, 0.12f);
+	m_owner->GetTransform().AddTranslation(velocity);
+	PlayerDirecting();
 }
 
-void Player::Attack()
+void Player::SetHPBar()
 {
+	Object* hp_bar = new Object();
+	vector2 hp_bar_pos = m_owner->GetTransform().GetTranslation();
+	hp_bar_pos.y -= 100;
+	hp_bar->SetTranslation(hp_bar_pos);
+	hp_bar->SetScale({ 1.f, 2.5f });
+	hp_bar->AddComponent(new Sprite(hp_bar, "../Sprite/HP.png", hp_bar_pos, false), "sprite_hp_bar", need_update_hp_bar);
+	hp_bar->AddComponent(new Hp_Bar());
+	hp_bar->Set_Name(m_owner->Get_Name() + "hp_bar");
+	hp_bar->Set_Tag("hp_bar");
+	hp_bar->Set_This_Obj_Owner(m_owner);
+	this->hp_bar = hp_bar;
+	m_owner->Get_Belongs_Objects().push_back(hp_bar);
+
+	if (m_owner->Get_Tag() != "save")
+	{
+		ObjectManager::GetObjectManager()->AddObject(hp_bar);
+	}
+}
+
+int Player::Get_Damage()
+{
+	return damage;
 }
 
 Item::Item_Kind Player::Get_Item_State()
@@ -106,24 +116,30 @@ Item::Item_Kind Player::Get_Item_State()
 	return belong_item;
 }
 
+void Player::Set_Item_State(Item::Item_Kind state)
+{
+	this->belong_item = state;
+}
+
+
 void Player::Set_Locking_By(Object* obj)
 {
-	if(obj != nullptr)
+	if (obj != nullptr)
 	{
 		locking_by = obj;
 		obj->Add_Pointed_By(&locking_by);
 	}
-	
+
 }
 
 void Player::Set_Locking_Result(Object* obj)
 {
-	if(obj != nullptr)
+	if (obj != nullptr)
 	{
 		locking_result = obj;
 		obj->Add_Pointed_By(&locking_result);
 	}
-	
+
 }
 
 Object* Player::Get_Locking_Result()
@@ -224,7 +240,7 @@ void Player::Func_Magnatic(float dt)
 		angle += 90;
 		mag_angle = angle;
 
-		m_owner->GetComponentByTemplate<Physics>()->SetAcceleration(
+		m_owner->GetComponentByTemplate<Player>()->SetPlayerVelocity(
 			{ sin(angle_in_radian) * -20, cos(angle_in_radian) * 20 }
 		);
 
@@ -313,12 +329,295 @@ void Player::Set_This_UI_info(PLAYER_UI* ui)
 	this_ui = ui;
 }
 
-void Player::Set_Item_State(Item::Item_Kind state)
-{
-	this->belong_item = state;
-}
-
 PLAYER_UI* Player::Get_Ui()
 {
 	return this_ui;
+}
+
+float& Player::Get_Regeneration_Timer()
+{
+	return regeneration_timer;
+}
+
+float& Player::Get_Bulkup_Timer()
+{
+	return bulkup_timer;
+}
+
+void Player::Set_Bulkup_Timer(float timer_)
+{
+	bulkup_timer = timer_;
+}
+
+Player::Char_State Player::Get_Char_State()
+{
+	return curr_state;
+}
+
+void Player::Set_Char_State(Char_State state)
+{
+	curr_state = state;
+}
+
+void Player::Set_Char_State_Additional(Char_State_Additional state)
+{
+	curr_state_additional = state;
+}
+
+Player::Char_State_Additional Player::Get_Char_State_Additional()
+{
+	return curr_state_additional;
+}
+
+Player::Char_State_By_Other Player::Get_Char_State_By_Other()
+{
+	return curr_state_by_other;
+}
+
+void Player::Set_Char_State_By_Other(Char_State_By_Other state)
+{
+	curr_state_by_other = state;
+}
+
+Object* Player::Get_Locking()
+{
+	return locking_pointer;
+}
+
+void Player::Set_Locking(Object* obj)
+{
+	if (obj != nullptr)
+	{
+		locking_pointer = obj;
+		obj->Add_Pointed_By(&locking_pointer);
+	}
+}
+
+Object* Player::Get_Hp_Bar()
+{
+	return hp_bar;
+}
+
+
+
+void Player::PlayerMovement(float max_velocity, float min_velocity)
+{
+	if (input.Is_Key_Pressed(GLFW_KEY_W))
+	{
+		if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_A))
+		{
+			if (velocity.x >= 0 && velocity.y >= 0)
+			{
+				velocity += {-max_velocity, min_velocity};
+			}
+			else if (velocity.x >= 0 && velocity.y < 0)
+			{
+				velocity += {-max_velocity, max_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y >= 0)
+			{
+				velocity += {-min_velocity, min_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y < 0)
+			{
+				velocity += {-min_velocity, max_velocity};
+			}
+		}
+		else if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_D))
+		{
+			if (velocity.x >= 0 && velocity.y >= 0)
+			{
+				velocity += {min_velocity, min_velocity};
+			}
+			else if (velocity.x >= 0 && velocity.y < 0)
+			{
+				velocity += {min_velocity, max_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y >= 0)
+			{
+				velocity += {max_velocity, min_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y < 0)
+			{
+				velocity += {max_velocity, max_velocity};
+			}
+		}
+		else
+		{
+			if (abs(velocity.x) >= 0)
+			{
+				velocity.x -= velocity.x / 100;
+			}
+			if (velocity.y >= 0)
+			{
+				velocity += {0.00, min_velocity};
+			}
+			else if (velocity.y < 0)
+			{
+				velocity += {0.00, max_velocity};
+			}
+		}
+	}
+	else if (input.Is_Key_Pressed(GLFW_KEY_A))
+	{
+		if (input.Is_Key_Pressed(GLFW_KEY_A) && input.Is_Key_Pressed(GLFW_KEY_S))
+		{
+			if (velocity.x >= 0 && velocity.y >= 0)
+			{
+				velocity += {-max_velocity, -max_velocity};
+			}
+			else if (velocity.x >= 0 && velocity.y < 0)
+			{
+				velocity += {-max_velocity, -min_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y >= 0)
+			{
+				velocity += {-min_velocity, -max_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y < 0)
+			{
+				velocity += {-min_velocity, -min_velocity};
+			}
+		}
+		else
+		{
+			if (velocity.x >= 0)
+			{
+				velocity.x += -max_velocity;
+			}
+			else
+			{
+				velocity.x += -min_velocity;
+			}
+			if (abs(velocity.y) >= 0)
+			{
+				velocity.y -= velocity.y / 100;
+			}
+		}
+	}
+	else if (input.Is_Key_Pressed(GLFW_KEY_S))
+	{
+		if (input.Is_Key_Pressed(GLFW_KEY_S) && input.Is_Key_Pressed(GLFW_KEY_D))
+		{
+			if (velocity.x >= 0 && velocity.y >= 0)
+			{
+				velocity += {min_velocity, -max_velocity};
+			}
+			else if (velocity.x >= 0 && velocity.y < 0)
+			{
+				velocity += {min_velocity, -min_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y >= 0)
+			{
+				velocity += {max_velocity, -max_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y < 0)
+			{
+				velocity += {max_velocity, -min_velocity};
+			}
+		}
+		else
+		{
+			if (abs(velocity.x) >= 0)
+			{
+				velocity.x -= velocity.x / 100;
+			}
+			if (velocity.y >= 0)
+			{
+				velocity.y += -max_velocity;
+			}
+			else
+			{
+				velocity.y += -min_velocity;
+			}
+		}
+	}
+	else if (input.Is_Key_Pressed(GLFW_KEY_D))
+	{
+		if (velocity.x >= 0)
+		{
+			velocity.x += min_velocity;
+		}
+		else
+		{
+			velocity.x += max_velocity;
+		}
+		if (abs(velocity.y) >= 0)
+		{
+			velocity.y -= velocity.y / 100;
+		}
+	}
+	else
+	{
+		velocity += {-velocity.x / 100, -velocity.y / 100};
+	}
+}
+
+void Player::SetPlayerVelocity(vector2 current_velocity)
+{
+	velocity = current_velocity;
+}
+
+vector2 Player::GetPlayerVelocity()
+{
+	return velocity;
+}
+
+void Player::PlayerDirecting()
+{
+	if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
+	{
+		if (input.Is_Key_Pressed(GLFW_KEY_UP))
+		{
+			direction.x += 0.03f;
+			direction.y += 0.03f;
+		}
+		else if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
+		{
+			direction.x += 0.03f;
+			direction.y -= 0.03f;
+		}
+		else
+		{
+			direction.x += 0.045f;
+		}
+	}
+	else if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
+	{
+		if (input.Is_Key_Pressed(GLFW_KEY_UP))
+		{
+			direction.x -= 0.03f;
+			direction.y += 0.03f;
+		}
+		else if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
+		{
+			direction.x -= 0.03f;
+			direction.y -= 0.03f;
+		}
+		else
+		{
+			direction.x -= 0.045f;
+		}
+	}
+	else if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
+	{
+		direction.y -= 0.045f;
+	}
+	else if (input.Is_Key_Pressed(GLFW_KEY_UP))
+	{
+		direction.y += 0.045f;
+	}
+
+	float angle = RadianToDegree(angle_between({ 0,1 }, direction));
+	if (direction.x >= 0)
+	{
+		angle *= -1;
+	}
+	m_owner->SetRotation(angle);
+	direction = normalize(direction);
+}
+
+vector2 Player::GetPlayerDirection()
+{
+	return direction;
 }

@@ -20,11 +20,6 @@ class PLAYER_UI;
 class Player : public Component
 {
 public:
-	Player(bool need_update_hp = true)
-	{
-		need_update_hp_bar = need_update_hp;
-	}
-	
 	enum class Char_State
 	{
 		None,
@@ -37,29 +32,31 @@ public:
 		Time_Pause,
 		Reverse_Moving
 	};
-
 	enum class Char_State_Additional
 	{
 		None,
 		Chasing,
 		Chasing_stop
 	};
-
 	enum class Char_State_By_Other
 	{
 		None,
 		Locked
 	};
+
+	Player(bool need_update_hp = true)
+	{
+		need_update_hp_bar = need_update_hp;
+	}
 	
     void Init(Object* obj);
     void Update(float dt) override;
-    void Attack();
-    int Get_Damage()
-    {
-        return damage;
-    }
+	
+    void SetHPBar();
+    int Get_Damage();
+	Item::Item_Kind Get_Item_State();
+	void Set_Item_State(Item::Item_Kind state);
     void Set_This_UI_info(PLAYER_UI* ui);
-    void Set_Item_State(Item::Item_Kind state);
     PLAYER_UI* Get_Ui();
     Item::Item_Kind Get_Item_State();
     float& Get_Regeneration_Timer()
@@ -131,13 +128,21 @@ public:
 	void Set_Locking_By(Object* obj);
 	void Set_Locking_Result(Object* obj);
 	Object* Get_Locking_Result();
-
 	void Func_Bulk_Up(float dt);
 	void Func_Bulk_Throwing(float dt);
 	void Func_Lock_Ready(float dt);
 	void Func_Magnatic(float dt);
 	void Func_Time_Pause(float dt);
 	void Func_Reverse_Moving(float dt);
+
+
+	
+	void PlayerMovement(float max_velocity, float min_velocity);
+	void SetPlayerVelocity(vector2 current_velocity);
+	vector2 GetPlayerVelocity();
+	void PlayerDirecting();
+	vector2 GetPlayerDirection();
+	
 private:
     Object* hp_bar = nullptr;
     Item::Item_Kind belong_item = Item::Item_Kind::None;
@@ -154,4 +159,8 @@ private:
 	Char_State_Additional curr_state_additional = Char_State_Additional::None;
 	Object* locking_result = nullptr;
 	float stop_timer = 0.0f;
+
+	
+	vector2 velocity{};
+	vector2 direction = {0, 1};
 };

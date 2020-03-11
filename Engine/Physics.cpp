@@ -22,8 +22,6 @@
 #include "Engine.hpp"
 #include "Message.h"
 #include "Application.hpp"
-#include "angles.hpp"
-#include "UsefulTools.hpp"
 
 Physics::Physics(bool ghost_collision_mode) : ghost_collision_mode(ghost_collision_mode)
 {
@@ -428,8 +426,8 @@ void Physics::KnockBack(Object* object_1, Object* object_2)
 	{
 		vector2 object_1_pos = object_1->GetTransform().GetTranslation();
 		vector2 object_2_pos = object_2->GetTransform().GetTranslation();
-		vector2 object_1_acceleration = object_1->GetComponentByTemplate<Physics>()->GetAcceleration();
-		vector2 object_2_acceleration = object_2->GetComponentByTemplate<Physics>()->GetAcceleration();
+		vector2 object_1_acceleration = object_1->GetComponentByTemplate<Player>()->GetPlayerVelocity();
+		vector2 object_2_acceleration = object_2->GetComponentByTemplate<Player>()->GetPlayerVelocity();
 		vector2 direction_to_go;
 
 		float object_1_speed = sqrt((object_1_acceleration.x * object_1_acceleration.x) + (object_1_acceleration.y * object_1_acceleration.y));
@@ -440,11 +438,11 @@ void Physics::KnockBack(Object* object_1, Object* object_2)
 			sound.Play(SOUND::Crack);
 			direction_to_go = normalize(object_1_pos - object_2_pos);
 
-			object_1->GetComponentByTemplate<Physics>()->SetAcceleration(direction_to_go * object_2_speed);
-			object_1->GetTransform().AddTranslation(object_1->GetComponentByTemplate<Physics>()->GetAcceleration());
+			object_1->GetComponentByTemplate<Player>()->SetPlayerVelocity(direction_to_go * object_2_speed);
+			object_1->GetTransform().AddTranslation(object_1->GetComponentByTemplate<Player>()->GetPlayerVelocity());
 
-			object_2->GetComponentByTemplate<Physics>()->SetAcceleration(-direction_to_go * object_2_speed / 2);
-			object_2->GetTransform().AddTranslation(object_2->GetComponentByTemplate<Physics>()->GetAcceleration());
+			object_2->GetComponentByTemplate<Player>()->SetPlayerVelocity(-direction_to_go * object_2_speed / 2);
+			object_2->GetTransform().AddTranslation(object_2->GetComponentByTemplate<Player>()->GetPlayerVelocity());
 		}
 		else if (object_2_speed < object_1_speed)
 		{
@@ -452,11 +450,11 @@ void Physics::KnockBack(Object* object_1, Object* object_2)
 
 			direction_to_go = normalize(object_2_pos - object_1_pos);
 
-			object_2->GetComponentByTemplate<Physics>()->SetAcceleration(direction_to_go * object_1_speed);
-			object_2->GetTransform().AddTranslation(object_1->GetComponentByTemplate<Physics>()->GetAcceleration());
+			object_2->GetComponentByTemplate<Player>()->SetPlayerVelocity(direction_to_go * object_1_speed);
+			object_2->GetTransform().AddTranslation(object_1->GetComponentByTemplate<Player>()->GetPlayerVelocity());
 
-			object_1->GetComponentByTemplate<Physics>()->SetAcceleration(-direction_to_go * object_1_speed / 2);
-			object_1->GetTransform().AddTranslation(object_1->GetComponentByTemplate<Physics>()->GetAcceleration());
+			object_1->GetComponentByTemplate<Player>()->SetPlayerVelocity(-direction_to_go * object_1_speed / 2);
+			object_1->GetTransform().AddTranslation(object_1->GetComponentByTemplate<Player>()->GetPlayerVelocity());
 		}
 	}
 }
@@ -504,11 +502,11 @@ void Physics::Dash(Object* object)
 
 void Physics::SpeedDown(Object* object)
 {
-	vector2 acceleration = object->GetComponentByTemplate<Physics>()->GetAcceleration();
+	vector2 acceleration = object->GetComponentByTemplate<Player>()->GetPlayerVelocity();
 
 	acceleration /= 5;
 
-	object->GetComponentByTemplate<Physics>()->SetAcceleration(acceleration);
+	object->GetComponentByTemplate<Player>()->SetPlayerVelocity(acceleration);
 }
 
 void Physics::Update(float dt)

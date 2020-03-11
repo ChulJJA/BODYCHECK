@@ -35,9 +35,9 @@ void TestLevel::Load()
     object_manager = ObjectManager::GetObjectManager();
     Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 
-    //SetArena();
-    //SetFirstPlayer();
-    //SetSecondPlayer();
+    SetArena();
+    SetFirstPlayer();
+    SetSecondPlayer();
     //SetThirdPlayer();
     //SetFourthPlayer();
 	
@@ -61,36 +61,36 @@ void TestLevel::Load()
     //player_third->GetTransform().SetScale({ 3.f,3.f });
     //ObjectManager::GetObjectManager()->AddObject(player_third);
 
-    b = new Object();
-    ObjectManager::GetObjectManager()->AddObject(b);
-    b->AddComponent(new Sprite(b, "../Sprite/pen_purple.png", { -400,400 }));
-    ObjectManager::GetObjectManager()->AddObject(b);
-    ObjectManager::GetObjectManager()->AddObject(b);
-    ObjectManager::GetObjectManager()->AddObject(b);
-    ObjectManager::GetObjectManager()->AddObject(b);
-    ObjectManager::GetObjectManager()->AddObject(b);
-    ObjectManager::GetObjectManager()->AddObject(b);
-    ObjectManager::GetObjectManager()->AddObject(b);
-    ObjectManager::GetObjectManager()->AddObject(b);
-    ObjectManager::GetObjectManager()->AddObject(b);
-    ObjectManager::GetObjectManager()->AddObject(b);
-    ObjectManager::GetObjectManager()->AddObject(b);
-    ObjectManager::GetObjectManager()->AddObject(b);
-    ObjectManager::GetObjectManager()->AddObject(b);
-    ObjectManager::GetObjectManager()->AddObject(b);
-    ObjectManager::GetObjectManager()->AddObject(b);
-    ObjectManager::GetObjectManager()->AddObject(b);
-    ObjectManager::GetObjectManager()->AddObject(b);
-    ObjectManager::GetObjectManager()->AddObject(b);
-    ObjectManager::GetObjectManager()->AddObject(b);
-    ObjectManager::GetObjectManager()->AddObject(b);
-    ObjectManager::GetObjectManager()->AddObject(b);
-    ObjectManager::GetObjectManager()->AddObject(b);
-    ObjectManager::GetObjectManager()->AddObject(b);
+    //b = new Object();
+    //ObjectManager::GetObjectManager()->AddObject(b);
+    //b->AddComponent(new Sprite(b, "../Sprite/pen_purple.png", { -400,400 }));
+    //ObjectManager::GetObjectManager()->AddObject(b);
+    //ObjectManager::GetObjectManager()->AddObject(b);
+    //ObjectManager::GetObjectManager()->AddObject(b);
+    //ObjectManager::GetObjectManager()->AddObject(b);
+    //ObjectManager::GetObjectManager()->AddObject(b);
+    //ObjectManager::GetObjectManager()->AddObject(b);
+    //ObjectManager::GetObjectManager()->AddObject(b);
+    //ObjectManager::GetObjectManager()->AddObject(b);
+    //ObjectManager::GetObjectManager()->AddObject(b);
+    //ObjectManager::GetObjectManager()->AddObject(b);
+    //ObjectManager::GetObjectManager()->AddObject(b);
+    //ObjectManager::GetObjectManager()->AddObject(b);
+    //ObjectManager::GetObjectManager()->AddObject(b);
+    //ObjectManager::GetObjectManager()->AddObject(b);
+    //ObjectManager::GetObjectManager()->AddObject(b);
+    //ObjectManager::GetObjectManager()->AddObject(b);
+    //ObjectManager::GetObjectManager()->AddObject(b);
+    //ObjectManager::GetObjectManager()->AddObject(b);
+    //ObjectManager::GetObjectManager()->AddObject(b);
+    //ObjectManager::GetObjectManager()->AddObject(b);
+    //ObjectManager::GetObjectManager()->AddObject(b);
+    //ObjectManager::GetObjectManager()->AddObject(b);
+    //ObjectManager::GetObjectManager()->AddObject(b);
 
-    std::cout << object_manager->GetObjectManagerContainer().size();
+    //std::cout << object_manager->GetObjectManagerContainer().size();
 
-    Graphic::GetGraphic()->get_need_update_sprite() = true;
+    //Graphic::GetGraphic()->get_need_update_sprite() = true;
 }
 
 void TestLevel::Update(float dt)
