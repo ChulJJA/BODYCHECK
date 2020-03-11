@@ -83,6 +83,7 @@ public:
 	vector2 GetPlayerVelocity();
 	void PlayerDirecting();
 	vector2 GetPlayerDirection();
+	void UseItem();
 	
 private:
     Object* hp_bar = nullptr;

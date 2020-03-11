@@ -28,7 +28,6 @@ public:
     {
         return ghost_collision_mode;
     }
-    bool is_collided = false;
     bool is_dashed = false;
 
 private:
