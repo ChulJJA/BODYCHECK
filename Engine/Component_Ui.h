@@ -38,8 +38,9 @@ public:
 		Item_Hp,
 		Item_Bulkup,
 		Item_Throwing,
-		Item_Magnatic
-		
+		Item_Magnatic,
+		Item_Time_Pause,
+		Item_Reverse_Moving
 	};
 
 	void Init(Object* obj) override;

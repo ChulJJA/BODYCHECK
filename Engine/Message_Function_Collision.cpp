@@ -109,6 +109,15 @@ void Msg_Func_Collision::Update(float dt)
 				m_target->Change_Sprite(m_target->Find_Sprite_By_Name("normal"));
 			}
 		}
+
+		if (player_from_info->Get_Char_State() == Player::Char_State::Time_Pause)
+		{
+			player_from_info->Set_Char_State(Player::Char_State::None);
+		}
+		else if (player_target_info->Get_Char_State() == Player::Char_State::Time_Pause)
+		{
+			player_target_info->Set_Char_State(Player::Char_State::None);
+		}
 	}
 
 	msg->Set_Should_Delete(true);
@@ -147,6 +156,18 @@ void Msg_Func_Collision::Player_Get_Item(Object* player, Object* item)
 	{
 		player_info->Set_Item_State(Item::Item_Kind::Magnatic);
 		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Magnatic);
+	}
+
+	if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Time_Pause)
+	{
+		player_info->Set_Item_State(Item::Item_Kind::Time_Pause);
+		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Time_Pause);
+	}
+
+	if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Reverse_Moving)
+	{
+		player_info->Set_Item_State(Item::Item_Kind::Reverse_Moving);
+		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Reverse_Moving);
 	}
 
 	player->Set_Is_It_Collided(false);

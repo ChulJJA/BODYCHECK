@@ -175,6 +175,12 @@
     <ClCompile Include="Message_Function_Item_Magnatic.cpp">
       <Filter>Message_Function</Filter>
     </ClCompile>
+    <ClCompile Include="Message_Function_Item_Time_Pause.cpp">
+      <Filter>Message_Function</Filter>
+    </ClCompile>
+    <ClCompile Include="Message_Function_Item_Reverse_Moving.cpp">
+      <Filter>Message_Function</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="angles.hpp">
@@ -253,9 +259,6 @@
       <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="ObjectManager.h">
-      <Filter>Source\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Physics.h">
       <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Player_Ui.h">
@@ -377,6 +380,15 @@
     </ClInclude>
     <ClInclude Include="Message_Function_Item_Magnatic.h">
       <Filter>Message_Function</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Item_Time_Pause.h">
+      <Filter>Message_Function\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Item_Reverse_Moving.h">
+      <Filter>Message_Function\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics.h">
+      <Filter>Components\Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

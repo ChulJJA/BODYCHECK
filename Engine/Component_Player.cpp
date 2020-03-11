@@ -57,15 +57,39 @@ void Player::Update(float dt)
 	{
 		Func_Magnatic(dt);
 	}
+	if (curr_state == Char_State::Time_Pause)
+	{
+		Func_Time_Pause(dt);
+	}
+	if (curr_state == Char_State::Reverse_Moving)
+	{
+		Func_Reverse_Moving(dt);
+	}
 	if (hp_bar != nullptr)
 	{
 		hp_bar->GetTransform().GetTranslation_Reference().x = m_owner->GetTransform().GetTranslation().x;
 		hp_bar->GetTransform().GetTranslation_Reference().y = m_owner->GetTransform().GetTranslation().y - 100;
 	}
-	
-	PlayerMovement(0.6f, 0.12f);
-	m_owner->GetTransform().AddTranslation(velocity);
+
+	Player* get_player = m_owner->GetComponentByTemplate<Player>();
+
+	if (get_player != nullptr)
+	{
+		if (get_player->Get_Char_State() != Player::Char_State::Reverse_Moving && curr_state != Player::Char_State::Time_Pause)
+		{
+			PlayerMovement(0.6f, 0.12f);
+			m_owner->GetTransform().AddTranslation(velocity);
+		}
+		else if (get_player->Get_Char_State() == Player::Char_State::Reverse_Moving && curr_state != Player::Char_State::Time_Pause)
+		{
+			PlayerMovement(-0.12f, -0.6f);
+			m_owner->GetTransform().AddTranslation(velocity);
+		}
+
+	}
+
 	PlayerDirecting();
+	UseItem();
 }
 
 void Player::SetHPBar()
@@ -258,6 +282,57 @@ void Player::Func_Magnatic(float dt)
 	}
 }
 
+void Player::Func_Time_Pause(float dt)
+{
+	std::vector<Object*> another_players = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("player");
+
+	another_players.erase(std::find(another_players.begin(), another_players.end(), m_owner));
+
+	if (stop_timer > 0.0f)
+	{
+		stop_timer -= dt;
+
+		/*for (auto player : another_players)
+		{
+			Player* get_player = player->GetComponentByTemplate<Player>();
+
+			if (get_player != nullptr)
+			{
+				if (player->Get_Is_It_Collided() == true)
+				{
+					get_player->Set_Char_State(Player::Char_State::None);
+				}
+
+			}
+		}*/
+	}
+	else
+	{
+		curr_state = Char_State::None;
+		//m_owner->AddComponent(new Physics);
+	}
+}
+
+void Player::Func_Reverse_Moving(float dt)
+{
+	std::vector<Object*> another_players = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("player");
+
+	another_players.erase(std::find(another_players.begin(), another_players.end(), m_owner));
+
+	for (auto find_player : another_players)
+	{
+		Player* get_player = find_player->GetComponentByTemplate<Player>();
+
+		if (get_player->Get_Char_State() == Player::Char_State::Reverse_Moving)
+		{
+			if (find_player->IsDead() == true)
+			{
+				get_player->Get_Char_State() == Player::Char_State::None;
+			}
+		}
+	}
+}
+
 void Player::Set_This_UI_info(PLAYER_UI* ui)
 {
 	this_ui = ui;
@@ -331,7 +406,14 @@ Object* Player::Get_Hp_Bar()
 {
 	return hp_bar;
 }
-
+float& Player::Get_Stop_Timer()
+{
+	return stop_timer;
+}
+void  Player::Set_Stop_Timer(float timer_)
+{
+	stop_timer = timer_;
+}
 
 
 void Player::PlayerMovement(float max_velocity, float min_velocity)
@@ -558,30 +640,39 @@ vector2 Player::GetPlayerDirection()
 
 void Player::UseItem()
 {
-	//if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && m_owner->GetComponentByTemplate<Player>()->Get_Item_State() == Item::Item_Kind::Dash)
-	//{
-	//	sound.Play(SOUND::Dash);
-	//	Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "dash", 1.f));
-	//}
-	//if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && m_owner->GetComponentByTemplate<Player>()->Get_Item_State() == Item::Item_Kind::HP)
-	//{
-	//	sound.Play(SOUND::HP);
-	//	Object* hp_bar = m_owner->Get_Belong_Object_By_Tag("hp_bar");
-	//	Message_Manager::Get_Message_Manager()->Save_Message(new Message(hp_bar, m_owner, "recover", 1.f));
-	//}
+	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Dash)
+	{
+		sound.Play(SOUND::Dash);
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "dash", 1.f));
+	}
+	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::HP)
+	{
+		sound.Play(SOUND::HP);
+		Object* hp_bar = m_owner->Get_Belong_Object_By_Tag("hp_bar");
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(hp_bar, m_owner, "recover", 1.f));
+	}
 
-	//if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && m_owner->GetComponentByTemplate<Player>()->Get_Item_State() == Item::Item_Kind::Bulkup)
-	//{
-	//	sound.Play(SOUND::BulkUp);
-	//	Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "bulkup", 3.f));
-	//}
+	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Bulkup)
+	{
+		sound.Play(SOUND::BulkUp);
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "bulkup", 3.f));
+	}
 
-	//if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && m_owner->GetComponentByTemplate<Player>()->Get_Item_State() == Item::Item_Kind::Throwing)
-	//{
-	//	Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "throwing", 0.f));
-	//}
-	//if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && m_owner->GetComponentByTemplate<Player>()->Get_Item_State() == Item::Item_Kind::Magnatic)
-	//{
-	//	Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "magnatic", 0.f));
-	//}
+	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Throwing)
+	{
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "throwing", 0.f));
+	}
+	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Magnatic)
+	{
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "magnatic", 0.f));
+	}
+
+	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Time_Pause)
+	{
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "time_pause", 0.f));
+	}
+	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Reverse_Moving)
+	{
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "reverse_moving", 0.f));
+	}
 }
