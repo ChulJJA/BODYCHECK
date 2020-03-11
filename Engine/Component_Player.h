@@ -80,7 +80,7 @@ public:
     {
 		curr_state = state;
     }
-    void PlayerMove(float max_velocity, float min_velocity);
+    void SetPlayerMove(float max_velocity, float min_velocity);
 
 	void Set_Char_State_Additional(Char_State_Additional state)
     {
