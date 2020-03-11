@@ -59,3 +59,18 @@ void Graphic::Draw(Vertices& shape, material material)
 
     GL::end_drawing();
 }
+
+void Graphic::Instancing_Draw(Vertices& shape, material material)
+{
+	GL::draw_instance(shape, material);
+
+}
+
+void Graphic::Render()
+{
+	
+	glDrawArraysInstanced(GL_TRIANGLE_FAN, 0, 4, 30);
+
+	GL::end_drawing();
+
+}

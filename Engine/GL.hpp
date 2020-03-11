@@ -26,6 +26,7 @@ namespace GL
     void begin_drawing() noexcept;
     // Call Draw() as many times as you need.
     void draw(const Vertices& vertices, const material& material) noexcept;
+	void draw_instance(const Vertices& vertices, const material& material) noexcept;
     // Lastly call EndDrawing() once at the very end.
     void end_drawing() noexcept;
 

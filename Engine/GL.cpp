@@ -61,6 +61,29 @@ void GL::draw(const Vertices& vertices, const material& material) noexcept
 
 }
 
+void GL::draw_instance(const Vertices& vertices, const material& material) noexcept
+{
+	Shader::Select(*material.shader);
+	Vertices::Select(vertices);
+
+	for (auto& i : material.color4fUniforms)
+	{
+		material.shader->SendUniformVariable(i.first, i.second);
+	}
+	for (auto& i : material.floatUniforms)
+	{
+		material.shader->SendUniformVariable(i.first, i.second);
+	}
+	for (auto& i : material.matrix3Uniforms)
+	{
+		material.shader->SendUniformVariable(i.first, i.second);
+	}
+	for (auto& i : material.textureUniforms)
+	{
+		Texture::SelectTextureForSlot(*i.second.texture, i.second.textureSlot);
+	}
+}
+
 void GL::end_drawing() noexcept
 {
 	glFinish();

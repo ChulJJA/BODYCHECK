@@ -27,6 +27,7 @@ public:
     void Clear();
 
     void AddObject(Object* obj);
+	void Add_Object_Instancing(Object* obj);
     void DeleteObject(std::shared_ptr<Object> obj);
 
     std::vector<Object*> Find_Objects_By_Tag(std::string tag);
@@ -40,8 +41,11 @@ public:
     {
         return objects;
     }
+
+	void Instancing_Update(float dt);
 private:
     static ObjectManager* object_manager;
     std::vector<std::shared_ptr<Object>> objects{};
+	std::vector<std::shared_ptr<Object>> objects_instancing{};
     std::vector<std::shared_ptr<Object>> delete_obj{};
 };

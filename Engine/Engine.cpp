@@ -68,12 +68,12 @@ void Engine::Init()
     state_manager = StateManager::GetStateManager();
     graphic = Graphic::GetGraphic();
     
-	
     app_->Init();
     object_manager->Init();
     state_manager->Init();
     graphic->Init();
     msg_manager->Init();
+
 
     state_manager->AddState("Logo", new Logo);
     state_manager->AddState("Menu", new MainMenu);
@@ -95,6 +95,10 @@ void Engine::Update()
 	state_manager->Update(m_dt);
 	msg_manager->Update(m_dt);
     object_manager->Update(m_dt);
+
+	object_manager->Instancing_Update(m_dt);
+	graphic->Render();
+	graphic->Instance_Num_Reset();
 
     if (input.Is_Key_Triggered(GLFW_KEY_1))
     {
