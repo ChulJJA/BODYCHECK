@@ -80,10 +80,10 @@ void Referee::Init()
 		item_save_hp[i] = Make_Item_Pool("../Sprite/item.png", { -400,0 }, "item", "item", Item::Item_Kind::Dash);
 	}
 
-	for (int i = 0; i < item_num; i++)
+	/*for (int i = 0; i < item_num; i++)
 	{
 		item_bulk_up[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Time_Pause);
-	}
+	}*/
 	for (int i = 0; i < item_num; i++)
 	{
 		item_bulk_up[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Reverse_Moving);

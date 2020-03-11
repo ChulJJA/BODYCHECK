@@ -72,17 +72,30 @@ void Player::Update(float dt)
 	{
 		Func_Reverse_Moving(dt);
 	}
-	if(hp_bar != nullptr)
+	if (hp_bar != nullptr)
 	{
 		hp_bar->GetTransform().GetTranslation_Reference().x = m_owner->GetTransform().GetTranslation().x;
 		hp_bar->GetTransform().GetTranslation_Reference().y = m_owner->GetTransform().GetTranslation().y - 100;
 	}
 
+	Player* get_player = m_owner->GetComponentByTemplate<Player>();
 
+	if (get_player != nullptr)
+	{
+		if (get_player->Get_Char_State() != Player::Char_State::Reverse_Moving && curr_state != Player::Char_State::Time_Pause)
+		{
+			PlayerMovement(0.6f, 0.12f);
+			m_owner->GetTransform().AddTranslation(velocity);
+			PlayerDirecting();
+		}
+		else if (get_player->Get_Char_State() == Player::Char_State::Reverse_Moving && curr_state != Player::Char_State::Time_Pause)
+		{
+			PlayerMovement(-0.12f, -0.6f);
+			m_owner->GetTransform().AddTranslation(velocity);
+			PlayerDirecting();
+		}
 
-	PlayerMovement(0.6f, 0.12f);
-	m_owner->GetTransform().AddTranslation(velocity);
-	PlayerDirecting();
+	}
 }
 
 void Player::SetHPBar()
@@ -304,7 +317,7 @@ void Player::Func_Time_Pause(float dt)
 	}
 }
 
-void Player:: Func_Reverse_Moving(float dt)
+void Player::Func_Reverse_Moving(float dt)
 {
 	std::vector<Object*> another_players = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("player");
 
@@ -397,7 +410,14 @@ Object* Player::Get_Hp_Bar()
 {
 	return hp_bar;
 }
-
+float& Player::Get_Stop_Timer()
+{
+	return stop_timer;
+}
+void  Player::Set_Stop_Timer(float timer_)
+{
+	stop_timer = timer_;
+}
 
 
 void Player::PlayerMovement(float max_velocity, float min_velocity)

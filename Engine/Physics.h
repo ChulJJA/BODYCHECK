@@ -18,24 +18,23 @@
 class Physics : public Component
 {
 public:
-    Physics(bool ghost_collision_mode = false);
-    void Init(Object* obj) override;
-    void JustMove();
-    void KnockBack(Object* object_1, Object* object_2);
-    void Dash(Object* object);
-    void SpeedDown(Object* object);
-    void Update(float dt) override;
-    bool& Get_Ghost_Collision_Reference()
-    {
-        return ghost_collision_mode;
-    }
-    bool is_collided = false;
-    bool is_dashed = false;
+	Physics(bool ghost_collision_mode = false);
+	void Init(Object* obj) override;
+	void KnockBack(Object* object_1, Object* object_2);
+	void Dash(Object* object);
+	void SpeedDown(Object* object);
+	void Update(float dt) override;
+	bool& Get_Ghost_Collision_Reference()
+	{
+		return ghost_collision_mode;
+	}
+	bool is_collided = false;
+	bool is_dashed = false;
 
 private:
-    vector2 acceleration{};
-    mutable float timer = 0;
+	vector2 acceleration{};
+	mutable float timer = 0;
 
-    bool ghost_collision_mode;
-    float ghost_collision_timer = 5.0f;
+	bool ghost_collision_mode;
+	float ghost_collision_timer = 5.0f;
 };

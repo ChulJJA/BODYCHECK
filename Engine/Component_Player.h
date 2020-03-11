@@ -58,72 +58,24 @@ public:
 	void Set_Item_State(Item::Item_Kind state);
     void Set_This_UI_info(PLAYER_UI* ui);
     PLAYER_UI* Get_Ui();
-    Item::Item_Kind Get_Item_State();
-    float& Get_Regeneration_Timer()
-    {
-        return regeneration_timer;
-    }
-    float& Get_Bulkup_Timer()
-    {
-        return bulkup_timer;
-    }
-	void Set_Bulkup_Timer(float timer_)
-    {
-		bulkup_timer = timer_;
-    }
-	Char_State Get_Char_State()
-    {
-		return curr_state;
-    }
-	void Set_Char_State(Char_State state)
-    {
-		curr_state = state;
-    }
+	float& Get_Regeneration_Timer();
+   
+	float& Get_Bulkup_Timer();
+	void Set_Bulkup_Timer(float timer_);
+	Char_State Get_Char_State();
+	void Set_Char_State(Char_State state);
 
-	void Set_Char_State_Additional(Char_State_Additional state)
-    {
-		curr_state_additional = state;
-    }
-	Char_State_Additional Get_Char_State_Additional()
-    {
-		return curr_state_additional;
-    }
+	void Set_Char_State_Additional(Char_State_Additional state);
+	Char_State_Additional Get_Char_State_Additional();
 	
-	Char_State_By_Other Get_Char_State_By_Other()
-    {
-		return curr_state_by_other;
-    }
-	void Set_Char_State_By_Other(Char_State_By_Other state)
-    {
-		curr_state_by_other = state;
-    }
+	Char_State_By_Other Get_Char_State_By_Other();
+	void Set_Char_State_By_Other(Char_State_By_Other state);
 
-	Object* Get_Locking()
-    {
-		return locking_pointer;
-    }
-	void Set_Locking(Object* obj)
-    {
-    	if(obj != nullptr)
-    	{
-			locking_pointer = obj;
-			obj->Add_Pointed_By(&locking_pointer);
-    	}
-		
-    }
-	Object* Get_Hp_Bar()
-    {
-		return hp_bar;
-    }
-
-	float& Get_Stop_Timer()
-	{
-		return stop_timer;
-	}
-	void Set_Stop_Timer(float timer_)
-	{
-		stop_timer = timer_;
-	}
+	Object* Get_Locking();
+	void Set_Locking(Object* obj);
+	Object* Get_Hp_Bar();
+	float& Get_Stop_Timer();
+	void Set_Stop_Timer(float timer_);
 
 	void Set_Locking_By(Object* obj);
 	void Set_Locking_Result(Object* obj);
