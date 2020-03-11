@@ -61,10 +61,14 @@ void Player::Update(float dt)
 		hp_bar->GetTransform().GetTranslation_Reference().x = m_owner->GetTransform().GetTranslation().x;
 		hp_bar->GetTransform().GetTranslation_Reference().y = m_owner->GetTransform().GetTranslation().y - 100;
 	}
+	if(curr_state_additional != Char_State_Additional::Chasing)
+	{
+		PlayerMovement(0.6f, 0.12f);
+		m_owner->GetTransform().AddTranslation(velocity);
+		PlayerDirecting();
+
+	}
 	
-	PlayerMovement(0.6f, 0.12f);
-	m_owner->GetTransform().AddTranslation(velocity);
-	PlayerDirecting();
 }
 
 void Player::SetHPBar()
@@ -234,7 +238,7 @@ void Player::Func_Magnatic(float dt)
 		{
 			vector3 convert_pos(own_pos.x, own_pos.y, 1.f);
 
-			convert_pos = MATRIX3::build_rotation(to_radians(10)) * convert_pos;
+			convert_pos = MATRIX3::build_rotation(to_radians(-20)) * convert_pos;
 
 			own_pos.x = convert_pos.x;
 			own_pos.y = convert_pos.y;
@@ -243,7 +247,7 @@ void Player::Func_Magnatic(float dt)
 		{
 			vector3 convert_pos(own_pos.x, own_pos.y, 1.f);
 
-			convert_pos = MATRIX3::build_rotation(to_radians(-10)) * convert_pos;
+			convert_pos = MATRIX3::build_rotation(to_radians(20)) * convert_pos;
 
 			own_pos.x = convert_pos.x;
 			own_pos.y = convert_pos.y;
