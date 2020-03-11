@@ -34,6 +34,8 @@ public:
 		Magnatic,
 		Lock_Ready,
 		Lock_Ing,
+		Time_Pause,
+		Reverse_Moving
 	};
 
 	enum class Char_State_Additional
@@ -116,6 +118,16 @@ public:
     {
 		return hp_bar;
     }
+
+	float& Get_Stop_Timer()
+	{
+		return stop_timer;
+	}
+	void Set_Stop_Timer(float timer_)
+	{
+		stop_timer = timer_;
+	}
+
 	void Set_Locking_By(Object* obj);
 	void Set_Locking_Result(Object* obj);
 	Object* Get_Locking_Result();
@@ -124,6 +136,8 @@ public:
 	void Func_Bulk_Throwing(float dt);
 	void Func_Lock_Ready(float dt);
 	void Func_Magnatic(float dt);
+	void Func_Time_Pause(float dt);
+	void Func_Reverse_Moving(float dt);
 private:
     Object* hp_bar = nullptr;
     Item::Item_Kind belong_item = Item::Item_Kind::None;
@@ -139,4 +153,5 @@ private:
 	float mag_angle;
 	Char_State_Additional curr_state_additional = Char_State_Additional::None;
 	Object* locking_result = nullptr;
+	float stop_timer = 0.0f;
 };

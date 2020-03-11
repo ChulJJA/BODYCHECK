@@ -37,154 +37,312 @@ void Physics::Init(Object* obj)
 
 void Physics::Acceleration(float max_accel, float min_accel)
 {
-	if (input.Is_Key_Pressed(GLFW_KEY_W))
+	Player* get_player = m_owner->GetComponentByTemplate<Player>();
+
+	if (get_player->Get_Char_State() != Player::Char_State::Reverse_Moving)
 	{
-		if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_A))
+		if (input.Is_Key_Pressed(GLFW_KEY_W))
 		{
-			if (acceleration.x >= 0 && acceleration.y >= 0)
+			if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_A))
 			{
-				acceleration += {-max_accel, min_accel};
+				if (acceleration.x >= 0 && acceleration.y >= 0)
+				{
+					acceleration += {-max_accel, min_accel};
+				}
+				else if (acceleration.x >= 0 && acceleration.y < 0)
+				{
+					acceleration += {-max_accel, max_accel};
+				}
+				else if (acceleration.x < 0 && acceleration.y >= 0)
+				{
+					acceleration += {-min_accel, min_accel};
+				}
+				else
+				{
+					acceleration += {-min_accel, max_accel};
+				}
 			}
-			else if (acceleration.x >= 0 && acceleration.y < 0)
+			else if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_D))
 			{
-				acceleration += {-max_accel, max_accel};
-			}
-			else if (acceleration.x < 0 && acceleration.y >= 0)
-			{
-				acceleration += {-min_accel, min_accel};
+				if (acceleration.x >= 0 && acceleration.y >= 0)
+				{
+					acceleration += {min_accel, min_accel};
+				}
+				else if (acceleration.x >= 0 && acceleration.y < 0)
+				{
+					acceleration += {min_accel, max_accel};
+				}
+				else if (acceleration.x < 0 && acceleration.y >= 0)
+				{
+					acceleration += {max_accel, min_accel};
+				}
+				else
+				{
+					acceleration += {max_accel, max_accel};
+				}
 			}
 			else
 			{
-				acceleration += {-min_accel, max_accel};
+				if (abs(acceleration.x) >= 0)
+				{
+					acceleration.x -= acceleration.x / 100;
+				}
+				if (acceleration.y >= 0)
+				{
+					acceleration += {0.00, min_accel};
+				}
+				else if (acceleration.y < 0)
+				{
+					acceleration += {0.00, max_accel};
+				}
 			}
 		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_D))
+		else if (input.Is_Key_Pressed(GLFW_KEY_A))
 		{
-			if (acceleration.x >= 0 && acceleration.y >= 0)
+			if (input.Is_Key_Pressed(GLFW_KEY_A) && input.Is_Key_Pressed(GLFW_KEY_S))
 			{
-				acceleration += {min_accel, min_accel};
-			}
-			else if (acceleration.x >= 0 && acceleration.y < 0)
-			{
-				acceleration += {min_accel, max_accel};
-			}
-			else if (acceleration.x < 0 && acceleration.y >= 0)
-			{
-				acceleration += {max_accel, min_accel};
+				if (acceleration.x >= 0 && acceleration.y >= 0)
+				{
+					acceleration += {-max_accel, -max_accel};
+				}
+				else if (acceleration.x >= 0 && acceleration.y < 0)
+				{
+					acceleration += {-max_accel, -min_accel};
+				}
+				else if (acceleration.x < 0 && acceleration.y >= 0)
+				{
+					acceleration += {-min_accel, -max_accel};
+				}
+				else
+				{
+					acceleration += {-min_accel, -min_accel};
+				}
 			}
 			else
 			{
-				acceleration += {max_accel, max_accel};
+				if (acceleration.x >= 0)
+				{
+					acceleration.x += -max_accel;
+				}
+				else
+				{
+					acceleration.x += -min_accel;
+				}
+				if (abs(acceleration.y) >= 0)
+				{
+					acceleration.y -= acceleration.y / 100;
+				}
 			}
 		}
-		else
+		else if (input.Is_Key_Pressed(GLFW_KEY_S))
 		{
-			if (abs(acceleration.x) >= 0)
+			if (input.Is_Key_Pressed(GLFW_KEY_S) && input.Is_Key_Pressed(GLFW_KEY_D))
 			{
-				acceleration.x -= acceleration.x / 100;
-			}
-			if (acceleration.y >= 0)
-			{
-				acceleration += {0.00, min_accel};
-			}
-			else if (acceleration.y < 0)
-			{
-				acceleration += {0.00, max_accel};
-			}
-		}
-	}
-	else if (input.Is_Key_Pressed(GLFW_KEY_A))
-	{
-		if (input.Is_Key_Pressed(GLFW_KEY_A) && input.Is_Key_Pressed(GLFW_KEY_S))
-		{
-			if (acceleration.x >= 0 && acceleration.y >= 0)
-			{
-				acceleration += {-max_accel, -max_accel};
-			}
-			else if (acceleration.x >= 0 && acceleration.y < 0)
-			{
-				acceleration += {-max_accel, -min_accel};
-			}
-			else if (acceleration.x < 0 && acceleration.y >= 0)
-			{
-				acceleration += {-min_accel, -max_accel};
+				if (acceleration.x >= 0 && acceleration.y >= 0)
+				{
+					acceleration += {min_accel, -max_accel};
+				}
+				else if (acceleration.x >= 0 && acceleration.y < 0)
+				{
+					acceleration += {min_accel, -min_accel};
+				}
+				else if (acceleration.x < 0 && acceleration.y >= 0)
+				{
+					acceleration += {max_accel, -max_accel};
+				}
+				else
+				{
+					acceleration += {max_accel, -min_accel};
+				}
 			}
 			else
 			{
-				acceleration += {-min_accel, -min_accel};
+				if (abs(acceleration.x) >= 0)
+				{
+					acceleration.x -= acceleration.x / 100;
+				}
+				if (acceleration.y >= 0)
+				{
+					acceleration.y += -max_accel;
+				}
+				else
+				{
+					acceleration.y += -min_accel;
+				}
 			}
 		}
-		else
+		else if (input.Is_Key_Pressed(GLFW_KEY_D))
 		{
 			if (acceleration.x >= 0)
 			{
-				acceleration.x += -max_accel;
+				acceleration.x += min_accel;
 			}
 			else
 			{
-				acceleration.x += -min_accel;
+				acceleration.x += max_accel;
 			}
 			if (abs(acceleration.y) >= 0)
 			{
 				acceleration.y -= acceleration.y / 100;
 			}
 		}
-	}
-	else if (input.Is_Key_Pressed(GLFW_KEY_S))
-	{
-		if (input.Is_Key_Pressed(GLFW_KEY_S) && input.Is_Key_Pressed(GLFW_KEY_D))
+		else
 		{
-			if (acceleration.x >= 0 && acceleration.y >= 0)
+			acceleration += {-acceleration.x / 100, -acceleration.y / 100};
+		}
+	}
+
+	else if (get_player->Get_Char_State() == Player::Char_State::Reverse_Moving)
+	{
+		if (input.Is_Key_Pressed(GLFW_KEY_W))
+		{
+			if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_A))
 			{
-				acceleration += {min_accel, -max_accel};
+				if (acceleration.x >= 0 && acceleration.y >= 0)
+				{
+					acceleration += {max_accel, -min_accel};
+				}
+				else if (acceleration.x >= 0 && acceleration.y < 0)
+				{
+					acceleration += {max_accel, -max_accel};
+				}
+				else if (acceleration.x < 0 && acceleration.y >= 0)
+				{
+					acceleration += {min_accel, -min_accel};
+				}
+				else
+				{
+					acceleration += {min_accel, -max_accel};
+				}
 			}
-			else if (acceleration.x >= 0 && acceleration.y < 0)
+			else if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_D))
 			{
-				acceleration += {min_accel, -min_accel};
+				if (acceleration.x >= 0 && acceleration.y >= 0)
+				{
+					acceleration += {-min_accel, -min_accel};
+				}
+				else if (acceleration.x >= 0 && acceleration.y < 0)
+				{
+					acceleration += {-min_accel, -max_accel};
+				}
+				else if (acceleration.x < 0 && acceleration.y >= 0)
+				{
+					acceleration += {-max_accel, -min_accel};
+				}
+				else
+				{
+					acceleration += {-max_accel, -max_accel};
+				}
 			}
-			else if (acceleration.x < 0 && acceleration.y >= 0)
+			else//
 			{
-				acceleration += {max_accel, -max_accel};
+				if (abs(acceleration.x) >= 0)
+				{
+					acceleration.x += acceleration.x / 100;
+				}
+				if (acceleration.y >= 0)
+				{
+					acceleration -= {0.00, min_accel};
+				}
+				else if (acceleration.y < 0)
+				{
+					acceleration -= {0.00, max_accel};
+				}
+			}
+		}
+		else if (input.Is_Key_Pressed(GLFW_KEY_A))
+		{
+			if (input.Is_Key_Pressed(GLFW_KEY_A) && input.Is_Key_Pressed(GLFW_KEY_S))
+			{
+				if (acceleration.x >= 0 && acceleration.y >= 0)
+				{
+					acceleration += {max_accel, max_accel};
+				}
+				else if (acceleration.x >= 0 && acceleration.y < 0)
+				{
+					acceleration += {max_accel, min_accel};
+				}
+				else if (acceleration.x < 0 && acceleration.y >= 0)
+				{
+					acceleration += {min_accel, max_accel};
+				}
+				else
+				{
+					acceleration += {min_accel, min_accel};
+				}
+			}
+			else//
+			{
+				if (acceleration.x >= 0)
+				{
+					acceleration.x += max_accel;
+				}
+				else
+				{
+					acceleration.x += min_accel;
+				}
+				if (abs(acceleration.y) >= 0)
+				{
+					acceleration.y += acceleration.y / 100;
+				}
+			}
+		}
+		else if (input.Is_Key_Pressed(GLFW_KEY_S))
+		{
+			if (input.Is_Key_Pressed(GLFW_KEY_S) && input.Is_Key_Pressed(GLFW_KEY_D))
+			{
+				if (acceleration.x >= 0 && acceleration.y >= 0)
+				{
+					acceleration += {-min_accel, max_accel};
+				}
+				else if (acceleration.x >= 0 && acceleration.y < 0)
+				{
+					acceleration += {-min_accel, min_accel};
+				}
+				else if (acceleration.x < 0 && acceleration.y >= 0)
+				{
+					acceleration += {-max_accel, max_accel};
+				}
+				else
+				{
+					acceleration += {-max_accel, min_accel};
+				}
+			}
+			else//
+			{
+				if (abs(acceleration.x) >= 0)
+				{
+					acceleration.x += acceleration.x / 100;
+				}
+				if (acceleration.y >= 0)
+				{
+					acceleration.y -= -max_accel;
+				}
+				else
+				{
+					acceleration.y -= -min_accel;
+				}
+			}
+		}
+		else if (input.Is_Key_Pressed(GLFW_KEY_D))
+		{
+			if (acceleration.x >= 0)
+			{
+				acceleration.x -= min_accel;
 			}
 			else
 			{
-				acceleration += {max_accel, -min_accel};
+				acceleration.x -= max_accel;
 			}
-		}
-		else
-		{
-			if (abs(acceleration.x) >= 0)
+			if (abs(acceleration.y) >= 0)
 			{
-				acceleration.x -= acceleration.x / 100;
-			}
-			if (acceleration.y >= 0)
-			{
-				acceleration.y += -max_accel;
-			}
-			else
-			{
-				acceleration.y += -min_accel;
+				acceleration.y += acceleration.y / 100;
 			}
 		}
-	}
-	else if (input.Is_Key_Pressed(GLFW_KEY_D))
-	{
-		if (acceleration.x >= 0)
+		else//
 		{
-			acceleration.x += min_accel;
+			acceleration += {-acceleration.x / 100, -acceleration.y / 100};
 		}
-		else
-		{
-			acceleration.x += max_accel;
-		}
-		if (abs(acceleration.y) >= 0)
-		{
-			acceleration.y -= acceleration.y / 100;
-		}
-	}
-	else
-	{
-		acceleration += {-acceleration.x / 100, -acceleration.y / 100};
 	}
 
 	if (input.Is_Key_Pressed(GLFW_KEY_RIGHT) || input.Is_Key_Pressed(GLFW_KEY_LEFT) ||
@@ -333,6 +491,14 @@ void Physics::Dash(Object* object)
 	{
 		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, "magnatic", 0.f));
 	}
+	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && object->GetComponentByTemplate<Player>()->Get_Item_State() == Item::Item_Kind::Time_Pause)
+	{
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, "time_pause", 0.f));
+	}
+	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && object->GetComponentByTemplate<Player>()->Get_Item_State() == Item::Item_Kind::Reverse_Moving)
+	{
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, "reverse_moving", 0.f));
+	}
 	return;
 }
 
@@ -349,92 +515,102 @@ void Physics::Update(float dt)
 {
 	timer += dt;
 
-	if (m_owner->GetName() == "first")
-	{
-		Player* info_player = m_owner->GetComponentByTemplate<Player>();
+	Player* get_player = m_owner->GetComponentByTemplate<Player>();
 
-		if (info_player->Get_Char_State() == Player::Char_State::None)
+	if (get_player != nullptr)
+	{
+		if (get_player->Get_Char_State() != Player::Char_State::Time_Pause)
 		{
-			Acceleration(0.6f, 0.12f);
-			m_owner->GetTransform().AddTranslation(acceleration);
-			if (is_dashed == false && timer >= 0.3)
+			if (m_owner->GetName() == "first")
 			{
-				Dash(m_owner);
+				Player* info_player = m_owner->GetComponentByTemplate<Player>();
+
+				if (info_player->Get_Char_State() == Player::Char_State::None || info_player->Get_Char_State() == Player::Char_State::Reverse_Moving)
+				{
+					Acceleration(0.6f, 0.12f);
+					m_owner->GetTransform().AddTranslation(acceleration);
+					if (is_dashed == false && timer >= 0.3)
+					{
+						Dash(m_owner);
+					}
+					else if (is_dashed == true && timer >= 0.5)
+					{
+						SpeedDown(m_owner);
+						is_dashed = false;
+					}
+				}
 			}
-			else if (is_dashed == true && timer >= 0.5)
+			else if (m_owner->GetName() == "second")
 			{
-				SpeedDown(m_owner);
-				is_dashed = false;
+				Player* info_player = m_owner->GetComponentByTemplate<Player>();
+
+				if (info_player->Get_Char_State() == Player::Char_State::None || info_player->Get_Char_State() == Player::Char_State::Reverse_Moving)
+				{
+					Acceleration(0.6f, 0.12f);
+					m_owner->GetTransform().AddTranslation(acceleration);
+
+					if (is_dashed == false && timer >= 0.3)
+					{
+						Dash(m_owner);
+					}
+					else if (is_dashed == true && timer >= 0.5)
+					{
+						SpeedDown(m_owner);
+						is_dashed = false;
+					}
+				}
+			}
+			else if (m_owner->GetName() == "third")
+			{
+				Player* info_player = m_owner->GetComponentByTemplate<Player>();
+
+				if (info_player->Get_Char_State() == Player::Char_State::None || info_player->Get_Char_State() == Player::Char_State::Reverse_Moving)
+				{
+					Acceleration(0.6f, 0.12f);
+					m_owner->GetTransform().AddTranslation(acceleration);
+
+					if (is_dashed == false && timer >= 0.3)
+					{
+						Dash(m_owner);
+					}
+					else if (is_dashed == true && timer >= 0.5)
+					{
+						SpeedDown(m_owner);
+						is_dashed = false;
+					}
+				}
+			}
+			else if (m_owner->GetName() == "forth")
+			{
+				Player* info_player = m_owner->GetComponentByTemplate<Player>();
+
+				if (info_player->Get_Char_State() == Player::Char_State::None || info_player->Get_Char_State() == Player::Char_State::Reverse_Moving)
+				{
+					Acceleration(0.6f, 0.12f);
+					m_owner->GetTransform().AddTranslation(acceleration);
+
+					if (is_dashed == false && timer >= 0.3)
+					{
+						Dash(m_owner);
+					}
+					else if (is_dashed == true && timer >= 0.5)
+					{
+						SpeedDown(m_owner);
+						is_dashed = false;
+					}
+				}
+			}
+			else
+			{
+				if (m_owner->Get_Tag() != "throwing")
+				{
+					JustMove();
+				}
 			}
 		}
 	}
-	else if (m_owner->GetName() == "second")
-	{
-		Player* info_player = m_owner->GetComponentByTemplate<Player>();
 
-		if (info_player->Get_Char_State() == Player::Char_State::None)
-		{
-			Acceleration(0.6f, 0.12f);
-			m_owner->GetTransform().AddTranslation(acceleration);
 
-			if (is_dashed == false && timer >= 0.3)
-			{
-				Dash(m_owner);
-			}
-			else if (is_dashed == true && timer >= 0.5)
-			{
-				SpeedDown(m_owner);
-				is_dashed = false;
-			}
-		}
-	}
-	else if (m_owner->GetName() == "third")
-	{
-		Player* info_player = m_owner->GetComponentByTemplate<Player>();
-
-		if (info_player->Get_Char_State() == Player::Char_State::None)
-		{
-			Acceleration(0.6f, 0.12f);
-			m_owner->GetTransform().AddTranslation(acceleration);
-
-			if (is_dashed == false && timer >= 0.3)
-			{
-				Dash(m_owner);
-			}
-			else if (is_dashed == true && timer >= 0.5)
-			{
-				SpeedDown(m_owner);
-				is_dashed = false;
-			}
-		}
-	}
-	else if (m_owner->GetName() == "forth")
-	{
-		Player* info_player = m_owner->GetComponentByTemplate<Player>();
-
-		if (info_player->Get_Char_State() == Player::Char_State::None)
-		{
-			Acceleration(0.6f, 0.12f);
-			m_owner->GetTransform().AddTranslation(acceleration);
-
-			if (is_dashed == false && timer >= 0.3)
-			{
-				Dash(m_owner);
-			}
-			else if (is_dashed == true && timer >= 0.5)
-			{
-				SpeedDown(m_owner);
-				is_dashed = false;
-			}
-		}
-	}
-	else
-	{
-		if (m_owner->Get_Tag() != "throwing")
-		{
-			JustMove();
-		}
-	}
 
 	if (ghost_collision_mode)
 	{

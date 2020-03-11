@@ -23,7 +23,9 @@ public:
         HP,
         Bulkup,
     	Throwing,
-    	Magnatic
+    	Magnatic,
+		Time_Pause,
+		Reverse_Moving
     };
 
     void Init(Object* obj) override;

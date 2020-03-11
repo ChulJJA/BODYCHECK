@@ -40,6 +40,8 @@ void PLAYER_UI::Initialize()
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/heal.png", { this_trans.x + 200, this_trans.y - 200 }), "heal", false);
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/throw.png", { this_trans.x + 200, this_trans.y - 200 }), "throwing", false);
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/magnet.png", { this_trans.x + 200, this_trans.y - 200 }), "magnatic", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/time_pause.png", { this_trans.x + 200, this_trans.y - 200 }), "time_pause", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/reverse_moving.png", { this_trans.x + 200, this_trans.y - 200 }), "reverse_moving", false);
     info_item->Set_Tag("item_info");
     info_item->Set_Name(this->GetName() + "info_item");
     ObjectManager::GetObjectManager()->AddObject(info_item);

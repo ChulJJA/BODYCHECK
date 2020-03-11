@@ -82,6 +82,14 @@ void Player::Update(float dt)
 	{
 		Func_Magnatic(dt);
 	}
+	if (curr_state == Char_State::Time_Pause)
+	{
+		Func_Time_Pause(dt);
+	}
+	if (curr_state == Char_State::Reverse_Moving)
+	{
+		Func_Reverse_Moving(dt);
+	}
 	if(hp_bar != nullptr)
 	{
 		hp_bar->GetTransform().GetTranslation_Reference().x = m_owner->GetTransform().GetTranslation().x;
@@ -246,6 +254,57 @@ void Player::Func_Magnatic(float dt)
 	{
 		curr_state = Char_State::None;
 		m_owner->Change_Sprite(m_owner->Find_Sprite_By_Name("normal"));
+	}
+}
+
+void Player::Func_Time_Pause(float dt)
+{
+	std::vector<Object*> another_players = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("player");
+
+	another_players.erase(std::find(another_players.begin(), another_players.end(), m_owner));
+
+	if (stop_timer > 0.0f)
+	{
+		stop_timer -= dt;
+
+		/*for (auto player : another_players)
+		{
+			Player* get_player = player->GetComponentByTemplate<Player>();
+
+			if (get_player != nullptr)
+			{
+				if (player->Get_Is_It_Collided() == true)
+				{
+					get_player->Set_Char_State(Player::Char_State::None);
+				}
+
+			}
+		}*/
+	}
+	else
+	{
+		curr_state = Char_State::None;
+		//m_owner->AddComponent(new Physics);
+	}
+}
+
+void Player:: Func_Reverse_Moving(float dt)
+{
+	std::vector<Object*> another_players = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("player");
+
+	another_players.erase(std::find(another_players.begin(), another_players.end(), m_owner));
+
+	for (auto find_player : another_players)
+	{
+		Player* get_player = find_player->GetComponentByTemplate<Player>();
+
+		if (get_player->Get_Char_State() == Player::Char_State::Reverse_Moving)
+		{
+			if (find_player->IsDead() == true)
+			{
+				get_player->Get_Char_State() == Player::Char_State::None;
+			}
+		}
 	}
 }
 
