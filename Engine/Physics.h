@@ -20,7 +20,6 @@ class Physics : public Component
 public:
     Physics(bool ghost_collision_mode = false);
     void Init(Object* obj) override;
-    void JustMove();
     void KnockBack(Object* object_1, Object* object_2);
     void Dash(Object* object);
     void SpeedDown(Object* object);
