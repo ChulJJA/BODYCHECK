@@ -51,14 +51,6 @@ void Player::Update(float dt)
 	}
 	if (curr_state == Char_State::Lock_Ing)
 	{
-		/*vector2 this_pos = m_owner->GetTransform().GetTranslation();
-		vector2 obj_pos = locking_pointer->GetTransform().GetTranslation();
-
-		float angle_in_radian = atan2(this_pos.y - obj_pos.y, this_pos.x - obj_pos.x);
-		float angle = to_degrees(angle_in_radian);
-		angle += 90;
-
-		m_owner->SetRotation(angle);*/
 	}
 	if (curr_state == Char_State::Magnatic)
 	{
@@ -105,10 +97,11 @@ void Player::SetHPBar()
 	hp_bar_pos.y -= 100;
 	hp_bar->SetTranslation(hp_bar_pos);
 	hp_bar->SetScale({ 1.f, 2.5f });
-	hp_bar->AddComponent(new Sprite(hp_bar, "../Sprite/HP.png", hp_bar_pos, false), "sprite_hp_bar", need_update_hp_bar);
-	hp_bar->AddComponent(new Hp_Bar());
 	hp_bar->Set_Name(m_owner->Get_Name() + "hp_bar");
 	hp_bar->Set_Tag("hp_bar");
+	hp_bar->AddComponent(new Sprite(hp_bar, "../Sprite/HP.png", hp_bar_pos, false), "sprite_hp_bar", need_update_hp_bar);
+	hp_bar->AddComponent(new Hp_Bar());
+	
 	hp_bar->Set_This_Obj_Owner(m_owner);
 	this->hp_bar = hp_bar;
 	m_owner->Get_Belongs_Objects().push_back(hp_bar);
@@ -116,6 +109,7 @@ void Player::SetHPBar()
 	if (m_owner->Get_Tag() != "save")
 	{
 		ObjectManager::GetObjectManager()->AddObject(hp_bar);
+		//ObjectManager::GetObjectManager()->Add_Object_Instancing(hp_bar);
 	}
 }
 

@@ -14,6 +14,7 @@
 #include "StateManager.h"
 #include "Component.hpp"
 #include "Component_Player.h"
+#include "Component_Sprite.h"
 
 ObjectManager* ObjectManager::object_manager = nullptr;
 
@@ -85,6 +86,11 @@ void ObjectManager::AddObject(Object* obj)
     objects.push_back(std::shared_ptr<Object>(obj));
 }
 
+void ObjectManager::Add_Object_Instancing(Object* obj)
+{
+	objects_instancing.push_back(std::shared_ptr<Object>(obj));
+}
+
 void ObjectManager::DeleteObject(std::shared_ptr<Object> obj)
 {
 	if(!obj->Get_Pointed_By().empty())
@@ -122,4 +128,12 @@ Object* ObjectManager::Find_Object_By_Name(std::string name)
         }
     }
     return nullptr;
+}
+
+void ObjectManager::Instancing_Update(float dt)
+{
+	for(auto obj : objects_instancing)
+	{
+		obj->GetComponentByTemplate<Sprite>()->Update_Instancing(dt);
+	}
 }
