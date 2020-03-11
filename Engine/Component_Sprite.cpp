@@ -125,14 +125,18 @@ Sprite::Sprite(Object* obj, const char* staticSpritePath, vector2 position, bool
 	m_owner = obj;
 
 	const auto path = staticSpritePath;
-	if(m_owner->Get_Tag() != "hp_bar")
-	{
-		material.shader = &(SHADER::textured());
-	}
-	else
-	{
-		material.shader = &(SHADER::instanced());
-	}
+	//particle
+	
+	//if(m_owner->Get_Tag() != "hp_bar")
+	//{
+	//	material.shader = &(SHADER::textured());
+	//}
+	//else
+	//{
+	//	material.shader = &(SHADER::instanced());
+	//}
+	
+	material.shader = &(SHADER::textured());
 	
 	if (!Can_Load_To_Texture(texture, path))
 	{
@@ -208,8 +212,9 @@ void draw(Vertices shape, material material)
 
 void Sprite::Update(float dt)
 {
-	if (m_owner->Get_Tag() != "hp_bar")
-	{
+	//particle
+	/*if (m_owner->Get_Tag() != "hp_bar")
+	{*/
 		seconds += dt;
 		uint32_t ticks = seconds + 1;
 
@@ -265,7 +270,7 @@ void Sprite::Update(float dt)
 			material.matrix3Uniforms["to_ndc"] = mat_ndc;
 		}
 		Graphic::GetGraphic()->Draw(shape, material);
-	}
+	//}
 }
 
 void Sprite::Update_Instancing(float dt)

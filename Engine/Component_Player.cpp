@@ -81,11 +81,11 @@ void Player::SetHPBar()
 	this->hp_bar = hp_bar;
 	m_owner->Get_Belongs_Objects().push_back(hp_bar);
 
-	//if (m_owner->Get_Tag() != "save")
-	//{
+	if (m_owner->Get_Tag() != "save")
+	{
 		ObjectManager::GetObjectManager()->AddObject(hp_bar);
-		ObjectManager::GetObjectManager()->Add_Object_Instancing(hp_bar);
-	//}
+		//ObjectManager::GetObjectManager()->Add_Object_Instancing(hp_bar);
+	}
 }
 
 Item::Item_Kind Player::Get_Item_State()
