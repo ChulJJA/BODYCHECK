@@ -27,64 +27,109 @@
 #include "Component_Lock.h"
 #include "angles.hpp"
 #include "UsefulTools.hpp"
+#include "Component_Missile.h"
 
 void Player::Init(Object* obj)
 {
 	m_owner = obj;
-	m_owner->Get_Component_Info_Reference().component_info_player = true;
-	SetHPBar();
+
+	if(m_owner->Get_Tag() == "player")
+	{
+		m_owner->Get_Component_Info_Reference().component_info_player = true;
+		SetHPBar();
+	}
 }
 
 void Player::Update(float dt)
 {
-	if (curr_state == Char_State::Bulk_Up)
+	if (m_owner->Get_Tag() == "player")
 	{
-		Func_Bulk_Up(dt);
-	}
-	if (curr_state == Char_State::Throwing)
-	{
-		Func_Bulk_Throwing(dt);
-	}
-	if (curr_state == Char_State::Lock_Ready)
-	{
-		Func_Lock_Ready(dt);
-	}
-	if (curr_state == Char_State::Lock_Ing)
-	{
-	}
-	if (curr_state == Char_State::Magnatic)
-	{
-		Func_Magnatic(dt);
-	}
-	if (curr_state == Char_State::Time_Pause)
-	{
-		Func_Time_Pause(dt);
-	}
-	if (curr_state == Char_State::Reverse_Moving)
-	{
-		Func_Reverse_Moving(dt);
-	}
-	if (hp_bar != nullptr)
-	{
-		hp_bar->GetTransform().GetTranslation_Reference().x = m_owner->GetTransform().GetTranslation().x;
-		hp_bar->GetTransform().GetTranslation_Reference().y = m_owner->GetTransform().GetTranslation().y - 100;
-	}
-	
-	if (curr_state != Player::Char_State::Reverse_Moving && curr_state != Player::Char_State::Time_Pause &&
-		curr_state_additional != Char_State_Additional::Chasing)
-	{
-		PlayerMovement(0.6f, 0.12f);
-		m_owner->GetTransform().AddTranslation(velocity);
-		PlayerDirecting();
-	}
-	else if (curr_state == Player::Char_State::Reverse_Moving && curr_state != Player::Char_State::Time_Pause && 
-		curr_state_additional != Char_State_Additional::Chasing)
-	{
-		PlayerMovement(-0.12f, -0.6f);
-		m_owner->GetTransform().AddTranslation(velocity);
-		PlayerDirecting();
-	}
 
+
+		if (curr_state == Char_State::Bulk_Up)
+		{
+			Func_Bulk_Up(dt);
+		}
+		else if (curr_state == Char_State::Throwing)
+		{
+			Func_Bulk_Throwing(dt);
+		}
+		else if (curr_state == Char_State::Lock_Ready)
+		{
+			Func_Lock_Ready(dt);
+		}
+		else if (curr_state == Char_State::Lock_Ing)
+		{
+		}
+		else if (curr_state == Char_State::Magnatic)
+		{
+			Func_Magnatic(dt);
+		}
+		else if (curr_state == Char_State::Time_Pause)
+		{
+			Func_Time_Pause(dt);
+		}
+		else if (curr_state == Char_State::Reverse_Moving)
+		{
+			Func_Reverse_Moving(dt);
+		}
+		else if (curr_state == Char_State::Missile_Ready)
+		{
+			if (missile_timer > 0.f)
+			{
+				missile_timer -= dt;
+			}
+			else
+			{
+				curr_state = Char_State::Missile_Shoot;
+			}
+		}
+		else if (curr_state == Char_State::Missile_Shoot)
+		{
+			std::vector<Object*> another_players = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("player");
+			another_players.erase(std::find(another_players.begin(), another_players.end(), m_owner));
+			int player_count = another_players.size();
+
+
+
+			for (int i = 0; i < player_count; i++)
+			{
+				Object* missiles = new Object();
+				missiles->AddComponent(new Player);
+				missiles->Set_Name("missile");
+				missiles->Set_Tag("throwing");
+				missiles->AddComponent(new Sprite(missiles, "../sprite/throw.png", m_owner->GetTransform().GetTranslation()));
+				missiles->AddComponent(new Physics);
+				missiles->AddComponent(new Missile);
+				missiles->GetComponentByTemplate<Missile>()->Set_Target(another_players[i]);
+				missiles->GetComponentByTemplate<Missile>()->Set_From_Obj(m_owner);
+				missiles->SetScale(2.f);
+				ObjectManager::GetObjectManager()->AddObject(missiles);
+			}
+
+			curr_state = Char_State::None;
+		}
+		if (hp_bar != nullptr)
+		{
+			hp_bar->GetTransform().GetTranslation_Reference().x = m_owner->GetTransform().GetTranslation().x;
+			hp_bar->GetTransform().GetTranslation_Reference().y = m_owner->GetTransform().GetTranslation().y - 100;
+		}
+
+		if (curr_state != Player::Char_State::Reverse_Moving && curr_state != Player::Char_State::Time_Pause &&
+			curr_state_additional != Char_State_Additional::Chasing && curr_state != Char_State::Missile_Ready)
+		{
+			PlayerMovement(0.6f, 0.12f);
+			m_owner->GetTransform().AddTranslation(velocity);
+			PlayerDirecting();
+		}
+		else if (curr_state == Player::Char_State::Reverse_Moving && curr_state != Player::Char_State::Time_Pause &&
+			curr_state_additional != Char_State_Additional::Chasing && curr_state != Char_State::Missile_Ready)
+		{
+			PlayerMovement(-0.12f, -0.6f);
+			m_owner->GetTransform().AddTranslation(velocity);
+			PlayerDirecting();
+		}
+	}
 }
 
 void Player::SetHPBar()
@@ -405,6 +450,11 @@ float& Player::Get_Stop_Timer()
 void  Player::Set_Stop_Timer(float timer_)
 {
 	stop_timer = timer_;
+}
+
+void Player::Set_Missile_Timer(float timer_)
+{
+	missile_timer = timer_;
 }
 
 

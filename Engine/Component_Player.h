@@ -30,7 +30,9 @@ public:
 		Lock_Ready,
 		Lock_Ing,
 		Time_Pause,
-		Reverse_Moving
+		Reverse_Moving,
+		Missile_Ready,
+		Missile_Shoot
 	};
 	enum class Char_State_Additional
 	{
@@ -76,6 +78,7 @@ public:
 	Object* Get_Hp_Bar();
 	float& Get_Stop_Timer();
 	void Set_Stop_Timer(float timer_);
+	void Set_Missile_Timer(float timer_);
 
 	void Set_Locking_By(Object* obj);
 	void Set_Locking_Result(Object* obj);
@@ -111,7 +114,7 @@ private:
 	Char_State_Additional curr_state_additional = Char_State_Additional::None;
 	Object* locking_result = nullptr;
 	float stop_timer = 0.0f;
-
+	float missile_timer = 0.f;
 	
 	vector2 velocity{};
 	vector2 direction = {0, 1};

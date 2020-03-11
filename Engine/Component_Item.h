@@ -25,7 +25,8 @@ public:
     	Throwing,
     	Magnatic,
 		Time_Pause,
-		Reverse_Moving
+		Reverse_Moving,
+    	Missile
     };
 
     void Init(Object* obj) override;

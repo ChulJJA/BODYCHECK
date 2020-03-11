@@ -22,6 +22,7 @@
 #include "Component_Lock.h"
 #include "Component_Player.h"
 #include "UsefulTools.hpp"
+#include "Component_Missile.h"
 #define  PI  3.14159265359
 
 void Collision::Init(Object* obj)
@@ -56,10 +57,12 @@ bool Collision::BoxToBoxCollision(Mesh mesh) const
 bool Collision::CircleToCircleCollision()
 {
 	const unsigned int object_position_size = static_cast<unsigned int>(ObjectManager::GetObjectManager()->GetObjectManagerContainer().size());
+	std::vector<std::shared_ptr<Object>> objects = ObjectManager::GetObjectManager()->GetObjectManagerContainer();
 
+	
 	for (unsigned int i = 0; i < object_position_size; ++i)
 	{
-		Object* obj_i = ObjectManager::GetObjectManager()->GetObjectManagerContainer()[i].get();
+		Object* obj_i = objects[i].get();
 
 		if (Filter_Object(obj_i))
 		{
@@ -68,7 +71,7 @@ bool Collision::CircleToCircleCollision()
 
 			for (unsigned int j = 0; j < object_position_size; ++j)
 			{
-				Object* obj_j = ObjectManager::GetObjectManager()->GetObjectManagerContainer()[j].get();
+				Object* obj_j = objects[j].get();
 
 				if (Filter_Object(obj_j))
 				{
@@ -83,6 +86,11 @@ bool Collision::CircleToCircleCollision()
 							Physics* obj_i_physics = obj_i->GetComponentByTemplate<Physics>();
 							Physics* obj_j_physics = obj_j->GetComponentByTemplate<Physics>();
 
+							if (obj_i->GetName() == "missile" || obj_j->GetName() == "missile")
+							{
+								std::cout << "wtf2" << std::endl;
+							}
+							
 							Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_j, obj_i, "collision"));
 							obj_i->Set_Is_It_Collided(true);
 							obj_j->Set_Is_It_Collided(true);
@@ -277,17 +285,47 @@ bool Collision::Check_Need_To_Check_Collision(Object* obj_i, Object* obj_j)
 	 */
 	if (obj_i->Get_Tag() == "throwing")
 	{
-		if (obj_i->GetComponentByTemplate<Throwing>()->Get_Throwing_Obj() == obj_j)
+		if (obj_i->GetName() == "throwing")
+		{
+			if (obj_i->GetComponentByTemplate<Throwing>()->Get_Throwing_Obj() == obj_j)
+			{
+				return false;
+			}
+		}
+		else if (obj_i->GetName() == "missile")
+		{
+			if (obj_i->GetComponentByTemplate<Missile>()->Get_From_Obj() == obj_j)
+			{
+				return false;
+			}
+		}
+		else if(obj_j->Get_Tag() == "throwing")
 		{
 			return false;
 		}
+		
 	}
 	else if (obj_j->Get_Tag() == "throwing")
 	{
-		if (obj_j->GetComponentByTemplate<Throwing>()->Get_Throwing_Obj() == obj_i)
+		if(obj_j->GetName() == "throwing")
+		{
+			if (obj_j->GetComponentByTemplate<Throwing>()->Get_Throwing_Obj() == obj_i)
+			{
+				return false;
+			}
+		}
+		else if (obj_j->GetName() == "missile")
+		{
+			if (obj_j->GetComponentByTemplate<Missile>()->Get_From_Obj() == obj_i)
+			{
+				return false;
+			}
+		}
+		else if(obj_i->Get_Tag() == "throwing")
 		{
 			return false;
 		}
+
 	}
 
 	/*

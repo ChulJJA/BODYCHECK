@@ -71,13 +71,13 @@ void Referee::Init()
 
 	for (int i = 0; i < item_num; i++)
 	{
-		item_save[i] = Make_Item_Pool("../Sprite/item.png", { 0,0 }, "item", "item", Item::Item_Kind::Magnatic);
+		item_save[i] = Make_Item_Pool("../Sprite/item.png", { 0,0 }, "item", "item", Item::Item_Kind::Missile);
 	}
 
 	for (int i = 0; i < item_num; i++)
 	{
 
-		item_save_hp[i] = Make_Item_Pool("../Sprite/item.png", { -400,0 }, "item", "item", Item::Item_Kind::Time_Pause);
+		item_save_hp[i] = Make_Item_Pool("../Sprite/item.png", { -400,0 }, "item", "item", Item::Item_Kind::Missile);
 	}
 
 	/*for (int i = 0; i < item_num; i++)
@@ -86,7 +86,7 @@ void Referee::Init()
 	}*/
 	for (int i = 0; i < item_num; i++)
 	{
-		item_bulk_up[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Reverse_Moving);
+		item_bulk_up[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Missile);
 	}
 }
 
