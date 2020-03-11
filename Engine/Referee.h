@@ -108,6 +108,9 @@ private:
     Object** item_save;
     Object** item_save_hp;
     Object** item_bulk_up;
+
+	Object** item_time_pause;
+	Object** item_reverse_moving;
 	
     float item_respawn_timer = 0.0f;
 	

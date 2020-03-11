@@ -56,19 +56,35 @@ void Player::Update(float dt)
 	{
 		Func_Magnatic(dt);
 	}
+	if (curr_state == Char_State::Time_Pause)
+	{
+		Func_Time_Pause(dt);
+	}
+	if (curr_state == Char_State::Reverse_Moving)
+	{
+		Func_Reverse_Moving(dt);
+	}
 	if (hp_bar != nullptr)
 	{
 		hp_bar->GetTransform().GetTranslation_Reference().x = m_owner->GetTransform().GetTranslation().x;
 		hp_bar->GetTransform().GetTranslation_Reference().y = m_owner->GetTransform().GetTranslation().y - 100;
 	}
-	if(curr_state_additional != Char_State_Additional::Chasing)
+	
+	if (curr_state != Player::Char_State::Reverse_Moving && curr_state != Player::Char_State::Time_Pause &&
+		curr_state_additional != Char_State_Additional::Chasing)
 	{
 		PlayerMovement(0.6f, 0.12f);
 		m_owner->GetTransform().AddTranslation(velocity);
 		PlayerDirecting();
-
 	}
-	
+	else if (curr_state == Player::Char_State::Reverse_Moving && curr_state != Player::Char_State::Time_Pause && 
+		curr_state_additional != Char_State_Additional::Chasing)
+	{
+		PlayerMovement(-0.12f, -0.6f);
+		m_owner->GetTransform().AddTranslation(velocity);
+		PlayerDirecting();
+	}
+
 }
 
 void Player::SetHPBar()
@@ -82,7 +98,7 @@ void Player::SetHPBar()
 	hp_bar->Set_Tag("hp_bar");
 	hp_bar->AddComponent(new Sprite(hp_bar, "../Sprite/HP.png", hp_bar_pos, false), "sprite_hp_bar", need_update_hp_bar);
 	hp_bar->AddComponent(new Hp_Bar());
-	
+
 	hp_bar->Set_This_Obj_Owner(m_owner);
 	this->hp_bar = hp_bar;
 	m_owner->Get_Belongs_Objects().push_back(hp_bar);
@@ -261,6 +277,54 @@ void Player::Func_Magnatic(float dt)
 	}
 }
 
+void Player::Func_Time_Pause(float dt)
+{
+	std::vector<Object*> another_players = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("player");
+
+	another_players.erase(std::find(another_players.begin(), another_players.end(), m_owner));
+
+	if (stop_timer > 0.0f)
+	{
+		stop_timer -= dt;
+
+		/*for (auto player : another_players)
+		{
+			Player* get_player = player->GetComponentByTemplate<Player>();
+
+			if (get_player != nullptr)
+			{
+				if (player->Get_Is_It_Collided() == true)
+				{
+					get_player->Set_Char_State(Player::Char_State::None);
+				}
+
+			}
+		}*/
+	}
+	else
+	{
+		curr_state = Char_State::None;
+		//m_owner->AddComponent(new Physics);
+	}
+}
+
+void Player::Func_Reverse_Moving(float dt)
+{
+	std::vector<Object*> another_players = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("player");
+
+	another_players.erase(std::find(another_players.begin(), another_players.end(), m_owner));
+
+	for (auto find_player : another_players)
+	{
+		Player* get_player = find_player->GetComponentByTemplate<Player>();
+
+		if (get_player->Get_Char_State() == Player::Char_State::Reverse_Moving)
+		{
+			curr_state = Char_State::None;
+		}
+	}
+}
+
 void Player::Set_This_UI_info(PLAYER_UI* ui)
 {
 	this_ui = ui;
@@ -334,7 +398,14 @@ Object* Player::Get_Hp_Bar()
 {
 	return hp_bar;
 }
-
+float& Player::Get_Stop_Timer()
+{
+	return stop_timer;
+}
+void  Player::Set_Stop_Timer(float timer_)
+{
+	stop_timer = timer_;
+}
 
 
 void Player::PlayerMovement(float max_velocity, float min_velocity)

@@ -96,7 +96,7 @@ bool Collision::CircleToCircleCollision()
 								physics.KnockBack(obj_i, obj_j);
 							}
 						}
-						else if((obj_i->Get_Tag() == "lock" && obj_j->Get_Tag() == "player"))
+						else if ((obj_i->Get_Tag() == "lock" && obj_j->Get_Tag() == "player"))
 						{
 							Collision_Off_Lock_And_Player(obj_j, obj_i);
 						}
@@ -104,7 +104,7 @@ bool Collision::CircleToCircleCollision()
 						{
 							Collision_Off_Lock_And_Player(obj_i, obj_j);
 						}
-						
+
 					}
 				}
 			}
@@ -204,7 +204,7 @@ void Collision::SquareArenaCollision()
 			angle = 360 - angle2;
 			direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
 			obj_i->GetComponentByTemplate<Player>()->SetPlayerVelocity(direction_to_go);
-			
+
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, "wall_collision"));
 		}
 	}
@@ -212,6 +212,40 @@ void Collision::SquareArenaCollision()
 
 bool Collision::Check_Need_To_Check_Collision(Object* obj_i, Object* obj_j)
 {
+	/*
+	 * Check the one of objects are already setted collided.
+	 */
+	if (obj_i->Get_Is_It_Collided() == true || obj_j->Get_Is_It_Collided() == true)
+	{
+		return false;
+	}
+
+	
+	/*
+	 * Check the both objects are have physics component.
+	 * If either object's physics state is ghost, return false.
+	 */
+	Physics* physics_obj_i = obj_i->GetComponentByTemplate<Physics>();
+	Physics* physics_obj_j = obj_j->GetComponentByTemplate<Physics>();
+
+	if (physics_obj_i == nullptr || physics_obj_j == nullptr)
+	{
+		return false;
+	}
+
+	if (physics_obj_i->Get_Ghost_Collision_Reference() || physics_obj_j->Get_Ghost_Collision_Reference())
+	{
+		return false;
+	}
+	
+	/*
+	* Check the objects are different objects.
+	*/
+	if (obj_i == obj_j)
+	{
+		return false;
+	}
+
 	/*
 	 * Check the object is needing update.
 	 */
@@ -224,13 +258,6 @@ bool Collision::Check_Need_To_Check_Collision(Object* obj_i, Object* obj_j)
 		return false;
 	}
 
-	/*
-	 * Check the one of objects are already setted collided.
-	 */
-	if (obj_i->Get_Is_It_Collided() == true || obj_j->Get_Is_It_Collided() == true)
-	{
-		return false;
-	}
 
 	/*
 	 * Prevent arena & arena collision
@@ -291,32 +318,6 @@ bool Collision::Check_Need_To_Check_Collision(Object* obj_i, Object* obj_j)
 	}
 
 	/*
-	 * Check the objects are different objects.
-	 */
-	if (obj_i == obj_j)
-	{
-		return false;
-	}
-
-	/*
-	 * Check the both objects are have physics component.
-	 * If either object's physics state is ghost, return false.
-	 */
-	Physics* physics_obj_i = obj_i->GetComponentByTemplate<Physics>();
-	Physics* physics_obj_j = obj_j->GetComponentByTemplate<Physics>();
-
-	if (physics_obj_i == nullptr || physics_obj_j == nullptr)
-	{
-		return false;
-	}
-
-	if (physics_obj_i->Get_Ghost_Collision_Reference() || physics_obj_j->Get_Ghost_Collision_Reference())
-	{
-		return false;
-	}
-
-
-	/*
 	 * Otherwise, return true.
 	 */
 	return true;
@@ -336,7 +337,7 @@ void Collision::Collision_Off_Lock_And_Player(Object* player, Object* lock)
 {
 	Lock* info_lock = lock->GetComponentByTemplate<Lock>();
 
-	if(info_lock != nullptr)
+	if (info_lock != nullptr)
 	{
 		if (info_lock->Get_Locking_Target() == player)
 		{
@@ -344,7 +345,7 @@ void Collision::Collision_Off_Lock_And_Player(Object* player, Object* lock)
 		}
 		info_lock->Set_Locking_Target(nullptr);
 	}
-	
+
 }
 
 void Collision::Update(float dt)

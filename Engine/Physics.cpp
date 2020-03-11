@@ -101,6 +101,14 @@ void Physics::Dash(Object* object)
 	{
 		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, "magnatic", 0.f));
 	}
+	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && object->GetComponentByTemplate<Player>()->Get_Item_State() == Item::Item_Kind::Time_Pause)
+	{
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, "time_pause", 0.f));
+	}
+	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && object->GetComponentByTemplate<Player>()->Get_Item_State() == Item::Item_Kind::Reverse_Moving)
+	{
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, "reverse_moving", 0.f));
+	}
 
 	return;
 }
@@ -189,6 +197,8 @@ void Physics::Update(float dt)
 			}
 		}
 	}
+
+	
 
 	if (ghost_collision_mode)
 	{

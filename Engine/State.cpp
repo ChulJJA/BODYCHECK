@@ -26,6 +26,9 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 	sprite_path_thinking += sprite_path;
 	sprite_path_thinking += "_thinking.png";
 
+	std::string sprite_path_reverse_moving_pen = "../Sprite/reverse_moving_pen";
+	sprite_path_reverse_moving_pen += ".png";
+
 	
 	Object* player;
 	player = new Object();
@@ -37,6 +40,7 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 	player->AddComponent(new Sprite(player, sprite_path_lock.c_str(), pos), "lock", false);
 	player->AddComponent(new Sprite(player, sprite_path_chase.c_str(), pos), "chase", false);
 	player->AddComponent(new Sprite(player, sprite_path_thinking.c_str(), pos), "thinking", false);
+	player->AddComponent(new Sprite(player, sprite_path_reverse_moving_pen.c_str(), pos), "reverse_moving_pen", false);
 	player->AddComponent(new Physics());
 	player->Set_Current_Sprite(player->Find_Sprite_By_Name("normal"));
 	player->GetTransform().SetScale(scale);
