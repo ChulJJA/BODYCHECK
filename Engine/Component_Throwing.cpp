@@ -2,6 +2,7 @@
 #include "Object.h"
 #include "angles.hpp"
 #include "Physics.h"
+#include "Component_Player.h"
 
 
 void Throwing::Init(Object* obj)
@@ -37,7 +38,7 @@ void Throwing::Set_Angle(float angle)
 {
 	this->angle = angle;
 	angle_in_radian = to_radians(angle);
-	m_owner->GetComponentByTemplate<Physics>()->SetAcceleration(
+	m_owner->GetComponentByTemplate<Player>()->SetPlayerVelocity(
 	{
 		sin(angle_in_radian) * -30, cos(angle_in_radian) * 30
 	});

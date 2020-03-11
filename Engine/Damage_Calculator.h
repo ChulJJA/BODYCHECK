@@ -2,5 +2,4 @@
 #include <utility>
 class Object;
 
-
-std::pair<float, float> Damaege_Calculation(Object* target, Object* from);
+std::pair<float, float> DamageCalculator(Object* target, Object* from);

@@ -83,11 +83,6 @@ bool Collision::CircleToCircleCollision()
 							Physics* obj_i_physics = obj_i->GetComponentByTemplate<Physics>();
 							Physics* obj_j_physics = obj_j->GetComponentByTemplate<Physics>();
 
-							obj_i_physics->Get_Save_Acceleration_Reference().x = obj_i_physics->GetAcceleration().x;
-							obj_i_physics->Get_Save_Acceleration_Reference().y = obj_i_physics->GetAcceleration().y;
-							obj_j_physics->Get_Save_Acceleration_Reference().x = obj_j_physics->GetAcceleration().x;
-							obj_j_physics->Get_Save_Acceleration_Reference().y = obj_j_physics->GetAcceleration().y;
-
 							Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_j, obj_i, "collision"));
 							obj_i->Set_Is_It_Collided(true);
 							obj_j->Set_Is_It_Collided(true);
@@ -132,8 +127,8 @@ void Collision::CircleArenaCollision()
 		if (distance >= 10000)
 		{
 
-			const vector2 direction_to_go = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration();
-			obj_i->GetComponentByTemplate<Physics>()->SetAcceleration(-direction_to_go);
+			const vector2 direction_to_go = obj_i->GetComponentByTemplate<Player>()->GetPlayerVelocity();
+			obj_i->GetComponentByTemplate<Player>()->SetPlayerVelocity(-direction_to_go);
 		}
 	}
 }
@@ -160,16 +155,13 @@ void Collision::SquareArenaCollision()
 		{
 			sound.Play(SOUND::Crack);
 
-			vector2 direction_to_go = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration();
+			vector2 direction_to_go = obj_i->GetComponentByTemplate<Player>()->GetPlayerVelocity();
 
 			angle = RadianToDegree(angle_between({ 0,1 }, direction_to_go));
 			angle2 = 2 * (180 - angle);
 			angle = 360 - angle2;
 			direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
-			obj_i->GetComponentByTemplate<Physics>()->SetAcceleration(direction_to_go);
-
-			obj_i->GetComponentByTemplate<Physics>()->Get_Save_Acceleration_Reference().x = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration().x;
-			obj_i->GetComponentByTemplate<Physics>()->Get_Save_Acceleration_Reference().y = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration().y;
+			obj_i->GetComponentByTemplate<Player>()->SetPlayerVelocity(direction_to_go);
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, "wall_collision"));
 		}
@@ -177,16 +169,13 @@ void Collision::SquareArenaCollision()
 		{
 			sound.Play(SOUND::Crack);
 
-			vector2 direction_to_go = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration();
+			vector2 direction_to_go = obj_i->GetComponentByTemplate<Player>()->GetPlayerVelocity();
 			angle = RadianToDegree(angle_between({ -1,0 }, direction_to_go));
 
 			angle2 = 2 * (180 - angle);
 			angle = 360 - angle2;
 			direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
-			obj_i->GetComponentByTemplate<Physics>()->SetAcceleration(direction_to_go);
-
-			obj_i->GetComponentByTemplate<Physics>()->Get_Save_Acceleration_Reference().x = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration().x;
-			obj_i->GetComponentByTemplate<Physics>()->Get_Save_Acceleration_Reference().y = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration().y;
+			obj_i->GetComponentByTemplate<Player>()->SetPlayerVelocity(direction_to_go);
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, "wall_collision"));
 		}
@@ -194,16 +183,13 @@ void Collision::SquareArenaCollision()
 		{
 			sound.Play(SOUND::Crack);
 
-			vector2 direction_to_go = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration();
+			vector2 direction_to_go = obj_i->GetComponentByTemplate<Player>()->GetPlayerVelocity();
 			angle = RadianToDegree(angle_between({ 0,-1 }, direction_to_go));
 
 			angle2 = 2 * (180 - angle);
 			angle = 360 - angle2;
 			direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
-			obj_i->GetComponentByTemplate<Physics>()->SetAcceleration(direction_to_go);
-
-			obj_i->GetComponentByTemplate<Physics>()->Get_Save_Acceleration_Reference().x = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration().x;
-			obj_i->GetComponentByTemplate<Physics>()->Get_Save_Acceleration_Reference().y = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration().y;
+			obj_i->GetComponentByTemplate<Player>()->SetPlayerVelocity(direction_to_go);
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, "wall_collision"));
 		}
@@ -211,17 +197,14 @@ void Collision::SquareArenaCollision()
 		{
 			sound.Play(SOUND::Crack);
 
-			vector2 direction_to_go = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration();
+			vector2 direction_to_go = obj_i->GetComponentByTemplate<Player>()->GetPlayerVelocity();
 			angle = RadianToDegree(angle_between({ 1,0 }, direction_to_go));
 
 			angle2 = 2 * (180 - angle);
 			angle = 360 - angle2;
 			direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
-			obj_i->GetComponentByTemplate<Physics>()->SetAcceleration(direction_to_go);
-
-			obj_i->GetComponentByTemplate<Physics>()->Get_Save_Acceleration_Reference().x = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration().x;
-			obj_i->GetComponentByTemplate<Physics>()->Get_Save_Acceleration_Reference().y = obj_i->GetComponentByTemplate<Physics>()->GetAcceleration().y;
-
+			obj_i->GetComponentByTemplate<Player>()->SetPlayerVelocity(direction_to_go);
+			
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, "wall_collision"));
 		}
 	}

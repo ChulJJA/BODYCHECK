@@ -178,133 +178,133 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="angles.hpp">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Application.hpp">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="BitmapFont.hpp">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Camera.hpp">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="CameraView.hpp">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Color4ub.hpp">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Common_Header.h">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="GL.hpp">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="glCheck.hpp">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Image.hpp">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Graphic.h">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\external\imgui\imconfig.h">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\external\imgui\imgui.h">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\external\imgui\imgui_impl_glfw.h">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\external\imgui\imgui_impl_opengl3.h">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\external\imgui\imgui_internal.h">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\external\imgui\imstb_rectpack.h">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\external\imgui\imstb_textedit.h">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\external\imgui\imstb_truetype.h">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Input.h">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Material.hpp">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.hpp">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Messagebox.h">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Object_Component_Info.h">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="ObjectManager.h">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Physics.h">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Player_Ui.h">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Referee.h">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Shader.hpp">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Sound_Manager.h">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="State.h">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="StateManager.h">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="StockShaders.hpp">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Texture.hpp">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Timer.hpp">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Transform.hpp">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="VertexLayoutDescription.hpp">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Vertices.hpp">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="View.h">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Text.hpp">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Engine.hpp">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="UsefulTools.hpp">
-      <Filter>Headers</Filter>
+      <Filter>Source\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Component.hpp">
       <Filter>Components\Headers</Filter>
@@ -398,11 +398,11 @@
     <Filter Include="Message_Function\Headers">
       <UniqueIdentifier>{435f88d7-1db5-4482-8ae9-00eaa66cdd4a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headers">
-      <UniqueIdentifier>{c8a5ec4b-453c-42f2-ae0e-4c791eceac30}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Components\Headers">
       <UniqueIdentifier>{eaccbccc-2aca-4479-916d-be242aab161b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Headers">
+      <UniqueIdentifier>{c8a5ec4b-453c-42f2-ae0e-4c791eceac30}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
