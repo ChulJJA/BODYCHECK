@@ -71,7 +71,7 @@ void Player::Update(float dt)
 	}
 
 
-	
+
 	PlayerMovement(0.6f, 0.12f);
 	m_owner->GetTransform().AddTranslation(velocity);
 	PlayerDirecting();
@@ -113,245 +113,6 @@ void Player::Set_Item_State(Item::Item_Kind state)
 	this->belong_item = state;
 }
 
-void Player::PlayerMovement(float max_velocity, float min_velocity)
-{
-	if (input.Is_Key_Pressed(GLFW_KEY_W))
-	{
-		if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_A))
-		{
-			if (velocity.x >= 0 && velocity.y >= 0)
-			{
-				velocity += {-max_velocity, min_velocity};
-			}
-			else if (velocity.x >= 0 && velocity.y < 0)
-			{
-				velocity += {-max_velocity, max_velocity};
-			}
-			else if (velocity.x < 0 && velocity.y >= 0)
-			{
-				velocity += {-min_velocity, min_velocity};
-			}
-			else if (velocity.x < 0 && velocity.y < 0)
-			{
-				velocity += {-min_velocity, max_velocity};
-			}
-		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_D))
-		{
-			if (velocity.x >= 0 && velocity.y >= 0)
-			{
-				velocity += {min_velocity, min_velocity};
-			}
-			else if (velocity.x >= 0 && velocity.y < 0)
-			{
-				velocity += {min_velocity, max_velocity};
-			}
-			else if (velocity.x < 0 && velocity.y >= 0)
-			{
-				velocity += {max_velocity, min_velocity};
-			}
-			else if (velocity.x < 0 && velocity.y < 0)
-			{
-				velocity += {max_velocity, max_velocity};
-			}
-		}
-		else
-		{
-			if (abs(velocity.x) >= 0)
-			{
-				velocity.x -= velocity.x / 100;
-			}
-			if (velocity.y >= 0)
-			{
-				velocity += {0.00, min_velocity};
-			}
-			else if (velocity.y < 0)
-			{
-				velocity += {0.00, max_velocity};
-			}
-		}
-	}
-	else if (input.Is_Key_Pressed(GLFW_KEY_A))
-	{
-		if (input.Is_Key_Pressed(GLFW_KEY_A) && input.Is_Key_Pressed(GLFW_KEY_S))
-		{
-			if (velocity.x >= 0 && velocity.y >= 0)
-			{
-				velocity += {-max_velocity, -max_velocity};
-			}
-			else if (velocity.x >= 0 && velocity.y < 0)
-			{
-				velocity += {-max_velocity, -min_velocity};
-			}
-			else if (velocity.x < 0 && velocity.y >= 0)
-			{
-				velocity += {-min_velocity, -max_velocity};
-			}
-			else if (velocity.x < 0 && velocity.y < 0)
-			{
-				velocity += {-min_velocity, -min_velocity};
-			}
-		}
-		else
-		{
-			if (velocity.x >= 0)
-			{
-				velocity.x += -max_velocity;
-			}
-			else
-			{
-				velocity.x += -min_velocity;
-			}
-			if (abs(velocity.y) >= 0)
-			{
-				velocity.y -= velocity.y / 100;
-			}
-		}
-	}
-	else if (input.Is_Key_Pressed(GLFW_KEY_S))
-	{
-		if (input.Is_Key_Pressed(GLFW_KEY_S) && input.Is_Key_Pressed(GLFW_KEY_D))
-		{
-			if (velocity.x >= 0 && velocity.y >= 0)
-			{
-				velocity += {min_velocity, -max_velocity};
-			}
-			else if (velocity.x >= 0 && velocity.y < 0)
-			{
-				velocity += {min_velocity, -min_velocity};
-			}
-			else if (velocity.x < 0 && velocity.y >= 0)
-			{
-				velocity += {max_velocity, -max_velocity};
-			}
-			else if (velocity.x < 0 && velocity.y < 0)
-			{
-				velocity += {max_velocity, -min_velocity};
-			}
-		}
-		else
-		{
-			if (abs(velocity.x) >= 0)
-			{
-				velocity.x -= velocity.x / 100;
-			}
-			if (velocity.y >= 0)
-			{
-				velocity.y += -max_velocity;
-			}
-			else
-			{
-				velocity.y += -min_velocity;
-			}
-		}
-	}
-	else if (input.Is_Key_Pressed(GLFW_KEY_D))
-	{
-		if (velocity.x >= 0)
-		{
-			velocity.x += min_velocity;
-		}
-		else
-		{
-			velocity.x += max_velocity;
-		}
-		if (abs(velocity.y) >= 0)
-		{
-			velocity.y -= velocity.y / 100;
-		}
-	}
-	else
-	{
-		velocity += {-velocity.x / 100, -velocity.y / 100};
-	}
-}
-
-void Player::SetPlayerVelocity(vector2 current_velocity)
-{
-	velocity = current_velocity;
-}
-
-vector2 Player::GetPlayerVelocity()
-{
-	return velocity;
-}
-
-void Player::PlayerDirecting()
-{
-	if (input.Is_Key_Pressed(GLFW_KEY_RIGHT) || input.Is_Key_Pressed(GLFW_KEY_LEFT) ||
-		input.Is_Key_Pressed(GLFW_KEY_DOWN) || input.Is_Key_Pressed(GLFW_KEY_UP))
-	{
-		vector2 direction = { 0, 0 };
-
-		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
-		{
-			direction.x += 10.f;
-
-			if (input.Is_Key_Pressed(GLFW_KEY_UP))
-			{
-				direction.y += 10.f;
-			}
-			if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
-			{
-				direction.y -= 10.f;
-			}
-		}
-		if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
-		{
-			direction.x -= 10.f;
-
-			if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
-			{
-				direction.y -= 10.f;
-			}
-			if (input.Is_Key_Pressed(GLFW_KEY_UP))
-			{
-				direction.y += 10.f;
-			}
-		}
-
-		if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
-		{
-			direction.y -= 10.f;
-
-			if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
-			{
-				direction.x += 10.f;
-			}
-			if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
-			{
-				direction.x -= 10.f;
-			}
-		}
-
-		if (input.Is_Key_Pressed(GLFW_KEY_UP))
-		{
-			direction.y += 10.f;
-
-			if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
-			{
-				direction.x += 10.f;
-			}
-			if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
-			{
-				direction.x -= 10.f;
-			}
-		}
-
-		float angle = RadianToDegree(angle_between({ 0,1 }, direction));
-		if (direction.x >= 0)
-		{
-			angle *= -1;
-		}
-		m_owner->SetRotation(angle);
-		player_angle = normalize(direction);
-	}
-}
-
-vector2 Player::GetPlayerAngle()
-{
-	return player_angle;
-}
 
 void Player::Set_Locking_By(Object* obj)
 {
@@ -526,7 +287,7 @@ float& Player::Get_Bulkup_Timer()
 
 void Player::Set_Bulkup_Timer(float timer_)
 {
-		bulkup_timer = timer_;
+	bulkup_timer = timer_;
 }
 
 Player::Char_State Player::Get_Char_State()
@@ -576,4 +337,228 @@ void Player::Set_Locking(Object* obj)
 Object* Player::Get_Hp_Bar()
 {
 	return hp_bar;
+}
+
+
+
+void Player::PlayerMovement(float max_velocity, float min_velocity)
+{
+	if (input.Is_Key_Pressed(GLFW_KEY_W))
+	{
+		if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_A))
+		{
+			if (velocity.x >= 0 && velocity.y >= 0)
+			{
+				velocity += {-max_velocity, min_velocity};
+			}
+			else if (velocity.x >= 0 && velocity.y < 0)
+			{
+				velocity += {-max_velocity, max_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y >= 0)
+			{
+				velocity += {-min_velocity, min_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y < 0)
+			{
+				velocity += {-min_velocity, max_velocity};
+			}
+		}
+		else if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_D))
+		{
+			if (velocity.x >= 0 && velocity.y >= 0)
+			{
+				velocity += {min_velocity, min_velocity};
+			}
+			else if (velocity.x >= 0 && velocity.y < 0)
+			{
+				velocity += {min_velocity, max_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y >= 0)
+			{
+				velocity += {max_velocity, min_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y < 0)
+			{
+				velocity += {max_velocity, max_velocity};
+			}
+		}
+		else
+		{
+			if (abs(velocity.x) >= 0)
+			{
+				velocity.x -= velocity.x / 100;
+			}
+			if (velocity.y >= 0)
+			{
+				velocity += {0.00, min_velocity};
+			}
+			else if (velocity.y < 0)
+			{
+				velocity += {0.00, max_velocity};
+			}
+		}
+	}
+	else if (input.Is_Key_Pressed(GLFW_KEY_A))
+	{
+		if (input.Is_Key_Pressed(GLFW_KEY_A) && input.Is_Key_Pressed(GLFW_KEY_S))
+		{
+			if (velocity.x >= 0 && velocity.y >= 0)
+			{
+				velocity += {-max_velocity, -max_velocity};
+			}
+			else if (velocity.x >= 0 && velocity.y < 0)
+			{
+				velocity += {-max_velocity, -min_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y >= 0)
+			{
+				velocity += {-min_velocity, -max_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y < 0)
+			{
+				velocity += {-min_velocity, -min_velocity};
+			}
+		}
+		else
+		{
+			if (velocity.x >= 0)
+			{
+				velocity.x += -max_velocity;
+			}
+			else
+			{
+				velocity.x += -min_velocity;
+			}
+			if (abs(velocity.y) >= 0)
+			{
+				velocity.y -= velocity.y / 100;
+			}
+		}
+	}
+	else if (input.Is_Key_Pressed(GLFW_KEY_S))
+	{
+		if (input.Is_Key_Pressed(GLFW_KEY_S) && input.Is_Key_Pressed(GLFW_KEY_D))
+		{
+			if (velocity.x >= 0 && velocity.y >= 0)
+			{
+				velocity += {min_velocity, -max_velocity};
+			}
+			else if (velocity.x >= 0 && velocity.y < 0)
+			{
+				velocity += {min_velocity, -min_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y >= 0)
+			{
+				velocity += {max_velocity, -max_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y < 0)
+			{
+				velocity += {max_velocity, -min_velocity};
+			}
+		}
+		else
+		{
+			if (abs(velocity.x) >= 0)
+			{
+				velocity.x -= velocity.x / 100;
+			}
+			if (velocity.y >= 0)
+			{
+				velocity.y += -max_velocity;
+			}
+			else
+			{
+				velocity.y += -min_velocity;
+			}
+		}
+	}
+	else if (input.Is_Key_Pressed(GLFW_KEY_D))
+	{
+		if (velocity.x >= 0)
+		{
+			velocity.x += min_velocity;
+		}
+		else
+		{
+			velocity.x += max_velocity;
+		}
+		if (abs(velocity.y) >= 0)
+		{
+			velocity.y -= velocity.y / 100;
+		}
+	}
+	else
+	{
+		velocity += {-velocity.x / 100, -velocity.y / 100};
+	}
+}
+
+void Player::SetPlayerVelocity(vector2 current_velocity)
+{
+	velocity = current_velocity;
+}
+
+vector2 Player::GetPlayerVelocity()
+{
+	return velocity;
+}
+
+void Player::PlayerDirecting()
+{
+	if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
+	{
+		if (input.Is_Key_Pressed(GLFW_KEY_UP))
+		{
+			direction.x += 0.03f;
+			direction.y += 0.03f;
+		}
+		else if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
+		{
+			direction.x += 0.03f;
+			direction.y -= 0.03f;
+		}
+		else
+		{
+			direction.x += 0.045f;
+		}
+	}
+	else if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
+	{
+		if (input.Is_Key_Pressed(GLFW_KEY_UP))
+		{
+			direction.x -= 0.03f;
+			direction.y += 0.03f;
+		}
+		else if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
+		{
+			direction.x -= 0.03f;
+			direction.y -= 0.03f;
+		}
+		else
+		{
+			direction.x -= 0.045f;
+		}
+	}
+	else if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
+	{
+		direction.y -= 0.045f;
+	}
+	else if (input.Is_Key_Pressed(GLFW_KEY_UP))
+	{
+		direction.y += 0.045f;
+	}
+
+	float angle = RadianToDegree(angle_between({ 0,1 }, direction));
+	if (direction.x >= 0)
+	{
+		angle *= -1;
+	}
+	m_owner->SetRotation(angle);
+	direction = normalize(direction);
+}
+
+vector2 Player::GetPlayerDirection()
+{
+	return direction;
 }

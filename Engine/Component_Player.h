@@ -82,7 +82,7 @@ public:
 	void SetPlayerVelocity(vector2 current_velocity);
 	vector2 GetPlayerVelocity();
 	void PlayerDirecting();
-	vector2 GetPlayerAngle();
+	vector2 GetPlayerDirection();
 	
 private:
     Object* hp_bar = nullptr;
@@ -102,5 +102,5 @@ private:
 
 	
 	vector2 velocity{};
-	vector2 player_angle;
+	vector2 direction = {0, 1};
 };

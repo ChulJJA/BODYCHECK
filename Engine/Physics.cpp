@@ -22,8 +22,6 @@
 #include "Engine.hpp"
 #include "Message.h"
 #include "Application.hpp"
-#include "angles.hpp"
-#include "UsefulTools.hpp"
 
 Physics::Physics(bool ghost_collision_mode) : ghost_collision_mode(ghost_collision_mode)
 {
