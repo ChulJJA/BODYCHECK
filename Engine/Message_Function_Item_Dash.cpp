@@ -19,7 +19,7 @@ void Msg_Func_Item_Dash::Init()
 		
 		vector2 acceleration = info_player->GetPlayerVelocity();
 
-		vector2 direction = info_physics->GetObjectAngle();
+		vector2 direction = info_player->GetPlayerAngle();
 		info_player->SetPlayerVelocity(acceleration + direction * 30);
 		info_player->Set_Item_State(Item::Item_Kind::None);
 		info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Use, Ui::Ui_Status_Obj::Item_Dash);

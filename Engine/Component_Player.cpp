@@ -26,6 +26,7 @@
 #include "Physics.h"
 #include "Component_Lock.h"
 #include "angles.hpp"
+#include "UsefulTools.hpp"
 
 void Player::Init(Object* obj)
 {
@@ -44,33 +45,36 @@ void Player::Update(float dt)
 	{
 		Func_Bulk_Throwing(dt);
 	}
-	if(curr_state == Char_State::Lock_Ready)
+	if (curr_state == Char_State::Lock_Ready)
 	{
 		Func_Lock_Ready(dt);
 	}
-	if(curr_state == Char_State::Lock_Ing)
+	if (curr_state == Char_State::Lock_Ing)
 	{
 		/*vector2 this_pos = m_owner->GetTransform().GetTranslation();
 		vector2 obj_pos = locking_pointer->GetTransform().GetTranslation();
-		
+
 		float angle_in_radian = atan2(this_pos.y - obj_pos.y, this_pos.x - obj_pos.x);
 		float angle = to_degrees(angle_in_radian);
 		angle += 90;
 
 		m_owner->SetRotation(angle);*/
 	}
-	if(curr_state == Char_State::Magnatic)
+	if (curr_state == Char_State::Magnatic)
 	{
 		Func_Magnatic(dt);
 	}
-	if(hp_bar != nullptr)
+	if (hp_bar != nullptr)
 	{
 		hp_bar->GetTransform().GetTranslation_Reference().x = m_owner->GetTransform().GetTranslation().x;
 		hp_bar->GetTransform().GetTranslation_Reference().y = m_owner->GetTransform().GetTranslation().y - 100;
 	}
+
+
 	
 	PlayerMovement(0.6f, 0.12f);
 	m_owner->GetTransform().AddTranslation(velocity);
+	PlayerDirecting();
 }
 
 void Player::SetHPBar()
@@ -94,9 +98,19 @@ void Player::SetHPBar()
 	}
 }
 
+int Player::Get_Damage()
+{
+	return damage;
+}
+
 Item::Item_Kind Player::Get_Item_State()
 {
 	return belong_item;
+}
+
+void Player::Set_Item_State(Item::Item_Kind state)
+{
+	this->belong_item = state;
 }
 
 void Player::PlayerMovement(float max_velocity, float min_velocity)
@@ -117,7 +131,7 @@ void Player::PlayerMovement(float max_velocity, float min_velocity)
 			{
 				velocity += {-min_velocity, min_velocity};
 			}
-			else if(velocity.x < 0 && velocity.y < 0)
+			else if (velocity.x < 0 && velocity.y < 0)
 			{
 				velocity += {-min_velocity, max_velocity};
 			}
@@ -262,24 +276,101 @@ vector2 Player::GetPlayerVelocity()
 	return velocity;
 }
 
+void Player::PlayerDirecting()
+{
+	if (input.Is_Key_Pressed(GLFW_KEY_RIGHT) || input.Is_Key_Pressed(GLFW_KEY_LEFT) ||
+		input.Is_Key_Pressed(GLFW_KEY_DOWN) || input.Is_Key_Pressed(GLFW_KEY_UP))
+	{
+		vector2 direction = { 0, 0 };
+
+		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
+		{
+			direction.x += 10.f;
+
+			if (input.Is_Key_Pressed(GLFW_KEY_UP))
+			{
+				direction.y += 10.f;
+			}
+			if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
+			{
+				direction.y -= 10.f;
+			}
+		}
+		if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
+		{
+			direction.x -= 10.f;
+
+			if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
+			{
+				direction.y -= 10.f;
+			}
+			if (input.Is_Key_Pressed(GLFW_KEY_UP))
+			{
+				direction.y += 10.f;
+			}
+		}
+
+		if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
+		{
+			direction.y -= 10.f;
+
+			if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
+			{
+				direction.x += 10.f;
+			}
+			if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
+			{
+				direction.x -= 10.f;
+			}
+		}
+
+		if (input.Is_Key_Pressed(GLFW_KEY_UP))
+		{
+			direction.y += 10.f;
+
+			if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
+			{
+				direction.x += 10.f;
+			}
+			if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
+			{
+				direction.x -= 10.f;
+			}
+		}
+
+		float angle = RadianToDegree(angle_between({ 0,1 }, direction));
+		if (direction.x >= 0)
+		{
+			angle *= -1;
+		}
+		m_owner->SetRotation(angle);
+		player_angle = normalize(direction);
+	}
+}
+
+vector2 Player::GetPlayerAngle()
+{
+	return player_angle;
+}
+
 void Player::Set_Locking_By(Object* obj)
 {
-	if(obj != nullptr)
+	if (obj != nullptr)
 	{
 		locking_by = obj;
 		obj->Add_Pointed_By(&locking_by);
 	}
-	
+
 }
 
 void Player::Set_Locking_Result(Object* obj)
 {
-	if(obj != nullptr)
+	if (obj != nullptr)
 	{
 		locking_result = obj;
 		obj->Add_Pointed_By(&locking_result);
 	}
-	
+
 }
 
 Object* Player::Get_Locking_Result()
@@ -418,12 +509,71 @@ void Player::Set_This_UI_info(PLAYER_UI* ui)
 	this_ui = ui;
 }
 
-void Player::Set_Item_State(Item::Item_Kind state)
-{
-	this->belong_item = state;
-}
-
 PLAYER_UI* Player::Get_Ui()
 {
 	return this_ui;
+}
+
+float& Player::Get_Regeneration_Timer()
+{
+	return regeneration_timer;
+}
+
+float& Player::Get_Bulkup_Timer()
+{
+	return bulkup_timer;
+}
+
+void Player::Set_Bulkup_Timer(float timer_)
+{
+		bulkup_timer = timer_;
+}
+
+Player::Char_State Player::Get_Char_State()
+{
+	return curr_state;
+}
+
+void Player::Set_Char_State(Char_State state)
+{
+	curr_state = state;
+}
+
+void Player::Set_Char_State_Additional(Char_State_Additional state)
+{
+	curr_state_additional = state;
+}
+
+Player::Char_State_Additional Player::Get_Char_State_Additional()
+{
+	return curr_state_additional;
+}
+
+Player::Char_State_By_Other Player::Get_Char_State_By_Other()
+{
+	return curr_state_by_other;
+}
+
+void Player::Set_Char_State_By_Other(Char_State_By_Other state)
+{
+	curr_state_by_other = state;
+}
+
+Object* Player::Get_Locking()
+{
+	return locking_pointer;
+}
+
+void Player::Set_Locking(Object* obj)
+{
+	if (obj != nullptr)
+	{
+		locking_pointer = obj;
+		obj->Add_Pointed_By(&locking_pointer);
+	}
+}
+
+Object* Player::Get_Hp_Bar()
+{
+	return hp_bar;
 }

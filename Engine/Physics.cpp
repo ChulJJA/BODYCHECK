@@ -35,80 +35,6 @@ void Physics::Init(Object* obj)
 	m_owner->Get_Component_Info_Reference().component_info_physics = true;
 }
 
-void Physics::Acceleration(float max_accel, float min_accel)
-{
-	if (input.Is_Key_Pressed(GLFW_KEY_RIGHT) || input.Is_Key_Pressed(GLFW_KEY_LEFT) ||
-		input.Is_Key_Pressed(GLFW_KEY_DOWN) || input.Is_Key_Pressed(GLFW_KEY_UP))
-	{
-		vector2 obj_pos = { 0, 0 };
-
-		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
-		{
-			obj_pos.x += 10.f;
-
-			if (input.Is_Key_Pressed(GLFW_KEY_UP))
-			{
-				obj_pos.y += 10.f;
-			}
-			if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
-			{
-				obj_pos.y -= 10.f;
-			}
-		}
-		if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
-		{
-			obj_pos.x -= 10.f;
-
-			if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
-			{
-				obj_pos.y -= 10.f;
-			}
-			if (input.Is_Key_Pressed(GLFW_KEY_UP))
-			{
-				obj_pos.y += 10.f;
-			}
-		}
-
-		if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
-		{
-			obj_pos.y -= 10.f;
-
-			if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
-			{
-				obj_pos.x += 10.f;
-			}
-			if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
-			{
-				obj_pos.x -= 10.f;
-			}
-		}
-
-		if (input.Is_Key_Pressed(GLFW_KEY_UP))
-		{
-			obj_pos.y += 10.f;
-
-			if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
-			{
-				obj_pos.x += 10.f;
-			}
-			if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
-			{
-				obj_pos.x -= 10.f;
-			}
-		}
-
-		float angle = RadianToDegree(angle_between({ 0,1 }, obj_pos));
-		if (obj_pos.x >= 0)
-		{
-			angle *= -1;
-		}
-		m_owner->SetRotation(angle);
-		object_angle = normalize(obj_pos);
-	}
-	return;
-}
-
-
 void Physics::JustMove()
 {
 	acceleration += {-acceleration.x / 100, -acceleration.y / 100};
@@ -206,8 +132,6 @@ void Physics::Update(float dt)
 
 		if (info_player->Get_Char_State() == Player::Char_State::None)
 		{
-			Acceleration(0.6f, 0.12f);
-			m_owner->GetTransform().AddTranslation(acceleration);
 			if (is_dashed == false && timer >= 0.3)
 			{
 				Dash(m_owner);
@@ -225,8 +149,6 @@ void Physics::Update(float dt)
 
 		if (info_player->Get_Char_State() == Player::Char_State::None)
 		{
-			//Acceleration(0.6f, 0.12f);
-			m_owner->GetTransform().AddTranslation(acceleration);
 
 			if (is_dashed == false && timer >= 0.3)
 			{
@@ -245,8 +167,6 @@ void Physics::Update(float dt)
 
 		if (info_player->Get_Char_State() == Player::Char_State::None)
 		{
-			//Acceleration(0.6f, 0.12f);
-			m_owner->GetTransform().AddTranslation(acceleration);
 
 			if (is_dashed == false && timer >= 0.3)
 			{
@@ -265,8 +185,6 @@ void Physics::Update(float dt)
 
 		if (info_player->Get_Char_State() == Player::Char_State::None)
 		{
-			//Acceleration(0.6f, 0.12f);
-			m_owner->GetTransform().AddTranslation(acceleration);
 
 			if (is_dashed == false && timer >= 0.3)
 			{

@@ -20,11 +20,6 @@ class PLAYER_UI;
 class Player : public Component
 {
 public:
-	Player(bool need_update_hp = true)
-	{
-		need_update_hp_bar = need_update_hp;
-	}
-	
 	enum class Char_State
 	{
 		None,
@@ -35,97 +30,59 @@ public:
 		Lock_Ready,
 		Lock_Ing,
 	};
-
 	enum class Char_State_Additional
 	{
 		None,
 		Chasing,
 		Chasing_stop
 	};
-
 	enum class Char_State_By_Other
 	{
 		None,
 		Locked
 	};
+
+	Player(bool need_update_hp = true)
+	{
+		need_update_hp_bar = need_update_hp;
+	}
 	
     void Init(Object* obj);
     void Update(float dt) override;
-    void SetHPBar();
-    int Get_Damage()
-    {
-        return damage;
-    }
-    void Set_This_UI_info(PLAYER_UI* ui);
-    void Set_Item_State(Item::Item_Kind state);
-    PLAYER_UI* Get_Ui();
-    Item::Item_Kind Get_Item_State();
-    float& Get_Regeneration_Timer()
-    {
-        return regeneration_timer;
-    }
-    float& Get_Bulkup_Timer()
-    {
-        return bulkup_timer;
-    }
-	void Set_Bulkup_Timer(float timer_)
-    {
-		bulkup_timer = timer_;
-    }
-	Char_State Get_Char_State()
-    {
-		return curr_state;
-    }
-	void Set_Char_State(Char_State state)
-    {
-		curr_state = state;
-    }
-    void PlayerMovement(float max_velocity, float min_velocity);
-	void SetPlayerVelocity(vector2 current_velocity);
-	vector2 GetPlayerVelocity();
-	void Set_Char_State_Additional(Char_State_Additional state)
-    {
-		curr_state_additional = state;
-    }
-	Char_State_Additional Get_Char_State_Additional()
-    {
-		return curr_state_additional;
-    }
 	
-	Char_State_By_Other Get_Char_State_By_Other()
-    {
-		return curr_state_by_other;
-    }
-	void Set_Char_State_By_Other(Char_State_By_Other state)
-    {
-		curr_state_by_other = state;
-    }
-
-	Object* Get_Locking()
-    {
-		return locking_pointer;
-    }
-	void Set_Locking(Object* obj)
-    {
-    	if(obj != nullptr)
-    	{
-			locking_pointer = obj;
-			obj->Add_Pointed_By(&locking_pointer);
-    	}
-		
-    }
-	Object* Get_Hp_Bar()
-    {
-		return hp_bar;
-    }
+    void SetHPBar();
+    int Get_Damage();
+	Item::Item_Kind Get_Item_State();
+	void Set_Item_State(Item::Item_Kind state);
+    void Set_This_UI_info(PLAYER_UI* ui);
+    PLAYER_UI* Get_Ui();
+	float& Get_Regeneration_Timer();
+	float& Get_Bulkup_Timer();
+	void Set_Bulkup_Timer(float timer_);
+	Char_State Get_Char_State();
+	void Set_Char_State(Char_State state);
+	void Set_Char_State_Additional(Char_State_Additional state);
+	Char_State_Additional Get_Char_State_Additional();
+	Char_State_By_Other Get_Char_State_By_Other();
+	void Set_Char_State_By_Other(Char_State_By_Other state);
+	Object* Get_Locking();
+	void Set_Locking(Object* obj);
+	Object* Get_Hp_Bar();
 	void Set_Locking_By(Object* obj);
 	void Set_Locking_Result(Object* obj);
 	Object* Get_Locking_Result();
-
 	void Func_Bulk_Up(float dt);
 	void Func_Bulk_Throwing(float dt);
 	void Func_Lock_Ready(float dt);
 	void Func_Magnatic(float dt);
+
+
+	
+	void PlayerMovement(float max_velocity, float min_velocity);
+	void SetPlayerVelocity(vector2 current_velocity);
+	vector2 GetPlayerVelocity();
+	void PlayerDirecting();
+	vector2 GetPlayerAngle();
 	
 private:
     Object* hp_bar = nullptr;
@@ -135,7 +92,6 @@ private:
     float regeneration_timer = 0.f;
     float bulkup_timer = 0.f;
 	Char_State curr_state;
-    vector2 velocity{};
 	Char_State_By_Other curr_state_by_other;
 	Object* locking_pointer = nullptr;
 	Object* locking_by = nullptr;
@@ -143,4 +99,8 @@ private:
 	float mag_angle;
 	Char_State_Additional curr_state_additional = Char_State_Additional::None;
 	Object* locking_result = nullptr;
+
+	
+	vector2 velocity{};
+	vector2 player_angle;
 };
