@@ -71,14 +71,16 @@ void Physics::KnockBack(Object* object_1, Object* object_2)
 	}
 }
 
-
 void Physics::SpeedDown(Object* object)
 {
-	vector2 acceleration = object->GetComponentByTemplate<Player>()->GetPlayerVelocity();
+	if(!object->IsDead())
+	{
+		vector2 velocity = object->GetComponentByTemplate<Player>()->GetPlayerVelocity();
 
-	acceleration /= 5;
+		velocity /= 5;
 
-	object->GetComponentByTemplate<Player>()->SetPlayerVelocity(acceleration);
+		object->GetComponentByTemplate<Player>()->SetPlayerVelocity(velocity);
+	}
 }
 
 bool& Physics::GetGhostReference()

@@ -30,20 +30,18 @@ void Msg_Func_Collision::Update(float dt)
 	}
 	else if (m_target->Get_Tag() == "throwing" && m_from->Get_Tag() == "player")
 	{
-		std::cout << "chch1" << std::endl;
 		m_target->SetDeadCondition(true);
 		m_from->Set_Is_It_Collided(false);
 	}
 	else if (m_from->Get_Tag() == "throwing" && m_target->Get_Tag() == "player")
 	{
-		std::cout << "chch2" << std::endl;
 		m_from->SetDeadCondition(true);
 		m_target->Set_Is_It_Collided(false);
 	}
-	else if(m_from->Get_Tag() == "throwing" && m_target->Get_Tag() == "throwing")
+	else if (m_from->Get_Tag() == "throwing" && m_target->Get_Tag() == "throwing")
 	{
-		m_target->Set_Is_It_Collided(false);
 		m_from->Set_Is_It_Collided(false);
+		m_target->Set_Is_It_Collided(false);
 	}
 	else if (m_from->Get_Tag() == "lock" && m_target->Get_Tag() == "player")
 	{
@@ -97,42 +95,31 @@ void Msg_Func_Collision::Update(float dt)
 		{
 			if (player_from_info->Get_Locking_Result() == m_target)
 			{
-				player_from_info->Change_To_Normal_State();
+				player_from_info->Set_Char_State(Player::Char_State::None);
+				player_from_info->Set_Char_State_Additional(Player::Char_State_Additional::None);
+				m_from->Change_Sprite(m_from->Find_Sprite_By_Name("normal"));
 			}
 		}
 		else if (player_target_info->Get_Char_State_Additional() == Player::Char_State_Additional::Chasing)
 		{
 			if (player_target_info->Get_Locking_Result() == m_from)
 			{
-				player_target_info->Change_To_Normal_State();
+				player_target_info->Set_Char_State(Player::Char_State::None);
+				player_target_info->Set_Char_State_Additional(Player::Char_State_Additional::None);
+				m_target->Change_Sprite(m_target->Find_Sprite_By_Name("normal"));
 			}
 		}
 
-		if(player_target_info->Get_Char_State() == Player::Char_State::Missile_Ready)
-		{
-			player_target_info->Change_To_Normal_State();
-		}
-		else if (player_from_info->Get_Char_State() == Player::Char_State::Missile_Ready)
-		{
-			player_from_info->Change_To_Normal_State();
-		}
-		
-
 		if (player_from_info->Get_Char_State() == Player::Char_State::Time_Pause)
 		{
-			player_from_info->Change_To_Normal_State();
+			player_from_info->Set_Char_State(Player::Char_State::None);
 		}
 		else if (player_target_info->Get_Char_State() == Player::Char_State::Time_Pause)
 		{
-			player_target_info->Change_To_Normal_State();
+			player_target_info->Set_Char_State(Player::Char_State::None);
 		}
-
-		
 	}
 
-	m_from->Set_Is_It_Collided(false);
-	m_target->Set_Is_It_Collided(false);
-	
 	msg->Set_Should_Delete(true);
 }
 
@@ -149,46 +136,40 @@ void Msg_Func_Collision::Player_Get_Item(Object* player, Object* item)
 		player_info->Set_Item_State(Item::Item_Kind::Dash);
 		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Dash);
 	}
-	else if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::HP)
+	if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::HP)
 	{
 		player_info->Set_Item_State(Item::Item_Kind::HP);
 		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Hp);
 	}
-	else if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Bulkup)
+	if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Bulkup)
 	{
 		player_info->Set_Item_State(Item::Item_Kind::Bulkup);
 		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Bulkup);
 	}
-	else if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Throwing)
+	if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Throwing)
 	{
 		player_info->Set_Item_State(Item::Item_Kind::Throwing);
 		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Throwing);
 	}
 
-	else if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Magnatic)
+	if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Magnatic)
 	{
 		player_info->Set_Item_State(Item::Item_Kind::Magnatic);
 		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Magnatic);
 	}
 
-	else if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Time_Pause)
+	if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Time_Pause)
 	{
 		player_info->Set_Item_State(Item::Item_Kind::Time_Pause);
 		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Time_Pause);
 	}
 
-	else if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Reverse_Moving)
+	if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Reverse_Moving)
 	{
 		player_info->Set_Item_State(Item::Item_Kind::Reverse_Moving);
 		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Reverse_Moving);
 	}
 
-	else if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Missile)
-	{
-		player_info->Set_Item_State(Item::Item_Kind::Missile);
-		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Missile);
-	}
-	
 	player->Set_Is_It_Collided(false);
 }
 

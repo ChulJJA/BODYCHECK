@@ -69,7 +69,7 @@ void Graphic::Instancing_Draw(Vertices& shape, material material)
 void Graphic::Render()
 {
 	
-	glDrawArraysInstanced(GL_TRIANGLE_FAN, 0, 4, 84);
+	glDrawArraysInstanced(GL_TRIANGLE_FAN, 0, 4, 30);
 
 	GL::end_drawing();
 
