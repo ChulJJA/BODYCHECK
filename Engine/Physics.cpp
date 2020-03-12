@@ -12,16 +12,10 @@
 
 #include "Physics.h"
 #include "ObjectManager.h"
-#include <cmath>
 #include "vector2.hpp"
-#include "Input.h"
 #include "Component_Sprite.h"
 #include "Component_Player.h"
-#include "Player_Ui.h"
-#include "Message_Manager.h"
 #include "Engine.hpp"
-#include "Message.h"
-#include "Application.hpp"
 #include "UsefulTools.hpp"
 
 Physics::Physics(bool ghost_collision_mode) : ghost_collision_mode(ghost_collision_mode) {}

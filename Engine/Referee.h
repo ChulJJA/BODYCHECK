@@ -41,7 +41,8 @@ public:
 	Object* Make_Item_Pool(std::string sprite_path, vector2 pos, std::string name, std::string tag, Item::Item_Kind kind);
 	void Respawn_Player(Stage_Statement state, float dt);
 	void Respawn_Item(float dt);
-
+    void SetPlayerTemp();
+    void SetItem();
 	
     std::vector<Stage_Statement>& Get_Stage_Statement()
     {
@@ -105,20 +106,24 @@ private:
     int player_third_life = 5;
     int player_fourth_life = 5;
 
-    Object** item_save;
-    Object** item_save_hp;
+    Object** item_dash;
+    Object** item_heal;
     Object** item_bulk_up;
-
+    Object** item_throwing;
+    Object** item_magnetic;
 	Object** item_time_pause;
 	Object** item_reverse_moving;
 	
     float item_respawn_timer = 0.0f;
 	
     int item_num = 10;
-    int item_num_hp = 10;
+    int item_num_heal = 10;
     int item_num_dash = 10;
     int item_num_bulk_up = 10;
-
+    int item_num_throwing = 10;
+    int item_num_magnetic = 10;
+    int item_num_time_pause = 10;
+    int item_num_reverse_moving = 10;
     int total_item_num = 30;
 
     PLAYER_UI* first_ui;
