@@ -64,11 +64,6 @@ void Ui::Change_Item_Ui()
 		{
 			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("reverse_moving"));
 		}
-		else if (status_info_obj == Ui_Status_Obj::Item_Missile)
-		{
-			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("missile"));
-		}
-		
 		else
 		{
 			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("none"));

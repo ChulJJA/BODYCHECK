@@ -83,21 +83,6 @@ public:
     {
         fourth_text = ui;
     }
-	int Get_Missile_Count()
-    {
-		return missile_count;
-    }
-	Object* Return_New_Missile();
-	
-	Object* Get_Missile_From_Saving(int index)
-    {
-    	if(missile_num > index)
-    	{
-			missile_count++;
-			return missile_saving[index];
-    	}
-		return Return_New_Missile();
-    }
 
 private:
     Referee() {}
@@ -116,10 +101,10 @@ private:
     Object** player_third_temp;
     Object** player_fourth_temp;
 
-    int player_first_life = 20;
-    int player_sec_life = 20;
-    int player_third_life = 20;
-    int player_fourth_life = 20;
+    int player_first_life = 5;
+    int player_sec_life = 5;
+    int player_third_life = 5;
+    int player_fourth_life = 5;
 
     Object** item_dash;
     Object** item_heal;
@@ -128,9 +113,6 @@ private:
     Object** item_magnetic;
 	Object** item_time_pause;
 	Object** item_reverse_moving;
-	Object** item_missile;
-
-	Object** missile_saving;
 	
     float item_respawn_timer = 0.0f;
 	
@@ -138,14 +120,11 @@ private:
     int item_num_heal = 10;
     int item_num_dash = 10;
     int item_num_bulk_up = 10;
-	int missile_num = 50;
     int item_num_throwing = 10;
     int item_num_magnetic = 10;
     int item_num_time_pause = 10;
     int item_num_reverse_moving = 10;
-	int item_num_missile = 10;
     int total_item_num = 30;
-	int missile_count = 0;
 
     PLAYER_UI* first_ui;
     PLAYER_UI* second_ui;
