@@ -17,7 +17,7 @@
 class Physics : public Component
 {
 public:
-    Physics(bool ghost_collision_mode = false);
+    Physics(bool ghost_collision_mode = false);//
     void Init(Object* obj) override;
     void KnockBack(Object* object_1, Object* object_2);
     void SpeedDown(Object* object);

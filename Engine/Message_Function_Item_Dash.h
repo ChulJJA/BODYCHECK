@@ -13,7 +13,7 @@ public:
 	{
 		m_from = m_from_;
 		m_target = m_target_;
-		timer = timer_;
+		timer = timer_;//
 		msg = msg_;
 	}
 

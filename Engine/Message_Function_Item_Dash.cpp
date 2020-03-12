@@ -25,7 +25,7 @@ void Msg_Func_Item_Dash::Init()
 void Msg_Func_Item_Dash::Update(float dt)
 {
 	timer -= dt;
-
+	//
 	if(timer < 0)
 	{
 		physics.SpeedDown(m_target);

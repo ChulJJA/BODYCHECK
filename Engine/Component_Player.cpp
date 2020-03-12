@@ -155,7 +155,7 @@ void Player::Set_Locking_By(Object* obj)
 		locking_by = obj;
 		obj->Add_Pointed_By(&locking_by);
 	}
-
+	//
 }
 
 void Player::Set_Locking_Result(Object* obj)

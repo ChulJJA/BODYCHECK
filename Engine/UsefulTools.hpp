@@ -6,6 +6,6 @@ bool MouseCollision(vector2 object_pos_max, vector2 object_pos_min, vector2 mous
 void ObjectHover(Object* current_obj, Object* next_obj);
 std::wstring StringToWstring(std::string str);
 float RadianToDegree(float radian);
-float DegreeToRadian(float degree);
+float DegreeToRadian(float degree);//
 float VectorToScalar(vector2 vector);
 int RandomNumberGenerator(int min_value, int max_value);

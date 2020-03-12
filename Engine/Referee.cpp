@@ -256,7 +256,7 @@ void Referee::Respawn_Item(float dt)
 			item_num_time_pause--;
 		}
 		else if (item == Item::Item_Kind::Reverse_Moving)
-		{
+		{//
 			ObjectManager::GetObjectManager()->AddObject(item_reverse_moving[item_num_reverse_moving - 1]);
 			item_num_reverse_moving--;
 		}

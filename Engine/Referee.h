@@ -20,7 +20,7 @@ class PLAYER_UI;
 class Referee : public Object
 {
 public:
-    enum Refree_Statement
+    enum Refree_Statement//
     {
     };
     enum class Stage_Statement

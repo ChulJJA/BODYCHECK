@@ -61,7 +61,7 @@ void Physics::KnockBack(Object* object_1, Object* object_2)
 
 			object_1->GetComponentByTemplate<Player>()->SetPlayerVelocity(-direction_to_go * object_1_speed / 4);
 			object_1->GetTransform().AddTranslation(object_1->GetComponentByTemplate<Player>()->GetPlayerVelocity());
-		}
+		}//
 	}
 }
 

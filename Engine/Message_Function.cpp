@@ -16,6 +16,7 @@ std::mutex guard;
 
 Message_Func::Message_Func(Message* msg)
 {
+	//
 	msg_ = msg;
 	m_from = msg->Get_From();
 	m_target = msg->Get_Target();

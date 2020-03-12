@@ -53,7 +53,7 @@ public:
 	
     void Init(Object* obj);
     void Update(float dt) override;
-	
+	//
     void SetHPBar();
     int Get_Damage();
 	Item::Item_Kind Get_Item_State();
