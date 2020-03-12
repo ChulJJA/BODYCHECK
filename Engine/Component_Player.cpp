@@ -27,6 +27,7 @@
 #include "Component_Lock.h"
 #include "angles.hpp"
 #include "UsefulTools.hpp"
+#include "Engine.hpp"
 
 void Player::Init(Object* obj)
 {
@@ -84,7 +85,6 @@ void Player::Update(float dt)
 		m_owner->GetTransform().AddTranslation(velocity);
 		PlayerDirecting();
 	}
-
 }
 
 void Player::SetHPBar()
@@ -628,4 +628,43 @@ void Player::PlayerDirecting()
 vector2 Player::GetPlayerDirection()
 {
 	return direction;
+}
+
+void Player::UseItem()
+{
+	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Dash)
+	{
+		sound.Play(SOUND::Dash);
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "dash", 1.f));
+	}
+	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::HP)
+	{
+		sound.Play(SOUND::HP);
+		Object* hp_bar = m_owner->Get_Belong_Object_By_Tag("hp_bar");
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(hp_bar, m_owner, "recover", 1.f));
+	}
+
+	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Bulkup)
+	{
+		sound.Play(SOUND::BulkUp);
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "bulkup", 3.f));
+	}
+
+	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Throwing)
+	{
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "throwing", 0.f));
+	}
+	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Magnatic)
+	{
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "magnatic", 0.f));
+	}
+
+	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Time_Pause)
+	{
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "time_pause", 0.f));
+	}
+	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Reverse_Moving)
+	{
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "reverse_moving", 0.f));
+	}
 }

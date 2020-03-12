@@ -1,5 +1,6 @@
 #pragma once
 #include "Message_Function_Base.h"
+#include "Physics.h"
 class Message;
 
 class Msg_Func_Item_Dash : public Msg_Func_Base
@@ -22,6 +23,8 @@ public:
 	}
 
 private:
+	bool is_dashed = true;
 	float timer;
 	Message* msg;
+	Physics physics;
 };
