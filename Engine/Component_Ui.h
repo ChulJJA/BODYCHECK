@@ -40,7 +40,8 @@ public:
 		Item_Throwing,
 		Item_Magnatic,
 		Item_Time_Pause,
-		Item_Reverse_Moving
+		Item_Reverse_Moving,
+		Item_Missile
 	};
 
 	void Init(Object* obj) override;
