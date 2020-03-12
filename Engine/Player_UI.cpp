@@ -45,6 +45,7 @@ void PLAYER_UI::Initialize()
     info_item->Set_Tag("item_info");
     info_item->Set_Name(this->GetName() + "info_item");
     ObjectManager::GetObjectManager()->AddObject(info_item);
+	//asd
 
     num_life = new Object();
 	num_life->GetTransform().SetTranslation({ this_trans.x + 500, this_trans.y - 100 });
