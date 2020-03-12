@@ -257,7 +257,7 @@ void Sprite::Update(float dt)
 
 			if (m_owner->GetComponentByTemplate<Physics>() != nullptr)
 			{
-				if (m_owner->GetComponentByTemplate<Physics>()->Get_Ghost_Collision_Reference())
+				if (m_owner->GetComponentByTemplate<Physics>()->GetGhostReference())
 				{
 					material.color4fUniforms["color"] = { 0.5f,0.5f,0.5f,0.5f };
 				}
@@ -322,7 +322,7 @@ void Sprite::Update_Instancing(float dt)
 
 		if (m_owner->GetComponentByTemplate<Physics>() != nullptr)
 		{
-			if (m_owner->GetComponentByTemplate<Physics>()->Get_Ghost_Collision_Reference())
+			if (m_owner->GetComponentByTemplate<Physics>()->GetGhostReference())
 			{
 				material.color4fUniforms["color"] = { 0.5f,0.5f,0.5f,0.5f };
 			}

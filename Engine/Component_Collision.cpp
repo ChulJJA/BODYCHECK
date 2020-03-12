@@ -151,7 +151,7 @@ void Collision::SquareArenaCollision()
 		const double max_y = obj_i_trans.y + (30.0 * obj_i_scale.y);
 		const double min_y = obj_i_trans.y - (30.0 * obj_i_scale.y);
 
-		if (line_max_point - max_x < 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr)
+		if (line_max_point - max_x < 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr && obj_i->GetComponentByTemplate<Item>() == nullptr)
 		{
 			sound.Play(SOUND::Crack);
 
@@ -165,7 +165,7 @@ void Collision::SquareArenaCollision()
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, "wall_collision"));
 		}
-		else if (line_max_point - max_y < 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr)
+		else if (line_max_point - max_y < 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr && obj_i->GetComponentByTemplate<Item>() == nullptr)
 		{
 			sound.Play(SOUND::Crack);
 
@@ -179,7 +179,7 @@ void Collision::SquareArenaCollision()
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, "wall_collision"));
 		}
-		else if (line_min_point - min_x > 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr)
+		else if (line_min_point - min_x > 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr && obj_i->GetComponentByTemplate<Item>() == nullptr)
 		{
 			sound.Play(SOUND::Crack);
 
@@ -193,7 +193,7 @@ void Collision::SquareArenaCollision()
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, "wall_collision"));
 		}
-		else if (line_min_point - min_y > 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr)
+		else if (line_min_point - min_y > 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr && obj_i->GetComponentByTemplate<Item>() == nullptr)
 		{
 			sound.Play(SOUND::Crack);
 
@@ -310,7 +310,7 @@ bool Collision::Check_Need_To_Check_Collision(Object* obj_i, Object* obj_j)
 		return false;
 	}
 
-	if (physics_obj_i->Get_Ghost_Collision_Reference() || physics_obj_j->Get_Ghost_Collision_Reference())
+	if (physics_obj_i->GetGhostReference() || physics_obj_j->GetGhostReference())
 	{
 		return false;
 	}

@@ -18,12 +18,18 @@
 #include "Engine.hpp"
 #include "UsefulTools.hpp"
 
-Physics::Physics(bool ghost_collision_mode) : ghost_collision_mode(ghost_collision_mode) {}
+Physics::Physics(bool is_ghost) : is_ghost(is_ghost) {}
 
 void Physics::Init(Object* obj)
 {
 	m_owner = obj;
 	m_owner->Get_Component_Info_Reference().component_info_physics = true;
+}
+
+void Physics::Update(float dt)
+{
+	SetGhostReference(dt);
+	MoveObject();
 }
 
 void Physics::KnockBack(Object* object_1, Object* object_2)
@@ -77,20 +83,42 @@ void Physics::SpeedDown(Object* object)
 	}
 }
 
-void Physics::Update(float dt)
+bool& Physics::GetGhostReference()
 {
-	if (ghost_collision_mode)
-	{
-		ghost_collision_timer -= dt;
+	return is_ghost;
+}
 
-		if (ghost_collision_timer <= 0.0f)
+void Physics::SetGhostReference(float dt)
+{
+	if (is_ghost)
+	{
+		ghost_timer -= dt;
+
+		if (ghost_timer <= 0.0f)
 		{
-			ghost_collision_mode = false;
 			if (m_owner->GetComponentByTemplate<Sprite>() != nullptr)
 			{
 				m_owner->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1.0f,1.0f,1.0f,1.0f };
 			}
-			ghost_collision_timer = 1.0f;
+			
+			ghost_timer = 1.0f;
+			is_ghost = false;
 		}
 	}
+}
+
+vector2 Physics::GetVelocity()
+{
+	return velocity;
+}
+
+void Physics::SetVelocity(vector2 vel)
+{
+	velocity.x = vel.x;
+	velocity.y = vel.y;
+}
+
+void Physics::MoveObject()
+{
+	m_owner->GetTransform().AddTranslation(velocity);
 }

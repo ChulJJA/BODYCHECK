@@ -1,9 +1,8 @@
-#include "MainMenu.h"
-#include "Input.h"
 #include "Component_Text.h"
 #include "Object.h"
 #include "UsefulTools.hpp"
 #include "angles.hpp"
+#include "random"
 
 bool MouseCollision(vector2 object_pos_max, vector2 object_pos_min, vector2 mouse_pos)
 {
@@ -50,4 +49,11 @@ float VectorToScalar(vector2 vector)
     float result = sqrt((vector.x * vector.x) + (vector.y * vector.y));
 
     return result;
+}
+
+int RandomNumberGenerator(int min_value, int max_value)
+{
+	const int generated_number = rand() % (max_value - min_value + 1) + min_value;
+
+    return generated_number;
 }

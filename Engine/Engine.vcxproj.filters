@@ -375,9 +375,6 @@
     <ClInclude Include="Message_Manager.h">
       <Filter>Message_Function\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Component_Lock.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="Message_Function_Item_Magnatic.h">
       <Filter>Message_Function</Filter>
     </ClInclude>
@@ -388,6 +385,9 @@
       <Filter>Message_Function\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Physics.h">
+      <Filter>Components\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Component_Lock.h">
       <Filter>Components\Headers</Filter>
     </ClInclude>
   </ItemGroup>
