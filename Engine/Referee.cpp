@@ -221,7 +221,7 @@ void Referee::Respawn_Item(float dt)
 {
 	item_respawn_timer -= dt;
 	
-	Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 7));
+	Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 8));
 	
 	if (item_respawn_timer <= 0.0f && total_item_num > 0)
 	{
@@ -259,6 +259,11 @@ void Referee::Respawn_Item(float dt)
 		{
 			ObjectManager::GetObjectManager()->AddObject(item_reverse_moving[item_num_reverse_moving - 1]);
 			item_num_reverse_moving--;
+		}
+		else if (item == Item::Item_Kind::Missile)
+		{
+			ObjectManager::GetObjectManager()->AddObject(item_missile[item_num_missile - 1]);
+			item_num_missile--;
 		}
 		total_item_num--;
 		item_respawn_timer = 5.0f;
@@ -300,6 +305,7 @@ void Referee::SetItem()
 	item_magnetic = new Object * [item_num]();
 	item_time_pause = new Object * [item_num]();
 	item_reverse_moving = new Object * [item_num]();
+	item_missile = new Object * [item_num]();
 
 	for (int i = 0; i < item_num; i++)
 	{
@@ -328,6 +334,10 @@ void Referee::SetItem()
 	for (int i = 0; i < item_num; i++)
 	{
 		item_reverse_moving[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Reverse_Moving);
+	}
+	for (int i = 0; i < item_num; i++)
+	{
+		item_missile[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Missile);
 	}
 }
 

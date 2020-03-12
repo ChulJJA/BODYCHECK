@@ -128,6 +128,7 @@ private:
     Object** item_magnetic;
 	Object** item_time_pause;
 	Object** item_reverse_moving;
+	Object** item_missile;
 
 	Object** missile_saving;
 	
@@ -142,6 +143,7 @@ private:
     int item_num_magnetic = 10;
     int item_num_time_pause = 10;
     int item_num_reverse_moving = 10;
+	int item_num_missile = 10;
     int total_item_num = 30;
 	int missile_count = 0;
 
