@@ -56,6 +56,14 @@ void Ui::Change_Item_Ui()
 		{
 			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("magnatic"));
 		}
+		else if (status_info_obj == Ui_Status_Obj::Item_Time_Pause)
+		{
+			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("time_pause"));
+		}
+		else if (status_info_obj == Ui_Status_Obj::Item_Reverse_Moving)
+		{
+			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("reverse_moving"));
+		}
 		else
 		{
 			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("none"));

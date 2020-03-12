@@ -29,6 +29,8 @@ public:
 		Magnatic,
 		Lock_Ready,
 		Lock_Ing,
+		Time_Pause,
+		Reverse_Moving
 	};
 	enum class Char_State_Additional
 	{
@@ -57,17 +59,24 @@ public:
     void Set_This_UI_info(PLAYER_UI* ui);
     PLAYER_UI* Get_Ui();
 	float& Get_Regeneration_Timer();
+   
 	float& Get_Bulkup_Timer();
 	void Set_Bulkup_Timer(float timer_);
 	Char_State Get_Char_State();
 	void Set_Char_State(Char_State state);
+
 	void Set_Char_State_Additional(Char_State_Additional state);
 	Char_State_Additional Get_Char_State_Additional();
+	
 	Char_State_By_Other Get_Char_State_By_Other();
 	void Set_Char_State_By_Other(Char_State_By_Other state);
+
 	Object* Get_Locking();
 	void Set_Locking(Object* obj);
 	Object* Get_Hp_Bar();
+	float& Get_Stop_Timer();
+	void Set_Stop_Timer(float timer_);
+
 	void Set_Locking_By(Object* obj);
 	void Set_Locking_Result(Object* obj);
 	Object* Get_Locking_Result();
@@ -75,6 +84,8 @@ public:
 	void Func_Bulk_Throwing(float dt);
 	void Func_Lock_Ready(float dt);
 	void Func_Magnatic(float dt);
+	void Func_Time_Pause(float dt);
+	void Func_Reverse_Moving(float dt);
 
 
 	
@@ -83,6 +94,7 @@ public:
 	vector2 GetPlayerVelocity();
 	void PlayerDirecting();
 	vector2 GetPlayerDirection();
+	void UseItem();
 	
 private:
     Object* hp_bar = nullptr;
@@ -99,6 +111,7 @@ private:
 	float mag_angle;
 	Char_State_Additional curr_state_additional = Char_State_Additional::None;
 	Object* locking_result = nullptr;
+	float stop_timer = 0.0f;
 
 	
 	vector2 velocity{};

@@ -24,6 +24,8 @@
 #include "Component_Text.h"
 #include "Application.hpp"
 #include "State.h"
+#include "UsefulTools.hpp"
+
 
 Referee* Referee::referee = nullptr;
 StateManager* state_manager = nullptr;
@@ -43,50 +45,9 @@ void Referee::Init()
 {
 
 	stage_statements.clear();
-	player_first_temp = new Object * [player_first_life]();
-	player_sec_temp = new Object * [player_sec_life]();
-
-	player_third_temp = new Object * [player_third_life]();
-	player_fourth_temp = new Object * [player_fourth_life]();
-
-	item_save = new Object * [item_num]();
-	item_save_hp = new Object * [item_num]();
-	item_bulk_up = new Object * [item_num]();
-
-	for (int i = 0; i < player_first_life; i++)
-	{
-		player_first_temp[i] = Make_Player_Pool("pen_green", { 400,400 }, "first", "save", first_text);
-	}
-
-	for (int i = 0; i < player_sec_life; i++)
-	{
-		player_sec_temp[i] = Make_Player_Pool("pen_red", { 400,-400 }, "second", "save", second_text);
-	}
-	for (int i = 0; i < player_third_life; i++)
-	{
-		player_third_temp[i] = Make_Player_Pool("pen_purple", { -400,400 }, "third", "save", third_text);
-	}
-	for (int i = 0; i < player_fourth_life; i++)
-	{
-		player_fourth_temp[i] = Make_Player_Pool("pen_normal", { -400,-400 }, "forth", "save", fourth_text);
-	}
-
-
-	for (int i = 0; i < item_num; i++)
-	{
-		item_save[i] = Make_Item_Pool("../Sprite/item.png", { 0,0 }, "item", "item", Item::Item_Kind::Dash);
-	}
-
-	for (int i = 0; i < item_num; i++)
-	{
-
-		item_save_hp[i] = Make_Item_Pool("../Sprite/item.png", { -400,0 }, "item", "item", Item::Item_Kind::Dash);
-	}
-
-	for (int i = 0; i < item_num; i++)
-	{
-		item_bulk_up[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Dash);
-	}
+	
+	SetPlayerTemp();
+	SetItem();
 }
 
 void Referee::Update(float dt)
@@ -127,6 +88,9 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	sprite_path_thinking += sprite_path;
 	sprite_path_thinking += "_thinking.png";
 
+	std::string sprite_path_reverse_moving_pen = "../Sprite/reverse_moving_pen";
+	sprite_path_reverse_moving_pen += ".png";
+
 	
 	Object* player = new Object();
 	player->Set_Name(name);
@@ -136,6 +100,7 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	player->AddComponent(new Sprite(player, sprite_path_lock.c_str(), pos), "lock", false);
 	player->AddComponent(new Sprite(player, sprite_path_chase.c_str(), pos), "chase", false);
 	player->AddComponent(new Sprite(player, sprite_path_thinking.c_str(), pos), "thinking", false);
+	player->AddComponent(new Sprite(player, sprite_path_reverse_moving_pen.c_str(), pos), "reverse_moving_pen", false);
 	player->AddComponent(new Physics(true));
 	player->Set_Current_Sprite(player->Find_Sprite_By_Name("normal"));
 	player->SetScale({ 3.f,3.f });
@@ -244,26 +209,114 @@ void Referee::Respawn_Player(Stage_Statement state, float dt)
 void Referee::Respawn_Item(float dt)
 {
 	item_respawn_timer -= dt;
+	
+	Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 7));
+	
 	if (item_respawn_timer <= 0.0f && total_item_num > 0)
 	{
-		item_respawn_timer = 5.0f;
-
-		if (total_item_num % 3 == 2)
+		if (item == Item::Item_Kind::Dash)
 		{
-			ObjectManager::GetObjectManager()->AddObject(item_save[item_num_dash - 1]);
+			ObjectManager::GetObjectManager()->AddObject(item_dash[item_num_dash - 1]);
 			item_num_dash--;
 		}
-		else if (total_item_num % 3 == 1)
+		else if (item == Item::Item_Kind::HP)
 		{
-			ObjectManager::GetObjectManager()->AddObject(item_save_hp[item_num_hp - 1]);
-			item_num_hp--;
+			ObjectManager::GetObjectManager()->AddObject(item_heal[item_num_heal - 1]);
+			item_num_heal--;
 		}
-		else
+		else if(item == Item::Item_Kind::Bulkup)
 		{
 			ObjectManager::GetObjectManager()->AddObject(item_bulk_up[item_num_bulk_up - 1]);
 			item_num_bulk_up--;
 		}
+		else if(item == Item::Item_Kind::Throwing)
+		{
+			ObjectManager::GetObjectManager()->AddObject(item_throwing[item_num_throwing - 1]);
+			item_num_throwing--;
+		}
+		else if (item == Item::Item_Kind::Magnatic)
+		{
+			ObjectManager::GetObjectManager()->AddObject(item_magnetic[item_num_magnetic - 1]);
+			item_num_magnetic--;
+		}
+		else if (item == Item::Item_Kind::Time_Pause)
+		{
+			ObjectManager::GetObjectManager()->AddObject(item_time_pause[item_num_time_pause - 1]);
+			item_num_time_pause--;
+		}
+		else if (item == Item::Item_Kind::Reverse_Moving)
+		{
+			ObjectManager::GetObjectManager()->AddObject(item_reverse_moving[item_num_reverse_moving - 1]);
+			item_num_reverse_moving--;
+		}
 		total_item_num--;
+		item_respawn_timer = 5.0f;
+	}
+}
+
+void Referee::SetPlayerTemp()
+{
+	player_first_temp = new Object * [player_first_life]();
+	player_sec_temp = new Object * [player_sec_life]();
+	player_third_temp = new Object * [player_third_life]();
+	player_fourth_temp = new Object * [player_fourth_life]();
+
+
+	for (int i = 0; i < player_first_life; i++)
+	{
+		player_first_temp[i] = Make_Player_Pool("pen_green", { 400,400 }, "first", "save", first_text);
+	}
+	for (int i = 0; i < player_sec_life; i++)
+	{
+		player_sec_temp[i] = Make_Player_Pool("pen_red", { 400,-400 }, "second", "save", second_text);
+	}
+	for (int i = 0; i < player_third_life; i++)
+	{
+		player_third_temp[i] = Make_Player_Pool("pen_purple", { -400,400 }, "third", "save", third_text);
+	}
+	for (int i = 0; i < player_fourth_life; i++)
+	{
+		player_fourth_temp[i] = Make_Player_Pool("pen_normal", { -400,-400 }, "forth", "save", fourth_text);
+	}
+}
+
+void Referee::SetItem()
+{
+	item_dash = new Object * [item_num]();
+	item_heal = new Object * [item_num]();
+	item_bulk_up = new Object * [item_num]();
+	item_throwing = new Object * [item_num]();
+	item_magnetic = new Object * [item_num]();
+	item_time_pause = new Object * [item_num]();
+	item_reverse_moving = new Object * [item_num]();
+
+	for (int i = 0; i < item_num; i++)
+	{
+		item_dash[i] = Make_Item_Pool("../Sprite/item.png", { 0,0 }, "item", "item", Item::Item_Kind::Dash);
+	}
+	for (int i = 0; i < item_num; i++)
+	{
+		item_heal[i] = Make_Item_Pool("../Sprite/item.png", { -400,0 }, "item", "item", Item::Item_Kind::HP);
+	}
+	for (int i = 0; i < item_num; i++)
+	{
+		item_bulk_up[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Bulkup);
+	}
+	for (int i = 0; i < item_num; i++)
+	{
+		item_throwing[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Throwing);
+	}
+	for (int i = 0; i < item_num; i++)
+	{
+		item_magnetic[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Magnatic);
+	}
+	for (int i = 0; i < item_num; i++)
+	{
+		item_time_pause[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Time_Pause);
+	}
+	for (int i = 0; i < item_num; i++)
+	{
+		item_reverse_moving[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Reverse_Moving);
 	}
 }
 
