@@ -97,29 +97,37 @@ void Msg_Func_Collision::Update(float dt)
 		{
 			if (player_from_info->Get_Locking_Result() == m_target)
 			{
-				player_from_info->Set_Char_State(Player::Char_State::None);
-				player_from_info->Set_Char_State_Additional(Player::Char_State_Additional::None);
-				m_from->Change_Sprite(m_from->Find_Sprite_By_Name("normal"));
+				player_from_info->Change_To_Normal_State();
 			}
 		}
 		else if (player_target_info->Get_Char_State_Additional() == Player::Char_State_Additional::Chasing)
 		{
 			if (player_target_info->Get_Locking_Result() == m_from)
 			{
-				player_target_info->Set_Char_State(Player::Char_State::None);
-				player_target_info->Set_Char_State_Additional(Player::Char_State_Additional::None);
-				m_target->Change_Sprite(m_target->Find_Sprite_By_Name("normal"));
+				player_target_info->Change_To_Normal_State();
 			}
 		}
 
+		if(player_target_info->Get_Char_State() == Player::Char_State::Missile_Ready)
+		{
+			player_target_info->Change_To_Normal_State();
+		}
+		else if (player_from_info->Get_Char_State() == Player::Char_State::Missile_Ready)
+		{
+			player_from_info->Change_To_Normal_State();
+		}
+		
+
 		if (player_from_info->Get_Char_State() == Player::Char_State::Time_Pause)
 		{
-			player_from_info->Set_Char_State(Player::Char_State::None);
+			player_from_info->Change_To_Normal_State();
 		}
 		else if (player_target_info->Get_Char_State() == Player::Char_State::Time_Pause)
 		{
-			player_target_info->Set_Char_State(Player::Char_State::None);
+			player_target_info->Change_To_Normal_State();
 		}
+
+		
 	}
 
 	m_from->Set_Is_It_Collided(false);

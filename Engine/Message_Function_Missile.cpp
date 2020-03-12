@@ -16,6 +16,7 @@ void Msg_Func_Item_Missile::Init()
 		info_player->Set_Item_State(Item::Item_Kind::None);
 		info_player->Set_Char_State(Player::Char_State::Missile_Ready);
 		info_player->Set_Missile_Timer(5.f);
+		obj->Change_Sprite(obj->Find_Sprite_By_Name("thinking"));
 		info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Use, Ui::Ui_Status_Obj::Item_Missile);
 	}
 }

@@ -58,7 +58,6 @@ bool Collision::CircleToCircleCollision()
 {
 	const unsigned int object_position_size = static_cast<unsigned int>(ObjectManager::GetObjectManager()->GetObjectManagerContainer().size());
 	std::vector<std::shared_ptr<Object>> objects = ObjectManager::GetObjectManager()->GetObjectManagerContainer();
-
 	
 	for (unsigned int i = 0; i < object_position_size; ++i)
 	{
@@ -66,8 +65,9 @@ bool Collision::CircleToCircleCollision()
 
 		if (Filter_Object(obj_i))
 		{
-			const vector2 obj_i_trans = obj_i->GetTransform().GetTranslation();
-			const float obj_i_radius = obj_i->GetTransform().GetScale().x * 30.f;
+			Transform obj_i_transform = obj_i->GetTransform();
+			const vector2 obj_i_trans = obj_i_transform.GetTranslation();
+			const float obj_i_radius = obj_i_transform.GetScale().x * 30.f;
 
 			for (unsigned int j = 0; j < object_position_size; ++j)
 			{
@@ -77,8 +77,9 @@ bool Collision::CircleToCircleCollision()
 				{
 					if (Check_Need_To_Check_Collision(obj_i, obj_j))
 					{
-						const vector2 obj_j_trans = obj_j->GetTransform().GetTranslation();
-						const float obj_j_radius = obj_j->GetTransform().GetScale().x * 30.f;
+						Transform obj_j_transfrom = obj_j->GetTransform();
+						const vector2 obj_j_trans = obj_j_transfrom.GetTranslation();
+						const float obj_j_radius = obj_j_transfrom.GetScale().x * 30.f;
 
 						const float distance = sqrt((obj_i_trans.x - obj_j_trans.x) * (obj_i_trans.x - obj_j_trans.x) + (obj_i_trans.y - obj_j_trans.y) * (obj_i_trans.y - obj_j_trans.y));
 						if (distance < obj_i_radius + obj_j_radius)
@@ -124,19 +125,24 @@ bool Collision::CircleToCircleCollision()
 void Collision::CircleArenaCollision()
 {
 	const unsigned int object_position_size = static_cast<unsigned int>(ObjectManager::GetObjectManager()->GetObjectManagerContainer().size());
-
+	std::vector<std::shared_ptr<Object>> objects = ObjectManager::GetObjectManager()->GetObjectManagerContainer();
+	
 	for (unsigned int i = 0; i < object_position_size; ++i)
 	{
-		Object* obj_i = ObjectManager::GetObjectManager()->GetObjectManagerContainer()[i].get();
+		Object* obj_i = objects[i].get();
 		vector2 obj_i_trans = obj_i->GetTransform().GetTranslation();
 
 		const float distance = sqrt((obj_i_trans.x * obj_i_trans.x) + (obj_i_trans.y * obj_i_trans.y));
 
 		if (distance >= 10000)
 		{
+			Player* info_player = obj_i->GetComponentByTemplate<Player>();
 
-			const vector2 direction_to_go = obj_i->GetComponentByTemplate<Player>()->GetPlayerVelocity();
-			obj_i->GetComponentByTemplate<Player>()->SetPlayerVelocity(-direction_to_go);
+			if(info_player != nullptr)
+			{
+				const vector2 direction_to_go = info_player->GetPlayerVelocity();
+				info_player->SetPlayerVelocity(-direction_to_go);
+			}
 		}
 	}
 }

@@ -23,6 +23,7 @@
 #include "StateManager.h"
 #include "Component_Text.h"
 #include "Application.hpp"
+#include "Component_Missile.h"
 
 Referee* Referee::referee = nullptr;
 StateManager* state_manager = nullptr;
@@ -49,6 +50,7 @@ void Referee::Init()
 	item_save = new Object * [item_num]();
 	item_save_hp = new Object * [item_num]();
 	item_bulk_up = new Object * [item_num]();
+	missile_saving = new Object * [missile_num];
 
 	for (int i = 0; i < player_first_life; i++)
 	{
@@ -66,6 +68,18 @@ void Referee::Init()
 	for (int i = 0; i < player_fourth_life; i++)
 	{
 		player_fourth_temp[i] = Make_Player_Pool("pen_normal", { -400,-400 }, "forth", "save", fourth_text);
+	}
+	for(int i = 0 ; i < missile_num; i++)
+	{
+		missile_saving[i] = new Object();
+		missile_saving[i]->Set_Name("missile");
+		missile_saving[i]->Set_Tag("throwing");
+		missile_saving[i]->AddComponent(new Player);
+		missile_saving[i]->AddComponent(new Sprite(missile_saving[i], "../sprite/missiles.png", true, 3, 8, {0.f,0.f},
+			{ 100.f,100.f }, { 255,255,255,255 }));
+		missile_saving[i]->AddComponent(new Physics);
+		missile_saving[i]->AddComponent(new Missile);
+		missile_saving[i]->SetScale(2.f);
 	}
 
 
@@ -316,4 +330,19 @@ void Referee::Respawn(Stage_Statement statement)
 		fourth_ui->Reset();
 		break;
 	}
+}
+
+Object* Referee::Return_New_Missile()
+{
+	Object* missile = new Object();;
+	missile->Set_Name("missile");
+	missile->Set_Tag("throwing");
+	missile->AddComponent(new Player);
+	missile->AddComponent(new Sprite(missile, "../sprite/missiles.png", true, 3, 8, { 0.f,0.f },
+		{ 100.f,100.f }, { 255,255,255,255 }));
+	missile->AddComponent(new Physics);
+	missile->AddComponent(new Missile);
+	missile->SetScale(2.f);
+
+	return missile;
 }

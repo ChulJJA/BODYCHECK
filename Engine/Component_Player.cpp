@@ -22,37 +22,31 @@
 #include <GLFW/glfw3.h>
 #include "Component_Throwing.h"
 #include "Player_Ui.h"
-#include "Component_Ui.h"
 #include "Physics.h"
 #include "Component_Lock.h"
 #include "angles.hpp"
 #include "UsefulTools.hpp"
 #include "Component_Missile.h"
+#include "Referee.h"
 
 void Player::Init(Object* obj)
 {
 	m_owner = obj;
-
-	if(m_owner->Get_Tag() == "player")
-	{
-		m_owner->Get_Component_Info_Reference().component_info_player = true;
-		SetHPBar();
-	}
+	m_owner->Get_Component_Info_Reference().component_info_player = true;
+	SetHPBar();
 }
 
 void Player::Update(float dt)
 {
 	if (m_owner->Get_Tag() == "player")
 	{
-
-
 		if (curr_state == Char_State::Bulk_Up)
 		{
 			Func_Bulk_Up(dt);
 		}
 		else if (curr_state == Char_State::Throwing)
 		{
-			Func_Bulk_Throwing(dt);
+			Func_Throwing(dt);
 		}
 		else if (curr_state == Char_State::Lock_Ready)
 		{
@@ -81,33 +75,13 @@ void Player::Update(float dt)
 			}
 			else
 			{
+				Change_To_Normal_State();
 				curr_state = Char_State::Missile_Shoot;
 			}
 		}
 		else if (curr_state == Char_State::Missile_Shoot)
 		{
-			std::vector<Object*> another_players = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("player");
-			another_players.erase(std::find(another_players.begin(), another_players.end(), m_owner));
-			int player_count = another_players.size();
-
-
-
-			for (int i = 0; i < player_count; i++)
-			{
-				Object* missiles = new Object();
-				missiles->AddComponent(new Player);
-				missiles->Set_Name("missile");
-				missiles->Set_Tag("throwing");
-				missiles->AddComponent(new Sprite(missiles, "../sprite/throw.png", m_owner->GetTransform().GetTranslation()));
-				missiles->AddComponent(new Physics);
-				missiles->AddComponent(new Missile);
-				missiles->GetComponentByTemplate<Missile>()->Set_Target(another_players[i]);
-				missiles->GetComponentByTemplate<Missile>()->Set_From_Obj(m_owner);
-				missiles->SetScale(2.f);
-				ObjectManager::GetObjectManager()->AddObject(missiles);
-			}
-
-			curr_state = Char_State::None;
+			Func_Missile_Shoot(dt);
 		}
 		if (hp_bar != nullptr)
 		{
@@ -143,15 +117,13 @@ void Player::SetHPBar()
 	hp_bar->Set_Tag("hp_bar");
 	hp_bar->AddComponent(new Sprite(hp_bar, "../Sprite/HP.png", hp_bar_pos, false), "sprite_hp_bar", need_update_hp_bar);
 	hp_bar->AddComponent(new Hp_Bar());
-
 	hp_bar->Set_This_Obj_Owner(m_owner);
 	this->hp_bar = hp_bar;
 	m_owner->Get_Belongs_Objects().push_back(hp_bar);
 
-	if (m_owner->Get_Tag() != "save")
+	if (m_owner->Get_Tag() != "save" && m_owner->Get_Tag() != "throwing")
 	{
 		ObjectManager::GetObjectManager()->AddObject(hp_bar);
-		//ObjectManager::GetObjectManager()->Add_Object_Instancing(hp_bar);
 	}
 }
 
@@ -224,7 +196,7 @@ void Player::Func_Bulk_Up(float dt)
 	}
 }
 
-void Player::Func_Bulk_Throwing(float dt)
+void Player::Func_Throwing(float dt)
 {
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE))
 	{
@@ -368,6 +340,25 @@ void Player::Func_Reverse_Moving(float dt)
 			curr_state = Char_State::None;
 		}
 	}
+}
+
+void Player::Func_Missile_Shoot(float dt)
+{
+	std::vector<Object*> another_players = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("player");
+	another_players.erase(std::find(another_players.begin(), another_players.end(), m_owner));
+	int player_count = another_players.size();
+
+	for (int i = 0; i < player_count; i++)
+	{
+		int index = Referee::Get_Referee()->Get_Missile_Count();
+		Object* missiles = Referee::Get_Referee()->Get_Missile_From_Saving(index);
+		missiles->GetTransform().SetTranslation(m_owner->GetTransform().GetTranslation());
+		missiles->GetComponentByTemplate<Missile>()->Set_Target(another_players[i]);
+		missiles->GetComponentByTemplate<Missile>()->Set_From_Obj(m_owner);
+		ObjectManager::GetObjectManager()->AddObject(missiles);
+	}
+
+	curr_state = Char_State::None;
 }
 
 void Player::Set_This_UI_info(PLAYER_UI* ui)
@@ -678,4 +669,11 @@ void Player::PlayerDirecting()
 vector2 Player::GetPlayerDirection()
 {
 	return direction;
+}
+
+void Player::Change_To_Normal_State()
+{
+	curr_state = Char_State::None;
+	curr_state_additional = Char_State_Additional::None;
+	m_owner->Change_Sprite(m_owner->Find_Sprite_By_Name("normal"));
 }

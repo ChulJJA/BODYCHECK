@@ -84,12 +84,12 @@ public:
 	void Set_Locking_Result(Object* obj);
 	Object* Get_Locking_Result();
 	void Func_Bulk_Up(float dt);
-	void Func_Bulk_Throwing(float dt);
+	void Func_Throwing(float dt);
 	void Func_Lock_Ready(float dt);
 	void Func_Magnatic(float dt);
 	void Func_Time_Pause(float dt);
 	void Func_Reverse_Moving(float dt);
-
+	void Func_Missile_Shoot(float dt);
 
 	
 	void PlayerMovement(float max_velocity, float min_velocity);
@@ -97,6 +97,8 @@ public:
 	vector2 GetPlayerVelocity();
 	void PlayerDirecting();
 	vector2 GetPlayerDirection();
+
+	void Change_To_Normal_State();
 	
 private:
     Object* hp_bar = nullptr;
