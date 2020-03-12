@@ -1,13 +1,10 @@
 #include "Message.h"
-#include "vector2.hpp"
-#include "Physics.h"
 #include "Object.h"
 #include "Component_Item.h"
 #include "Component_Player.h"
 #include "Player_Ui.h"
 #include "Message_Function_Item_Reverse_Moving.h"
 #include "ObjectManager.h"
-#include "Component_Sprite.h"
 #include "time.h"
 
 
@@ -33,6 +30,10 @@ void Msg_Func_Item_Reverse_Moving::Init()
 
 			if (info_player->Get_Char_State() == Player::Char_State::None)
 			{
+				if(random_select_character > another_players.size())
+				{
+					random_select_character = 0;
+				}
 				Player* get_player = another_players[random_select_character]->GetComponentByTemplate<Player>();
 				get_player->Set_Char_State(Player::Char_State::Reverse_Moving);
 

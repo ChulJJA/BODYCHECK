@@ -181,6 +181,12 @@
     <ClCompile Include="Message_Function_Item_Reverse_Moving.cpp">
       <Filter>Message_Function</Filter>
     </ClCompile>
+    <ClCompile Include="Message_Function_Missile.cpp">
+      <Filter>Message_Function</Filter>
+    </ClCompile>
+    <ClCompile Include="Component_Missile.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="angles.hpp">
@@ -384,7 +390,14 @@
     <ClInclude Include="Message_Function_Item_Reverse_Moving.h">
       <Filter>Message_Function\Headers</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="Message_Function_Missile.h">
+      <Filter>Message_Function</Filter>
+    </ClInclude>
+    <ClInclude Include="Component_Missile.h">
+=======
     <ClInclude Include="Physics.h">
+>>>>>>> master
       <Filter>Components\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Component_Lock.h">
