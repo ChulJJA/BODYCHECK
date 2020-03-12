@@ -66,6 +66,7 @@ public:
 	void Set_Bulkup_Timer(float timer_);
 	Char_State Get_Char_State();
 	void Set_Char_State(Char_State state);
+	void Item_Using();
 
 	void Set_Char_State_Additional(Char_State_Additional state);
 	Char_State_Additional Get_Char_State_Additional();

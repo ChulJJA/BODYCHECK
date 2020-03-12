@@ -49,7 +49,7 @@ void Message_Func::Functioning(float dt)
 		}
 		else if(message_name == "dash")
 		{
-			function = new Msg_Func_Item_Dash(m_from, m_target, 1.f, msg_);
+			function = new Msg_Func_Item_Dash(m_from, m_target, 0.5f, msg_);
 		}
 		else if(message_name == "throwing")
 		{

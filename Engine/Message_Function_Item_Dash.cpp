@@ -24,5 +24,11 @@ void Msg_Func_Item_Dash::Init()
 
 void Msg_Func_Item_Dash::Update(float dt)
 {
-	msg->Set_Should_Delete(true);
+	timer -= dt;
+
+	if(timer < 0)
+	{
+		physics.SpeedDown(m_target);
+		msg->Set_Should_Delete(true);
+	}
 }

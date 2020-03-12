@@ -103,6 +103,11 @@ void Player::Update(float dt)
 			m_owner->GetTransform().AddTranslation(velocity);
 			PlayerDirecting();
 		}
+
+		if(input.Is_Key_Triggered(GLFW_KEY_SPACE))
+		{
+			Item_Using();
+		}
 	}
 }
 
@@ -340,6 +345,43 @@ void Player::Func_Reverse_Moving(float dt)
 			curr_state = Char_State::None;
 		}
 	}
+}
+
+void Player::Item_Using()
+{
+	if(belong_item == Item::Item_Kind::Dash)
+	{
+		//Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "dash", 1.f));
+	}
+	if (belong_item == Item::Item_Kind::HP)
+	{
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner->Get_Belong_Object_By_Tag("hp_bar"), nullptr, "recover", 1.f));
+	}
+	if (belong_item == Item::Item_Kind::Bulkup)
+	{
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "bulkup", 1.f));
+	}
+	if (belong_item == Item::Item_Kind::Magnatic)
+	{
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "magnatic", 1.f));
+	}
+	if (belong_item == Item::Item_Kind::Missile)
+	{
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "missile", 1.f));
+	}
+	if (belong_item == Item::Item_Kind::Reverse_Moving)
+	{
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "reverse_moving", 1.f));
+	}
+	if (belong_item == Item::Item_Kind::Throwing)
+	{
+		//Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "throwing", 1.f));
+	}
+	if (belong_item == Item::Item_Kind::Time_Pause)
+	{
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "time_pause", 1.f));
+	}
+	
 }
 
 void Player::Func_Missile_Shoot(float dt)

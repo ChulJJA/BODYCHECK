@@ -8,3 +8,4 @@ std::wstring StringToWstring(std::string str);
 float RadianToDegree(float radian);
 float DegreeToRadian(float degree);
 float VectorToScalar(vector2 vector);
+int RandomNumberGenerator(int min_value, int max_value);

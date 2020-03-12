@@ -267,9 +267,6 @@
     <ClInclude Include="ObjectManager.h">
       <Filter>Source\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Physics.h">
-      <Filter>Source\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Player_Ui.h">
       <Filter>Source\Headers</Filter>
     </ClInclude>
@@ -396,10 +393,14 @@
     <ClInclude Include="Message_Function_Item_Reverse_Moving.h">
       <Filter>Message_Function\Headers</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Message_Function_Missile.h">
       <Filter>Message_Function</Filter>
     </ClInclude>
     <ClInclude Include="Component_Missile.h">
+=======
+    <ClInclude Include="Physics.h">
+>>>>>>> master
       <Filter>Components\Headers</Filter>
     </ClInclude>
   </ItemGroup>
