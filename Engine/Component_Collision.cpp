@@ -67,9 +67,9 @@ bool Collision::CircleToCircleCollision()
 							obj_i->Set_Is_It_Collided(true);
 							obj_j->Set_Is_It_Collided(true);
 
-							if ((obj_i->Get_Tag() != "item" && obj_j->Get_Tag() != "item"))
+							if ((obj_i->Get_Tag() != "item" && obj_j->Get_Tag() != "item") || obj_i->Get_Tag() == "throwing")
 							{
-								if (obj_i->Get_Tag() == "lock" || obj_j->Get_Tag() == "lock")
+								if (obj_i->Get_Tag() == "lock" || obj_j->Get_Tag() == "lock" || obj_j->Get_Tag() == "throwing")
 								{
 									continue;
 								}
@@ -111,7 +111,7 @@ void Collision::SquareArenaCollision()
 		const double max_y = obj_i_trans.y + (30.0 * obj_i_scale.y);
 		const double min_y = obj_i_trans.y - (30.0 * obj_i_scale.y);
 
-		if (line_max_point - max_x < 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr && obj_i->GetComponentByTemplate<Item>() == nullptr)
+		if (line_max_point - max_x < 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr && obj_i->GetComponentByTemplate<Throwing>() == nullptr)
 		{
 			sound.Play(SOUND::Crack);
 
@@ -125,7 +125,7 @@ void Collision::SquareArenaCollision()
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, "wall_collision"));
 		}
-		else if (line_max_point - max_y < 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr && obj_i->GetComponentByTemplate<Item>() == nullptr)
+		else if (line_max_point - max_y < 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr && obj_i->GetComponentByTemplate<Throwing>() == nullptr)
 		{
 			sound.Play(SOUND::Crack);
 
@@ -139,7 +139,7 @@ void Collision::SquareArenaCollision()
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, "wall_collision"));
 		}
-		else if (line_min_point - min_x > 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr && obj_i->GetComponentByTemplate<Item>() == nullptr)
+		else if (line_min_point - min_x > 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr && obj_i->GetComponentByTemplate<Throwing>() == nullptr)
 		{
 			sound.Play(SOUND::Crack);
 
@@ -153,7 +153,7 @@ void Collision::SquareArenaCollision()
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, "wall_collision"));
 		}
-		else if (line_min_point - min_y > 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr && obj_i->GetComponentByTemplate<Item>() == nullptr)
+		else if (line_min_point - min_y > 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr && obj_i->GetComponentByTemplate<Throwing>() == nullptr)
 		{
 			sound.Play(SOUND::Crack);
 
@@ -319,6 +319,7 @@ bool Collision::ObjectFilter(Object* obj)
 	{
 		return true;
 	}
+	
 	return false;
 }
 
