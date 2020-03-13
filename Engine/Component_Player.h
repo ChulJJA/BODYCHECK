@@ -30,7 +30,9 @@ public:
 		Lock_Ready,
 		Lock_Ing,
 		Time_Pause,
-		Reverse_Moving
+		Reverse_Moving,
+		Missile_Ready,
+		Missile_Shoot
 	};
 	enum class Char_State_Additional
 	{
@@ -86,7 +88,7 @@ public:
 	void Func_Magnatic(float dt);
 	void Func_Time_Pause(float dt);
 	void Func_Reverse_Moving(float dt);
-
+	void Func_Missile_Shoot(float dt);
 
 	
 	void PlayerMovement(float max_velocity, float min_velocity);
@@ -95,6 +97,9 @@ public:
 	void PlayerDirecting();
 	vector2 GetPlayerDirection();
 	void UseItem();
+	void Set_Missile_Timer(float timer);
+	void Change_To_Normal_State();
+
 	
 private:
     Object* hp_bar = nullptr;
@@ -112,6 +117,7 @@ private:
 	Char_State_Additional curr_state_additional = Char_State_Additional::None;
 	Object* locking_result = nullptr;
 	float stop_timer = 0.0f;
+	float missile_timer = 0.f;
 
 	
 	vector2 velocity{};

@@ -22,6 +22,7 @@
 #include "Component_Lock.h"
 #include "Component_Player.h"
 #include "UsefulTools.hpp"
+#include "Component_Missile.h"
 
 void Collision::Init(Object* obj)
 {
@@ -209,17 +210,47 @@ bool Collision::Check_Need_To_Check_Collision(Object* obj_i, Object* obj_j)
 	 */
 	if (obj_i->Get_Tag() == "throwing")
 	{
-		if (obj_i->GetComponentByTemplate<Throwing>()->Get_Throwing_Obj() == obj_j)
+		if (obj_i->GetName() == "throwing")
+		{
+			if (obj_i->GetComponentByTemplate<Throwing>()->Get_Throwing_Obj() == obj_j)
+			{
+				return false;
+			}
+		}
+		else if (obj_i->GetName() == "missile")
+		{
+			if (obj_i->GetComponentByTemplate<Missile>()->Get_From_Obj() == obj_j)
+			{
+				return false;
+			}
+		}
+		else if (obj_j->Get_Tag() == "throwing")
 		{
 			return false;
 		}
+
 	}
 	else if (obj_j->Get_Tag() == "throwing")
 	{
-		if (obj_j->GetComponentByTemplate<Throwing>()->Get_Throwing_Obj() == obj_i)
+		if (obj_j->GetName() == "throwing")
+		{
+			if (obj_j->GetComponentByTemplate<Throwing>()->Get_Throwing_Obj() == obj_i)
+			{
+				return false;
+			}
+		}
+		else if (obj_j->GetName() == "missile")
+		{
+			if (obj_j->GetComponentByTemplate<Missile>()->Get_From_Obj() == obj_i)
+			{
+				return false;
+			}
+		}
+		else if (obj_i->Get_Tag() == "throwing")
 		{
 			return false;
 		}
+
 	}
 
 	/*

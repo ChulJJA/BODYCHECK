@@ -181,6 +181,12 @@
     <ClCompile Include="Physics.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="Component_Missile.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Message_Function_Item_Missile.cpp">
+      <Filter>Messages</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Message.h">
@@ -389,6 +395,12 @@
     </ClInclude>
     <ClInclude Include="Physics.h">
       <Filter>Components\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Component_Missile.h">
+      <Filter>Components\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Item_Missile.h">
+      <Filter>Messages\Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

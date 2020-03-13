@@ -43,6 +43,22 @@ public:
 	void Respawn_Item(float dt);
     void SetPlayerTemp();
     void SetItem();
+
+	int Get_Missile_Count()
+	{
+		return missile_count;
+	}
+	Object* Return_New_Missile();
+
+	Object* Get_Missile_From_Saving(int index)
+	{
+		if (missile_num > index)
+		{
+			missile_count++;
+			return missile_saving[index];
+		}
+		return Return_New_Missile();
+	}
 	
     std::vector<Stage_Statement>& Get_Stage_Statement()
     {
@@ -113,7 +129,9 @@ private:
     Object** item_magnetic;
 	Object** item_time_pause;
 	Object** item_reverse_moving;
-	
+	Object** item_missile;
+
+	Object** missile_saving;
     float item_respawn_timer = 0.0f;
 	
     int item_num = 10;
@@ -124,7 +142,11 @@ private:
     int item_num_magnetic = 10;
     int item_num_time_pause = 10;
     int item_num_reverse_moving = 10;
+	int item_num_missile = 10;
+	int missile_num = 50;
+
     int total_item_num = 30;
+	int missile_count = 0;
 
     PLAYER_UI* first_ui;
     PLAYER_UI* second_ui;
