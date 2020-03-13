@@ -56,7 +56,7 @@ bool Collision::BoxToBoxCollision(Mesh mesh) const
 bool Collision::CircleToCircleCollision()
 {
 	const unsigned int object_position_size = static_cast<unsigned int>(ObjectManager::GetObjectManager()->GetObjectManagerContainer().size());
-
+	
 	for (unsigned int i = 0; i < object_position_size; ++i)
 	{
 		Object* obj_i = ObjectManager::GetObjectManager()->GetObjectManagerContainer()[i].get();
