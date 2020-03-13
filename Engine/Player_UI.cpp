@@ -43,9 +43,9 @@ void PLAYER_UI::Initialize()
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/time_pause.png", { this_trans.x + 200, this_trans.y - 200 }), "time_pause", false);
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/reverse_moving.png", { this_trans.x + 200, this_trans.y - 200 }), "reverse_moving", false);
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item.png", { this_trans.x + 200, this_trans.y - 200 }), "missile", false);
-
     info_item->Set_Tag("item_info");
     info_item->Set_Name(this->GetName() + "info_item");
+	info_item->Set_Current_Sprite(info_item->Find_Sprite_By_Name("none"));
     ObjectManager::GetObjectManager()->AddObject(info_item);
 	//asd
 

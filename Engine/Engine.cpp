@@ -94,12 +94,9 @@ void Engine::Update()
     graphic->Update(m_dt);
 	state_manager->Update(m_dt);
 	msg_manager->Update(m_dt);
-    object_manager->Update(m_dt);
+	object_manager->Update(m_dt);
 
-	object_manager->Instancing_Update(m_dt);
-	graphic->Render();
-	graphic->Instance_Num_Reset();
-
+	
     if (input.Is_Key_Triggered(GLFW_KEY_1))
     {
         state_manager->is_pause = !state_manager->is_pause;

@@ -26,6 +26,8 @@
 #define GLFW_EXPOSE_NATIVE_WIN32 
 #include <GLFW/glfw3native.h>
 #include <mutex>
+#include "Editor.h"
+#include "Input.h"
 
 using namespace std;
 
@@ -34,6 +36,7 @@ namespace
     Referee* referee = nullptr;
 
     ObjectManager* object_manager = nullptr;
+	Editor* editor = nullptr;
 
 }
 
@@ -59,7 +62,7 @@ void Level1::Load()
 	{
 		current_state = GameState::Game;
 		referee = Referee::Get_Referee();
-
+		editor = Editor::Get_Editor();
 		object_manager = ObjectManager::GetObjectManager();
 		Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 
@@ -69,7 +72,8 @@ void Level1::Load()
 		arena = new Object();
 		arena->Set_Name("arena");
 		arena->Set_Tag("arena");
-		arena->AddComponent(new Sprite(arena, "../Sprite/IceGround.png", { 0,0 }, false));
+		arena->AddComponent(new Sprite(arena, "../Sprite/IceGround.png", { 0,0 }, false), "arena");
+		arena->Set_Current_Sprite(arena->Find_Sprite_By_Name("arena"));
 		arena->SetScale({ 20, 20 });
 		ObjectManager::GetObjectManager()->AddObject(arena);
 
@@ -106,6 +110,8 @@ void Level1::Load()
 
 		referee->AddComponent(new Collision());
 		referee->Init();
+		editor->Init();
+		
 		Graphic::GetGraphic()->get_need_update_sprite() = true;
 	}
 
@@ -118,6 +124,22 @@ void Level1::Load()
 
 void Level1::Update(float dt)
 {
-    referee->Update(dt);
+
+	if(input.Is_Key_Pressed(GLFW_KEY_V))
+	{
+		editor->Update(dt);
+		if(showing_editor == false)
+		{
+			editor->Set_Visible(true);
+		}
+		showing_editor = true;
+	}
+	else if(input.Is_Key_Released(GLFW_KEY_V))
+	{
+		showing_editor = false;
+		editor->Set_Visible(false);
+	}
 	
+	referee->Update(dt);
+
 }

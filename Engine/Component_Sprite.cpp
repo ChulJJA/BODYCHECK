@@ -100,6 +100,7 @@ void Sprite::Init(Object* obj)
 	m_owner = obj;
 	m_owner->Get_Component_Info_Reference().component_info_sprite = true;
 	m_owner->Add_Sprite_List(this);
+	
 	debug_material.shader = &(SHADER::solid_color());
 	m_owner->Set_Center({ m_owner->GetTransform().GetTranslation().x , m_owner->GetTransform().GetTranslation().y });
 }

@@ -187,6 +187,9 @@
     <ClCompile Include="Message_Function_Item_Missile.cpp">
       <Filter>Messages</Filter>
     </ClCompile>
+    <ClCompile Include="Editor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Message.h">
@@ -401,6 +404,9 @@
     </ClInclude>
     <ClInclude Include="Message_Function_Item_Missile.h">
       <Filter>Messages\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.h">
+      <Filter>Source Files\Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

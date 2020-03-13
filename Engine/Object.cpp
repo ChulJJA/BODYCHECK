@@ -15,7 +15,7 @@
 
 void Object::Change_Sprite(Component* sprite)
 {
-	if(sprite != nullptr)
+	if (sprite != nullptr)
 	{
 		current_showing_sprite->Set_Need_Update(false);
 		sprite->Set_Need_Update(true);
@@ -30,29 +30,41 @@ Component* Object::Get_Current_Sprite()
 
 void Object::Set_Current_Sprite(Component* sprite)
 {
-	current_showing_sprite = sprite;
+	if (sprite != nullptr)
+	{
+		for (auto i : comp_sprite)
+		{
+			if (i != sprite)
+			{
+				i->Set_Need_Update(false);
+			}
+		}
+		sprite->Set_Need_Update(true);
+		current_showing_sprite = sprite;
+	}
+
 }
 
 void Object::AddComponent(Component* comp, std::string name, bool toggle)
 {
-    comp->Init(this);
+	comp->Init(this);
 	comp->Set_Need_Update(toggle);
 	comp->SetComponentName(name);
-    components_.push_back(comp);
+	components_.push_back(comp);
 }
 
 void Object::DeleteComponent(Component* comp)
 {
-    Component* for_erase = comp;
-    components_.erase(std::find(components_.begin(), components_.end(), comp));
-    delete for_erase;
+	Component* for_erase = comp;
+	components_.erase(std::find(components_.begin(), components_.end(), comp));
+	delete for_erase;
 }
 
 Component* Object::Find_Sprite_By_Name(std::string name)
 {
-	for(auto component : comp_sprite)
+	for (auto component : comp_sprite)
 	{
-		if(component->GetComponentName() == name)
+		if (component->GetComponentName() == name)
 		{
 			return component;
 		}
@@ -62,75 +74,79 @@ Component* Object::Find_Sprite_By_Name(std::string name)
 
 void Object::SetTranslation(vector2 pos)
 {
-    m_transform.SetTranslation(pos);
+	m_transform.SetTranslation(pos);
 }
 
 void Object::SetRotation(float angle)
 {
-    m_transform.SetRotation(angle);
+	m_transform.SetRotation(angle);
 }
 
 void Object::SetScale(vector2 scale)
 {
-    m_transform.SetScale(scale);
+	m_transform.SetScale(scale);
 }
 
 void Object::SetScale(float scale)
 {
-    m_transform.SetScale(scale);
+	m_transform.SetScale(scale);
 }
 
 void Object::SetDepth(float depth)
 {
-    m_transform.SetDepth(depth);
+	m_transform.SetDepth(depth);
 }
 
 void Object::SetMesh(Mesh mesh)
 {
-    m_mesh = mesh;
+	m_mesh = mesh;
 }
 
 void Object::Set_Debug_Mesh(Mesh mesh)
 {
-    m_debug_mesh = mesh;
+	m_debug_mesh = mesh;
 }
 
 std::string Object::GetName()
 {
-    return m_name;
+	return m_name;
 }
 
 bool Object::Get_Need_To_Update()
 {
-    return need_to_update;
+	return need_to_update;
+}
+void Object::Set_Need_To_Update(bool toggle)
+{
+	need_to_update = toggle;
 }
 
 Object* Object::Get_Belong_Object_By_Name(std::string name)
 {
-    if (!belongs_object.empty())
-    {
-        for (Object* obj : belongs_object)
-        {
-            if (obj->GetName() == name)
-            {
-                return obj;
-            }
-        }
-    }
-    return nullptr;
+	if (!belongs_object.empty())
+	{
+		for (Object* obj : belongs_object)
+		{
+			if (obj->GetName() == name)
+			{
+				return obj;
+			}
+		}
+	}
+	return nullptr;
 }
 
 Object* Object::Get_Belong_Object_By_Tag(std::string tag)
 {
-    if (!belongs_object.empty())
-    {
-        for (Object* obj : belongs_object)
-        {
-            if (obj->Get_Tag() == tag)
-            {
-                return obj;
-            }
-        }
-    }
-    return nullptr;
+	if (!belongs_object.empty())
+	{
+		for (Object* obj : belongs_object)
+		{
+			if (obj->Get_Tag() == tag)
+			{
+				return obj;
+			}
+		}
+	}
+	return nullptr;
 }

@@ -52,10 +52,11 @@ void Referee::Init()
 		missile_saving[i]->Set_Tag("throwing");
 		missile_saving[i]->AddComponent(new Player);
 		missile_saving[i]->AddComponent(new Sprite(missile_saving[i], "../sprite/missiles.png", true, 3, 8, { 0.f,0.f },
-			{ 100.f,100.f }, { 255,255,255,255 }));
+			{ 100.f,100.f }, { 255,255,255,255 }), "missile");
 		missile_saving[i]->AddComponent(new Physics);
 		missile_saving[i]->AddComponent(new Missile);
 		missile_saving[i]->SetScale(2.f);
+		missile_saving[i]->Set_Current_Sprite(missile_saving[i]->Find_Sprite_By_Name("missile"));
 	}
 	
 	SetPlayerTemp();
@@ -125,13 +126,14 @@ Object* Referee::Make_Item_Pool(std::string sprite_path, vector2 pos, std::strin
 	Item::Item_Kind kind)
 {
 	Object* item = new Object();
-	item->AddComponent(new Sprite(item, sprite_path.c_str(), pos, false));
+	item->AddComponent(new Sprite(item, sprite_path.c_str(), pos, false), "item");
 	item->AddComponent(new Item());
 	item->AddComponent(new Physics());
 	item->Set_Name(name);
 	item->Set_Tag(tag);
 	item->SetTranslation(pos);
 	item->GetComponentByTemplate<Item>()->Set_Kind(kind);
+	item->Set_Current_Sprite(item->Find_Sprite_By_Name("item"));
 	total_item.push_back(item);
 
 	return item;
@@ -351,9 +353,10 @@ Object* Referee::Return_New_Missile()
 	missile->Set_Tag("throwing");
 	missile->AddComponent(new Player);
 	missile->AddComponent(new Sprite(missile, "../sprite/missiles.png", true, 3, 8, { 0.f,0.f },
-		{ 100.f,100.f }, { 255,255,255,255 }));
+		{ 100.f,100.f }, { 255,255,255,255 }), "missile");
 	missile->AddComponent(new Physics);
 	missile->AddComponent(new Missile);
+	missile->Set_Current_Sprite(missile->Find_Sprite_By_Name("missile"));
 	missile->SetScale(2.f);
 
 	return missile;
