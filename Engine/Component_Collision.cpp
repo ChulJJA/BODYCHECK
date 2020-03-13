@@ -22,67 +22,46 @@
 #include "Component_Lock.h"
 #include "Component_Player.h"
 #include "UsefulTools.hpp"
-#define  PI  3.14159265359
 
 void Collision::Init(Object* obj)
 {
 	m_owner = obj;
 }
 
-bool Collision::BoxToBoxCollision(Mesh mesh) const
+void Collision::Update(float dt)
 {
-	if (m_owner->GetMesh().GetPoint(0).x > mesh.GetPoint(2).x || m_owner->GetMesh().GetPoint(0).y > mesh.GetPoint(2).y)
-	{
-		return false;
-	}
-	else if (m_owner->GetMesh().GetPoint(1).x > mesh.GetPoint(3).x || m_owner->GetMesh().GetPoint(1).y < mesh.GetPoint(3).y)
-	{
-		return false;
-	}
-	else if (m_owner->GetMesh().GetPoint(2).x < mesh.GetPoint(0).x || m_owner->GetMesh().GetPoint(2).y < mesh.GetPoint(0).y)
-	{
-		return false;
-	}
-	else if (m_owner->GetMesh().GetPoint(3).x < mesh.GetPoint(1).x || m_owner->GetMesh().GetPoint(3).y > mesh.GetPoint(1).y)
-	{
-		return false;
-	}
-	else
-	{
-		return true;
-	}
+	sound_timer += dt;
+	CircleToCircleCollision();
+	SquareArenaCollision();
 }
 
 bool Collision::CircleToCircleCollision()
 {
-	const unsigned int object_position_size = static_cast<unsigned int>(ObjectManager::GetObjectManager()->GetObjectManagerContainer().size());
-
-	for (unsigned int i = 0; i < object_position_size; ++i)
+	const int object_size = ObjectManager::GetObjectManager()->GetObjectManagerContainer().size();
+	
+	for (int i = 0; i < object_size; ++i)
 	{
 		Object* obj_i = ObjectManager::GetObjectManager()->GetObjectManagerContainer()[i].get();
 
-		if (Filter_Object(obj_i))
+		if (ObjectFilter(obj_i))
 		{
 			const vector2 obj_i_trans = obj_i->GetTransform().GetTranslation();
 			const float obj_i_radius = obj_i->GetTransform().GetScale().x * 30.f;
 
-			for (unsigned int j = 0; j < object_position_size; ++j)
+			for (int j = 0; j < object_size; ++j)
 			{
 				Object* obj_j = ObjectManager::GetObjectManager()->GetObjectManagerContainer()[j].get();
 
-				if (Filter_Object(obj_j))
+				if (ObjectFilter(obj_j))
 				{
 					if (Check_Need_To_Check_Collision(obj_i, obj_j))
 					{
 						const vector2 obj_j_trans = obj_j->GetTransform().GetTranslation();
 						const float obj_j_radius = obj_j->GetTransform().GetScale().x * 30.f;
-
-						const float distance = sqrt((obj_i_trans.x - obj_j_trans.x) * (obj_i_trans.x - obj_j_trans.x) + (obj_i_trans.y - obj_j_trans.y) * (obj_i_trans.y - obj_j_trans.y));
+						const float distance = DistanceBetween(obj_i_trans, obj_j_trans);
+						
 						if (distance < obj_i_radius + obj_j_radius)
 						{
-							Physics* obj_i_physics = obj_i->GetComponentByTemplate<Physics>();
-							Physics* obj_j_physics = obj_j->GetComponentByTemplate<Physics>();
-
 							Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_j, obj_i, "collision"));
 							obj_i->Set_Is_It_Collided(true);
 							obj_j->Set_Is_It_Collided(true);
@@ -111,26 +90,6 @@ bool Collision::CircleToCircleCollision()
 		}
 	}
 	return false;
-}
-
-void Collision::CircleArenaCollision()
-{
-	const unsigned int object_position_size = static_cast<unsigned int>(ObjectManager::GetObjectManager()->GetObjectManagerContainer().size());
-
-	for (unsigned int i = 0; i < object_position_size; ++i)
-	{
-		Object* obj_i = ObjectManager::GetObjectManager()->GetObjectManagerContainer()[i].get();
-		vector2 obj_i_trans = obj_i->GetTransform().GetTranslation();
-
-		const float distance = sqrt((obj_i_trans.x * obj_i_trans.x) + (obj_i_trans.y * obj_i_trans.y));
-
-		if (distance >= 10000)
-		{
-
-			const vector2 direction_to_go = obj_i->GetComponentByTemplate<Player>()->GetPlayerVelocity();
-			obj_i->GetComponentByTemplate<Player>()->SetPlayerVelocity(-direction_to_go);
-		}
-	}
 }
 
 void Collision::SquareArenaCollision()
@@ -322,7 +281,7 @@ bool Collision::Check_Need_To_Check_Collision(Object* obj_i, Object* obj_j)
 	return true;
 }
 
-bool Collision::Filter_Object(Object* obj)
+bool Collision::ObjectFilter(Object* obj)
 {
 	if (obj->Get_Tag() == "player" || obj->Get_Tag() == "item" || obj->Get_Tag() == "throwing" ||
 		obj->Get_Tag() == "lock")
@@ -345,11 +304,4 @@ void Collision::Collision_Off_Lock_And_Player(Object* player, Object* lock)
 		info_lock->Set_Locking_Target(nullptr);
 	}
 	
-}
-
-void Collision::Update(float dt)
-{
-	sound_timer += dt;
-	CircleToCircleCollision();
-	SquareArenaCollision();
 }
