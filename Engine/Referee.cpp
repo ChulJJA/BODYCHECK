@@ -222,8 +222,8 @@ void Referee::Respawn_Item(float dt)
 {
 	item_respawn_timer -= dt;
 	
-	Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 8));
-	
+	//Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 8));
+	Item::Item_Kind item = Item::Item_Kind::Missile;
 	if (item_respawn_timer <= 0.0f && total_item_num > 0)
 	{
 		if (item == Item::Item_Kind::Dash)

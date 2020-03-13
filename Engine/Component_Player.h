@@ -118,7 +118,7 @@ private:
 	Object* locking_result = nullptr;
 	float stop_timer = 0.0f;
 	float missile_timer = 0.f;
-
+	const float* axes;
 	
 	vector2 velocity{};
 	vector2 direction = {0, 1};
