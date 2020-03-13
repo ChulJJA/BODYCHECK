@@ -58,13 +58,10 @@ bool Collision::CircleToCircleCollision()
 					{
 						const vector2 obj_j_trans = obj_j->GetTransform().GetTranslation();
 						const float obj_j_radius = obj_j->GetTransform().GetScale().x * 30.f;
-
-						const float distance = sqrt((obj_i_trans.x - obj_j_trans.x) * (obj_i_trans.x - obj_j_trans.x) + (obj_i_trans.y - obj_j_trans.y) * (obj_i_trans.y - obj_j_trans.y));
+						const float distance = DistanceBetween(obj_i_trans, obj_j_trans);
+						
 						if (distance < obj_i_radius + obj_j_radius)
 						{
-							Physics* obj_i_physics = obj_i->GetComponentByTemplate<Physics>();
-							Physics* obj_j_physics = obj_j->GetComponentByTemplate<Physics>();
-
 							Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_j, obj_i, "collision"));
 							obj_i->Set_Is_It_Collided(true);
 							obj_j->Set_Is_It_Collided(true);

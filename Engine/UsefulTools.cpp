@@ -57,3 +57,10 @@ int RandomNumberGenerator(int min_value, int max_value)
 
     return generated_number;
 }
+
+float DistanceBetween(vector2 position_a, vector2 position_b)
+{
+    float distance = sqrt((position_a.x - position_b.x) * (position_a.x - position_b.x) + (position_a.y - position_b.y) * (position_a.y - position_b.y));
+
+    return distance;
+}

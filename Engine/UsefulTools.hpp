@@ -10,3 +10,4 @@ float RadianToDegree(float radian);
 float DegreeToRadian(float degree);
 float VectorToScalar(vector2 vector);
 int RandomNumberGenerator(int min_value, int max_value);
+float DistanceBetween(vector2 position_a, vector2 position_b);
