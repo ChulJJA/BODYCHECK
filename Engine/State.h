@@ -20,7 +20,7 @@ class Object;
 
 enum class GameState
 {
-    Logo, Menu, Game, Credit, Sound, None, TestLevel
+    Logo, Menu, Game, Tutorial, Credit, Sound, None, TestLevel
 };
 
 class State

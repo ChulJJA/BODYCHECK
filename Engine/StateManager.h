@@ -28,6 +28,11 @@ public:
         return states;
     }
 
+    State* GetCurrentState()
+    {
+        return current_state;
+    }
+
     bool is_pause = true;
 private:
     static StateManager* state_manager;

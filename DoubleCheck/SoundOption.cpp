@@ -195,7 +195,8 @@ void SoundOption::MusicVolume()
 		sound.Play(SOUND::Click);
 		is_next = true;
 		next_level = "Menu";
-		Clear();
+		
+		Clear(); 
 	}
 
 }
