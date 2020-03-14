@@ -52,7 +52,7 @@ public:
 
 	Object* Get_Missile_From_Saving(int index)
 	{
-		if (missile_num > index)
+		if (missile_count > index)
 		{
 			missile_count++;
 			return missile_saving[index];

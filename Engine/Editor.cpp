@@ -12,7 +12,7 @@ Editor* Editor::editor = nullptr;
 
 void Editor::Init()
 {
-	int item_num = 30;
+	int item_num = 100;
 	items = new Object * [item_num];
 
 	for (int i = 0; i < item_num; i++)
@@ -161,7 +161,7 @@ Object* Editor::Make_Display(std::string path, vector2 trans)
 	Object* display_obj = new Object();
 	display_obj->Set_Tag("display");
 	display_obj->Set_Name("display");
-	display_obj->SetScale({ 1.f,1.f, });
+	display_obj->SetScale({ 2.f,2.f, });
 	display_obj->SetTranslation(trans);
 	display_obj->AddComponent(new Sprite(display_obj, path.c_str(), trans), "display", false);
 	display_obj->Set_Current_Sprite(display_obj->Find_Sprite_By_Name("display"));
