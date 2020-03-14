@@ -92,9 +92,10 @@ void Engine::Update()
 
     app_->Update(m_dt);
     graphic->Update(m_dt);
-	state_manager->Update(m_dt);
-	msg_manager->Update(m_dt);
     object_manager->Update(m_dt);
+	msg_manager->Update(m_dt);
+	state_manager->Update(m_dt);
+
 
 	object_manager->Instancing_Update(m_dt);
 	graphic->Render();
