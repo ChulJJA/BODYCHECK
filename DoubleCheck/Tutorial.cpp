@@ -80,7 +80,7 @@ void Tutorial::Load()
 
 
 		referee->AddComponent(new Collision());
-		referee->SetTutorialLife();
+		//referee->SetTutorialLife();
 		referee->Init();
 		Graphic::GetGraphic()->get_need_update_sprite() = true;
 	}
