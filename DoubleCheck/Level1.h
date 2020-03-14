@@ -53,5 +53,5 @@ private:
     PLAYER_UI* player_third_ui;
     PLAYER_UI* player_fourth_ui;
 
-	bool showing_editor = false;
+//	bool showing_editor = false;
 };

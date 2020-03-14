@@ -32,4 +32,6 @@ private:
     bool is_done = false;
     float m_dt;
     Timer game_timer;
+	bool showing_editor = false;
+
 };
