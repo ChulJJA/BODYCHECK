@@ -27,6 +27,7 @@
 #include "SoundOption.h"
 #include "Loading_Scene.h"
 #include "Testing_Level.h"
+#include "Editor.h"
 
 Sound sound;
 
@@ -37,6 +38,7 @@ namespace
     StateManager* state_manager = nullptr;
     Graphic* graphic = nullptr;
     Message_Manager* msg_manager = nullptr;
+	Editor* editor = nullptr;
 }
 
 void Update_App(float dt)
@@ -67,13 +69,14 @@ void Engine::Init()
     object_manager = ObjectManager::GetObjectManager();
     state_manager = StateManager::GetStateManager();
     graphic = Graphic::GetGraphic();
+	editor = Editor::Get_Editor();
     
     app_->Init();
     object_manager->Init();
     state_manager->Init();
     graphic->Init();
     msg_manager->Init();
-
+	editor->Init();
 
     state_manager->AddState("Logo", new Logo);
     state_manager->AddState("Menu", new MainMenu);
@@ -90,17 +93,28 @@ void Engine::Update()
     m_dt = game_timer.GetElapsedSeconds();
     game_timer.Reset();
 
+	if (input.Is_Key_Pressed(GLFW_KEY_V))
+	{
+		editor->Update(m_dt);
+		if (showing_editor == false)
+		{
+			editor->Set_Visible(true);
+		}
+		showing_editor = true;
+	}
+	else if (input.Is_Key_Released(GLFW_KEY_V))
+	{
+		showing_editor = false;
+		editor->Set_Visible(false);
+	}
+	
     app_->Update(m_dt);
     graphic->Update(m_dt);
-    object_manager->Update(m_dt);
-	msg_manager->Update(m_dt);
 	state_manager->Update(m_dt);
+	msg_manager->Update(m_dt);
+	object_manager->Update(m_dt);
 
-
-	object_manager->Instancing_Update(m_dt);
-	graphic->Render();
-	graphic->Instance_Num_Reset();
-
+	
     if (input.Is_Key_Triggered(GLFW_KEY_1))
     {
         state_manager->is_pause = !state_manager->is_pause;
@@ -110,6 +124,8 @@ void Engine::Update()
         Clear();
         StateManager::GetStateManager()->Get_States().at("Level1").get()->Load();
     }
+
+
 }
 
 void Engine::Delete()
