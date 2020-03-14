@@ -21,6 +21,7 @@
 #include "ObjectManager.h"
 #include "Component_Player.h"
 #include "Player_Ui.h"
+#include "Message_Kind.h"
 
 void Hp_Bar::Init(Object* obj)
 {
@@ -92,7 +93,7 @@ void Hp_Bar::Decrease(float dmg)
             }
             m_owner->SetDeadCondition(true);
             Hp_Owner_Obj->SetDeadCondition(true);
-            Message_Manager::Get_Message_Manager()->Save_Message(new Message(Referee::Get_Referee(), Hp_Owner_Obj, "respawn"));
+            Message_Manager::Get_Message_Manager()->Save_Message(new Message(Referee::Get_Referee(), Hp_Owner_Obj, Message_Kind::Respawn));
         }
     }
 }

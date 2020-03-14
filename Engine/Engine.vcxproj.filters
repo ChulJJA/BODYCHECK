@@ -140,6 +140,9 @@
     <ClInclude Include="Gamepad.hpp">
       <Filter>Source Files\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Message_Kind.h">
+      <Filter>Messages\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="StockShaders.inl" />

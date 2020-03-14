@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-
+#include "Message_Kind.h"
 
 class Message;
 class Object;
@@ -17,4 +17,5 @@ private:
 	Object* m_target;
 	std::string message_name;
 	Msg_Func_Base* function;
+	Message_Kind kind;
 };

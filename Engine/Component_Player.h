@@ -33,7 +33,9 @@ public:
 		Reverse_Moving,
 		Missile_Ready,
 		Missile_Shoot,
-		Prepare
+		Prepare,
+		Prepared,
+		Disturbed,
 	};
 	enum class Char_State_Additional
 	{

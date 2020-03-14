@@ -63,7 +63,7 @@ bool Collision::CircleToCircleCollision()
 						
 						if (distance < obj_i_radius + obj_j_radius)
 						{
-							Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_j, obj_i, "collision"));
+							Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_j, obj_i, Message_Kind::Collision));
 							obj_i->Set_Is_It_Collided(true);
 							obj_j->Set_Is_It_Collided(true);
 
@@ -123,7 +123,7 @@ void Collision::SquareArenaCollision()
 			direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
 			obj_i->GetComponentByTemplate<Player>()->SetPlayerVelocity(direction_to_go);
 
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, "wall_collision"));
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, Message_Kind::Collision_Wall));
 		}
 		else if (line_max_point - max_y < 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr && obj_i->GetComponentByTemplate<Throwing>() == nullptr)
 		{
@@ -137,7 +137,7 @@ void Collision::SquareArenaCollision()
 			direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
 			obj_i->GetComponentByTemplate<Player>()->SetPlayerVelocity(direction_to_go);
 
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, "wall_collision"));
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, Message_Kind::Collision_Wall));
 		}
 		else if (line_min_point - min_x > 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr && obj_i->GetComponentByTemplate<Throwing>() == nullptr)
 		{
@@ -151,7 +151,7 @@ void Collision::SquareArenaCollision()
 			direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
 			obj_i->GetComponentByTemplate<Player>()->SetPlayerVelocity(direction_to_go);
 
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, "wall_collision"));
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, Message_Kind::Collision_Wall));
 		}
 		else if (line_min_point - min_y > 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr && obj_i->GetComponentByTemplate<Throwing>() == nullptr)
 		{
@@ -165,7 +165,7 @@ void Collision::SquareArenaCollision()
 			direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
 			obj_i->GetComponentByTemplate<Player>()->SetPlayerVelocity(direction_to_go);
 			
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, "wall_collision"));
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, Message_Kind::Collision_Wall));
 		}
 	}
 }

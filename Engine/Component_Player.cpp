@@ -29,6 +29,8 @@
 #include "Engine.hpp"
 #include "Referee.h"
 #include "Component_Missile.h"
+#include "Message_Kind.h"
+
 void Player::Init(Object* obj)
 {
 	m_owner = obj;
@@ -51,20 +53,16 @@ void Player::Update(float dt)
 				else
 				{
 					m_owner->Change_Sprite(change_to_sprite);
-					curr_state = change_to_state;
+					curr_state = Char_State::Prepared;
 				}
 			}
 		}
 
-		else if (curr_state == Char_State::Bulk_Up)
-		{
-			Func_Bulk_Up(dt);
-		}
-		else if (curr_state == Char_State::Throwing)
+		/*else if (curr_state == Char_State::Throwing)
 		{
 			Func_Bulk_Throwing(dt);
-		}
-		else if (curr_state == Char_State::Lock_Ready)
+		}*/
+		/*else if (curr_state == Char_State::Lock_Ready)
 		{
 			Func_Lock_Ready(dt);
 		}
@@ -74,7 +72,7 @@ void Player::Update(float dt)
 		else if (curr_state == Char_State::Magnatic)
 		{
 			Func_Magnatic(dt);
-		}
+		}*/
 		else if (curr_state == Char_State::Time_Pause)
 		{
 			Func_Time_Pause(dt);
@@ -83,10 +81,10 @@ void Player::Update(float dt)
 		{
 			Func_Reverse_Moving(dt);
 		}
-		else if (curr_state == Char_State::Missile_Shoot)
+		/*else if (curr_state == Char_State::Missile_Shoot)
 		{
 			Func_Missile_Shoot(dt);
-		}
+		}*/
 		if (hp_bar != nullptr)
 		{
 			hp_bar->GetTransform().GetTranslation_Reference().x = m_owner->GetTransform().GetTranslation().x;
@@ -685,19 +683,19 @@ void Player::UseItem()
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Dash)
 	{
 		sound.Play(SOUND::Dash);
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "dash", 1.f));
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Dash));
 	}
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::HP)
 	{
 		sound.Play(SOUND::HP);
 		Object* hp_bar = m_owner->Get_Belong_Object_By_Tag("hp_bar");
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(hp_bar, m_owner, "recover", 1.f));
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(hp_bar, m_owner, Message_Kind::Item_Recover));
 	}
 
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Bulkup)
 	{
 		sound.Play(SOUND::BulkUp);
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "bulkup", 3.f));
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 5.f));
 	}
 
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Throwing)
@@ -706,20 +704,20 @@ void Player::UseItem()
 	}
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Magnatic)
 	{
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "magnatic", 0.f));
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Magnetic));
 	}
 
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Time_Pause)
 	{
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "time_pause", 0.f));
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Timepause));
 	}
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Reverse_Moving)
 	{
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "reverse_moving", 0.f));
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Reverse));
 	}
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Missile)
 	{
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "missile", 0.f));
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Missile));
 	}
 }
 

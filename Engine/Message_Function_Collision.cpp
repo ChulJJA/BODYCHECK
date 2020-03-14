@@ -64,14 +64,13 @@ void Msg_Func_Collision::Update(float dt)
 			if (pointer != nullptr)
 			{
 				pointer->SetDeadCondition(true);
-				m_from->Change_Sprite(m_from->Find_Sprite_By_Name("normal"));
-				player_from_info->Set_Char_State(Player::Char_State::None);
-
 				Object* pointer_target = pointer->GetComponentByTemplate<Lock>()->Get_Locking_Target();
 				if (pointer_target != nullptr)
 				{
 					pointer_target->Change_Sprite(pointer_target->Find_Sprite_By_Name("normal"));
 				}
+
+				player_from_info->Change_To_Normal_State();
 			}
 		}
 		else if (player_target_info->Get_Char_State() == Player::Char_State::Lock_Ing)
@@ -80,14 +79,13 @@ void Msg_Func_Collision::Update(float dt)
 			if (pointer != nullptr)
 			{
 				pointer->SetDeadCondition(true);
-				m_target->Change_Sprite(m_target->Find_Sprite_By_Name("normal"));
-				player_target_info->Set_Char_State(Player::Char_State::None);
-
 				Object* pointer_target = pointer->GetComponentByTemplate<Lock>()->Get_Locking_Target();
 				if (pointer_target != nullptr)
 				{
 					pointer_target->Change_Sprite(pointer_target->Find_Sprite_By_Name("normal"));
 				}
+
+				player_target_info->Change_To_Normal_State();
 			}
 		}
 
@@ -129,7 +127,6 @@ void Msg_Func_Collision::Update(float dt)
 
 	m_from->Set_Is_It_Collided(false);
 	m_target->Set_Is_It_Collided(false);
-	
 	msg->Set_Should_Delete(true);
 }
 
