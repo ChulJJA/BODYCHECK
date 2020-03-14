@@ -26,6 +26,7 @@
 #include "State.h"
 #include "Component_Missile.h"
 #include "UsefulTools.hpp"
+#include "Component_Missile.h"
 
 
 Referee* Referee::referee = nullptr;
@@ -47,6 +48,7 @@ void Referee::Init()
 
 	stage_statements.clear();
 	missile_saving = new Object *[missile_num];
+	missile_saving = new Object * [missile_num];
 
 	for (int i = 0; i < missile_num; i++)
 	{
@@ -60,7 +62,7 @@ void Referee::Init()
 		missile_saving[i]->AddComponent(new Missile);
 		missile_saving[i]->SetScale(2.f);
 	}
-
+	
 	SetPlayerTemp();
 	SetItem();
 }
@@ -260,7 +262,7 @@ void Referee::Respawn_Item(float dt)
 			item_num_time_pause--;
 		}
 		else if (item == Item::Item_Kind::Reverse_Moving)
-		{
+		{//
 			ObjectManager::GetObjectManager()->AddObject(item_reverse_moving[item_num_reverse_moving - 1]);
 			item_num_reverse_moving--;
 		}
@@ -311,6 +313,7 @@ void Referee::SetItem()
 	item_reverse_moving = new Object *[item_num]();
 	item_missile = new Object *[item_num]();
 
+
 	for (int i = 0; i < item_num; i++)
 	{
 		item_dash[i] = Make_Item_Pool("../Sprite/item.png", { 0,0 }, "item", "item", Item::Item_Kind::Dash);
@@ -343,6 +346,22 @@ void Referee::SetItem()
 	{
 		item_missile[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Missile);
 	}
+}
+
+
+Object* Referee::Return_New_Missile()
+{
+	Object* missile = new Object();;
+	missile->Set_Name("missile");
+	missile->Set_Tag("throwing");
+	missile->AddComponent(new Player);
+	missile->AddComponent(new Sprite(missile, "../sprite/missiles.png", true, 3, 8, { 0.f,0.f },
+		{ 100.f,100.f }, { 255,255,255,255 }));
+	missile->AddComponent(new Physics);
+	missile->AddComponent(new Missile);
+	missile->SetScale(2.f);
+
+	return missile;
 }
 
 void Referee::Respawn(Stage_Statement statement)
@@ -390,7 +409,6 @@ void Referee::Respawn(Stage_Statement statement)
 		break;
 	}
 }
-
 
 void Referee::SetTutorialLife()
 {

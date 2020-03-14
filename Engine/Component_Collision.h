@@ -13,21 +13,18 @@
 #pragma once
 
 #include "Component.hpp"
-#include "Mesh.hpp"
 #include "Physics.h"
 
 class Collision : public Component
 {
 public:
     void Init(Object *obj) override;
-    bool BoxToBoxCollision(Mesh mesh) const;
-    bool CircleToCircleCollision();
     void Update(float dt) override;
-    void CircleArenaCollision();
+    bool CircleToCircleCollision();
     void SquareArenaCollision();
 
 	bool Check_Need_To_Check_Collision(Object* obj_i, Object* obj_j);
-	bool Filter_Object(Object* obj);
+	bool ObjectFilter(Object* obj);
 	void Collision_Off_Lock_And_Player(Object* obj_i, Object* obj_j);
 private:
     Physics physics;

@@ -218,11 +218,11 @@
     <ClInclude Include="Message_Function_Item_Dash.h" />
     <ClInclude Include="Message_Function_Item_Bulkup.h" />
     <ClInclude Include="Message_Function_Item_Magnatic.h" />
+    <ClInclude Include="Message_Function_Item_Missile.h" />
     <ClInclude Include="Message_Function_Item_Recover.h" />
     <ClInclude Include="Message_Function_Item_Reverse_Moving.h" />
     <ClInclude Include="Message_Function_Item_Throwing.h" />
     <ClInclude Include="Message_Function_Item_Time_Pause.h" />
-    <ClInclude Include="Message_Function_Missile.h" />
     <ClInclude Include="Message_Function_Respawn.h" />
     <ClInclude Include="Message_Function_Wall_Collision.h" />
     <ClInclude Include="Message_Manager.h" />
@@ -291,6 +291,7 @@
     <ClCompile Include="Message_Function_Item_Dash.cpp" />
     <ClCompile Include="Message_Function_Item_Bulkup.cpp" />
     <ClCompile Include="Message_Function_Item_Magnatic.cpp" />
+    <ClCompile Include="Message_Function_Item_Missile.cpp" />
     <ClCompile Include="Message_Function_Item_Recover.cpp" />
     <ClCompile Include="Message_Function_Item_Reverse_Moving.cpp" />
     <ClCompile Include="Message_Function_Item_Throwing.cpp" />
@@ -298,7 +299,6 @@
     <ClCompile Include="Message_Function_Respawn.cpp" />
     <ClCompile Include="Message_Function_Wall_Collision.cpp" />
     <ClCompile Include="Message_Mananger.cpp" />
-    <ClCompile Include="Message_Function_Missile.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="Object_Component_Info.cpp" />

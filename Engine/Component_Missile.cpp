@@ -24,7 +24,7 @@ void Missile::Update(float dt)
 
 		Rotating_Toward_Target();
 		Homing_Missile_Func(target_);
-		
+
 		m_owner->GetTransform().SetTranslation(pos);
 	}
 	else
@@ -35,7 +35,7 @@ void Missile::Update(float dt)
 
 void Missile::Set_Target(Object* obj)
 {
-	if(obj != nullptr)
+	if (obj != nullptr)
 	{
 		target = obj;
 		obj->Add_Pointed_By(&target);
@@ -44,11 +44,11 @@ void Missile::Set_Target(Object* obj)
 
 void Missile::Set_From_Obj(Object* obj)
 {
-	if(obj != nullptr)
+	if (obj != nullptr)
 	{
 		from = obj;
 		obj->Add_Pointed_By(&from);
-	}	
+	}
 }
 
 Object* Missile::Get_Target()

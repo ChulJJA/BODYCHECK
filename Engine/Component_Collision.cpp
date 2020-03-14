@@ -23,89 +23,60 @@
 #include "Component_Player.h"
 #include "UsefulTools.hpp"
 #include "Component_Missile.h"
-#define  PI  3.14159265359
 
 void Collision::Init(Object* obj)
 {
 	m_owner = obj;
 }
 
-bool Collision::BoxToBoxCollision(Mesh mesh) const
+void Collision::Update(float dt)
 {
-	if (m_owner->GetMesh().GetPoint(0).x > mesh.GetPoint(2).x || m_owner->GetMesh().GetPoint(0).y > mesh.GetPoint(2).y)
-	{
-		return false;
-	}
-	else if (m_owner->GetMesh().GetPoint(1).x > mesh.GetPoint(3).x || m_owner->GetMesh().GetPoint(1).y < mesh.GetPoint(3).y)
-	{
-		return false;
-	}
-	else if (m_owner->GetMesh().GetPoint(2).x < mesh.GetPoint(0).x || m_owner->GetMesh().GetPoint(2).y < mesh.GetPoint(0).y)
-	{
-		return false;
-	}
-	else if (m_owner->GetMesh().GetPoint(3).x < mesh.GetPoint(1).x || m_owner->GetMesh().GetPoint(3).y > mesh.GetPoint(1).y)
-	{
-		return false;
-	}
-	else
-	{
-		return true;
-	}
+	sound_timer += dt;
+	CircleToCircleCollision();
+	SquareArenaCollision();
 }
 
 bool Collision::CircleToCircleCollision()
 {
-	const unsigned int object_position_size = static_cast<unsigned int>(ObjectManager::GetObjectManager()->GetObjectManagerContainer().size());
-	std::vector<std::shared_ptr<Object>> objects = ObjectManager::GetObjectManager()->GetObjectManagerContainer();
+	const int object_size = ObjectManager::GetObjectManager()->GetObjectManagerContainer().size();
 	
-	for (unsigned int i = 0; i < object_position_size; ++i)
+	for (int i = 0; i < object_size; ++i)
 	{
-		Object* obj_i = objects[i].get();
+		Object* obj_i = ObjectManager::GetObjectManager()->GetObjectManagerContainer()[i].get();
 
-		if (Filter_Object(obj_i))
+		if (ObjectFilter(obj_i))
 		{
-			Transform obj_i_transform = obj_i->GetTransform();
-			const vector2 obj_i_trans = obj_i_transform.GetTranslation();
-			const float obj_i_radius = obj_i_transform.GetScale().x * 30.f;
+			const vector2 obj_i_trans = obj_i->GetTransform().GetTranslation();
+			const float obj_i_radius = obj_i->GetTransform().GetScale().x * 30.f;
 
-			for (unsigned int j = 0; j < object_position_size; ++j)
+			for (int j = 0; j < object_size; ++j)
 			{
-				Object* obj_j = objects[j].get();
+				Object* obj_j = ObjectManager::GetObjectManager()->GetObjectManagerContainer()[j].get();
 
-				if (Filter_Object(obj_j))
+				if (ObjectFilter(obj_j))
 				{
 					if (Check_Need_To_Check_Collision(obj_i, obj_j))
 					{
-						Transform obj_j_transfrom = obj_j->GetTransform();
-						const vector2 obj_j_trans = obj_j_transfrom.GetTranslation();
-						const float obj_j_radius = obj_j_transfrom.GetScale().x * 30.f;
-
-						const float distance = sqrt((obj_i_trans.x - obj_j_trans.x) * (obj_i_trans.x - obj_j_trans.x) + (obj_i_trans.y - obj_j_trans.y) * (obj_i_trans.y - obj_j_trans.y));
+						const vector2 obj_j_trans = obj_j->GetTransform().GetTranslation();
+						const float obj_j_radius = obj_j->GetTransform().GetScale().x * 30.f;
+						const float distance = DistanceBetween(obj_i_trans, obj_j_trans);
+						
 						if (distance < obj_i_radius + obj_j_radius)
 						{
-							Physics* obj_i_physics = obj_i->GetComponentByTemplate<Physics>();
-							Physics* obj_j_physics = obj_j->GetComponentByTemplate<Physics>();
-
-							if (obj_i->GetName() == "missile" || obj_j->GetName() == "missile")
-							{
-								std::cout << "wtf2" << std::endl;
-							}
-							
 							Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_j, obj_i, "collision"));
 							obj_i->Set_Is_It_Collided(true);
 							obj_j->Set_Is_It_Collided(true);
 
-							if ((obj_i->Get_Tag() != "item" && obj_j->Get_Tag() != "item"))
+							if ((obj_i->Get_Tag() != "item" && obj_j->Get_Tag() != "item") || obj_i->Get_Tag() == "throwing")
 							{
-								if (obj_i->Get_Tag() == "lock" || obj_j->Get_Tag() == "lock")
+								if (obj_i->Get_Tag() == "lock" || obj_j->Get_Tag() == "lock" || obj_j->Get_Tag() == "throwing")
 								{
 									continue;
 								}
 								physics.KnockBack(obj_i, obj_j);
 							}
 						}
-						else if ((obj_i->Get_Tag() == "lock" && obj_j->Get_Tag() == "player"))
+						else if((obj_i->Get_Tag() == "lock" && obj_j->Get_Tag() == "player"))
 						{
 							Collision_Off_Lock_And_Player(obj_j, obj_i);
 						}
@@ -113,38 +84,13 @@ bool Collision::CircleToCircleCollision()
 						{
 							Collision_Off_Lock_And_Player(obj_i, obj_j);
 						}
-
+						
 					}
 				}
 			}
 		}
 	}
 	return false;
-}
-
-void Collision::CircleArenaCollision()
-{
-	const unsigned int object_position_size = static_cast<unsigned int>(ObjectManager::GetObjectManager()->GetObjectManagerContainer().size());
-	std::vector<std::shared_ptr<Object>> objects = ObjectManager::GetObjectManager()->GetObjectManagerContainer();
-	
-	for (unsigned int i = 0; i < object_position_size; ++i)
-	{
-		Object* obj_i = objects[i].get();
-		vector2 obj_i_trans = obj_i->GetTransform().GetTranslation();
-
-		const float distance = sqrt((obj_i_trans.x * obj_i_trans.x) + (obj_i_trans.y * obj_i_trans.y));
-
-		if (distance >= 10000)
-		{
-			Player* info_player = obj_i->GetComponentByTemplate<Player>();
-
-			if(info_player != nullptr)
-			{
-				const vector2 direction_to_go = info_player->GetPlayerVelocity();
-				info_player->SetPlayerVelocity(-direction_to_go);
-			}
-		}
-	}
 }
 
 void Collision::SquareArenaCollision()
@@ -165,7 +111,7 @@ void Collision::SquareArenaCollision()
 		const double max_y = obj_i_trans.y + (30.0 * obj_i_scale.y);
 		const double min_y = obj_i_trans.y - (30.0 * obj_i_scale.y);
 
-		if (line_max_point - max_x < 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr)
+		if (line_max_point - max_x < 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr && obj_i->GetComponentByTemplate<Throwing>() == nullptr)
 		{
 			sound.Play(SOUND::Crack);
 
@@ -179,7 +125,7 @@ void Collision::SquareArenaCollision()
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, "wall_collision"));
 		}
-		else if (line_max_point - max_y < 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr)
+		else if (line_max_point - max_y < 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr && obj_i->GetComponentByTemplate<Throwing>() == nullptr)
 		{
 			sound.Play(SOUND::Crack);
 
@@ -193,7 +139,7 @@ void Collision::SquareArenaCollision()
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, "wall_collision"));
 		}
-		else if (line_min_point - min_x > 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr)
+		else if (line_min_point - min_x > 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr && obj_i->GetComponentByTemplate<Throwing>() == nullptr)
 		{
 			sound.Play(SOUND::Crack);
 
@@ -207,7 +153,7 @@ void Collision::SquareArenaCollision()
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, "wall_collision"));
 		}
-		else if (line_min_point - min_y > 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr)
+		else if (line_min_point - min_y > 0 && obj_i->GetComponentByTemplate<Physics>() != nullptr && obj_i->GetComponentByTemplate<Throwing>() == nullptr)
 		{
 			sound.Play(SOUND::Crack);
 
@@ -218,7 +164,7 @@ void Collision::SquareArenaCollision()
 			angle = 360 - angle2;
 			direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
 			obj_i->GetComponentByTemplate<Player>()->SetPlayerVelocity(direction_to_go);
-
+			
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(obj_i, nullptr, "wall_collision"));
 		}
 	}
@@ -226,40 +172,6 @@ void Collision::SquareArenaCollision()
 
 bool Collision::Check_Need_To_Check_Collision(Object* obj_i, Object* obj_j)
 {
-	/*
-	 * Check the one of objects are already setted collided.
-	 */
-	if (obj_i->Get_Is_It_Collided() == true || obj_j->Get_Is_It_Collided() == true)
-	{
-		return false;
-	}
-
-	
-	/*
-	 * Check the both objects are have physics component.
-	 * If either object's physics state is ghost, return false.
-	 */
-	Physics* physics_obj_i = obj_i->GetComponentByTemplate<Physics>();
-	Physics* physics_obj_j = obj_j->GetComponentByTemplate<Physics>();
-
-	if (physics_obj_i == nullptr || physics_obj_j == nullptr)
-	{
-		return false;
-	}
-
-	if (physics_obj_i->Get_Ghost_Collision_Reference() || physics_obj_j->Get_Ghost_Collision_Reference())
-	{
-		return false;
-	}
-	
-	/*
-	* Check the objects are different objects.
-	*/
-	if (obj_i == obj_j)
-	{
-		return false;
-	}
-
 	/*
 	 * Check the object is needing update.
 	 */
@@ -272,6 +184,13 @@ bool Collision::Check_Need_To_Check_Collision(Object* obj_i, Object* obj_j)
 		return false;
 	}
 
+	/*
+	 * Check the one of objects are already setted collided.
+	 */
+	if (obj_i->Get_Is_It_Collided() == true || obj_j->Get_Is_It_Collided() == true)
+	{
+		return false;
+	}
 
 	/*
 	 * Prevent arena & arena collision
@@ -305,15 +224,15 @@ bool Collision::Check_Need_To_Check_Collision(Object* obj_i, Object* obj_j)
 				return false;
 			}
 		}
-		else if(obj_j->Get_Tag() == "throwing")
+		else if (obj_j->Get_Tag() == "throwing")
 		{
 			return false;
 		}
-		
+
 	}
 	else if (obj_j->Get_Tag() == "throwing")
 	{
-		if(obj_j->GetName() == "throwing")
+		if (obj_j->GetName() == "throwing")
 		{
 			if (obj_j->GetComponentByTemplate<Throwing>()->Get_Throwing_Obj() == obj_i)
 			{
@@ -327,7 +246,7 @@ bool Collision::Check_Need_To_Check_Collision(Object* obj_i, Object* obj_j)
 				return false;
 			}
 		}
-		else if(obj_i->Get_Tag() == "throwing")
+		else if (obj_i->Get_Tag() == "throwing")
 		{
 			return false;
 		}
@@ -362,18 +281,45 @@ bool Collision::Check_Need_To_Check_Collision(Object* obj_i, Object* obj_j)
 	}
 
 	/*
+	 * Check the objects are different objects.
+	 */
+	if (obj_i == obj_j)
+	{
+		return false;
+	}
+
+	/*
+	 * Check the both objects are have physics component.
+	 * If either object's physics state is ghost, return false.
+	 */
+	Physics* physics_obj_i = obj_i->GetComponentByTemplate<Physics>();
+	Physics* physics_obj_j = obj_j->GetComponentByTemplate<Physics>();
+
+	if (physics_obj_i == nullptr || physics_obj_j == nullptr)
+	{
+		return false;
+	}
+
+	if (physics_obj_i->GetGhostReference() || physics_obj_j->GetGhostReference())
+	{
+		return false;
+	}
+
+
+	/*
 	 * Otherwise, return true.
 	 */
 	return true;
 }
 
-bool Collision::Filter_Object(Object* obj)
+bool Collision::ObjectFilter(Object* obj)
 {
 	if (obj->Get_Tag() == "player" || obj->Get_Tag() == "item" || obj->Get_Tag() == "throwing" ||
 		obj->Get_Tag() == "lock")
 	{
 		return true;
 	}
+	
 	return false;
 }
 
@@ -381,7 +327,7 @@ void Collision::Collision_Off_Lock_And_Player(Object* player, Object* lock)
 {
 	Lock* info_lock = lock->GetComponentByTemplate<Lock>();
 
-	if (info_lock != nullptr)
+	if(info_lock != nullptr)
 	{
 		if (info_lock->Get_Locking_Target() == player)
 		{
@@ -389,12 +335,5 @@ void Collision::Collision_Off_Lock_And_Player(Object* player, Object* lock)
 		}
 		info_lock->Set_Locking_Target(nullptr);
 	}
-
-}
-
-void Collision::Update(float dt)
-{
-	sound_timer += dt;
-	CircleToCircleCollision();
-	SquareArenaCollision();
+	
 }

@@ -53,7 +53,7 @@ public:
 	
     void Init(Object* obj);
     void Update(float dt) override;
-	
+	//
     void SetHPBar();
     int Get_Damage();
 	Item::Item_Kind Get_Item_State();
@@ -66,7 +66,6 @@ public:
 	void Set_Bulkup_Timer(float timer_);
 	Char_State Get_Char_State();
 	void Set_Char_State(Char_State state);
-	void Item_Using();
 
 	void Set_Char_State_Additional(Char_State_Additional state);
 	Char_State_Additional Get_Char_State_Additional();
@@ -79,13 +78,12 @@ public:
 	Object* Get_Hp_Bar();
 	float& Get_Stop_Timer();
 	void Set_Stop_Timer(float timer_);
-	void Set_Missile_Timer(float timer_);
 
 	void Set_Locking_By(Object* obj);
 	void Set_Locking_Result(Object* obj);
 	Object* Get_Locking_Result();
 	void Func_Bulk_Up(float dt);
-	void Func_Throwing(float dt);
+	void Func_Bulk_Throwing(float dt);
 	void Func_Lock_Ready(float dt);
 	void Func_Magnatic(float dt);
 	void Func_Time_Pause(float dt);
@@ -98,8 +96,10 @@ public:
 	vector2 GetPlayerVelocity();
 	void PlayerDirecting();
 	vector2 GetPlayerDirection();
-
+	void UseItem();
+	void Set_Missile_Timer(float timer);
 	void Change_To_Normal_State();
+
 	
 private:
     Object* hp_bar = nullptr;
@@ -118,6 +118,7 @@ private:
 	Object* locking_result = nullptr;
 	float stop_timer = 0.0f;
 	float missile_timer = 0.f;
+
 	
 	vector2 velocity{};
 	vector2 direction = {0, 1};

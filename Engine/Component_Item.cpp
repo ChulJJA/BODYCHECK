@@ -30,6 +30,6 @@ void Item::Set_Kind(Item_Kind kind)
 }
 
 Item::Item_Kind Item::Get_Kind()
-{
+{ 
     return this_kind;
 }

@@ -13,47 +13,55 @@ bool MouseCollision(vector2 object_pos_max, vector2 object_pos_min, vector2 mous
 	}
 	else
 	{
-		return false;
+		return false;//
 	}
+
 }
 
 void ObjectHover(Object* current_obj, Object* next_obj)
 {
-	current_obj->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
-	next_obj->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,1 };
+    current_obj->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
+    next_obj->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,1 };
 }
 
 std::wstring StringToWstring(std::string str)
 {
-	std::wstring str_to_wstr;
-	str_to_wstr.assign(str.begin(), str.end());
-	return str_to_wstr;
+    std::wstring str_to_wstr;
+    str_to_wstr.assign(str.begin(), str.end());
+    return str_to_wstr;
 }
 
 float RadianToDegree(float radian)
 {
-	float degree = static_cast<float>(radian * (180 / PI));
+    float degree = static_cast<float>(radian * (180 / PI));
 
-	return degree;
+    return degree;
 }
 
 float DegreeToRadian(float degree)
 {
-	float radian = static_cast<float>(degree * (PI / 180));
+    float radian = static_cast<float>(degree * (PI / 180));
 
-	return radian;
+    return radian;
 }
 
 float VectorToScalar(vector2 vector)
 {
-	float result = sqrt((vector.x * vector.x) + (vector.y * vector.y));
+    float result = sqrt((vector.x * vector.x) + (vector.y * vector.y));
 
-	return result;
+    return result;
 }
 
 int RandomNumberGenerator(int min_value, int max_value)
 {
 	const int generated_number = rand() % (max_value - min_value + 1) + min_value;
 
-	return generated_number;
+    return generated_number;
+}
+
+float DistanceBetween(vector2 position_a, vector2 position_b)
+{
+    float distance = sqrt((position_a.x - position_b.x) * (position_a.x - position_b.x) + (position_a.y - position_b.y) * (position_a.y - position_b.y));
+
+    return distance;
 }

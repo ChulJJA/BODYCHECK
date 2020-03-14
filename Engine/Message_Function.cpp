@@ -11,11 +11,13 @@
 #include "Message_Function_Item_Magnatic.h"
 #include "Message_Function_Item_Time_Pause.h"
 #include "Message_Function_Item_Reverse_Moving.h"
-#include "Message_Function_Missile.h"
+#include "Message_Function_Item_Missile.h"
+
 std::mutex guard;
 
 Message_Func::Message_Func(Message* msg)
 {
+	//
 	msg_ = msg;
 	m_from = msg->Get_From();
 	m_target = msg->Get_Target();

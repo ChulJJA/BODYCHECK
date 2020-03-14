@@ -68,7 +68,7 @@ void Ui::Change_Item_Ui()
 		{
 			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("missile"));
 		}
-		
+
 		else
 		{
 			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("none"));
