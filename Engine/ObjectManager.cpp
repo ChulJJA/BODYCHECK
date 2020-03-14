@@ -13,7 +13,6 @@
 #include <functional>
 #include "StateManager.h"
 #include "Component.hpp"
-#include "Component_Player.h"
 #include "Component_Sprite.h"
 
 ObjectManager* ObjectManager::object_manager = nullptr;

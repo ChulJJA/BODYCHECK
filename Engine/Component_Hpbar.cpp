@@ -50,6 +50,7 @@ void Hp_Bar::Update(float dt)
 
 				if (timer <= 0.f)
 				{
+					m_owner->Get_This_Obj_Owner()->Find_Sprite_By_Name("effect_heal")->Set_Need_Update(false);
 					curr_state = Hp_Bar_State::None;
 				}
 			}
@@ -67,21 +68,22 @@ void Hp_Bar::Decrease(float dmg)
     if (m_owner->GetTransform().GetScale_Reference().x > 0)
     {
         Object* Hp_Owner_Obj = m_owner->Get_This_Obj_Owner();
+		Player* info_player = m_owner->Get_This_Obj_Owner()->GetComponentByTemplate<Player>();
 
         float damage = dmg;
         m_owner->GetTransform().GetScale_Reference().x -= damage;
         offset -= static_cast<int>(damage * 50);
 
-        if (m_owner->Get_This_Obj_Owner()->GetComponentByTemplate<Player>()->Get_Ui()->Get_Hp_Info()->GetTransform().GetScale_Reference().x - damage * 4 >= 0.f)
+        if (info_player->Get_Ui()->Get_Hp_Info()->GetTransform().GetScale_Reference().x - damage * 4 >= 0.f)
         {
-            m_owner->Get_This_Obj_Owner()->GetComponentByTemplate<Player>()->Get_Ui()->Get_Hp_Info()->GetTransform().GetScale_Reference().x -= damage * 4;
+			info_player->Get_Ui()->Get_Hp_Info()->GetTransform().GetScale_Reference().x -= damage * 4;
         }
 
-        m_owner->Get_This_Obj_Owner()->GetComponentByTemplate<Player>()->Get_Ui()->Get_Hp_Info()->GetMesh().Get_Is_Moved() = true;
+		info_player->Get_Ui()->Get_Hp_Info()->GetMesh().Get_Is_Moved() = true;
         if (m_owner->GetTransform().GetScale_Reference().x <= 0)
         {
-            m_owner->Get_This_Obj_Owner()->GetComponentByTemplate<Player>()->Get_Ui()->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 0.5f,0.5f,0.5f,0.5f };
-            m_owner->Get_This_Obj_Owner()->GetComponentByTemplate<Player>()->Get_Ui()->Get_Hp_Info()->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 0.5f,0.5f,0.5f,0.5f };
+			info_player->Get_Ui()->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 0.5f,0.5f,0.5f,0.5f };
+			info_player->Get_Ui()->Get_Hp_Info()->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 0.5f,0.5f,0.5f,0.5f };
 
             if (m_owner->Get_This_Obj_Owner()->Get_Hitted_By() != nullptr)
             {

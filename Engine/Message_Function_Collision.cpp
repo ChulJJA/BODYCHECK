@@ -232,11 +232,22 @@ void Msg_Func_Collision::Player_And_Player_Collision()
 
 			if (target_hp_bar != nullptr || from_hp_bar != nullptr)
 			{
-				target_hp_bar->GetComponentByTemplate<Hp_Bar>()->Decrease(dmg_set.first / 50);
-				from_hp_bar->GetComponentByTemplate<Hp_Bar>()->Decrease(dmg_set.second / 50);
+				Hp_Bar* hp_bar_info_target = target_hp_bar->GetComponentByTemplate<Hp_Bar>();
+				Hp_Bar* hp_bar_info_from = from_hp_bar->GetComponentByTemplate<Hp_Bar>();
 
-				target_hp_bar->GetComponentByTemplate<Hp_Bar>()->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
-				from_hp_bar->GetComponentByTemplate<Hp_Bar>()->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
+				if(hp_bar_info_from != nullptr && hp_bar_info_target != nullptr)
+				{
+					hp_bar_info_target->Decrease(dmg_set.first / 50);
+					hp_bar_info_from->Decrease(dmg_set.second / 50);
+
+					if(hp_bar_info_target->Get_Hp_Bard_State() != Hp_Bar::Hp_Bar_State::Recovering && 
+						hp_bar_info_from->Get_Hp_Bard_State() != Hp_Bar::Hp_Bar_State::Recovering)
+					{
+						hp_bar_info_target->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
+						hp_bar_info_from->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
+					}
+				}
+				
 			}
 
 			m_from->Set_Is_It_Collided(false);
