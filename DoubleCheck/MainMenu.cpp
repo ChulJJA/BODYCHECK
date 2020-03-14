@@ -9,7 +9,7 @@
  *
  * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
  */
-
+#include <GLFW/glfw3.h>
 #include "MainMenu.h"
 #include "Input.h"
 #include "ObjectManager.h"
