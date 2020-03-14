@@ -23,12 +23,34 @@
 #include "StateManager.h"
 #include "Component_Text.h"
 #include "Application.hpp"
+#include "State.h"
+#include "Component_Missile.h"
 #include "UsefulTools.hpp"
 #include "Component_Missile.h"
+
 
 Referee* Referee::referee = nullptr;
 StateManager* state_manager = nullptr;
 Application* app = nullptr;
+
+Referee::Referee()
+{
+	state_manager = StateManager::GetStateManager();
+	if (state_manager->GetCurrentState()->GetStateInfo() == GameState::Game)
+	{
+		player_first_life = 5;
+		player_sec_life = 5;
+		player_third_life = 5;
+		player_fourth_life = 5;
+	}
+	else if (state_manager->GetCurrentState()->GetStateInfo() == GameState::Tutorial)
+	{
+		player_first_life = 20;
+		player_sec_life = 20;
+		player_third_life = 20;
+		player_fourth_life = 20;
+	}
+}
 
 Referee* Referee::Get_Referee()
 {
@@ -41,8 +63,9 @@ Referee* Referee::Get_Referee()
 
 void Referee::Init()
 {
-	stage_statements.clear();
 
+	stage_statements.clear();
+	missile_saving = new Object *[missile_num];
 	missile_saving = new Object * [missile_num];
 
 	for (int i = 0; i < missile_num; i++)
@@ -103,7 +126,7 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	std::string sprite_path_reverse_moving_pen = "../Sprite/reverse_moving_pen";
 	sprite_path_reverse_moving_pen += ".png";
 
-	
+
 	Object* player = new Object();
 	player->Set_Name(name);
 	player->Set_Tag(tag);
@@ -221,9 +244,10 @@ void Referee::Respawn_Player(Stage_Statement state, float dt)
 void Referee::Respawn_Item(float dt)
 {
 	item_respawn_timer -= dt;
-	
-	//Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 8));
-	Item::Item_Kind item = Item::Item_Kind::Missile;
+
+
+	Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 8));
+
 	if (item_respawn_timer <= 0.0f && total_item_num > 0)
 	{
 		if (item == Item::Item_Kind::Dash)
@@ -236,12 +260,12 @@ void Referee::Respawn_Item(float dt)
 			ObjectManager::GetObjectManager()->AddObject(item_heal[item_num_heal - 1]);
 			item_num_heal--;
 		}
-		else if(item == Item::Item_Kind::Bulkup)
+		else if (item == Item::Item_Kind::Bulkup)
 		{
 			ObjectManager::GetObjectManager()->AddObject(item_bulk_up[item_num_bulk_up - 1]);
 			item_num_bulk_up--;
 		}
-		else if(item == Item::Item_Kind::Throwing)
+		else if (item == Item::Item_Kind::Throwing)
 		{
 			ObjectManager::GetObjectManager()->AddObject(item_throwing[item_num_throwing - 1]);
 			item_num_throwing--;
@@ -273,10 +297,10 @@ void Referee::Respawn_Item(float dt)
 
 void Referee::SetPlayerTemp()
 {
-	player_first_temp = new Object * [player_first_life]();
-	player_sec_temp = new Object * [player_sec_life]();
-	player_third_temp = new Object * [player_third_life]();
-	player_fourth_temp = new Object * [player_fourth_life]();
+	player_first_temp = new Object *[player_first_life]();
+	player_sec_temp = new Object *[player_sec_life]();
+	player_third_temp = new Object *[player_third_life]();
+	player_fourth_temp = new Object *[player_fourth_life]();
 
 
 	for (int i = 0; i < player_first_life; i++)
@@ -299,14 +323,14 @@ void Referee::SetPlayerTemp()
 
 void Referee::SetItem()
 {
-	item_dash = new Object * [item_num]();
-	item_heal = new Object * [item_num]();
-	item_bulk_up = new Object * [item_num]();
-	item_throwing = new Object * [item_num]();
-	item_magnetic = new Object * [item_num]();
-	item_time_pause = new Object * [item_num]();
-	item_reverse_moving = new Object * [item_num]();
-	item_missile = new Object * [item_num]();
+	item_dash = new Object *[item_num]();
+	item_heal = new Object *[item_num]();
+	item_bulk_up = new Object *[item_num]();
+	item_throwing = new Object *[item_num]();
+	item_magnetic = new Object *[item_num]();
+	item_time_pause = new Object *[item_num]();
+	item_reverse_moving = new Object *[item_num]();
+	item_missile = new Object *[item_num]();
 
 
 	for (int i = 0; i < item_num; i++)

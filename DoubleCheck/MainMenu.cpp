@@ -9,7 +9,7 @@
  *
  * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
  */
-
+#include <GLFW/glfw3.h>
 #include "MainMenu.h"
 #include "Input.h"
 #include "ObjectManager.h"
@@ -41,12 +41,14 @@ void MainMenu::Load()
     pointer = 0;
     button_timer = 0;
     SetPlayButton();
+    SetTutorialButton();
     SetMusicButton();
     SetTestLevelButton();
 }
 
 void MainMenu::Update(float dt)
 {
+
     button_timer++;
 	
     if (button_timer >= 10)
@@ -76,17 +78,33 @@ void MainMenu::SetPlayButton()
     ObjectManager::GetObjectManager()->AddObject(play_button_hover);
 }
 
+void MainMenu::SetTutorialButton()
+{
+    tutorial_button = new Object();
+    tutorial_button->Set_Name("tutorial_button");
+    tutorial_button->AddComponent(new Sprite(tutorial_button, "../Sprite/TutorialButton.png", { 0, 150 }, false));
+    tutorial_button->GetTransform().SetScale({ 5, 5 });
+    ObjectManager::GetObjectManager()->AddObject(tutorial_button);
+
+    tutorial_button_hover = new Object();
+    tutorial_button_hover->Set_Name("tutorial_button_hover");
+    tutorial_button_hover->AddComponent(new Sprite(tutorial_button_hover, "../Sprite/TutorialButtonHover.png", { 0, 150 }, false));
+    tutorial_button_hover->GetTransform().SetScale({ 5, 5 });
+    tutorial_button_hover->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
+    ObjectManager::GetObjectManager()->AddObject(tutorial_button_hover);
+}
+
 void MainMenu::SetMusicButton()
 {
     music_button = new Object();
     music_button->Set_Name("music_button");
-    music_button->AddComponent(new Sprite(music_button, "../Sprite/MusicButton.png", { 0, 0 }, false));
+    music_button->AddComponent(new Sprite(music_button, "../Sprite/MusicButton.png", { 0, -100 }, false));
     music_button->GetTransform().SetScale({ 5, 5 });
     ObjectManager::GetObjectManager()->AddObject(music_button);
 
     music_button_hover = new Object();
     music_button_hover->Set_Name("music_button_hover");
-    music_button_hover->AddComponent(new Sprite(music_button_hover, "../Sprite/MusicButtonHover.png", { 0, 0 }, false));
+    music_button_hover->AddComponent(new Sprite(music_button_hover, "../Sprite/MusicButtonHover.png", { 0, -100 }, false));
     music_button_hover->GetTransform().SetScale({ 5, 5 });
     music_button_hover->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
     ObjectManager::GetObjectManager()->AddObject(music_button_hover);
@@ -96,13 +114,13 @@ void MainMenu::SetTestLevelButton()
 {
     test_button = new Object();
     test_button->Set_Name("test_button");
-    test_button->AddComponent(new Sprite(test_button, "../Sprite/TestButton.png", { 0, -400 }, false));
+    test_button->AddComponent(new Sprite(test_button, "../Sprite/TestButton.png", { 0, -350 }, false));
     test_button->GetTransform().SetScale({ 5, 5 });
     ObjectManager::GetObjectManager()->AddObject(test_button);
 
     test_button_hover = new Object();
     test_button_hover->Set_Name("test_button_hover");
-    test_button_hover->AddComponent(new Sprite(test_button_hover, "../Sprite/TestButtonHover.png", { 0, -400 }, false));
+    test_button_hover->AddComponent(new Sprite(test_button_hover, "../Sprite/TestButtonHover.png", { 0, -350 }, false));
     test_button_hover->GetTransform().SetScale({ 5, 5 });
     test_button_hover->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
     ObjectManager::GetObjectManager()->AddObject(test_button_hover);
@@ -118,19 +136,24 @@ void MainMenu::ButtonSelector()
         {
             ObjectHover(play_button, play_button_hover);
         }
+        else if (pointer == static_cast<int>(BUTTON::TUTORIAL))
+        {
+            ObjectHover(tutorial_button, tutorial_button_hover);
+            ObjectHover(play_button_hover, play_button);
+        }
         else if(pointer == static_cast<int>(BUTTON::MUSIC))
         {
             ObjectHover(music_button, music_button_hover);
-            ObjectHover(play_button_hover, play_button);
+            ObjectHover(tutorial_button_hover, tutorial_button);
         }
         else if(pointer == static_cast<int>(BUTTON::TEST))
         {
             ObjectHover(test_button, test_button_hover);
             ObjectHover(music_button_hover, music_button);
         }
-        else if(pointer > 2)
+        else if(pointer > 3)
         {
-            pointer = 2;
+            pointer = 3;
         }
         button_timer = 0;
 	}
@@ -141,6 +164,11 @@ void MainMenu::ButtonSelector()
         if (pointer == static_cast<int>(BUTTON::START))
         {
             ObjectHover(play_button, play_button_hover);
+            ObjectHover(tutorial_button_hover, tutorial_button);
+        }
+        else if (pointer == static_cast<int>(BUTTON::TUTORIAL))
+        {
+            ObjectHover(tutorial_button, tutorial_button_hover);
             ObjectHover(music_button_hover, music_button);
         }
         else if (pointer == static_cast<int>(BUTTON::MUSIC))
@@ -167,6 +195,13 @@ void MainMenu::ButtonSelector()
         next_level = "Level1";
         Clear();
 	}
+    else if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::TUTORIAL))
+    {
+        sound.Play(SOUND::Click);
+        is_next = true;
+        next_level = "Tutorial";
+        Clear();
+    }
     else if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::MUSIC))
     {
         pointer = static_cast<int>(BUTTON::START);
@@ -175,7 +210,7 @@ void MainMenu::ButtonSelector()
         next_level = "SoundOption";
         Clear();
     }
-    if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::TEST))
+    else if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::TEST))
     {
         pointer = static_cast<int>(BUTTON::START);
         sound.Play(SOUND::Click);
