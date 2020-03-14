@@ -33,6 +33,24 @@ Referee* Referee::referee = nullptr;
 StateManager* state_manager = nullptr;
 Application* app = nullptr;
 
+Referee::Referee()
+{
+	state_manager = StateManager::GetStateManager();
+	if (state_manager->GetCurrentState()->GetStateInfo() == GameState::Game)
+	{
+		player_first_life = 5;
+		player_sec_life = 5;
+		player_third_life = 5;
+		player_fourth_life = 5;
+	}
+	else if (state_manager->GetCurrentState()->GetStateInfo == GameState::Tutorial)
+	{
+		player_first_life = 20;
+		player_sec_life = 20;
+		player_third_life = 20;
+		player_fourth_life = 20;
+	}
+}
 
 Referee* Referee::Get_Referee()
 {
@@ -408,27 +426,4 @@ void Referee::Respawn(Stage_Statement statement)
 		fourth_ui->Reset();
 		break;
 	}
-}
-
-void Referee::SetTutorialLife()
-{
-	player_first_life = 2;
-	player_sec_life = 2;
-	player_third_life = 2;
-	player_fourth_life = 2;
-}
-Object* Referee::Return_New_Missile()
-{
-	Object* missile = new Object();;
-	missile->Set_Name("missile");
-	missile->Set_Tag("throwing");
-	missile->AddComponent(new Player);
-	missile->AddComponent(new Sprite(missile, "../sprite/missiles.png", true, 3, 8, { 0.f,0.f },
-		{ 100.f,100.f }, { 255,255,255,255 }));
-	missile->AddComponent(new Physics);
-	missile->AddComponent(new Missile);
-	missile->SetScale(2.f);
-
-	return missile;
-
 }

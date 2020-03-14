@@ -44,7 +44,6 @@
     <ClCompile Include="Message_Function_Respawn.cpp" />
     <ClCompile Include="Message_Function_Wall_Collision.cpp" />
     <ClCompile Include="Message_Mananger.cpp" />
-    <ClCompile Include="Message_Function_Missile.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="Object_Component_Info.cpp" />
@@ -63,7 +62,9 @@
     <ClCompile Include="VertexLayoutDescription.cpp" />
     <ClCompile Include="Vertices.cpp" />
     <ClCompile Include="View.cpp" />
-    <ClCompile Include="Gamepad.cpp" />
+    <ClCompile Include="Gamepad.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\external\imgui\imconfig.h" />
@@ -113,7 +114,6 @@
     <ClInclude Include="Message_Function_Item_Reverse_Moving.h" />
     <ClInclude Include="Message_Function_Item_Throwing.h" />
     <ClInclude Include="Message_Function_Item_Time_Pause.h" />
-    <ClInclude Include="Message_Function_Missile.h" />
     <ClInclude Include="Message_Function_Respawn.h" />
     <ClInclude Include="Message_Function_Wall_Collision.h" />
     <ClInclude Include="Message_Manager.h" />
@@ -137,7 +137,9 @@
     <ClInclude Include="VertexLayoutDescription.hpp" />
     <ClInclude Include="Vertices.hpp" />
     <ClInclude Include="View.h" />
-    <ClInclude Include="Gamepad.hpp" />
+    <ClInclude Include="Gamepad.hpp">
+      <Filter>Source Files\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="StockShaders.inl" />

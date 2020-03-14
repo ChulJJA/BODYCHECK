@@ -9,7 +9,9 @@
     <ClCompile Include="SoundOption.cpp" />
     <ClCompile Include="Testing_Level.cpp" />
     <ClCompile Include="TestLevel.cpp" />
-    <ClCompile Include="Tutorial.cpp" />
+    <ClCompile Include="Tutorial.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Level1.h" />
@@ -19,7 +21,6 @@
     <ClInclude Include="SoundOption.h" />
     <ClInclude Include="Testing_Level.h" />
     <ClInclude Include="TestLevel.h" />
-    <ClInclude Include="Tutorial.hpp" />
     <Filter Include="Source Files">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
@@ -31,6 +32,9 @@
     <Filter Include="Source Files\Header">
       <UniqueIdentifier>{90b294a4-226d-45c5-a4d7-df5e8d07dc04}</UniqueIdentifier>
     </Filter>
+    <ClInclude Include="Tutorial.hpp">
+      <Filter>Source Files\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Level1.cpp">
