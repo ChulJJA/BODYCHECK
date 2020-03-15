@@ -243,8 +243,8 @@ void Msg_Func_Collision::Player_And_Player_Collision()
 						hp_bar_info_target->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
 						hp_bar_info_from->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
 
-						hp_bar_info_target->Set_Timer(3.f);
-						hp_bar_info_from->Set_Timer(3.f);
+						hp_bar_info_target->Set_Timer(1.f);
+						hp_bar_info_from->Set_Timer(1.f);
 						
 						m_from->Change_Sprite(m_from->Find_Sprite_By_Name("crying"));
 						m_target->Change_Sprite(m_target->Find_Sprite_By_Name("crying"));
