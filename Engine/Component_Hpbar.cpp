@@ -18,9 +18,7 @@
 #include "Message_Manager.h"
 #include "Referee.h"
 #include "Component_Text.h"
-#include "ObjectManager.h"
 #include "Component_Player.h"
-#include "Player_Ui.h"
 #include "Message_Kind.h"
 
 void Hp_Bar::Init(Object* obj)
@@ -56,9 +54,18 @@ void Hp_Bar::Update(float dt)
 				}
 			}
 		}
-		if(curr_state == Hp_Bar_State::Damaging)
+		else if(curr_state == Hp_Bar_State::Damaging)
 		{
-			
+			if(timer > 0.f)
+			{
+				timer -= dt;
+			}
+			else
+			{
+				Object* hp_bar_owner = m_owner->Get_This_Obj_Owner();
+				hp_bar_owner->GetComponentByTemplate<Player>()->Change_To_Normal_State();
+				curr_state = Hp_Bar_State::None;
+			}
 		}
 	}
 	

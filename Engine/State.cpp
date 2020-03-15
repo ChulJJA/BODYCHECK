@@ -36,6 +36,9 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 	sprite_path_ready_bulkup += sprite_path;
 	sprite_path_ready_bulkup += "_effect_bulkup.png";
 
+	std::string sprite_path_crying = "../Sprite/";
+	sprite_path_crying += sprite_path;
+	sprite_path_crying += "_crying.png";
 	
 	Object* player;
 	player = new Object();
@@ -53,6 +56,7 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 		{255,255,255,255}), "effect_bulkup", false);
 	player->AddComponent(new Sprite(player, sprite_path_heal_effect.c_str(), true, 4, 6, pos, { 100.f,100.f },
 	{255, 255, 255, 255}), "effect_heal", false);
+	player->AddComponent(new Sprite(player, sprite_path_crying.c_str(), pos), "crying", false);
 	
 	player->AddComponent(new Physics());
 	player->Set_Current_Sprite(player->Find_Sprite_By_Name("normal"));
