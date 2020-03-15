@@ -16,8 +16,6 @@ void Msg_Func_Collision::Init()
 {
 }
 
-
-
 void Msg_Func_Collision::Update(float dt)
 {
 	if (m_target->Get_Tag() == "item" && m_from->Get_Tag() == "player")
@@ -31,17 +29,13 @@ void Msg_Func_Collision::Update(float dt)
 	else if (m_target->Get_Tag() == "throwing" && m_from->Get_Tag() == "player")
 	{
 		m_target->SetDeadCondition(true);
-		m_from->Set_Is_It_Collided(false);
 	}
 	else if (m_from->Get_Tag() == "throwing" && m_target->Get_Tag() == "player")
 	{
 		m_from->SetDeadCondition(true);
-		m_target->Set_Is_It_Collided(false);
 	}
 	else if (m_from->Get_Tag() == "throwing" && m_target->Get_Tag() == "throwing")
 	{
-		m_from->Set_Is_It_Collided(false);
-		m_target->Set_Is_It_Collided(false);
 	}
 	else if (m_from->Get_Tag() == "lock" && m_target->Get_Tag() == "player")
 	{
@@ -126,10 +120,6 @@ void Msg_Func_Collision::Update(float dt)
 		}
 
 	}
-
-	m_from->Set_Is_It_Collided(false);
-	m_target->Set_Is_It_Collided(false);
-	
 	msg->Set_Should_Delete(true);
 }
 
@@ -185,7 +175,6 @@ void Msg_Func_Collision::Player_Get_Item(Object* player, Object* item)
 		player_info->Set_Item_State(Item::Item_Kind::Missile);
 		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Missile);
 	}
-	player->Set_Is_It_Collided(false);
 }
 
 void Msg_Func_Collision::Player_And_Player_Collision()
@@ -238,9 +227,6 @@ void Msg_Func_Collision::Player_And_Player_Collision()
 				target_hp_bar->GetComponentByTemplate<Hp_Bar>()->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
 				from_hp_bar->GetComponentByTemplate<Hp_Bar>()->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
 			}
-
-			m_from->Set_Is_It_Collided(false);
-			m_target->Set_Is_It_Collided(false);
 		}
 	}
 }
@@ -264,6 +250,4 @@ void Msg_Func_Collision::Player_And_Lock_Collision(Object* player, Object* lock)
 		}
 		info_lock->Set_Locking_Target(player);
 	}
-	player->Set_Is_It_Collided(false);
-	lock->Set_Is_It_Collided(false);
 }

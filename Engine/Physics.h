@@ -21,6 +21,7 @@ public:
     void Init(Object* obj) override;
     void Update(float dt) override;
     void KnockBack(Object* object_1, Object* object_2);
+    void PushPlayer(Object* player, Object* object);
     void SpeedDown(Object* object);
     bool& GetGhostReference();
     void SetGhostReference(float dt);

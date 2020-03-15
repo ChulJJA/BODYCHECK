@@ -43,6 +43,8 @@ public:
     }
 
 	void Instancing_Update(float dt);
+    void ObjectCollision();
+    void ArenaCollision();
 private:
     static ObjectManager* object_manager;
     std::vector<std::shared_ptr<Object>> objects{};

@@ -5,7 +5,6 @@
 #include "Physics.h"
 #include "Component_Sprite.h"
 #include "Component_Text.h"
-#include "Component_Collision.h"
 using namespace std;
 
 namespace
@@ -38,7 +37,6 @@ void Testing_Level::Load()
 	player->Set_Dmg_Text(text);
 
 	Referee::Get_Referee()->Set_First_Text(text);
-	referee->AddComponent(new Collision());
 	referee->Init();
 }
 

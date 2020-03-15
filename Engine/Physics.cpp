@@ -71,6 +71,13 @@ void Physics::KnockBack(Object* object_1, Object* object_2)
 	}
 }
 
+void Physics::PushPlayer(Object* player, Object* object)
+{
+	vector2 object_velocity = object->GetComponentByTemplate<Physics>()->GetVelocity();
+
+	player->GetTransform().AddTranslation(object_velocity);
+}
+
 void Physics::SpeedDown(Object* object)
 {
 	if(!object->IsDead())
@@ -103,6 +110,7 @@ void Physics::SetGhostReference(float dt)
 			
 			ghost_timer = 1.0f;
 			is_ghost = false;
+			m_owner->SetNeedCollision(true);
 		}
 	}
 }

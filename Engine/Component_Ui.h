@@ -60,6 +60,4 @@ private:
 	Ui_Status_Base status_info_base;
 	Ui_Status_Obj status_info_obj;
 	Ui_Status_Verb status_info_verb;
-	
-	
-};
+	};

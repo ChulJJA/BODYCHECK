@@ -34,6 +34,5 @@ void Msg_Func_Wall_Collision::Update(float dt)
 			}
 		}
 	}
-	m_target->Set_Is_It_Collided(false);
 	msg->Set_Should_Delete(true);
 }

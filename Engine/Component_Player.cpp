@@ -214,6 +214,7 @@ void Player::Func_Bulk_Throwing(float dt)
 		Object* throwing = new Object();
 		throwing->Set_Name("throwing");
 		throwing->Set_Tag("throwing");
+		throwing->SetNeedCollision(true); //Collision Test
 		throwing->AddComponent(new Sprite(throwing, "../sprite/pen_green.png", m_owner->GetTransform().GetTranslation()));
 		throwing->AddComponent(new Physics());
 		throwing->AddComponent(new Throwing);
@@ -234,6 +235,7 @@ void Player::Func_Lock_Ready(float dt)
 		Object* lock = new Object();
 		lock->Set_Name("lock");
 		lock->Set_Tag("lock");
+		lock->SetNeedCollision(true);
 		lock->AddComponent(new Sprite(lock, "../sprite/zoom.png", m_owner->GetTransform().GetTranslation()));
 		lock->AddComponent(new Physics());
 		lock->AddComponent(new Lock());
@@ -319,10 +321,7 @@ void Player::Func_Time_Pause(float dt)
 
 			if (get_player != nullptr)
 			{
-				if (player->Get_Is_It_Collided() == true)
-				{
 					get_player->Set_Char_State(Player::Char_State::None);
-				}
 
 			}
 		}*/

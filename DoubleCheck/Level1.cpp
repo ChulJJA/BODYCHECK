@@ -15,7 +15,6 @@
 #include <sstream>
 #include "Windows.h"
 #include "Level1.h"
-#include "Component_Collision.h"
 #include "Referee.h"
 #include "Component_Text.h"
 #include "Engine.hpp"
@@ -104,7 +103,7 @@ void Level1::Load()
 		Referee::Get_Referee()->Set_Third_Text(text_3);
 		Referee::Get_Referee()->Set_Fourth_Text(text_4);
 
-		referee->AddComponent(new Collision());
+		//referee->SetNeedCollision(true); //Collision Test
 		referee->Init();
 		Graphic::GetGraphic()->get_need_update_sprite() = true;
 	}

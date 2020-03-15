@@ -16,7 +16,6 @@
 #include "Component_Sprite.h"
 #include "ObjectManager.h"
 #include "Graphic.h"
-#include "Component_Collision.h"
 #include "Component_Item.h"
 #include "Player_Ui.h"
 #include "Engine.hpp"
@@ -25,6 +24,7 @@
 #include "Application.hpp"
 #include "UsefulTools.hpp"
 #include "Component_Missile.h"
+#include "Physics.h"
 
 Referee* Referee::referee = nullptr;
 StateManager* state_manager = nullptr;
@@ -56,6 +56,7 @@ void Referee::Init()
 		missile_saving[i]->AddComponent(new Physics);
 		missile_saving[i]->AddComponent(new Missile);
 		missile_saving[i]->SetScale(2.f);
+		missile_saving[i]->SetNeedCollision(true); //Collision Test
 	}
 	
 	SetPlayerTemp();
@@ -73,8 +74,6 @@ void Referee::Update(float dt)
 	}
 
 	Respawn_Item(dt);
-
-	this->GetComponentByTemplate<Collision>()->Update(dt);
 }
 
 void Referee::Delete()
@@ -117,6 +116,7 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	player->Set_Current_Sprite(player->Find_Sprite_By_Name("normal"));
 	player->SetScale({ 3.f,3.f });
 	player->Set_Dmg_Text(text);
+	player->SetNeedCollision(true);
 
 	return player;
 }
@@ -132,6 +132,7 @@ Object* Referee::Make_Item_Pool(std::string sprite_path, vector2 pos, std::strin
 	item->Set_Tag(tag);
 	item->SetTranslation(pos);
 	item->GetComponentByTemplate<Item>()->Set_Kind(kind);
+	item->SetNeedCollision(true); //Collsiion Test
 	total_item.push_back(item);
 
 	return item;
@@ -342,7 +343,6 @@ void Referee::SetItem()
 		item_missile[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Missile);
 	}
 }
-
 
 Object* Referee::Return_New_Missile()
 {
