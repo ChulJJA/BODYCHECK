@@ -127,6 +127,13 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	std::string sprite_path_reverse_moving_pen = "../Sprite/reverse_moving_pen";
 	sprite_path_reverse_moving_pen += ".png";
 
+	std::string sprite_path_ready = "../Sprite/loadingscene.png";
+	std::string sprite_path_heal_effect = "../Sprite/effect_heal.png";
+
+	std::string sprite_path_ready_bulkup = "../Sprite/";
+	sprite_path_ready_bulkup += sprite_path;
+	sprite_path_ready_bulkup += "_effect_bulkup.png";
+
 
 	Object* player = new Object();
 	player->Set_Name(name);
@@ -137,7 +144,15 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	player->AddComponent(new Sprite(player, sprite_path_chase.c_str(), pos), "chase", false);
 	player->AddComponent(new Sprite(player, sprite_path_thinking.c_str(), pos), "thinking", false);
 	player->AddComponent(new Sprite(player, sprite_path_reverse_moving_pen.c_str(), pos), "reverse_moving_pen", false);
+	player->AddComponent(new Sprite(player, sprite_path_ready.c_str(), pos), "ready", false);
+	player->AddComponent(new Sprite(player, sprite_path_ready_bulkup.c_str(), true, 8, 24, pos, { 100.f,100.f },
+		{ 255,255,255,255 }), "effect_bulkup", false);
+	
+	player->AddComponent(new Sprite(player, sprite_path_heal_effect.c_str(), true, 4, 6, pos, { 100.f,100.f },
+		{ 255, 255, 255, 255 }), "effect_heal", false);
+	
 	player->AddComponent(new Physics(true));
+	
 	player->Set_Current_Sprite(player->Find_Sprite_By_Name("normal"));
 	player->SetScale({ 3.f,3.f });
 	player->Set_Dmg_Text(text);

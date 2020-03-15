@@ -19,10 +19,10 @@ class PLAYER_UI : public Object
 {
 public:
     void Initialize();
-    Object* Get_Hp_Info()
-    {
-        return info_hp_bar;
-    }
+    //Object* Get_Hp_Info()
+    //{
+    //    return info_hp_bar;
+    //}
     Object* Get_Item_Info()
     {
         return info_item;
@@ -39,7 +39,7 @@ public:
 	void Change_Ui_Info(Ui::Ui_Status_Base base, Ui::Ui_Status_Verb verb, Ui::Ui_Status_Obj obj);
 private:
 
-    Object* info_hp_bar = nullptr;
+    //Object* info_hp_bar = nullptr;
     Object* info_item = nullptr;
     Object* num_life = nullptr;
     BitmapFont* font = nullptr;

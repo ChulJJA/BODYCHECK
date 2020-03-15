@@ -75,16 +75,16 @@ void Hp_Bar::Decrease(float dmg)
         m_owner->GetTransform().GetScale_Reference().x -= damage;
         offset -= static_cast<int>(damage * 50);
 
-        if (info_player->Get_Ui()->Get_Hp_Info()->GetTransform().GetScale_Reference().x - damage * 4 >= 0.f)
-        {
-			info_player->Get_Ui()->Get_Hp_Info()->GetTransform().GetScale_Reference().x -= damage * 4;
-        }
+   //     if (info_player->Get_Ui()->Get_Hp_Info()->GetTransform().GetScale_Reference().x - damage * 4 >= 0.f)
+   //     {
+			//info_player->Get_Ui()->Get_Hp_Info()->GetTransform().GetScale_Reference().x -= damage * 4;
+   //     }
 
-		info_player->Get_Ui()->Get_Hp_Info()->GetMesh().Get_Is_Moved() = true;
+		//info_player->Get_Ui()->Get_Hp_Info()->GetMesh().Get_Is_Moved() = true;
         if (m_owner->GetTransform().GetScale_Reference().x <= 0)
         {
 			info_player->Get_Ui()->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 0.5f,0.5f,0.5f,0.5f };
-			info_player->Get_Ui()->Get_Hp_Info()->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 0.5f,0.5f,0.5f,0.5f };
+			//info_player->Get_Ui()->Get_Hp_Info()->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 0.5f,0.5f,0.5f,0.5f };
 
             if (m_owner->Get_This_Obj_Owner()->Get_Hitted_By() != nullptr)
             {

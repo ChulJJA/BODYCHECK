@@ -67,8 +67,8 @@ void Msg_Func_Item_Magnatic::Update(float dt)
 				vector2 target_dir = normalize(target);
 				vector2 own_pos = m_target->GetTransform().GetTranslation();
 
-				own_pos.x += (target_dir.x * 13);
-				own_pos.y += (target_dir.y * 13);
+				own_pos.x += (target_dir.x * 10);
+				own_pos.y += (target_dir.y * 10);
 
 				vector2 this_pos = m_target->GetTransform().GetTranslation();
 				vector2 obj_pos = locking_result->GetTransform().GetTranslation();
@@ -88,7 +88,7 @@ void Msg_Func_Item_Magnatic::Update(float dt)
 				{
 					vector3 convert_pos(own_pos.x, own_pos.y, 1.f);
 
-					convert_pos = MATRIX3::build_rotation(to_radians(10)) * convert_pos;
+					convert_pos = MATRIX3::build_rotation(to_radians(-10)) * convert_pos;
 
 					own_pos.x = convert_pos.x;
 					own_pos.y = convert_pos.y;
@@ -97,7 +97,7 @@ void Msg_Func_Item_Magnatic::Update(float dt)
 				{
 					vector3 convert_pos(own_pos.x, own_pos.y, 1.f);
 
-					convert_pos = MATRIX3::build_rotation(to_radians(-10)) * convert_pos;
+					convert_pos = MATRIX3::build_rotation(to_radians(10)) * convert_pos;
 
 					own_pos.x = convert_pos.x;
 					own_pos.y = convert_pos.y;
