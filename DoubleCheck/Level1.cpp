@@ -26,7 +26,6 @@
 #define GLFW_EXPOSE_NATIVE_WIN32 
 #include <GLFW/glfw3native.h>
 #include <mutex>
-#include "Editor.h"
 #include "Input.h"
 
 using namespace std;
@@ -36,8 +35,6 @@ namespace
     Referee* referee = nullptr;
 
     ObjectManager* object_manager = nullptr;
-	//Editor* editor = nullptr;
-
 }
 
 void Level1::Load()
