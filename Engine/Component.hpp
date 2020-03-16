@@ -32,11 +32,6 @@ public:
 	void Set_Need_Update(bool toggle)
     {
 		need_update = toggle;
-
-    	if(toggle == true)
-    	{
-			m_owner->Set_Current_Sprite(this);
-    	}
     }
 	bool Get_Need_Update()
     {

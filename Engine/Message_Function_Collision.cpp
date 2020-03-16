@@ -16,6 +16,8 @@ void Msg_Func_Collision::Init()
 {
 }
 
+
+
 void Msg_Func_Collision::Update(float dt)
 {
 	if (m_target->Get_Tag() == "item" && m_from->Get_Tag() == "player")
@@ -58,14 +60,13 @@ void Msg_Func_Collision::Update(float dt)
 			if (pointer != nullptr)
 			{
 				pointer->SetDeadCondition(true);
-				m_from->Change_Sprite(m_from->Find_Sprite_By_Name("normal"));
-				player_from_info->Set_Char_State(Player::Char_State::None);
-
 				Object* pointer_target = pointer->GetComponentByTemplate<Lock>()->Get_Locking_Target();
 				if (pointer_target != nullptr)
 				{
 					pointer_target->Change_Sprite(pointer_target->Find_Sprite_By_Name("normal"));
 				}
+
+				player_from_info->Change_To_Normal_State();
 			}
 		}
 		else if (player_target_info->Get_Char_State() == Player::Char_State::Lock_Ing)
@@ -74,14 +75,13 @@ void Msg_Func_Collision::Update(float dt)
 			if (pointer != nullptr)
 			{
 				pointer->SetDeadCondition(true);
-				m_target->Change_Sprite(m_target->Find_Sprite_By_Name("normal"));
-				player_target_info->Set_Char_State(Player::Char_State::None);
-
 				Object* pointer_target = pointer->GetComponentByTemplate<Lock>()->Get_Locking_Target();
 				if (pointer_target != nullptr)
 				{
 					pointer_target->Change_Sprite(pointer_target->Find_Sprite_By_Name("normal"));
 				}
+
+				player_target_info->Change_To_Normal_State();
 			}
 		}
 
@@ -120,6 +120,7 @@ void Msg_Func_Collision::Update(float dt)
 		}
 
 	}
+
 	msg->Set_Should_Delete(true);
 }
 
@@ -221,11 +222,28 @@ void Msg_Func_Collision::Player_And_Player_Collision()
 
 			if (target_hp_bar != nullptr || from_hp_bar != nullptr)
 			{
-				target_hp_bar->GetComponentByTemplate<Hp_Bar>()->Decrease(dmg_set.first / 50);
-				from_hp_bar->GetComponentByTemplate<Hp_Bar>()->Decrease(dmg_set.second / 50);
+				Hp_Bar* hp_bar_info_target = target_hp_bar->GetComponentByTemplate<Hp_Bar>();
+				Hp_Bar* hp_bar_info_from = from_hp_bar->GetComponentByTemplate<Hp_Bar>();
 
-				target_hp_bar->GetComponentByTemplate<Hp_Bar>()->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
-				from_hp_bar->GetComponentByTemplate<Hp_Bar>()->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
+				if(hp_bar_info_from != nullptr && hp_bar_info_target != nullptr)
+				{
+					hp_bar_info_target->Decrease(dmg_set.first / 50);
+					hp_bar_info_from->Decrease(dmg_set.second / 50);
+
+					if(hp_bar_info_target->Get_Hp_Bard_State() != Hp_Bar::Hp_Bar_State::Recovering && 
+						hp_bar_info_from->Get_Hp_Bard_State() != Hp_Bar::Hp_Bar_State::Recovering)
+					{
+						hp_bar_info_target->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
+						hp_bar_info_from->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
+
+						hp_bar_info_target->Set_Timer(1.f);
+						hp_bar_info_from->Set_Timer(1.f);
+						
+						m_from->Change_Sprite(m_from->Find_Sprite_By_Name("crying"));
+						m_target->Change_Sprite(m_target->Find_Sprite_By_Name("crying"));
+					}
+				}
+				
 			}
 		}
 	}

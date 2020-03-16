@@ -13,7 +13,6 @@
 #include <functional>
 #include "StateManager.h"
 #include "Component.hpp"
-#include "Component_Player.h"
 #include "Component_Sprite.h"
 #include "Collision.h"
 
@@ -60,6 +59,7 @@ void ObjectManager::Update(float dt)
         for (auto& remove_obj : delete_obj)
         {
             DeleteObject(remove_obj);
+			remove_obj = nullptr;
         }
     }
     else
@@ -103,6 +103,7 @@ void ObjectManager::DeleteObject(std::shared_ptr<Object> obj)
 		}
 	}
      objects.erase(std::find(objects.begin(), objects.end(), obj));
+	
 }
 
 std::vector<Object*> ObjectManager::Find_Objects_By_Tag(std::string tag)

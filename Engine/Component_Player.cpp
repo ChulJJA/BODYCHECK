@@ -22,7 +22,6 @@
 #include <GLFW/glfw3.h>
 #include "Component_Throwing.h"
 #include "Player_Ui.h"
-#include "Component_Ui.h"
 #include "Physics.h"
 #include "Component_Lock.h"
 #include "angles.hpp"
@@ -30,6 +29,8 @@
 #include "Engine.hpp"
 #include "Referee.h"
 #include "Component_Missile.h"
+#include "Message_Kind.h"
+
 void Player::Init(Object* obj)
 {
 	m_owner = obj;
@@ -41,10 +42,22 @@ void Player::Update(float dt)
 {
 	if (m_owner->Get_Tag() == "player")
 	{
-		if (curr_state == Char_State::Bulk_Up)
+		if (curr_state == Char_State::Prepare)
 		{
-			Func_Bulk_Up(dt);
+			if (prepare_sprite_timer != 0.f && change_to_sprite != nullptr)
+			{
+				if (prepare_sprite_timer > 0.f)
+				{
+					prepare_sprite_timer -= dt;
+				}
+				else
+				{
+					m_owner->Change_Sprite(change_to_sprite);
+					curr_state = Char_State::Prepared;
+				}
+			}
 		}
+
 		else if (curr_state == Char_State::Throwing)
 		{
 			Func_Bulk_Throwing(dt);
@@ -67,18 +80,6 @@ void Player::Update(float dt)
 		else if (curr_state == Char_State::Reverse_Moving)
 		{
 			Func_Reverse_Moving(dt);
-		}
-		else if (curr_state == Char_State::Missile_Ready)
-		{
-			if (missile_timer > 0.f)
-			{
-				missile_timer -= dt;
-			}
-			else
-			{
-				Change_To_Normal_State();
-				curr_state = Char_State::Missile_Shoot;
-			}
 		}
 		else if (curr_state == Char_State::Missile_Shoot)
 		{
@@ -201,52 +202,50 @@ void Player::Func_Bulk_Up(float dt)
 		{
 			m_owner->Get_Plus_Dmg() = 0.f;
 			curr_state = Char_State::None;
+			Change_To_Normal_State();
 		}
 	}
 }
 
 void Player::Func_Bulk_Throwing(float dt)
 {
-	if (input.Is_Key_Pressed(GLFW_KEY_SPACE))
-	{
-		curr_state = Char_State::None;
 
-		Object* throwing = new Object();
-		throwing->Set_Name("throwing");
-		throwing->Set_Tag("throwing");
-		throwing->SetNeedCollision(true); //Collision Test
-		throwing->AddComponent(new Sprite(throwing, "../sprite/pen_green.png", m_owner->GetTransform().GetTranslation()));
-		throwing->AddComponent(new Physics());
-		throwing->AddComponent(new Throwing);
-		throwing->GetComponentByTemplate<Throwing>()->Set_Timer(3.f);
-		throwing->GetComponentByTemplate<Throwing>()->Set_Angle(m_owner->GetTransform().GetRotation());
-		throwing->GetComponentByTemplate<Throwing>()->Set_Throwing_Obj(m_owner);
-		throwing->SetScale(2.f);
-		ObjectManager::GetObjectManager()->AddObject(throwing);
-	}
+	curr_state = Char_State::None;
+
+	Object* throwing = new Object();
+	throwing->Set_Name("throwing");
+	throwing->Set_Tag("throwing");
+	throwing->AddComponent(new Sprite(throwing, "../sprite/pen_green.png", m_owner->GetTransform().GetTranslation()));
+	throwing->AddComponent(new Physics());
+	throwing->AddComponent(new Throwing);
+	throwing->GetComponentByTemplate<Throwing>()->Set_Timer(3.f);
+	throwing->GetComponentByTemplate<Throwing>()->Set_Angle(m_owner->GetTransform().GetRotation());
+	throwing->GetComponentByTemplate<Throwing>()->Set_Throwing_Obj(m_owner);
+	throwing->SetScale(2.f);
+	throwing->SetNeedCollision(true);
+	ObjectManager::GetObjectManager()->AddObject(throwing);
+
 }
 
 void Player::Func_Lock_Ready(float dt)
 {
-	if (input.Is_Key_Pressed(GLFW_KEY_SPACE))
-	{
-		curr_state = Char_State::Lock_Ing;
+	curr_state = Char_State::Lock_Ing;
 
-		Object* lock = new Object();
-		lock->Set_Name("lock");
-		lock->Set_Tag("lock");
-		lock->SetNeedCollision(true);
-		lock->AddComponent(new Sprite(lock, "../sprite/zoom.png", m_owner->GetTransform().GetTranslation()));
-		lock->AddComponent(new Physics());
-		lock->AddComponent(new Lock());
-		lock->GetComponentByTemplate<Lock>()->Set_Speed(1000.f);
-		lock->GetComponentByTemplate<Lock>()->Set_Locking_Obj(m_owner);
-		lock->SetScale(2.f);
-		locking_pointer = lock;
-		ObjectManager::GetObjectManager()->AddObject(lock);
+	Object* lock = new Object();
+	lock->Set_Name("lock");
+	lock->Set_Tag("lock");
+	lock->SetNeedCollision(true);
+	lock->AddComponent(new Sprite(lock, "../sprite/zoom.png", m_owner->GetTransform().GetTranslation()));
+	lock->AddComponent(new Physics());
+	lock->AddComponent(new Lock());
+	lock->GetComponentByTemplate<Lock>()->Set_Speed(1000.f);
+	lock->GetComponentByTemplate<Lock>()->Set_Locking_Obj(m_owner);
+	lock->SetScale(2.f);
+	locking_pointer = lock;
+	ObjectManager::GetObjectManager()->AddObject(lock);
 
-		m_owner->Change_Sprite(m_owner->Find_Sprite_By_Name("thinking"));
-	}
+	m_owner->Change_Sprite(m_owner->Find_Sprite_By_Name("thinking"));
+
 }
 
 void Player::Func_Magnatic(float dt)
@@ -370,6 +369,7 @@ void Player::Func_Missile_Shoot(float dt)
 	}
 
 	curr_state = Char_State::None;
+	Change_To_Normal_State();
 }
 
 void Player::Set_This_UI_info(PLAYER_UI* ui)
@@ -682,41 +682,40 @@ void Player::UseItem()
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Dash)
 	{
 		sound.Play(SOUND::Dash);
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "dash", 1.f));
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Dash));
 	}
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::HP)
 	{
 		sound.Play(SOUND::HP);
 		Object* hp_bar = m_owner->Get_Belong_Object_By_Tag("hp_bar");
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(hp_bar, m_owner, "recover", 1.f));
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(hp_bar, m_owner, Message_Kind::Item_Recover));
 	}
 
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Bulkup)
 	{
 		sound.Play(SOUND::BulkUp);
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "bulkup", 3.f));
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 5.f));
 	}
 
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Throwing)
 	{
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "throwing", 0.f));
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Throwing, 0.f));
 	}
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Magnatic)
 	{
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "magnatic", 0.f));
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Magnetic));
 	}
-
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Time_Pause)
 	{
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "time_pause", 0.f));
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Timepause));
 	}
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Reverse_Moving)
 	{
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "reverse_moving", 0.f));
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Reverse));
 	}
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Missile)
 	{
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "missile", 0.f));
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Missile));
 	}
 }
 
@@ -730,4 +729,22 @@ void Player::Change_To_Normal_State()
 	curr_state = Char_State::None;
 	curr_state_additional = Char_State_Additional::None;
 	m_owner->Change_Sprite(m_owner->Find_Sprite_By_Name("normal"));
+}
+
+void Player::Set_Prepare_Timer(float timer)
+{
+	prepare_sprite_timer = timer;
+}
+
+void Player::Sprite_After_Preparation(Component* sprite_to_change)
+{
+	if (sprite_to_change != nullptr)
+	{
+		change_to_sprite = sprite_to_change;
+	}
+}
+
+void Player::State_After_Preparation(Char_State state)
+{
+	change_to_state = state;
 }

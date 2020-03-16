@@ -1,6 +1,427 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClCompile Include="Physics.cpp">
+      <Filter>Comonents</Filter>
+    </ClCompile>
+    <ClCompile Include="Component_Enemy.cpp">
+      <Filter>Comonents</Filter>
+    </ClCompile>
+    <ClCompile Include="Component_Hpbar.cpp">
+      <Filter>Comonents</Filter>
+    </ClCompile>
+    <ClCompile Include="Component_Item.cpp">
+      <Filter>Comonents</Filter>
+    </ClCompile>
+    <ClCompile Include="Component_Lock.cpp">
+      <Filter>Comonents</Filter>
+    </ClCompile>
+    <ClCompile Include="Component_Missile.cpp">
+      <Filter>Comonents</Filter>
+    </ClCompile>
+    <ClCompile Include="Component_Player.cpp">
+      <Filter>Comonents</Filter>
+    </ClCompile>
+    <ClCompile Include="Component_Sprite.cpp">
+      <Filter>Comonents</Filter>
+    </ClCompile>
+    <ClCompile Include="Component_Text.cpp">
+      <Filter>Comonents</Filter>
+    </ClCompile>
+    <ClCompile Include="Component_Throwing.cpp">
+      <Filter>Comonents</Filter>
+    </ClCompile>
+    <ClCompile Include="Component_Ui.cpp">
+      <Filter>Comonents</Filter>
+    </ClCompile>
+    <ClCompile Include="BitmapFont.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraView.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="GL.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexLayoutDescription.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertices.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="View.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external\imgui\imgui.cpp">
+      <Filter>IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external\imgui\imgui_demo.cpp">
+      <Filter>IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external\imgui\imgui_draw.cpp">
+      <Filter>IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external\imgui\imgui_impl_glfw.cpp">
+      <Filter>IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external\imgui\imgui_impl_opengl3.cpp">
+      <Filter>IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external\imgui\imgui_widgets.cpp">
+      <Filter>IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Message_Mananger.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound_Manager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="StateManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Message.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Message_Function.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Message_Function_Collision.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Message_Function_Item_Bulkup.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Message_Function_Item_Dash.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Message_Function_Item_Magnatic.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Message_Function_Item_Missile.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Message_Function_Item_Recover.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Message_Function_Item_Reverse_Moving.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Message_Function_Item_Throwing.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Message_Function_Item_Time_Pause.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Message_Function_Respawn.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Message_Function_Wall_Collision.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+    <ClCompile Include="Damage_Calculator.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+    <ClCompile Include="Gamepad.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+    <ClCompile Include="Messagebox.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Component_Info.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+    <ClCompile Include="Player_UI.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+    <ClCompile Include="Referee.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+    <ClCompile Include="UsefulTools.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Component_Enemy.h">
+      <Filter>Comonents\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Component_Hpbar.h">
+      <Filter>Comonents\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Component_Item.h">
+      <Filter>Comonents\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Component_Lock.h">
+      <Filter>Comonents\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Component_Missile.h">
+      <Filter>Comonents\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Component_Player.h">
+      <Filter>Comonents\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Component_Sprite.h">
+      <Filter>Comonents\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Component_Text.h">
+      <Filter>Comonents\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Component_Throwing.h">
+      <Filter>Comonents\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Component_Ui.h">
+      <Filter>Comonents\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics.h">
+      <Filter>Comonents\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.hpp">
+      <Filter>Comonents\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="BitmapFont.hpp">
+      <Filter>Graphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.hpp">
+      <Filter>Graphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraView.hpp">
+      <Filter>Graphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Color4ub.hpp">
+      <Filter>Graphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GL.hpp">
+      <Filter>Graphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="glCheck.hpp">
+      <Filter>Graphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic.h">
+      <Filter>Graphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.hpp">
+      <Filter>Graphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.hpp">
+      <Filter>Graphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.hpp">
+      <Filter>Graphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.hpp">
+      <Filter>Graphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.hpp">
+      <Filter>Graphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.hpp">
+      <Filter>Graphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexLayoutDescription.hpp">
+      <Filter>Graphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertices.hpp">
+      <Filter>Graphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="View.h">
+      <Filter>Graphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\imgui\imconfig.h">
+      <Filter>IMGUI\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\imgui\imgui.h">
+      <Filter>IMGUI\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\imgui\imgui_impl_glfw.h">
+      <Filter>IMGUI\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\imgui\imgui_impl_opengl3.h">
+      <Filter>IMGUI\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\imgui\imgui_internal.h">
+      <Filter>IMGUI\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\imgui\imstb_rectpack.h">
+      <Filter>IMGUI\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\imgui\imstb_textedit.h">
+      <Filter>IMGUI\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external\imgui\imstb_truetype.h">
+      <Filter>IMGUI\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Manager.h">
+      <Filter>Manager\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>Manager\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound_Manager.h">
+      <Filter>Manager\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="StateManager.h">
+      <Filter>Manager\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="StockShaders.hpp">
+      <Filter>Graphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message.h">
+      <Filter>Message\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function.h">
+      <Filter>Message\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Base.h">
+      <Filter>Message\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Collision.h">
+      <Filter>Message\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Item_Bulkup.h">
+      <Filter>Message\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Item_Dash.h">
+      <Filter>Message\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Item_Magnatic.h">
+      <Filter>Message\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Item_Missile.h">
+      <Filter>Message\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Item_Recover.h">
+      <Filter>Message\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Item_Reverse_Moving.h">
+      <Filter>Message\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Item_Throwing.h">
+      <Filter>Message\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Item_Time_Pause.h">
+      <Filter>Message\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Respawn.h">
+      <Filter>Message\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Function_Wall_Collision.h">
+      <Filter>Message\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Message_Kind.h">
+      <Filter>Message\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.hpp">
+      <Filter>Graphics\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="angles.hpp">
+      <Filter>Others\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.hpp">
+      <Filter>Others\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>Others\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Common_Header.h">
+      <Filter>Others\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Damage_Calculator.h">
+      <Filter>Others\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.h">
+      <Filter>Others\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.hpp">
+      <Filter>Others\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Gamepad.hpp">
+      <Filter>Others\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Others\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Messagebox.h">
+      <Filter>Others\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Others\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Component_Info.h">
+      <Filter>Others\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Player_Ui.h">
+      <Filter>Others\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Referee.h">
+      <Filter>Others\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Others\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="UsefulTools.hpp">
+      <Filter>Others\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.hpp">
+      <Filter>Others\Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Component_Collision.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
     <ClCompile Include="Component_Enemy.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -181,12 +602,6 @@
     <ClCompile Include="Component_Missile.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="Message_Function_Item_Missile.cpp">
-      <Filter>Messages</Filter>
-    </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Message.h">
@@ -253,6 +668,9 @@
       <Filter>Imgui_Stuff</Filter>
     </ClInclude>
     <ClInclude Include="Component.hpp">
+      <Filter>Components\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Component_Collision.h">
       <Filter>Components\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Component_Enemy.h">
@@ -396,12 +814,6 @@
     <ClInclude Include="Component_Missile.h">
       <Filter>Components\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Message_Function_Item_Missile.h">
-      <Filter>Messages\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>Source Files\Headers</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Imgui_Stuff">
@@ -437,10 +849,49 @@
     <Filter Include="Source Files\Headers">
       <UniqueIdentifier>{2445b2cd-ce47-40d9-9b1e-2e3d247e0b43}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Comonents">
+      <UniqueIdentifier>{77e7ddca-0855-4017-94d9-f7d03bf11482}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Comonents\Headers">
+      <UniqueIdentifier>{43450070-139a-4008-a168-89f845c2563a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{f7e52ab1-a87e-4832-99bb-ae854ead9d72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Headers">
+      <UniqueIdentifier>{c11f8eeb-b7a3-4f07-9c6d-6c4ac8ff7fd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IMGUI">
+      <UniqueIdentifier>{0025ca23-a6ac-4c66-a678-be9c9996d1c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IMGUI\Headers">
+      <UniqueIdentifier>{797ed157-50e5-4212-82c4-20a0c657d809}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager">
+      <UniqueIdentifier>{83332c95-c6d4-4a31-adb4-4cfe3e5d0893}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\Headers">
+      <UniqueIdentifier>{eefef98b-1a4a-4e7a-85e9-b3facf3f1b76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Message">
+      <UniqueIdentifier>{37604d40-885e-4735-a7ab-2b0ca2ab1e88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Message\Headers">
+      <UniqueIdentifier>{9eb28186-16d1-4d71-b055-58c62dd3974f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Others">
+      <UniqueIdentifier>{55fd3024-de3a-4a1c-a169-37dac5a25923}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Others\Headers">
+      <UniqueIdentifier>{1d7af4fc-08e8-4b40-8bd2-5b91fcf87e94}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="StockShaders.inl">
       <Filter>Graphic</Filter>
+    </None>
+    <None Include="StockShaders.inl">
+      <Filter>Graphics</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -201,7 +201,9 @@
     <ClInclude Include="Component_Throwing.h" />
     <ClInclude Include="Component_Ui.h" />
     <ClInclude Include="Damage_Calculator.h" />
+    <ClInclude Include="Editor.h" />
     <ClInclude Include="Engine.hpp" />
+    <ClInclude Include="Gamepad.hpp" />
     <ClInclude Include="GL.hpp" />
     <ClInclude Include="glCheck.hpp" />
     <ClInclude Include="Graphic.h" />
@@ -224,6 +226,7 @@
     <ClInclude Include="Message_Function_Item_Time_Pause.h" />
     <ClInclude Include="Message_Function_Respawn.h" />
     <ClInclude Include="Message_Function_Wall_Collision.h" />
+    <ClInclude Include="Message_Kind.h" />
     <ClInclude Include="Message_Manager.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectManager.h" />
@@ -276,7 +279,9 @@
     <ClCompile Include="Component_Throwing.cpp" />
     <ClCompile Include="Component_Ui.cpp" />
     <ClCompile Include="Damage_Calculator.cpp" />
+    <ClCompile Include="Editor.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Gamepad.cpp" />
     <ClCompile Include="GL.cpp" />
     <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="Image.cpp" />

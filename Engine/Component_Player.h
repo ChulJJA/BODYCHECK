@@ -32,7 +32,10 @@ public:
 		Time_Pause,
 		Reverse_Moving,
 		Missile_Ready,
-		Missile_Shoot
+		Missile_Shoot,
+		Prepare,
+		Prepared,
+		Disturbed,
 	};
 	enum class Char_State_Additional
 	{
@@ -100,6 +103,11 @@ public:
 	void Set_Missile_Timer(float timer);
 	void Change_To_Normal_State();
 
+	void Set_Prepare_Timer(float timer);
+	void Sprite_After_Preparation(Component* sprite_to_change);
+	void State_After_Preparation(Char_State state);
+
+	
 	
 private:
     Object* hp_bar = nullptr;
@@ -118,8 +126,11 @@ private:
 	Object* locking_result = nullptr;
 	float stop_timer = 0.0f;
 	float missile_timer = 0.f;
-
-	
+	const float* axes;
 	vector2 velocity{};
 	vector2 direction = {0, 1};
+
+	float prepare_sprite_timer = 0.f;
+	Component* change_to_sprite = nullptr;
+	Char_State change_to_state = Char_State::None;
 };

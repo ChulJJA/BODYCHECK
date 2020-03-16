@@ -63,6 +63,10 @@ private:
 public:
 	void Add_Sprite_List(Component* comp)
 	{
+		if(current_showing_sprite == nullptr)
+		{
+			current_showing_sprite = comp;
+		}
 		comp_sprite.push_back(comp);
 	}
 	void Add_Pointed_By(Object** ptr)
@@ -279,6 +283,7 @@ public:
     void Set_Debug_Mesh(Mesh mesh);
     std::string GetName();
     bool Get_Need_To_Update();
+	void Set_Need_To_Update(bool toggle);
 
     Object* Get_Belong_Object_By_Name(std::string name);
     Object* Get_Belong_Object_By_Tag(std::string tag);

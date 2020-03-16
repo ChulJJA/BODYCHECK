@@ -52,7 +52,7 @@ public:
 
 	Object* Get_Missile_From_Saving(int index)
 	{
-		if (missile_num > index)
+		if (missile_count > index)
 		{
 			missile_count++;
 			return missile_saving[index];
@@ -101,7 +101,7 @@ public:
     }
 
 private:
-    Referee() {}
+    Referee();
     static Referee* referee;
 
 
@@ -117,10 +117,10 @@ private:
     Object** player_third_temp;
     Object** player_fourth_temp;
 
-    int player_first_life = 5;
-    int player_sec_life = 5;
-    int player_third_life = 5;
-    int player_fourth_life = 5;
+    int player_first_life;
+    int player_sec_life;
+    int player_third_life;
+    int player_fourth_life;
 
     Object** item_dash;
     Object** item_heal;

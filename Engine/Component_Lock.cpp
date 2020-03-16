@@ -13,13 +13,10 @@ void Lock::Update(float dt)
 {
 	if (locking_obj != nullptr)
 	{
-		
-		if (input.Is_Key_Pressed(GLFW_KEY_SPACE))
-		{
-			Control_Input(dt);
-			m_owner->GetTransform().SetTranslation(pos);
-		}
-		else
+		Control_Input(dt);
+		m_owner->GetTransform().SetTranslation(pos);
+
+		if (input.Is_Key_Triggered(GLFW_KEY_SPACE))
 		{
 			if (locking_target != nullptr)
 			{
@@ -103,7 +100,7 @@ void Lock::Control_Input(float dt)
 void Lock::Func_Set_Magnatic()
 {
 	locking_target->Change_Sprite(locking_target->Find_Sprite_By_Name("normal"));
-	
+
 	Player* info_player = locking_obj->GetComponentByTemplate<Player>();
 	info_player->Set_Char_State(Player::Char_State::Magnatic);
 	info_player->Set_Locking_Result(locking_target);

@@ -13,9 +13,7 @@
 #pragma once
 #include <string>
 #include <functional>
-#include "thread"
-#include <mutex>
-
+#include "Message_Kind.h"
 
 class Message_Func;
 class Object;
@@ -30,7 +28,7 @@ private:
 	float timer = 1.f;
 	Message_Func* func;
 	Object* dash_effect = nullptr;
-	std::mutex guard;
+	Message_Kind kind = Message_Kind::None;
 
 public:
 	Message(Object* target, Object* from, std::string message_name_) :
@@ -41,6 +39,12 @@ public:
 
 	Message(Object* target, Object* from, std::string message_name_, float timer) :
 		m_target(target), m_from(from), message_name(message_name_), timer(timer)
+	{
+		this->Init();
+	}
+
+	Message(Object* target, Object* from, Message_Kind kind, float timer = 1.f) :
+		m_target(target), m_from(from), kind(kind), timer(timer)
 	{
 		this->Init();
 	}
@@ -58,6 +62,10 @@ public:
 	Object* Get_From()
 	{
 		return m_from;
+	}
+	Message_Kind Get_Kind()
+	{
+		return kind;
 	}
 	std::string Get_Message_Name()
 	{

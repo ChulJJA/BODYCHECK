@@ -22,13 +22,35 @@
 #include "StateManager.h"
 #include "Component_Text.h"
 #include "Application.hpp"
+#include "State.h"
+#include "Component_Missile.h"
 #include "UsefulTools.hpp"
 #include "Component_Missile.h"
 #include "Physics.h"
 
+
 Referee* Referee::referee = nullptr;
 StateManager* state_manager = nullptr;
 Application* app = nullptr;
+
+Referee::Referee()
+{
+	state_manager = StateManager::GetStateManager();
+	if (state_manager->GetCurrentState()->GetStateInfo() == GameState::Game)
+	{
+		player_first_life = 5;
+		player_sec_life = 5;
+		player_third_life = 5;
+		player_fourth_life = 5;
+	}
+	else if (state_manager->GetCurrentState()->GetStateInfo() == GameState::Tutorial)
+	{
+		player_first_life = 20;
+		player_sec_life = 20;
+		player_third_life = 20;
+		player_fourth_life = 20;
+	}
+}
 
 Referee* Referee::Get_Referee()
 {
@@ -41,8 +63,9 @@ Referee* Referee::Get_Referee()
 
 void Referee::Init()
 {
-	stage_statements.clear();
 
+	stage_statements.clear();
+	missile_saving = new Object *[missile_num];
 	missile_saving = new Object * [missile_num];
 
 	for (int i = 0; i < missile_num; i++)
@@ -50,13 +73,14 @@ void Referee::Init()
 		missile_saving[i] = new Object();
 		missile_saving[i]->Set_Name("missile");
 		missile_saving[i]->Set_Tag("throwing");
+		missile_saving[i]->SetNeedCollision(true);
 		missile_saving[i]->AddComponent(new Player);
 		missile_saving[i]->AddComponent(new Sprite(missile_saving[i], "../sprite/missiles.png", true, 3, 8, { 0.f,0.f },
-			{ 100.f,100.f }, { 255,255,255,255 }));
+			{ 100.f,100.f }, { 255,255,255,255 }), "missile");
 		missile_saving[i]->AddComponent(new Physics);
 		missile_saving[i]->AddComponent(new Missile);
 		missile_saving[i]->SetScale(2.f);
-		missile_saving[i]->SetNeedCollision(true); //Collision Test
+		missile_saving[i]->Set_Current_Sprite(missile_saving[i]->Find_Sprite_By_Name("missile"));
 	}
 	
 	SetPlayerTemp();
@@ -102,7 +126,17 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	std::string sprite_path_reverse_moving_pen = "../Sprite/reverse_moving_pen";
 	sprite_path_reverse_moving_pen += ".png";
 
-	
+	std::string sprite_path_ready = "../Sprite/loadingscene.png";
+	std::string sprite_path_heal_effect = "../Sprite/effect_heal.png";
+
+	std::string sprite_path_ready_bulkup = "../Sprite/";
+	sprite_path_ready_bulkup += sprite_path;
+	sprite_path_ready_bulkup += "_effect_bulkup.png";
+
+	std::string sprite_path_crying = "../Sprite/";
+	sprite_path_crying += sprite_path;
+	sprite_path_crying += "_crying.png";
+
 	Object* player = new Object();
 	player->Set_Name(name);
 	player->Set_Tag(tag);
@@ -112,7 +146,14 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	player->AddComponent(new Sprite(player, sprite_path_chase.c_str(), pos), "chase", false);
 	player->AddComponent(new Sprite(player, sprite_path_thinking.c_str(), pos), "thinking", false);
 	player->AddComponent(new Sprite(player, sprite_path_reverse_moving_pen.c_str(), pos), "reverse_moving_pen", false);
+	player->AddComponent(new Sprite(player, sprite_path_ready.c_str(), pos), "ready", false);
+	player->AddComponent(new Sprite(player, sprite_path_ready_bulkup.c_str(), true, 8, 24, pos, { 100.f,100.f },
+		{ 255,255,255,255 }), "effect_bulkup", false);
+	player->AddComponent(new Sprite(player, sprite_path_heal_effect.c_str(), true, 4, 6, pos, { 100.f,100.f },
+		{ 255, 255, 255, 255 }), "effect_heal", false);
+	player->AddComponent(new Sprite(player, sprite_path_crying.c_str(), pos), "crying", false);
 	player->AddComponent(new Physics(true));
+	
 	player->Set_Current_Sprite(player->Find_Sprite_By_Name("normal"));
 	player->SetScale({ 3.f,3.f });
 	player->Set_Dmg_Text(text);
@@ -125,14 +166,15 @@ Object* Referee::Make_Item_Pool(std::string sprite_path, vector2 pos, std::strin
 	Item::Item_Kind kind)
 {
 	Object* item = new Object();
-	item->AddComponent(new Sprite(item, sprite_path.c_str(), pos, false));
+	item->AddComponent(new Sprite(item, sprite_path.c_str(), pos, false), "item");
 	item->AddComponent(new Item());
 	item->AddComponent(new Physics());
 	item->Set_Name(name);
 	item->Set_Tag(tag);
 	item->SetTranslation(pos);
 	item->GetComponentByTemplate<Item>()->Set_Kind(kind);
-	item->SetNeedCollision(true); //Collsiion Test
+	item->Set_Current_Sprite(item->Find_Sprite_By_Name("item"));
+	item->SetNeedCollision(true);
 	total_item.push_back(item);
 
 	return item;
@@ -222,9 +264,8 @@ void Referee::Respawn_Player(Stage_Statement state, float dt)
 void Referee::Respawn_Item(float dt)
 {
 	item_respawn_timer -= dt;
-	
 	Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 8));
-	
+
 	if (item_respawn_timer <= 0.0f && total_item_num > 0)
 	{
 		if (item == Item::Item_Kind::Dash)
@@ -237,12 +278,12 @@ void Referee::Respawn_Item(float dt)
 			ObjectManager::GetObjectManager()->AddObject(item_heal[item_num_heal - 1]);
 			item_num_heal--;
 		}
-		else if(item == Item::Item_Kind::Bulkup)
+		else if (item == Item::Item_Kind::Bulkup)
 		{
 			ObjectManager::GetObjectManager()->AddObject(item_bulk_up[item_num_bulk_up - 1]);
 			item_num_bulk_up--;
 		}
-		else if(item == Item::Item_Kind::Throwing)
+		else if (item == Item::Item_Kind::Throwing)
 		{
 			ObjectManager::GetObjectManager()->AddObject(item_throwing[item_num_throwing - 1]);
 			item_num_throwing--;
@@ -274,10 +315,10 @@ void Referee::Respawn_Item(float dt)
 
 void Referee::SetPlayerTemp()
 {
-	player_first_temp = new Object * [player_first_life]();
-	player_sec_temp = new Object * [player_sec_life]();
-	player_third_temp = new Object * [player_third_life]();
-	player_fourth_temp = new Object * [player_fourth_life]();
+	player_first_temp = new Object *[player_first_life]();
+	player_sec_temp = new Object *[player_sec_life]();
+	player_third_temp = new Object *[player_third_life]();
+	player_fourth_temp = new Object *[player_fourth_life]();
 
 
 	for (int i = 0; i < player_first_life; i++)
@@ -300,14 +341,14 @@ void Referee::SetPlayerTemp()
 
 void Referee::SetItem()
 {
-	item_dash = new Object * [item_num]();
-	item_heal = new Object * [item_num]();
-	item_bulk_up = new Object * [item_num]();
-	item_throwing = new Object * [item_num]();
-	item_magnetic = new Object * [item_num]();
-	item_time_pause = new Object * [item_num]();
-	item_reverse_moving = new Object * [item_num]();
-	item_missile = new Object * [item_num]();
+	item_dash = new Object *[item_num]();
+	item_heal = new Object *[item_num]();
+	item_bulk_up = new Object *[item_num]();
+	item_throwing = new Object *[item_num]();
+	item_magnetic = new Object *[item_num]();
+	item_time_pause = new Object *[item_num]();
+	item_reverse_moving = new Object *[item_num]();
+	item_missile = new Object *[item_num]();
 
 
 	for (int i = 0; i < item_num; i++)
@@ -349,11 +390,13 @@ Object* Referee::Return_New_Missile()
 	Object* missile = new Object();;
 	missile->Set_Name("missile");
 	missile->Set_Tag("throwing");
+	missile->SetNeedCollision(true);
 	missile->AddComponent(new Player);
 	missile->AddComponent(new Sprite(missile, "../sprite/missiles.png", true, 3, 8, { 0.f,0.f },
-		{ 100.f,100.f }, { 255,255,255,255 }));
+		{ 100.f,100.f }, { 255,255,255,255 }), "missile");
 	missile->AddComponent(new Physics);
 	missile->AddComponent(new Missile);
+	missile->Set_Current_Sprite(missile->Find_Sprite_By_Name("missile"));
 	missile->SetScale(2.f);
 
 	return missile;

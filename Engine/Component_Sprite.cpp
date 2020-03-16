@@ -100,6 +100,7 @@ void Sprite::Init(Object* obj)
 	m_owner = obj;
 	m_owner->Get_Component_Info_Reference().component_info_sprite = true;
 	m_owner->Add_Sprite_List(this);
+
 	debug_material.shader = &(SHADER::solid_color());
 	m_owner->Set_Center({ m_owner->GetTransform().GetTranslation().x , m_owner->GetTransform().GetTranslation().y });
 }
@@ -125,25 +126,18 @@ Sprite::Sprite(Object* obj, const char* staticSpritePath, vector2 position, bool
 	m_owner = obj;
 
 	const auto path = staticSpritePath;
-	//particle
-	
-	//if(m_owner->Get_Tag() != "hp_bar")
-	//{
-	//	material.shader = &(SHADER::textured());
-	//}
-	//else
-	//{
-	//	material.shader = &(SHADER::instanced());
-	//}
-	
+
 	material.shader = &(SHADER::textured());
-	
+
 	if (!Can_Load_To_Texture(texture, path))
 	{
 	}
 	texture.SelectTextureForSlot(texture);
 	material.textureUniforms["texture_to_sample"] = { &(texture) };
+
 	material.color4fUniforms["color"] = { 1.0f };
+
+
 
 	Mesh square;
 	square = MESH::create_box(100, { 100,100,100,255 });
@@ -215,61 +209,61 @@ void Sprite::Update(float dt)
 	//particle
 	/*if (m_owner->Get_Tag() != "hp_bar")
 	{*/
-		seconds += dt;
-		uint32_t ticks = seconds + 1;
+	seconds += dt;
+	uint32_t ticks = seconds + 1;
 
-		material.floatUniforms["time"] -= dt * speed;
-		if (is_animated && material.floatUniforms["time"] <= 0)
+	material.floatUniforms["time"] -= dt * speed;
+	if (is_animated && material.floatUniforms["time"] <= 0)
+	{
+		m_owner->GetMesh().ClearTextureCoordinates();
+		if (spriteWidth <= 1)
 		{
-			m_owner->GetMesh().ClearTextureCoordinates();
-			if (spriteWidth <= 1)
+			m_owner->GetMesh().AddTextureCoordinate({ spriteWidth , 1 });
+			m_owner->GetMesh().AddTextureCoordinate({ spriteWidth , 0 });
+			spriteWidth += float(1.0 / frame);
+		}
+		else
+		{
+			spriteWidth = 0;
+			m_owner->GetMesh().AddTextureCoordinate({ spriteWidth , 1 });
+			m_owner->GetMesh().AddTextureCoordinate({ spriteWidth , 0 });
+			spriteWidth += float(1.0 / frame);
+		}
+
+		m_owner->GetMesh().AddTextureCoordinate({ spriteWidth , 0 });
+		m_owner->GetMesh().AddTextureCoordinate({ spriteWidth , 1 });
+		m_owner->SetMesh(m_owner->GetMesh());
+		shape.UpdateVerticesFromMesh(m_owner->GetMesh());
+
+		matrix3 mat_ndc = Graphic::GetGraphic()->Get_View().Get_Camera_View().GetCameraToNDCTransform();
+		mat_ndc *= Graphic::GetGraphic()->Get_View().Get_Camera().WorldToCamera();
+		mat_ndc *= m_owner->GetTransform().GetModelToWorld();
+
+		m_owner->GetMesh().Get_Is_Moved() = false;
+		material.floatUniforms["time"] = 1;
+	}
+
+	if (m_owner->GetMesh().Get_Is_Moved() || Graphic::GetGraphic()->get_need_update_sprite() || m_owner->Get_Tag() == "arena")
+	{
+		matrix3 mat_ndc = Graphic::GetGraphic()->Get_View().Get_Camera_View().GetCameraToNDCTransform();
+		mat_ndc *= Graphic::GetGraphic()->Get_View().Get_Camera().WorldToCamera();
+		mat_ndc *= m_owner->GetTransform().GetModelToWorld();
+
+		if (m_owner->GetComponentByTemplate<Physics>() != nullptr)
+		{
+			if (m_owner->GetComponentByTemplate<Physics>()->GetGhostReference())
 			{
-				m_owner->GetMesh().AddTextureCoordinate({ spriteWidth , 1 });
-				m_owner->GetMesh().AddTextureCoordinate({ spriteWidth , 0 });
-				spriteWidth += float(1.0 / frame);
+				material.color4fUniforms["color"] = { 0.5f,0.5f,0.5f,0.5f };
 			}
 			else
 			{
-				spriteWidth = 0;
-				m_owner->GetMesh().AddTextureCoordinate({ spriteWidth , 1 });
-				m_owner->GetMesh().AddTextureCoordinate({ spriteWidth , 0 });
-				spriteWidth += float(1.0 / frame);
+				material.color4fUniforms["color"] = { 1.0f,1.0f,1.0f,1.0f };
 			}
-
-			m_owner->GetMesh().AddTextureCoordinate({ spriteWidth , 0 });
-			m_owner->GetMesh().AddTextureCoordinate({ spriteWidth , 1 });
-			m_owner->SetMesh(m_owner->GetMesh());
-			shape.UpdateVerticesFromMesh(m_owner->GetMesh());
-
-			matrix3 mat_ndc = Graphic::GetGraphic()->Get_View().Get_Camera_View().GetCameraToNDCTransform();
-			mat_ndc *= Graphic::GetGraphic()->Get_View().Get_Camera().WorldToCamera();
-			mat_ndc *= m_owner->GetTransform().GetModelToWorld();
-
-			m_owner->GetMesh().Get_Is_Moved() = false;
-			material.floatUniforms["time"] = 1;
 		}
-
-		if (m_owner->GetMesh().Get_Is_Moved() || Graphic::GetGraphic()->get_need_update_sprite() || m_owner->Get_Tag() == "arena")
-		{
-			matrix3 mat_ndc = Graphic::GetGraphic()->Get_View().Get_Camera_View().GetCameraToNDCTransform();
-			mat_ndc *= Graphic::GetGraphic()->Get_View().Get_Camera().WorldToCamera();
-			mat_ndc *= m_owner->GetTransform().GetModelToWorld();
-
-			if (m_owner->GetComponentByTemplate<Physics>() != nullptr)
-			{
-				if (m_owner->GetComponentByTemplate<Physics>()->GetGhostReference())
-				{
-					material.color4fUniforms["color"] = { 0.5f,0.5f,0.5f,0.5f };
-				}
-				else
-				{
-					material.color4fUniforms["color"] = { 1.0f,1.0f,1.0f,1.0f };
-				}
-			}
-			m_owner->GetMesh().Get_Is_Moved() = false;
-			material.matrix3Uniforms["to_ndc"] = mat_ndc;
-		}
-		Graphic::GetGraphic()->Draw(shape, material);
+		m_owner->GetMesh().Get_Is_Moved() = false;
+		material.matrix3Uniforms["to_ndc"] = mat_ndc;
+	}
+	Graphic::GetGraphic()->Draw(shape, material);
 	//}
 }
 
@@ -283,7 +277,7 @@ void Sprite::Update_Instancing(float dt)
 	instance_ndc += std::to_string(Graphic::GetGraphic()->Instance_Num_Get());
 	instance_ndc += "]";
 	material.floatUniforms["time"] -= dt * speed;
-	
+
 	if (is_animated && material.floatUniforms["time"] <= 0)
 	{
 		m_owner->GetMesh().ClearTextureCoordinates();

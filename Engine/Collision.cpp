@@ -9,6 +9,7 @@
 #include "Component_Throwing.h"
 #include "Engine.hpp"
 #include "Component_Missile.h"
+#include "Object.h"
 
 bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 {
@@ -34,16 +35,16 @@ bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 		if (object_a_tag == "player" && object_b_tag == "player")
 		{
 			physics.KnockBack(object_a, object_b);
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, "collision"));
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
 		}
 		/* Player vs Item */
 		else if (object_a_tag == "player" && object_b_tag == "item")
 		{
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, "collision"));
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
 		}
 		else if(object_b_tag == "player" && object_a_tag == "item")
 		{
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, "collision"));
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
 		}
 		/* Player vs Item throwing */
 		else if (object_a_name == "throwing")
@@ -51,7 +52,7 @@ bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 			if (object_a->GetComponentByTemplate<Throwing>()->Get_Throwing_Obj() != object_b)
 			{
 				physics.PushPlayer(object_b, object_a);
-				Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, "collision"));
+				Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
 			}
 		}
 		else if (object_b_name == "throwing")
@@ -59,7 +60,7 @@ bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 			if (object_b->GetComponentByTemplate<Throwing>()->Get_Throwing_Obj() != object_a)
 			{
 				physics.PushPlayer(object_a, object_b);
-				Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, "collision"));
+				Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
 			}
 		}
 		/* Player vs Item Missile */
@@ -68,7 +69,7 @@ bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 			if (object_a->GetComponentByTemplate<Missile>()->Get_From_Obj() != object_b)
 			{
 				physics.PushPlayer(object_b, object_a);
-				Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, "collision"));
+				Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
 			}
 		}
 		else if (object_b_name == "missile")
@@ -76,22 +77,22 @@ bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 			if (object_b->GetComponentByTemplate<Missile>()->Get_From_Obj() != object_a)
 			{
 				physics.PushPlayer(object_a, object_b);
-				Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, "collision"));
+				Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
 			}
 		}
-		/* Player vs Lock */
+		/* Player vs Item Lock */
 		else if (object_a_tag == "lock")
 		{
 			if (object_a->GetComponentByTemplate<Lock>()->Get_Locking_Obj() != object_b)
 			{
-				Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, "collision"));
+				Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
 			}
 		}
 		else if (object_b_tag == "lock")
 		{
 			if (object_b->GetComponentByTemplate<Lock>()->Get_Locking_Obj() != object_a)
 			{
-				Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, "collision"));
+				Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
 			}
 		}
 	}
@@ -139,7 +140,7 @@ void ArenaAndObjectCollision(Object* object)
 		direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
 		object_player->SetPlayerVelocity(direction_to_go);
 
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, "wall_collision"));
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, Message_Kind::Collision_Wall));
 	}
 	else if (line_max_point - max_y < 0)
 	{
@@ -156,7 +157,7 @@ void ArenaAndObjectCollision(Object* object)
 		direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
 		object_player->SetPlayerVelocity(direction_to_go);
 
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, "wall_collision"));
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, Message_Kind::Collision_Wall));
 	}
 	else if (line_min_point - min_x > 0)
 	{
@@ -172,7 +173,7 @@ void ArenaAndObjectCollision(Object* object)
 		direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
 		object_player->SetPlayerVelocity(direction_to_go);
 
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, "wall_collision"));
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, Message_Kind::Collision_Wall));
 	}
 	else if (line_min_point - min_y > 0)
 	{
@@ -188,7 +189,7 @@ void ArenaAndObjectCollision(Object* object)
 		direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
 		object_player->SetPlayerVelocity(direction_to_go);
 
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, "wall_collision"));
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, Message_Kind::Collision_Wall));
 	}
 }
 
