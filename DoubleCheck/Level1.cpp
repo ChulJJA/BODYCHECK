@@ -15,7 +15,6 @@
 #include <sstream>
 #include "Windows.h"
 #include "Level1.h"
-#include "Component_Collision.h"
 #include "Referee.h"
 #include "Component_Text.h"
 #include "Engine.hpp"
@@ -35,6 +34,7 @@ namespace
     Referee* referee = nullptr;
 
     ObjectManager* object_manager = nullptr;
+
 }
 
 void Level1::Load()
@@ -59,7 +59,6 @@ void Level1::Load()
 	{
 		current_state = GameState::Game;
 		referee = Referee::Get_Referee();
-		//editor = Editor::Get_Editor();
 		object_manager = ObjectManager::GetObjectManager();
 		Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 
@@ -104,7 +103,7 @@ void Level1::Load()
 		Referee::Get_Referee()->Set_Third_Text(text_3);
 		Referee::Get_Referee()->Set_Fourth_Text(text_4);
 
-		referee->AddComponent(new Collision());
+		//referee->SetNeedCollision(true); //Collision Test
 		referee->Init();
 		
 		Graphic::GetGraphic()->get_need_update_sprite() = true;

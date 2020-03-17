@@ -45,6 +45,7 @@ void Msg_Func_Item_Magnatic::Update(float dt)
 			Object* lock = new Object();
 			lock->Set_Name("lock");
 			lock->Set_Tag("lock");
+			lock->SetNeedCollision(true);
 			lock->AddComponent(new Sprite(lock, "../sprite/zoom.png", m_target->GetTransform().GetTranslation()));
 			lock->AddComponent(new Physics());
 			lock->AddComponent(new Lock());

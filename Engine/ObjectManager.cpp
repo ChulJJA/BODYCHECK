@@ -14,6 +14,7 @@
 #include "StateManager.h"
 #include "Component.hpp"
 #include "Component_Sprite.h"
+#include "Collision.h"
 
 ObjectManager* ObjectManager::object_manager = nullptr;
 
@@ -64,6 +65,7 @@ void ObjectManager::Update(float dt)
     else
     {
     }
+    ObjectCollision();
 }
 
 void ObjectManager::Delete()
@@ -136,5 +138,26 @@ void ObjectManager::Instancing_Update(float dt)
 	for(auto obj : objects_instancing)
 	{
 		obj->GetComponentByTemplate<Sprite>()->Update_Instancing(dt);
+	}
+}
+
+void ObjectManager::ObjectCollision()
+{
+	const int object_size = objects.size();
+
+	for(int i = 0 ; i < object_size; ++i)
+	{		
+        if(objects[i]->GetNeedCollision() == true)
+        {
+            ArenaAndObjectCollision(objects[i].get());
+
+            for (int j = 0; j < object_size; ++j)
+            {
+                if (objects[j]->GetNeedCollision() == true && objects[i] != objects[j])
+                {
+                    ObjectAndObjectCollision(objects[i].get(), objects[j].get());
+                }
+            }
+        }
 	}
 }

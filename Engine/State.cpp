@@ -44,6 +44,7 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 	player = new Object();
 	player->Set_Name(name);
 	player->Set_Tag(tag);
+	player->SetNeedCollision(true);
 	player->AddComponent(new Player());
 	player->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
 	player->AddComponent(new Sprite(player, sprite_path_normal.c_str(), pos), "normal", true);

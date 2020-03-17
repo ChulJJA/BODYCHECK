@@ -11,11 +11,11 @@
  */
 
 #include "Windows.h"
-#include "Component_Collision.h"
 #include "Referee.h"
 #include "Component_Text.h"
 #include "Player_Ui.h"
 #include "TestLevel.h"
+#include "Physics.h"
 
 using namespace std;
 

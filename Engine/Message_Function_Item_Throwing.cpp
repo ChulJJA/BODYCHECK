@@ -52,9 +52,11 @@ void Msg_Func_Item_Throwing::Update(float dt)
 			throwing->GetComponentByTemplate<Throwing>()->Set_Angle(m_target->GetTransform().GetRotation());
 			throwing->GetComponentByTemplate<Throwing>()->Set_Throwing_Obj(m_target);
 			throwing->SetScale(2.f);
+			throwing->SetNeedCollision(true);
 			ObjectManager::GetObjectManager()->AddObject(throwing);
+			
+			msg->Set_Should_Delete(true);
 		}
 	}
 	
-	msg->Set_Should_Delete(true);
 }

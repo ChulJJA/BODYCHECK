@@ -13,6 +13,8 @@
 #pragma once
 #include "Component.hpp"
 
+class Player;
+
 class Hp_Bar : public Component
 {
 public:
@@ -54,4 +56,6 @@ private:
     int hp;
 	Hp_Bar_State curr_state;
 	float timer;
+	Object* hp_owner = nullptr;
+	Player* info_player;
 };

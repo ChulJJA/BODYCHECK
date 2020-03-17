@@ -29,6 +29,7 @@
 #define GLFW_EXPOSE_NATIVE_WIN32 
 #include <GLFW/glfw3native.h>
 #include <mutex>
+#include "Physics.h"
 
 namespace
 {
@@ -79,7 +80,7 @@ void Tutorial::Load()
 
 
 
-		referee->AddComponent(new Collision());
+		//referee->SetNeedCollision(true);
 		//referee->SetTutorialLife();
 		referee->Init();
 		Graphic::GetGraphic()->get_need_update_sprite() = true;
@@ -114,6 +115,7 @@ void Tutorial::SetFirstPlayer()
 	Player_First = new Object();
 	Player_First->Set_Name("first");
 	Player_First->Set_Tag("player");
+	Player_First->SetNeedCollision(true);
 	Player_First->AddComponent(new Player());
 	Player_First->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
 	Player_First->AddComponent(new Sprite(Player_First, "../Sprite/pen_green.png", { 400,400 }));
@@ -135,6 +137,7 @@ void Tutorial::SetSecondPlayer()
 	Player_Second = new Object();
 	Player_Second->Set_Name("second");
 	Player_Second->Set_Tag("player");
+	Player_Second->SetNeedCollision(true);
 	Player_Second->AddComponent(new Player());
 	Player_Second->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
 	Player_Second->AddComponent(new Sprite(Player_Second, "../Sprite/pen_red.png", { -400,400 }));
@@ -156,6 +159,7 @@ void Tutorial::SetThirdPlayer()
 	Player_Third = new Object();
 	Player_Third->Set_Name("third");
 	Player_Third->Set_Tag("player");
+	Player_Third->SetNeedCollision(true);
 	Player_Third->AddComponent(new Player());
 	Player_Third->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
 	Player_Third->AddComponent(new Sprite(Player_Third, "../Sprite/pen_purple.png", { 400,-400 }));
@@ -177,6 +181,7 @@ void Tutorial::SetFourthPlayer()
 	Player_Fourth = new Object();
 	Player_Fourth->Set_Name("fourth");
 	Player_Fourth->Set_Tag("player");
+	Player_Fourth->SetNeedCollision(true);
 	Player_Fourth->AddComponent(new Player());
 	Player_Fourth->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
 	Player_Fourth->AddComponent(new Sprite(Player_Fourth, "../Sprite/pen_normal.png", { -400,-400 }));

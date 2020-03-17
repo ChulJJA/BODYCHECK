@@ -1,6 +1,7 @@
 #include "Component_Missile.h"
 #include "Component_Player.h"
 #include "angles.hpp"
+#include "Physics.h"
 
 void Missile::Init(Object* obj)
 {
@@ -68,7 +69,7 @@ void Missile::Rotating_Toward_Target()
 	angle += 90;
 	m_owner->SetRotation(angle);
 
-	m_owner->GetComponentByTemplate<Player>()->SetPlayerVelocity(
+	m_owner->GetComponentByTemplate<Physics>()->SetVelocity(
 		{ sin(angle_in_radian) * -20, cos(angle_in_radian) * 20 }
 	);
 }

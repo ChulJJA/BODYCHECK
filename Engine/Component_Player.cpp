@@ -58,21 +58,6 @@ void Player::Update(float dt)
 			}
 		}
 
-		/*else if (curr_state == Char_State::Throwing)
-		{
-			Func_Bulk_Throwing(dt);
-		}*/
-		/*else if (curr_state == Char_State::Lock_Ready)
-		{
-			Func_Lock_Ready(dt);
-		}
-		else if (curr_state == Char_State::Lock_Ing)
-		{
-		}
-		else if (curr_state == Char_State::Magnatic)
-		{
-			Func_Magnatic(dt);
-		}*/
 		else if (curr_state == Char_State::Time_Pause)
 		{
 			Func_Time_Pause(dt);
@@ -81,10 +66,7 @@ void Player::Update(float dt)
 		{
 			Func_Reverse_Moving(dt);
 		}
-		/*else if (curr_state == Char_State::Missile_Shoot)
-		{
-			Func_Missile_Shoot(dt);
-		}*/
+
 		if (hp_bar != nullptr)
 		{
 			hp_bar->GetTransform().GetTranslation_Reference().x = m_owner->GetTransform().GetTranslation().x;
@@ -124,16 +106,15 @@ void Player::SetHPBar()
 	hp_bar->Set_Name(m_owner->Get_Name() + "hp_bar");
 	hp_bar->Set_Tag("hp_bar");
 	hp_bar->AddComponent(new Sprite(hp_bar, "../Sprite/HP.png", hp_bar_pos, false), "sprite_hp_bar", need_update_hp_bar);
+	hp_bar->Set_This_Obj_Owner(m_owner);
 	hp_bar->AddComponent(new Hp_Bar());
 
-	hp_bar->Set_This_Obj_Owner(m_owner);
 	this->hp_bar = hp_bar;
 	m_owner->Get_Belongs_Objects().push_back(hp_bar);
 
 	if (m_owner->Get_Tag() != "save" && m_owner->Get_Tag() != "throwing")
 	{
 		ObjectManager::GetObjectManager()->AddObject(hp_bar);
-		//ObjectManager::GetObjectManager()->Add_Object_Instancing(hp_bar);
 	}
 }
 
@@ -222,6 +203,7 @@ void Player::Func_Bulk_Throwing(float dt)
 	throwing->GetComponentByTemplate<Throwing>()->Set_Angle(m_owner->GetTransform().GetRotation());
 	throwing->GetComponentByTemplate<Throwing>()->Set_Throwing_Obj(m_owner);
 	throwing->SetScale(2.f);
+	throwing->SetNeedCollision(true);
 	ObjectManager::GetObjectManager()->AddObject(throwing);
 
 }
@@ -233,6 +215,7 @@ void Player::Func_Lock_Ready(float dt)
 	Object* lock = new Object();
 	lock->Set_Name("lock");
 	lock->Set_Tag("lock");
+	lock->SetNeedCollision(true);
 	lock->AddComponent(new Sprite(lock, "../sprite/zoom.png", m_owner->GetTransform().GetTranslation()));
 	lock->AddComponent(new Physics());
 	lock->AddComponent(new Lock());
@@ -318,10 +301,7 @@ void Player::Func_Time_Pause(float dt)
 
 			if (get_player != nullptr)
 			{
-				if (player->Get_Is_It_Collided() == true)
-				{
 					get_player->Set_Char_State(Player::Char_State::None);
-				}
 
 			}
 		}*/
@@ -700,13 +680,12 @@ void Player::UseItem()
 
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Throwing)
 	{
-		//Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, "throwing", 0.f));
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Throwing, 0.f));
 	}
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Magnatic)
 	{
 		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Magnetic));
 	}
-
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Time_Pause)
 	{
 		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Timepause));

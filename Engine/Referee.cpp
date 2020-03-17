@@ -16,7 +16,6 @@
 #include "Component_Sprite.h"
 #include "ObjectManager.h"
 #include "Graphic.h"
-#include "Component_Collision.h"
 #include "Component_Item.h"
 #include "Player_Ui.h"
 #include "Engine.hpp"
@@ -27,6 +26,7 @@
 #include "Component_Missile.h"
 #include "UsefulTools.hpp"
 #include "Component_Missile.h"
+#include "Physics.h"
 
 
 Referee* Referee::referee = nullptr;
@@ -73,7 +73,7 @@ void Referee::Init()
 		missile_saving[i] = new Object();
 		missile_saving[i]->Set_Name("missile");
 		missile_saving[i]->Set_Tag("throwing");
-		missile_saving[i]->AddComponent(new Player);
+		missile_saving[i]->SetNeedCollision(true);
 		missile_saving[i]->AddComponent(new Sprite(missile_saving[i], "../sprite/missiles.png", true, 3, 8, { 0.f,0.f },
 			{ 100.f,100.f }, { 255,255,255,255 }), "missile");
 		missile_saving[i]->AddComponent(new Physics);
@@ -97,8 +97,6 @@ void Referee::Update(float dt)
 	}
 
 	Respawn_Item(dt);
-
-	this->GetComponentByTemplate<Collision>()->Update(dt);
 }
 
 void Referee::Delete()
@@ -158,6 +156,7 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	player->Set_Current_Sprite(player->Find_Sprite_By_Name("normal"));
 	player->SetScale({ 3.f,3.f });
 	player->Set_Dmg_Text(text);
+	player->SetNeedCollision(true);
 
 	return player;
 }
@@ -174,6 +173,7 @@ Object* Referee::Make_Item_Pool(std::string sprite_path, vector2 pos, std::strin
 	item->SetTranslation(pos);
 	item->GetComponentByTemplate<Item>()->Set_Kind(kind);
 	item->Set_Current_Sprite(item->Find_Sprite_By_Name("item"));
+	item->SetNeedCollision(true);
 	total_item.push_back(item);
 
 	return item;
@@ -384,13 +384,12 @@ void Referee::SetItem()
 	}
 }
 
-
 Object* Referee::Return_New_Missile()
 {
 	Object* missile = new Object();;
 	missile->Set_Name("missile");
 	missile->Set_Tag("throwing");
-	missile->AddComponent(new Player);
+	missile->SetNeedCollision(true);
 	missile->AddComponent(new Sprite(missile, "../sprite/missiles.png", true, 3, 8, { 0.f,0.f },
 		{ 100.f,100.f }, { 255,255,255,255 }), "missile");
 	missile->AddComponent(new Physics);

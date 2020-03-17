@@ -24,6 +24,7 @@ void Editor::Init()
 		items[i]->Set_Name("item");
 		items[i]->Set_Tag("item");
 		items[i]->SetScale({ 1.f, 1.f });
+		items[i]->SetNeedCollision(true);
 		items[i]->GetComponentByTemplate<Item>()->Set_Kind(Item::Item_Kind::None);
 		items[i]->Add_Pointed_By(&items[i]);
 	}

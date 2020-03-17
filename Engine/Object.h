@@ -58,8 +58,8 @@ private:
     Object* dmg_text = nullptr;
     float dmg_plus = 0.f;
 	bool is_it_collided;
-	Component* current_showing_sprite = nullptr;
-
+	Component* current_showing_sprite;
+    bool need_collision;
 public:
 	void Add_Sprite_List(Component* comp)
 	{
@@ -174,14 +174,6 @@ public:
     {
         center_pos = new_center;
     }
-	void Set_Is_It_Collided(bool toggle)
-    {
-		is_it_collided = toggle;
-    }
-	bool Get_Is_It_Collided()
-    {
-		return is_it_collided;
-    }
     Object(bool need_to_update = true) : component_info(this)
     {
         tag = "none";
@@ -295,6 +287,9 @@ public:
 
     Object* Get_Belong_Object_By_Name(std::string name);
     Object* Get_Belong_Object_By_Tag(std::string tag);
+
+    bool GetNeedCollision();
+    void SetNeedCollision(bool collision);
 };
 
 template <typename COMPONENT>

@@ -150,3 +150,13 @@ Object* Object::Get_Belong_Object_By_Tag(std::string tag)
 	}
 	return nullptr;
 }
+
+bool Object::GetNeedCollision()
+{
+	return need_collision;
+}
+
+void Object::SetNeedCollision(bool collision)
+{
+	need_collision = collision;
+}

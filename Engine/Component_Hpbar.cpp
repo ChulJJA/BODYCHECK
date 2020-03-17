@@ -27,6 +27,8 @@ void Hp_Bar::Init(Object* obj)
 	m_owner = obj;
 	offset = 0;
 	hp = 100;
+	hp_owner = m_owner->Get_This_Obj_Owner();
+	info_player = hp_owner->GetComponentByTemplate<Player>();
 }
 
 void Hp_Bar::Update(float dt)
@@ -39,18 +41,20 @@ void Hp_Bar::Update(float dt)
 			{
 				timer -= dt;
 
-				if (m_owner->GetTransform().GetScale_Reference().x <= 1.f)
+				vector2& scale = m_owner->GetTransform().GetScale_Reference();
+
+				if (scale.x <= 1.f)
 				{
-					m_owner->GetTransform().GetScale_Reference().x += dt;
+					scale.x += dt;
 
 					offset = 0;
 
-					m_owner->GetTransform().GetTranslation_Reference().x = m_owner->Get_This_Obj_Owner()->GetTransform().GetTranslation().x;
+					scale.x = hp_owner->GetTransform().GetTranslation().x;
 				}
 
 				if (timer <= 0.f)
 				{
-					m_owner->Get_This_Obj_Owner()->Find_Sprite_By_Name("effect_heal")->Set_Need_Update(false);
+					hp_owner->Find_Sprite_By_Name("effect_heal")->Set_Need_Update(false);
 					curr_state = Hp_Bar_State::None;
 				}
 			}
@@ -63,8 +67,7 @@ void Hp_Bar::Update(float dt)
 			}
 			else
 			{
-				Object* hp_bar_owner = m_owner->Get_This_Obj_Owner();
-				hp_bar_owner->GetComponentByTemplate<Player>()->Change_To_Normal_State();
+				info_player->Change_To_Normal_State();
 				curr_state = Hp_Bar_State::None;
 			}
 		}
@@ -76,25 +79,20 @@ void Hp_Bar::Decrease(float dmg)
 {
 	if (m_owner->GetTransform().GetScale_Reference().x > 0)
 	{
-		Object* Hp_Owner_Obj = m_owner->Get_This_Obj_Owner();
-		//Player* info_player = m_owner->Get_This_Obj_Owner()->GetComponentByTemplate<Player>();
-
 		float damage = dmg;
 		m_owner->GetTransform().GetScale_Reference().x -= damage;
 		offset -= static_cast<int>(damage * 50);
 
 		if (m_owner->GetTransform().GetScale_Reference().x <= 0)
 		{
-			//info_player->Get_Ui()->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 0.5f,0.5f,0.5f,0.5f };
-
 			if (m_owner->Get_This_Obj_Owner()->Get_Hitted_By() != nullptr)
 			{
 				m_owner->Get_This_Obj_Owner()->Get_Hitted_By()->GetTransform().GetScale_Reference() += {0.3f, 0.3f};
 				m_owner->Get_This_Obj_Owner()->Get_Hitted_By()->Get_Plus_Dmg() += 0.1f;
 			}
 			m_owner->SetDeadCondition(true);
-			Hp_Owner_Obj->SetDeadCondition(true);
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(Referee::Get_Referee(), Hp_Owner_Obj, Message_Kind::Respawn));
+			hp_owner->SetDeadCondition(true);
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(Referee::Get_Referee(), hp_owner, Message_Kind::Respawn));
 		}
 	}
 }

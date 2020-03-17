@@ -29,7 +29,7 @@ void Physics::Init(Object* obj)
 void Physics::Update(float dt)
 {
 	SetGhostReference(dt);
-	MoveObject();
+	//MoveObject();
 }
 
 void Physics::KnockBack(Object* object_1, Object* object_2)
@@ -71,6 +71,18 @@ void Physics::KnockBack(Object* object_1, Object* object_2)
 	}
 }
 
+void Physics::PushPlayer(Object* player, Object* object)
+{
+	vector2 object_velocity = object->GetComponentByTemplate<Physics>()->GetVelocity();
+
+	Player* info_player = player->GetComponentByTemplate<Player>();
+	
+	if(info_player != nullptr)
+	{
+		info_player->SetPlayerVelocity(object_velocity);
+	}
+}
+
 void Physics::SpeedDown(Object* object)
 {
 	if(!object->IsDead())
@@ -103,6 +115,7 @@ void Physics::SetGhostReference(float dt)
 			
 			ghost_timer = 1.0f;
 			is_ghost = false;
+			m_owner->SetNeedCollision(true);
 		}
 	}
 }
