@@ -31,6 +31,15 @@ enum class Sprite_Type
 	Player_Effect_Heal,
 	Player_Crying,
 
+	Item,
+	Item_Dash,
+	Item_Bulkup,
+	Item_Heal,
+	Item_Throw,
+	Item_Magnet,
+	Item_Timepause,
+	Item_Reverse,
+	Item_Missile
 };
 
 

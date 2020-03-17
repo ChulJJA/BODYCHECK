@@ -153,7 +153,7 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	player->AddComponent(new Sprite(player, sprite_path_crying.c_str(), pos, false, Sprite_Type::Player_Crying), "crying", false);
 	player->AddComponent(new Physics(true));
 	
-	player->Set_Current_Sprite(player->Find_Sprite_By_Name("normal"));
+	player->Set_Current_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Player_Normal));
 	player->SetScale({ 3.f,3.f });
 	player->Set_Dmg_Text(text);
 	player->SetNeedCollision(true);

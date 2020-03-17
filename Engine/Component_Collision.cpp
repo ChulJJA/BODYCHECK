@@ -331,7 +331,7 @@ void Collision::Collision_Off_Lock_And_Player(Object* player, Object* lock)
 	{
 		if (info_lock->Get_Locking_Target() == player)
 		{
-			player->Change_Sprite(player->Find_Sprite_By_Name("normal"));
+			player->Change_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Player_Normal));
 		}
 		info_lock->Set_Locking_Target(nullptr);
 	}
