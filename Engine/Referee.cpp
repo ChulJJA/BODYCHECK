@@ -140,17 +140,17 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	player->Set_Name(name);
 	player->Set_Tag(tag);
 	player->AddComponent(new Player(false));
-	player->AddComponent(new Sprite(player, sprite_path_normal.c_str(), pos), "normal", true);
-	player->AddComponent(new Sprite(player, sprite_path_lock.c_str(), pos), "lock", false);
-	player->AddComponent(new Sprite(player, sprite_path_chase.c_str(), pos), "chase", false);
-	player->AddComponent(new Sprite(player, sprite_path_thinking.c_str(), pos), "thinking", false);
-	player->AddComponent(new Sprite(player, sprite_path_reverse_moving_pen.c_str(), pos), "reverse_moving_pen", false);
-	player->AddComponent(new Sprite(player, sprite_path_ready.c_str(), pos), "ready", false);
+	player->AddComponent(new Sprite(player, sprite_path_normal.c_str(), pos, false, Sprite_Type::Player_Normal), "normal", true);
+	player->AddComponent(new Sprite(player, sprite_path_lock.c_str(), pos, false, Sprite_Type::Player_Locking), "lock", false);
+	player->AddComponent(new Sprite(player, sprite_path_chase.c_str(), pos, false, Sprite_Type::Player_Chasing), "chase", false);
+	player->AddComponent(new Sprite(player, sprite_path_thinking.c_str(), pos, false, Sprite_Type::Player_Thinking), "thinking", false);
+	player->AddComponent(new Sprite(player, sprite_path_reverse_moving_pen.c_str(), pos, false, Sprite_Type::Player_Reverse_Moving), "reverse_moving_pen", false);
+	player->AddComponent(new Sprite(player, sprite_path_ready.c_str(), pos, false, Sprite_Type::Player_Ready), "ready", false);
 	player->AddComponent(new Sprite(player, sprite_path_ready_bulkup.c_str(), true, 8, 24, pos, { 100.f,100.f },
-		{ 255,255,255,255 }), "effect_bulkup", false);
+		{ 255,255,255,255 }, Sprite_Type::Player_Effect_Bulkp), "effect_bulkup", false);
 	player->AddComponent(new Sprite(player, sprite_path_heal_effect.c_str(), true, 4, 6, pos, { 100.f,100.f },
-		{ 255, 255, 255, 255 }), "effect_heal", false);
-	player->AddComponent(new Sprite(player, sprite_path_crying.c_str(), pos), "crying", false);
+		{ 255, 255, 255, 255 }, Sprite_Type::Player_Effect_Heal), "effect_heal", false);
+	player->AddComponent(new Sprite(player, sprite_path_crying.c_str(), pos, false, Sprite_Type::Player_Crying), "crying", false);
 	player->AddComponent(new Physics(true));
 	
 	player->Set_Current_Sprite(player->Find_Sprite_By_Name("normal"));

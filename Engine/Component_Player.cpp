@@ -544,7 +544,7 @@ void Player::Change_To_Normal_State()
 {
 	curr_state = Char_State::None;
 	curr_state_additional = Char_State_Additional::None;
-	m_owner->Change_Sprite(m_owner->Find_Sprite_By_Name("normal"));
+	m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Normal));
 }
 
 void Player::Set_Prepare_Timer(float timer)

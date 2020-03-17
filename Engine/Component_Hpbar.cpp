@@ -86,7 +86,7 @@ void Hp_Bar::Recovering(float dt)
 
 		if (timer <= 0.f)
 		{
-			hp_owner->Find_Sprite_By_Name("effect_heal")->Set_Need_Update(false);
+			hp_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Heal)->Set_Need_Update(false);
 			curr_state = Hp_Bar_State::None;
 		}
 	}

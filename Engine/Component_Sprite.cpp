@@ -101,6 +101,16 @@ bool Sprite::Can_Load_To_Texture(Texture& texture, const char* file_path)
 	return is_okay;
 }
 
+void Sprite::Set_Player_Sprite_Type(Sprite_Type type_player)
+{
+	sprite_type = type_player;
+}
+
+Sprite_Type Sprite::Get_Sprite_Type()
+{
+	return sprite_type;
+}
+
 void Sprite::Init(Object* obj)
 {
 	m_owner = obj;
@@ -127,7 +137,7 @@ Sprite::Sprite(Object* obj, bool need_debug_drawing)
 	m_owner->Get_Object_Points() = m_owner->GetMesh().Get_Points();
 }
 
-Sprite::Sprite(Object* obj, const char* staticSpritePath, vector2 position, bool need_debug_drawing)
+Sprite::Sprite(Object* obj, const char* staticSpritePath, vector2 position, bool need_debug_drawing, Sprite_Type type_player)
 {
 	m_owner = obj;
 
@@ -161,9 +171,11 @@ Sprite::Sprite(Object* obj, const char* staticSpritePath, vector2 position, bool
 
 		m_owner->Set_Debug_Mesh(debug_mesh);
 	}
+
+	sprite_type = type_player;
 }
 
-Sprite::Sprite(Object* obj, const char* aniamtedSpritePath, bool animated, int frames, float m_speed, vector2 position, vector2 scale, Color4ub color)
+Sprite::Sprite(Object* obj, const char* aniamtedSpritePath, bool animated, int frames, float m_speed, vector2 position, vector2 scale, Color4ub color, Sprite_Type type_player)
 {
 	m_owner = obj;
 	is_animated = animated;
@@ -201,6 +213,8 @@ Sprite::Sprite(Object* obj, const char* aniamtedSpritePath, bool animated, int f
 	material.matrix3Uniforms["to_ndc"] = mat_ndc * MATRIX3::build_scale(2.0f / width, 2.0f / height);
 
 	material.floatUniforms["time"] = 1;
+
+	sprite_type = type_player;
 }
 
 

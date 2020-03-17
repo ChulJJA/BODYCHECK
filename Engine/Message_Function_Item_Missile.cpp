@@ -6,6 +6,7 @@
 #include "ObjectManager.h"
 #include "Referee.h"
 #include "Component_Missile.h"
+#include "Component_Sprite.h"
 
 void Msg_Func_Item_Missile::Init()
 {
@@ -23,8 +24,8 @@ void Msg_Func_Item_Missile::Init()
 			info_player->Set_Char_State(Player::Char_State::Prepare);
 			info_player->Set_Prepare_Timer(3.f);
 
-			info_player->Sprite_After_Preparation(obj->Find_Sprite_By_Name("chase"));			
-			obj->Change_Sprite(obj->Find_Sprite_By_Name("ready"));
+			info_player->Sprite_After_Preparation(obj->Find_Sprite_By_Type(Sprite_Type::Player_Chasing));
+			obj->Change_Sprite(obj->Find_Sprite_By_Type(Sprite_Type::Player_Ready));
 			info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Use, Ui::Ui_Status_Obj::Item_Missile);
 		}
 		

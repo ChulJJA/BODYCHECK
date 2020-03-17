@@ -16,7 +16,7 @@ public:
 	void Set_Timer(float timer_);
 	void Set_Angle(float angle);
 	void Set_Throwing_Obj(Object* obj);
-	Object* Get_Throwing_Obj();
+	Object* Get_Throwing_Obj() const;
 private:
 	float timer;
 	float angle;

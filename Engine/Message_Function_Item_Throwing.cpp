@@ -24,9 +24,9 @@ void Msg_Func_Item_Throwing::Init()
 			info_player->Set_Char_State(Player::Char_State::Prepare);
 			info_player->Set_Prepare_Timer(3.f);
 
-			info_player->Sprite_After_Preparation(obj->Find_Sprite_By_Name("chase"));
+			info_player->Sprite_After_Preparation(obj->Find_Sprite_By_Type(Sprite_Type::Player_Chasing));
 
-			obj->Change_Sprite(obj->Find_Sprite_By_Name("ready"));
+			obj->Change_Sprite(obj->Find_Sprite_By_Type(Sprite_Type::Player_Ready));
 			
 			info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Use, Ui::Ui_Status_Obj::Item_Throwing);
 		}

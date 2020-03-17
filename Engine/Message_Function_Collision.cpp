@@ -63,7 +63,7 @@ void Msg_Func_Collision::Update(float dt)
 				Object* pointer_target = pointer->GetComponentByTemplate<Lock>()->Get_Locking_Target();
 				if (pointer_target != nullptr)
 				{
-					pointer_target->Change_Sprite(pointer_target->Find_Sprite_By_Name("normal"));
+					pointer_target->Change_Sprite(pointer_target->Find_Sprite_By_Type(Sprite_Type::Player_Normal));
 				}
 
 				player_from_info->Change_To_Normal_State();
@@ -78,7 +78,7 @@ void Msg_Func_Collision::Update(float dt)
 				Object* pointer_target = pointer->GetComponentByTemplate<Lock>()->Get_Locking_Target();
 				if (pointer_target != nullptr)
 				{
-					pointer_target->Change_Sprite(pointer_target->Find_Sprite_By_Name("normal"));
+					pointer_target->Change_Sprite(pointer_target->Find_Sprite_By_Type(Sprite_Type::Player_Normal));
 				}
 
 				player_target_info->Change_To_Normal_State();
@@ -239,8 +239,8 @@ void Msg_Func_Collision::Player_And_Player_Collision()
 						hp_bar_info_target->Set_Timer(1.f);
 						hp_bar_info_from->Set_Timer(1.f);
 						
-						m_from->Change_Sprite(m_from->Find_Sprite_By_Name("crying"));
-						m_target->Change_Sprite(m_target->Find_Sprite_By_Name("crying"));
+						m_from->Change_Sprite(m_from->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
+						m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
 					}
 				}
 				
@@ -255,14 +255,14 @@ void Msg_Func_Collision::Player_And_Lock_Collision(Object* player, Object* lock)
 
 	if (lock->IsDead() == false)
 	{
-		player->Change_Sprite(player->Find_Sprite_By_Name("lock"));
+		player->Change_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Player_Locking));
 
 		if (info_lock->Get_Locking_Target() != nullptr)
 		{
 			if (info_lock->Get_Locking_Target() != player)
 			{
 				info_lock->Get_Locking_Target()->Change_Sprite(
-					info_lock->Get_Locking_Target()->Find_Sprite_By_Name("normal")
+					info_lock->Get_Locking_Target()->Find_Sprite_By_Type(Sprite_Type::Player_Normal)
 				);
 			}
 		}
