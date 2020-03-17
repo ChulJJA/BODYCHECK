@@ -2,7 +2,6 @@
 #include "Object.h"
 #include "angles.hpp"
 #include "Physics.h"
-#include "Component_Player.h"
 
 
 void Throwing::Init(Object* obj)
