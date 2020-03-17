@@ -26,7 +26,6 @@ void Msg_Func_Item_Magnatic::Init()
 			info_player->Set_Prepare_Timer(3.f);
 
 			info_player->Sprite_After_Preparation(obj->Find_Sprite_By_Name("chase"));
-			//info_player->State_After_Preparation(Player::Char_State::Lock_Ready);
 			
 			obj->Change_Sprite(obj->Find_Sprite_By_Name("ready"));
 			

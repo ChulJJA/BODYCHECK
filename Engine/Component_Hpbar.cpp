@@ -19,16 +19,13 @@
 #include "Referee.h"
 #include "Component_Text.h"
 #include "Component_Player.h"
-#include "Player_Ui.h"
 #include "Message_Kind.h"
 
 void Hp_Bar::Init(Object* obj)
 {
 	m_owner = obj;
 	offset = 0;
-	hp = 100;
 	hp_owner = m_owner->Get_This_Obj_Owner();
-	info_player = hp_owner->GetComponentByTemplate<Player>();
 }
 
 void Hp_Bar::Update(float dt)
@@ -37,39 +34,11 @@ void Hp_Bar::Update(float dt)
 	{
 		if (curr_state == Hp_Bar_State::Recovering)
 		{
-			if (timer >= 0.f)
-			{
-				timer -= dt;
-
-				vector2& scale = m_owner->GetTransform().GetScale_Reference();
-
-				if (scale.x <= 1.f)
-				{
-					scale.x += dt;
-
-					offset = 0;
-
-					scale.x = hp_owner->GetTransform().GetTranslation().x;
-				}
-
-				if (timer <= 0.f)
-				{
-					hp_owner->Find_Sprite_By_Name("effect_heal")->Set_Need_Update(false);
-					curr_state = Hp_Bar_State::None;
-				}
-			}
+			Recovering(dt);
 		}
 		else if (curr_state == Hp_Bar_State::Damaging)
 		{
-			if (timer > 0.f)
-			{
-				timer -= dt;
-			}
-			else
-			{
-				info_player->Change_To_Normal_State();
-				curr_state = Hp_Bar_State::None;
-			}
+			Damaging(dt);
 		}
 	}
 
@@ -77,23 +46,62 @@ void Hp_Bar::Update(float dt)
 
 void Hp_Bar::Decrease(float dmg)
 {
-	if (m_owner->GetTransform().GetScale_Reference().x > 0)
+	vector2& hp_scale = m_owner->GetTransform().GetScale_Reference();
+	Object* hitted_by = hp_owner->Get_Hitted_By();
+	
+	if (hp_scale.x > 0)
 	{
-		float damage = dmg;
-		m_owner->GetTransform().GetScale_Reference().x -= damage;
+		const float damage = dmg;
+		hp_scale.x -= damage;
+		
 		offset -= static_cast<int>(damage * 50);
 
-		if (m_owner->GetTransform().GetScale_Reference().x <= 0)
+		if (hp_scale.x <= 0)
 		{
-			if (m_owner->Get_This_Obj_Owner()->Get_Hitted_By() != nullptr)
+			if (hitted_by != nullptr)
 			{
-				m_owner->Get_This_Obj_Owner()->Get_Hitted_By()->GetTransform().GetScale_Reference() += {0.3f, 0.3f};
-				m_owner->Get_This_Obj_Owner()->Get_Hitted_By()->Get_Plus_Dmg() += 0.1f;
+				hitted_by->GetTransform().GetScale_Reference() += {0.3f, 0.3f};
+				hitted_by->Get_Plus_Dmg() += 0.1f;
 			}
+			
 			m_owner->SetDeadCondition(true);
 			hp_owner->SetDeadCondition(true);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(Referee::Get_Referee(), hp_owner, Message_Kind::Respawn));
 		}
+	}
+}
+
+void Hp_Bar::Recovering(float dt)
+{
+	if (timer >= 0.f)
+	{
+		timer -= dt;
+		vector2& scale = m_owner->GetTransform().GetScale_Reference();
+
+		if (scale.x <= 1.f)
+		{
+			scale.x += dt;
+			offset = 0;
+		}
+
+		if (timer <= 0.f)
+		{
+			hp_owner->Find_Sprite_By_Name("effect_heal")->Set_Need_Update(false);
+			curr_state = Hp_Bar_State::None;
+		}
+	}
+}
+
+void Hp_Bar::Damaging(float dt)
+{
+	if (timer > 0.f)
+	{
+		timer -= dt;
+	}
+	else
+	{
+		hp_owner->GetComponentByTemplate<Player>()->Change_To_Normal_State();
+		curr_state = Hp_Bar_State::None;
 	}
 }
 

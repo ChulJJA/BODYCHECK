@@ -27,7 +27,7 @@ public:
 		Damaging
 	};
 	
-	Hp_Bar() :offset(0.f), hp(0), curr_state(Hp_Bar_State::None), timer(0.f)
+	Hp_Bar() :offset(0.f), curr_state(Hp_Bar_State::None), timer(0.f)
 	{
 
 	}
@@ -35,9 +35,12 @@ public:
     void Init(Object* obj) override;
     void Update(float dt) override;
     void Decrease(float dmg);
-
+	
     int& Get_Set_Offset();
 
+	void Recovering(float dt);
+	void Damaging(float dt);
+	
 	Hp_Bar_State Get_Hp_Bard_State()
 	{
 		return curr_state;
@@ -53,7 +56,6 @@ public:
 
 private:
     int offset;
-    int hp;
 	Hp_Bar_State curr_state;
 	float timer;
 	Object* hp_owner = nullptr;

@@ -26,9 +26,9 @@ void Lock::Update(float dt)
 			else
 			{
 				locking_obj->Change_Sprite(locking_obj->Find_Sprite_By_Name("normal"));
-				locking_obj->GetComponentByTemplate<Player>()->Set_Char_State(Player::Char_State::None);
+				info_player_locking_obj->Set_Char_State(Player::Char_State::None);
 			}
-			locking_obj->GetComponentByTemplate<Player>()->Set_Locking(nullptr);
+			info_player_locking_obj->Set_Locking(nullptr);
 			m_owner->SetDeadCondition(true);
 		}
 	}
@@ -54,11 +54,12 @@ void Lock::Set_Locking_Obj(Object* obj)
 	if (obj != nullptr)
 	{
 		locking_obj = obj;
+		info_player_locking_obj = locking_obj->GetComponentByTemplate<Player>();
 		obj->Add_Pointed_By(&locking_obj);
 	}
 }
 
-Object* Lock::Get_Locking_Obj()
+Object* Lock::Get_Locking_Obj() const
 {
 	return locking_obj;
 }
@@ -97,13 +98,11 @@ void Lock::Control_Input(float dt)
 	}
 }
 
-void Lock::Func_Set_Magnatic()
+void Lock::Func_Set_Magnatic() const
 {
 	locking_target->Change_Sprite(locking_target->Find_Sprite_By_Name("normal"));
-
-	Player* info_player = locking_obj->GetComponentByTemplate<Player>();
-	info_player->Set_Char_State(Player::Char_State::Magnatic);
-	info_player->Set_Locking_Result(locking_target);
-
+	
+	info_player_locking_obj->Set_Char_State(Player::Char_State::Magnatic);
+	info_player_locking_obj->Set_Locking_Result(locking_target);
 	locking_obj->Change_Sprite(locking_obj->Find_Sprite_By_Name("chase"));
 }

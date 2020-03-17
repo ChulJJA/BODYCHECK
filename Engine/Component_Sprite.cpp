@@ -17,9 +17,7 @@
 #include "Graphic.h"
 #include "Object.h"
 #include "Component_Hpbar.h"
-#include <thread>
 #include "Physics.h"
-#include "Component_Player.h"
 
 void Helper_Addpoint_Circle(std::size_t& point_count, Mesh& mesh, float& radius, float position_x = 0, float position_y = 0, bool move_up_down = true)
 {
@@ -103,6 +101,7 @@ void Sprite::Init(Object* obj)
 
 	debug_material.shader = &(SHADER::solid_color());
 	m_owner->Set_Center({ m_owner->GetTransform().GetTranslation().x , m_owner->GetTransform().GetTranslation().y });
+
 }
 
 Sprite::Sprite(Object* obj, bool need_debug_drawing)
@@ -139,8 +138,7 @@ Sprite::Sprite(Object* obj, const char* staticSpritePath, vector2 position, bool
 
 
 
-	Mesh square;
-	square = MESH::create_box(100, { 100,100,100,255 });
+	Mesh square = MESH::create_box(100, { 100,100,100,255 });
 	shape.InitializeWithMeshAndLayout(square, SHADER::textured_vertex_layout());
 
 	m_owner->SetMesh(square);
@@ -206,34 +204,35 @@ void draw(Vertices shape, material material)
 
 void Sprite::Update(float dt)
 {
-	//particle
-	/*if (m_owner->Get_Tag() != "hp_bar")
-	{*/
+
 	seconds += dt;
 	uint32_t ticks = seconds + 1;
+
+	Mesh& mesh = m_owner->GetMesh();
 
 	material.floatUniforms["time"] -= dt * speed;
 	if (is_animated && material.floatUniforms["time"] <= 0)
 	{
-		m_owner->GetMesh().ClearTextureCoordinates();
+		mesh.ClearTextureCoordinates();
 		if (spriteWidth <= 1)
 		{
-			m_owner->GetMesh().AddTextureCoordinate({ spriteWidth , 1 });
-			m_owner->GetMesh().AddTextureCoordinate({ spriteWidth , 0 });
+			mesh.AddTextureCoordinate({ spriteWidth , 1 });
+			mesh.AddTextureCoordinate({ spriteWidth , 0 });
 			spriteWidth += float(1.0 / frame);
 		}
 		else
 		{
 			spriteWidth = 0;
-			m_owner->GetMesh().AddTextureCoordinate({ spriteWidth , 1 });
-			m_owner->GetMesh().AddTextureCoordinate({ spriteWidth , 0 });
+			mesh.AddTextureCoordinate({ spriteWidth , 1 });
+			mesh.AddTextureCoordinate({ spriteWidth , 0 });
 			spriteWidth += float(1.0 / frame);
 		}
 
-		m_owner->GetMesh().AddTextureCoordinate({ spriteWidth , 0 });
-		m_owner->GetMesh().AddTextureCoordinate({ spriteWidth , 1 });
-		m_owner->SetMesh(m_owner->GetMesh());
-		shape.UpdateVerticesFromMesh(m_owner->GetMesh());
+		mesh.AddTextureCoordinate({ spriteWidth , 0 });
+		mesh.AddTextureCoordinate({ spriteWidth , 1 });
+		
+		m_owner->SetMesh(mesh);
+		shape.UpdateVerticesFromMesh(mesh);
 
 		matrix3 mat_ndc = Graphic::GetGraphic()->Get_View().Get_Camera_View().GetCameraToNDCTransform();
 		mat_ndc *= Graphic::GetGraphic()->Get_View().Get_Camera().WorldToCamera();
@@ -249,9 +248,11 @@ void Sprite::Update(float dt)
 		mat_ndc *= Graphic::GetGraphic()->Get_View().Get_Camera().WorldToCamera();
 		mat_ndc *= m_owner->GetTransform().GetModelToWorld();
 
-		if (m_owner->GetComponentByTemplate<Physics>() != nullptr)
+		Physics* physics = m_owner->GetComponentByTemplate<Physics>();
+		
+		if (physics != nullptr)
 		{
-			if (m_owner->GetComponentByTemplate<Physics>()->GetGhostReference())
+			if (physics->GetGhostReference())
 			{
 				material.color4fUniforms["color"] = { 0.5f,0.5f,0.5f,0.5f };
 			}
@@ -260,11 +261,10 @@ void Sprite::Update(float dt)
 				material.color4fUniforms["color"] = { 1.0f,1.0f,1.0f,1.0f };
 			}
 		}
-		m_owner->GetMesh().Get_Is_Moved() = false;
+		mesh.Get_Is_Moved() = false;
 		material.matrix3Uniforms["to_ndc"] = mat_ndc;
+		Graphic::GetGraphic()->Draw(shape, material);
 	}
-	Graphic::GetGraphic()->Draw(shape, material);
-	//}
 }
 
 void Sprite::Update_Instancing(float dt)
