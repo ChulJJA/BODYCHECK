@@ -111,8 +111,10 @@ bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 
 void ArenaAndObjectCollision(Object* object)
 {
-	const float line_max_point = 1000;
-	const float line_min_point = -1000;
+	const float x_max_point = 1720;
+	const float x_min_point = -1720;
+	const float y_max_point = 1000;
+	const float y_min_point = -700;
 	float angle;
 	float temp_angle;
 
@@ -126,7 +128,7 @@ void ArenaAndObjectCollision(Object* object)
 
 	Player* object_player = object->GetComponentByTemplate<Player>();
 
-	if (line_max_point - max_x < 0)
+	if (x_max_point - max_x < 0)
 	{
 		if (DeleteUnlessPlayer(object))
 		{
@@ -142,7 +144,7 @@ void ArenaAndObjectCollision(Object* object)
 
 		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, Message_Kind::Collision_Wall));
 	}
-	else if (line_max_point - max_y < 0)
+	else if (y_max_point - max_y < 0)
 	{
 		if (DeleteUnlessPlayer(object))
 		{
@@ -159,7 +161,7 @@ void ArenaAndObjectCollision(Object* object)
 
 		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, Message_Kind::Collision_Wall));
 	}
-	else if (line_min_point - min_x > 0)
+	else if (x_min_point - min_x > 0)
 	{
 		if (DeleteUnlessPlayer(object))
 		{
@@ -175,7 +177,7 @@ void ArenaAndObjectCollision(Object* object)
 
 		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, Message_Kind::Collision_Wall));
 	}
-	else if (line_min_point - min_y > 0)
+	else if (y_min_point - min_y > 0)
 	{
 		if (DeleteUnlessPlayer(object))
 		{
