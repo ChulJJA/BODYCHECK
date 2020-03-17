@@ -28,7 +28,6 @@ void Hp_Bar::Init(Object* obj)
 	offset = 0;
 	hp = 100;
 	hp_owner = m_owner->Get_This_Obj_Owner();
-	info_player = hp_owner->GetComponentByTemplate<Player>();
 }
 
 void Hp_Bar::Update(float dt)
@@ -67,7 +66,7 @@ void Hp_Bar::Update(float dt)
 			}
 			else
 			{
-				info_player->Change_To_Normal_State();
+				hp_owner->GetComponentByTemplate<Player>()->Change_To_Normal_State();
 				curr_state = Hp_Bar_State::None;
 			}
 		}
