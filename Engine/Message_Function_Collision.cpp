@@ -11,7 +11,6 @@
 #include "Component_Ui.h"
 #include "Component_Lock.h"
 
-
 void Msg_Func_Collision::Init()
 {
 }
@@ -30,10 +29,12 @@ void Msg_Func_Collision::Update(float dt)
 	}
 	else if (m_target->Get_Tag() == "throwing" && m_from->Get_Tag() == "player")
 	{
+		physics.PushPlayer(m_from, m_target);
 		m_target->SetDeadCondition(true);
 	}
 	else if (m_from->Get_Tag() == "throwing" && m_target->Get_Tag() == "player")
 	{
+		physics.PushPlayer(m_target, m_from);
 		m_from->SetDeadCondition(true);
 	}
 	else if (m_from->Get_Tag() == "throwing" && m_target->Get_Tag() == "throwing")
@@ -57,6 +58,7 @@ void Msg_Func_Collision::Update(float dt)
 	}
 	else if (m_from->Get_Tag() == "player" && m_target->Get_Tag() == "player")
 	{
+		physics.KnockBack(m_from, m_target);
 		Player_And_Player_Collision();
 		Player* player_from_info = m_from->GetComponentByTemplate<Player>();
 		Player* player_target_info = m_target->GetComponentByTemplate<Player>();

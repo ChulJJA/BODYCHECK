@@ -17,7 +17,7 @@ bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 	{
 		return false;
 	}
-	
+
 	const vector2 obj_a_trans = object_a->GetTransform().GetTranslation();
 	const vector2 obj_b_trans = object_b->GetTransform().GetTranslation();
 	const float obj_a_radius = object_a->GetTransform().GetScale().x * 30.f;
@@ -28,26 +28,12 @@ bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 	std::string object_a_name = object_a->Get_Name();
 	std::string object_b_name = object_b->Get_Name();
 	Physics physics;
-	
+
 	if (distance < obj_a_radius + obj_b_radius)
 	{
-		/* Player vs Player */
-		if (object_a_tag == "player" && object_b_tag == "player")
-		{
-			physics.KnockBack(object_a, object_b);
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
-		}
-		/* Player vs Item */
-		else if (object_a_tag == "player" && object_b_tag == "item")
-		{
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
-		}
-		else if(object_b_tag == "player" && object_a_tag == "item")
-		{
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
-		}
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
 		/* Player vs Item throwing */
-		else if (object_a_name == "throwing")
+		if (object_a_name == "throwing")
 		{
 			if (object_a->GetComponentByTemplate<Throwing>()->Get_Throwing_Obj() != object_b)
 			{
@@ -222,7 +208,7 @@ bool DeleteUnlessPlayer(Object* object)
 {
 	Throwing* object_throwing = object->GetComponentByTemplate<Throwing>();
 	Lock* object_lock = object->GetComponentByTemplate<Lock>();
-	
+
 	if (object_throwing != nullptr || object_lock != nullptr)
 	{
 		object->SetDeadCondition(true);
