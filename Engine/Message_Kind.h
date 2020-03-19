@@ -14,7 +14,8 @@ enum class Message_Kind
 	Item_Magnetic,
 	Item_Timepause,
 	Item_Reverse,
-	Item_Missile
+	Item_Missile,
+	Item_Mine
 
 	
 };

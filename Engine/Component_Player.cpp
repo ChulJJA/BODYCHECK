@@ -85,6 +85,15 @@ void Player::Update(float dt)
 		{
 			Func_Missile_Shoot(dt);
 		}
+		else if (curr_state == Char_State::Mine)
+		{
+			Func_Mine(dt);
+		}
+
+		else if (curr_state_additional == Char_State_Additional::Get_Mine_Stop)
+		{
+			Func_Mine_Collided(dt);
+		}
 		if (hp_bar != nullptr)
 		{
 			hp_bar->GetTransform().GetTranslation_Reference().x = m_owner->GetTransform().GetTranslation().x;
@@ -93,14 +102,14 @@ void Player::Update(float dt)
 
 
 		if (curr_state != Player::Char_State::Reverse_Moving && curr_state != Player::Char_State::Time_Pause &&
-			curr_state_additional != Char_State_Additional::Chasing)
+			curr_state_additional != Char_State_Additional::Chasing && curr_state_additional != Char_State_Additional::Get_Mine_Stop)
 		{
 			PlayerMovement(0.6f, 0.12f);
 			m_owner->GetTransform().AddTranslation(velocity);
 
 		}
 		else if (curr_state == Player::Char_State::Reverse_Moving && curr_state != Player::Char_State::Time_Pause &&
-			curr_state_additional != Char_State_Additional::Chasing)
+			curr_state_additional != Char_State_Additional::Chasing && curr_state_additional != Char_State_Additional::Get_Mine_Stop)
 		{
 			PlayerMovement(-0.12f, -0.6f);
 			m_owner->GetTransform().AddTranslation(velocity);
@@ -349,6 +358,39 @@ void Player::Func_Reverse_Moving(float dt)
 				get_player->Get_Char_State() == Player::Char_State::None;
 			}
 		}
+	}
+}
+
+void Player::Func_Mine(float dt)
+{
+	if (input.Is_Key_Pressed(GLFW_KEY_SPACE))
+	{
+		curr_state = Char_State::None;
+		install_mine = new Object();
+		install_mine->Set_Name("install_mine");
+		install_mine->Set_Tag("install_mine");
+		install_mine->AddComponent(new Physics());
+		install_mine->AddComponent(new Player());
+		install_mine->AddComponent(new Sprite(install_mine, "../sprite/mine_object.png", { m_owner->GetTransform().GetTranslation().x ,m_owner->GetTransform().GetTranslation().y - 150 }));
+		//install_mine->DeleteComponent(install_mine->GetComponentByTemplate<Hp_Bar>());
+		install_mine->SetScale(2.f);
+		install_mine->SetNeedCollision(true);
+		ObjectManager::GetObjectManager()->AddObject(install_mine);
+	}
+
+}
+
+void Player::Func_Mine_Collided(float dt)
+{
+
+	if (stop_timer > 0.0f)
+	{
+		stop_timer -= dt;
+	}
+	else
+	{
+		curr_state_additional = Char_State_Additional::None;
+		//install_mine->SetDeadCondition(true);
 	}
 }
 
@@ -716,6 +758,10 @@ void Player::UseItem()
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Missile)
 	{
 		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Missile));
+	}
+	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Mine)
+	{
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Mine));
 	}
 }
 

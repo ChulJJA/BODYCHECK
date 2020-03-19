@@ -68,7 +68,10 @@ void Ui::Change_Item_Ui()
 		{
 			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("missile"));
 		}
-
+		else if (status_info_obj == Ui_Status_Obj::Item_Mine)
+		{
+			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("mine"));
+		}
 		else
 		{
 			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("none"));

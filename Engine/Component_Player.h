@@ -36,12 +36,14 @@ public:
 		Prepare,
 		Prepared,
 		Disturbed,
+		Mine
 	};
 	enum class Char_State_Additional
 	{
 		None,
 		Chasing,
-		Chasing_stop
+		Chasing_stop,
+		Get_Mine_Stop
 	};
 	enum class Char_State_By_Other
 	{
@@ -92,8 +94,8 @@ public:
 	void Func_Time_Pause(float dt);
 	void Func_Reverse_Moving(float dt);
 	void Func_Missile_Shoot(float dt);
-
-	
+	void Func_Mine(float dt);
+	void Func_Mine_Collided(float dt);
 	void PlayerMovement(float max_velocity, float min_velocity);
 	void SetPlayerVelocity(vector2 current_velocity);
 	vector2 GetPlayerVelocity();
@@ -133,4 +135,5 @@ private:
 	float prepare_sprite_timer = 0.f;
 	Component* change_to_sprite = nullptr;
 	Char_State change_to_state = Char_State::None;
+	Object* install_mine;
 };

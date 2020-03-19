@@ -211,6 +211,7 @@
     <ClInclude Include="Message_Function_Item_Bulkup.h" />
     <ClInclude Include="Message_Function_Item_Dash.h" />
     <ClInclude Include="Message_Function_Item_Magnatic.h" />
+    <ClInclude Include="Message_Function_Item_Mine.h" />
     <ClInclude Include="Message_Function_Item_Missile.h" />
     <ClInclude Include="Message_Function_Item_Recover.h" />
     <ClInclude Include="Message_Function_Item_Reverse_Moving.h" />
@@ -273,6 +274,7 @@
     <ClCompile Include="Message_Function_Item_Bulkup.cpp" />
     <ClCompile Include="Message_Function_Item_Dash.cpp" />
     <ClCompile Include="Message_Function_Item_Magnatic.cpp" />
+    <ClCompile Include="Message_Function_Item_Mine.cpp" />
     <ClCompile Include="Message_Function_Item_Missile.cpp" />
     <ClCompile Include="Message_Function_Item_Recover.cpp" />
     <ClCompile Include="Message_Function_Item_Reverse_Moving.cpp" />

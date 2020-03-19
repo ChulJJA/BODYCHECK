@@ -47,6 +47,14 @@ void Msg_Func_Collision::Update(float dt)
 	{
 		Player_And_Lock_Collision(m_from, m_target);
 	}
+	else if (m_from->Get_Tag() == "install_mine" && m_target->Get_Tag() == "player")
+	{
+		Player_And_Mine_Collision(m_target, m_from);
+	}
+	else if (m_target->Get_Tag() == "install_mine" && m_from->Get_Tag() == "player")
+	{
+		Player_And_Mine_Collision(m_from, m_target);
+	}
 	else if (m_from->Get_Tag() == "player" && m_target->Get_Tag() == "player")
 	{
 		Player_And_Player_Collision();
@@ -176,6 +184,12 @@ void Msg_Func_Collision::Player_Get_Item(Object* player, Object* item)
 		player_info->Set_Item_State(Item::Item_Kind::Missile);
 		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Missile);
 	}
+
+	else if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Mine)
+	{
+		player_info->Set_Item_State(Item::Item_Kind::Mine);
+		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Mine);
+	}
 }
 
 void Msg_Func_Collision::Player_And_Player_Collision()
@@ -268,4 +282,12 @@ void Msg_Func_Collision::Player_And_Lock_Collision(Object* player, Object* lock)
 		}
 		info_lock->Set_Locking_Target(player);
 	}
+}
+
+void Msg_Func_Collision::Player_And_Mine_Collision(Object* player, Object* mine/*, float dt*/)
+{
+	Player* get_player = player->GetComponentByTemplate<Player>();
+	get_player->Set_Char_State_Additional(Player::Char_State_Additional::Get_Mine_Stop);
+	get_player->Set_Stop_Timer(3.0f);
+	mine->SetDeadCondition(true);
 }
