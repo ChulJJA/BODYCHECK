@@ -47,7 +47,17 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 	player->SetNeedCollision(true);
 	player->AddComponent(new Player());
 	player->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
-	player->AddComponent(new Sprite(player, sprite_path_normal.c_str(), pos, false, Sprite_Type::Player_Normal), "normal", true);
+
+	if(sprite_path != "pen_green")
+	{
+		player->AddComponent(new Sprite(player, sprite_path_normal.c_str(), pos, false, Sprite_Type::Player_Normal), "normal", true);
+	}
+	else
+	{
+		player->AddComponent(new Sprite(player, "../Sprite/pen_green_ani.png", true, 8, 12, pos, { 100.f,100.f },
+			{ 255,255,255,255 }, Sprite_Type::Player_Normal), "normal", true);
+	}
+	
 	player->AddComponent(new Sprite(player, sprite_path_lock.c_str(), pos,false, Sprite_Type::Player_Locking), "lock", false);
 	player->AddComponent(new Sprite(player, sprite_path_chase.c_str(), pos, false, Sprite_Type::Player_Chasing), "chase", false);
 	player->AddComponent(new Sprite(player, sprite_path_thinking.c_str(), pos, false, Sprite_Type::Player_Thinking), "thinking", false);

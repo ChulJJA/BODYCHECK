@@ -73,7 +73,7 @@ void Level1::Load()
 		arena->SetScale({ 20, 20 });
 		ObjectManager::GetObjectManager()->AddObject(arena);
 
-		player = Make_Player("first", "player", "pen_green", { 400.f, 400.f }, { 3.f, 3.f });
+		player = Make_Player("first", "player", "pen_green", { 400.f, 400.f }, { 2.f, 2.f });
 		player_sec = Make_Player("second", "player", "pen_red", { 400.f, -400.f }, { 3.f, 3.f });
 		player_third = Make_Player("third", "player", "pen_purple", { -400.f, 400.f }, { 3.f, 3.f });
 		player_forth = Make_Player("forth", "player", "pen_normal", { -400.f, -400.f }, { 3.f, 3.f });
@@ -118,9 +118,5 @@ void Level1::Load()
 
 void Level1::Update(float dt)
 {
-
-	
-	
 	referee->Update(dt);
-
 }

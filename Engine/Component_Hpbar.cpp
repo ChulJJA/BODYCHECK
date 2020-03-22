@@ -47,7 +47,7 @@ void Hp_Bar::Update(float dt)
 void Hp_Bar::Decrease(float dmg)
 {
 	vector2& hp_scale = m_owner->GetTransform().GetScale_Reference();
-	Object* hitted_by = hp_owner->Get_Hitted_By();
+	Object* hitting_obj = hp_owner->Get_Hitted_By();
 	
 	if (hp_scale.x > 0)
 	{
@@ -58,10 +58,10 @@ void Hp_Bar::Decrease(float dmg)
 
 		if (hp_scale.x <= 0)
 		{
-			if (hitted_by != nullptr)
+			if (hitting_obj != nullptr)
 			{
-				hitted_by->GetTransform().GetScale_Reference() += {0.3f, 0.3f};
-				hitted_by->Get_Plus_Dmg() += 0.1f;
+				hitting_obj->GetTransform().GetScale_Reference() += {0.7f, 0.7f};
+				hitting_obj->Get_Plus_Dmg() += 0.1f;
 			}
 			
 			m_owner->SetDeadCondition(true);

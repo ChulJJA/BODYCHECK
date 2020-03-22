@@ -263,7 +263,7 @@ void Referee::Respawn_Player(Stage_Statement state, float dt)
 void Referee::Respawn_Item(float dt)
 {
 	item_respawn_timer -= dt;
-	Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 8));
+	const Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 8));
 
 	if (item_respawn_timer <= 0.0f && total_item_num > 0)
 	{

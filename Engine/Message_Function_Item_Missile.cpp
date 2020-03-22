@@ -46,7 +46,7 @@ void Msg_Func_Item_Missile::Update(float dt)
 
 			for (int i = 0; i < player_count; i++)
 			{
-				int index = Referee::Get_Referee()->Get_Missile_Count();
+				const int index = Referee::Get_Referee()->Get_Missile_Count();
 				Object* missiles = Referee::Get_Referee()->Get_Missile_From_Saving(index);
 				missiles->GetTransform().SetTranslation(m_target->GetTransform().GetTranslation());
 				missiles->GetComponentByTemplate<Missile>()->Set_Target(another_players[i]);
