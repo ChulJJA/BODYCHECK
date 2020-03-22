@@ -25,9 +25,8 @@
 #include <thread>
 #include "Logo.h"
 #include "TestLevel.h"
-#include "SoundOption.h"
+#include "Option.h"
 #include "Loading_Scene.h"
-#include "Testing_Level.h"
 #include "Editor.h"
 
 
@@ -84,9 +83,8 @@ void Engine::Init()
     state_manager->AddState("Menu", new MainMenu);
     state_manager->AddState("Level1", new Level1);
     state_manager->AddState("Tutorial", new Tutorial);
-    state_manager->AddState("SoundOption", new SoundOption);
+    state_manager->AddState("Option", new Option);
     state_manager->AddState("TestLevel", new TestLevel);
-	state_manager->AddState("Testing_Level", new Testing_Level);
 	state_manager->AddState("Loading", new Loading_Scene);
     game_timer.Reset();
 }

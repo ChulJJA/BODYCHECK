@@ -20,7 +20,7 @@
 #include "Sound_Manager.h"
 #include "Windows.h"
 #include <GLFW/glfw3.h>
-#include "SoundOption.h"
+#include "Option.h"
 #include "UsefulTools.hpp"
 
 namespace
@@ -29,7 +29,7 @@ namespace
 	StateManager* state_manager = nullptr;
 }
 
-void SoundOption::Load()
+void Option::Load()
 {
 	state_manager = StateManager::GetStateManager();
 	object_manager = ObjectManager::GetObjectManager();
@@ -48,7 +48,7 @@ void SoundOption::Load()
 	SetBackButton();
 }
 
-void SoundOption::Update(float dt)
+void Option::Update(float dt)
 {	
 	volume_timer++;
 	button_timer++;
@@ -64,20 +64,26 @@ void SoundOption::Update(float dt)
 	}
 }
 
-void SoundOption::Clear()
+void Option::Clear()
 {
 	object_manager->Clear();
 }
 
-void SoundOption::SetMusicIcon()
+void Option::SetMusicIcon()
 {
+	const float bgm_volume = sound.GetSoundGroupVolume(true);
+	const float sfx_volume = sound.GetSoundGroupVolume(false);
+	const float initial_bgm_icon = bgm_volume * 4 * 680;
+	const float initial_sfx_icon = sfx_volume * 4 * 680;
+
+	
 	music_icon[0] = new Object();
-	music_icon[0]->AddComponent(new Sprite(music_icon[0], "../Sprite/icon.png", { -50, -390 }, false));
+	music_icon[0]->AddComponent(new Sprite(music_icon[0], "../Sprite/icon.png", { -1410 + initial_sfx_icon, -390 }, false));
 	music_icon[0]->GetTransform().SetScale({ 5, 5 });
 	ObjectManager::GetObjectManager()->AddObject(music_icon[0]);
 
 	music_icon[1] = new Object();
-	music_icon[1]->AddComponent(new Sprite(music_icon[1], "../Sprite/icon.png", { -50, 120 }, false));
+	music_icon[1]->AddComponent(new Sprite(music_icon[1], "../Sprite/icon.png", { -1410 + initial_bgm_icon, 120 }, false));
 	music_icon[1]->GetTransform().SetScale({ 5, 5 });
 	ObjectManager::GetObjectManager()->AddObject(music_icon[1]);
 
@@ -87,7 +93,7 @@ void SoundOption::SetMusicIcon()
 	ObjectManager::GetObjectManager()->AddObject(music_icon[2]);
 }
 
-void SoundOption::SetMusicVolumeBox()
+void Option::SetMusicVolumeBox()
 {
 	volume_box[0] = new Object();
 	volume_box[0]->AddComponent(new Sprite(volume_box[0], "../Sprite/VolumeBox.png", { 0, 500 }, false));
@@ -120,7 +126,7 @@ void SoundOption::SetMusicVolumeBox()
 	ObjectManager::GetObjectManager()->AddObject(volume_box_hover[2]);
 }
 
-void SoundOption::MusicVolume()
+void Option::MusicVolume()
 {
 	float volume;
 	
@@ -201,7 +207,7 @@ void SoundOption::MusicVolume()
 
 }
 
-void SoundOption::SetMuteButton()
+void Option::SetMuteButton()
 {
 	mute_button[0] = new Object();
 	mute_button[0]->AddComponent(new Sprite(mute_button[0], "../Sprite/Mute.png", { 1600, 600 }, false));
@@ -234,7 +240,7 @@ void SoundOption::SetMuteButton()
 	ObjectManager::GetObjectManager()->AddObject(unmute_button[2]);
 }
 
-void SoundOption::Mute()
+void Option::Mute()
 {
 	float bgm_volume = sound.GetSoundGroupVolume(true);
 	float sfx_volume = sound.GetSoundGroupVolume(false);
@@ -258,7 +264,7 @@ void SoundOption::Mute()
 	}
 }
 
-void SoundOption::SetInfoText()
+void Option::SetInfoText()
 {
 	info_text[0] = new Object();
 	info_text[0]->AddComponent(new Sprite(info_text[0], "../Sprite/Master.png", { -1300, 800 }, false));
@@ -276,7 +282,7 @@ void SoundOption::SetInfoText()
 	ObjectManager::GetObjectManager()->AddObject(info_text[2]);
 }
 
-void SoundOption::SetBackButton()
+void Option::SetBackButton()
 {
 	back_button = new Object();
 	back_button->AddComponent(new Sprite(back_button, "../Sprite/BackButton.png", { 0, -700 }, false));
@@ -290,7 +296,7 @@ void SoundOption::SetBackButton()
 	ObjectManager::GetObjectManager()->AddObject(back_button_hover);
 }
 
-void SoundOption::ButtonSelector()
+void Option::ButtonSelector()
 {
 	if (input.Is_Key_Pressed(GLFW_KEY_DOWN) && pointer <= static_cast<int>(BUTTON::BACK))
 	{
@@ -352,7 +358,7 @@ void SoundOption::ButtonSelector()
 	}
 }
 
-void SoundOption::SetSoundVolume(float value, bool BGM)
+void Option::SetSoundVolume(float value, bool BGM)
 {
 	float volume;
 	
@@ -361,7 +367,7 @@ void SoundOption::SetSoundVolume(float value, bool BGM)
 		volume = sound.GetSoundGroupVolume(true);
 		sound.SetSoundGroupVolume(true, volume + value);
 	}
-	else
+	else if(BGM == false)
 	{
 		volume = sound.GetSoundGroupVolume(false);
 		sound.SetSoundGroupVolume(false, volume + value);

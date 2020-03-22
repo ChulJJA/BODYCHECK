@@ -16,7 +16,7 @@
 
 class Object;
 
-class SoundOption : public State
+class Option : public State
 {
 	enum class BUTTON
 	{
@@ -26,9 +26,9 @@ class SoundOption : public State
 		BACK
 	};
 public:
-    SoundOption()
+    Option()
     {
-	    current_state = GameState::Sound;
+	    current_state = GameState::Option;
     }
 
     virtual void Load();

@@ -174,28 +174,21 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\external\imgui\imconfig.h" />
-    <ClInclude Include="..\external\imgui\imgui.h" />
-    <ClInclude Include="..\external\imgui\imgui_impl_glfw.h" />
-    <ClInclude Include="..\external\imgui\imgui_impl_opengl3.h" />
-    <ClInclude Include="..\external\imgui\imgui_internal.h" />
-    <ClInclude Include="..\external\imgui\imstb_rectpack.h" />
-    <ClInclude Include="..\external\imgui\imstb_textedit.h" />
-    <ClInclude Include="..\external\imgui\imstb_truetype.h" />
     <ClInclude Include="angles.hpp" />
     <ClInclude Include="Application.hpp" />
     <ClInclude Include="BitmapFont.hpp" />
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="CameraView.hpp" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="Color4f.hpp" />
     <ClInclude Include="Color4ub.hpp" />
     <ClInclude Include="Common_Header.h" />
-    <ClInclude Include="Component.hpp" />
     <ClInclude Include="Component_Enemy.h" />
     <ClInclude Include="Component_Hpbar.h" />
     <ClInclude Include="Component_Item.h" />
     <ClInclude Include="Component_Lock.h" />
     <ClInclude Include="Component_Missile.h" />
+    <ClInclude Include="Component_Player.h" />
     <ClInclude Include="Component_Sprite.h" />
     <ClInclude Include="Component_Text.h" />
     <ClInclude Include="Component_Throwing.h" />
@@ -208,7 +201,6 @@
     <ClInclude Include="glCheck.hpp" />
     <ClInclude Include="Graphic.h" />
     <ClInclude Include="Image.hpp" />
-    <ClInclude Include="Input.h" />
     <ClInclude Include="Material.hpp" />
     <ClInclude Include="Mesh.hpp" />
     <ClInclude Include="Message.h" />
@@ -216,8 +208,8 @@
     <ClInclude Include="Message_Function.h" />
     <ClInclude Include="Message_Function_Base.h" />
     <ClInclude Include="Message_Function_Collision.h" />
-    <ClInclude Include="Message_Function_Item_Dash.h" />
     <ClInclude Include="Message_Function_Item_Bulkup.h" />
+    <ClInclude Include="Message_Function_Item_Dash.h" />
     <ClInclude Include="Message_Function_Item_Magnatic.h" />
     <ClInclude Include="Message_Function_Item_Missile.h" />
     <ClInclude Include="Message_Function_Item_Recover.h" />
@@ -230,7 +222,6 @@
     <ClInclude Include="Message_Manager.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectManager.h" />
-    <ClInclude Include="Component_Player.h" />
     <ClInclude Include="Object_Component_Info.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Player_Ui.h" />
@@ -250,18 +241,6 @@
     <ClInclude Include="View.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\external\imgui\imgui.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\external\imgui\imgui_demo.cpp" />
-    <ClCompile Include="..\external\imgui\imgui_draw.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\external\imgui\imgui_impl_glfw.cpp" />
-    <ClCompile Include="..\external\imgui\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="..\external\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="BitmapFont.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -291,8 +270,8 @@
     <ClCompile Include="Messagebox.cpp" />
     <ClCompile Include="Message_Function.cpp" />
     <ClCompile Include="Message_Function_Collision.cpp" />
-    <ClCompile Include="Message_Function_Item_Dash.cpp" />
     <ClCompile Include="Message_Function_Item_Bulkup.cpp" />
+    <ClCompile Include="Message_Function_Item_Dash.cpp" />
     <ClCompile Include="Message_Function_Item_Magnatic.cpp" />
     <ClCompile Include="Message_Function_Item_Missile.cpp" />
     <ClCompile Include="Message_Function_Item_Recover.cpp" />
@@ -307,13 +286,10 @@
     <ClCompile Include="Object_Component_Info.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Player_UI.cpp" />
+    <ClCompile Include="Referee.cpp" />
     <ClCompile Include="ResourceManager.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Referee.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Sound_Manager.cpp" />
     <ClCompile Include="State.cpp" />
