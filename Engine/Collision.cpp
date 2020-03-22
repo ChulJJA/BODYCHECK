@@ -32,7 +32,7 @@ bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 
 	if (distance < obj_a_radius + obj_b_radius)
 	{
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
+		
 		/* Player vs Item throwing */
 		if (object_a_name == "throwing")
 		{
@@ -53,7 +53,7 @@ bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 		/* Player vs Item Missile */
 		else if (object_a_name == "missile")
 		{
-			if (object_a->GetComponentByTemplate<Missile>()->Get_From_Obj() != object_b)
+			if (object_a->GetComponentByTemplate<Missile>()->Get_Target() == object_b)
 			{
 				physics.PushPlayer(object_b, object_a);
 				Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
@@ -61,7 +61,7 @@ bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 		}
 		else if (object_b_name == "missile")
 		{
-			if (object_b->GetComponentByTemplate<Missile>()->Get_From_Obj() != object_a)
+			if (object_b->GetComponentByTemplate<Missile>()->Get_Target() == object_a)
 			{
 				physics.PushPlayer(object_a, object_b);
 				Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
@@ -81,6 +81,10 @@ bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 			{
 				Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
 			}
+		}
+		else
+		{
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
 		}
 	}
 	/* Player vs Unlock */

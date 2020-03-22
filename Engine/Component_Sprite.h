@@ -39,7 +39,13 @@ enum class Sprite_Type
 	Item_Magnet,
 	Item_Timepause,
 	Item_Reverse,
-	Item_Missile
+	Item_Missile,
+
+	Missile_Launcher_Showing,
+    Dash_Showing,
+    Bulkup_Showing,
+	Throwing_Showing,
+	Heal_Showing,
 };
 
 
@@ -49,7 +55,7 @@ public:
 
 	
     Sprite(Object* obj, bool need_debug_drawing = false);
-    Sprite(Object* obj, const char* staticSpritePath, vector2 position, bool need_debug_drnawing = true, Sprite_Type type_player = Sprite_Type::None);
+    Sprite(Object* obj, const char* staticSpritePath, vector2 position, bool need_debug_drnawing = true, Sprite_Type type_player = Sprite_Type::None, vector2 scale = {100.f, 100.f});
     Sprite(Object* obj, const char* aniamtedSpritePath, bool animated, int frames, float m_speed, vector2 position, vector2 scale, Color4ub color = { 255,255,255,255 },
 		Sprite_Type type_player = Sprite_Type::None);
     void Init(Object* obj) override;

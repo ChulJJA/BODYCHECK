@@ -137,7 +137,7 @@ Sprite::Sprite(Object* obj, bool need_debug_drawing)
 	m_owner->Get_Object_Points() = m_owner->GetMesh().Get_Points();
 }
 
-Sprite::Sprite(Object* obj, const char* staticSpritePath, vector2 position, bool need_debug_drawing, Sprite_Type type_player)
+Sprite::Sprite(Object* obj, const char* staticSpritePath, vector2 position, bool need_debug_drawing, Sprite_Type type_player, vector2 scale)
 {
 	m_owner = obj;
 
@@ -155,7 +155,7 @@ Sprite::Sprite(Object* obj, const char* staticSpritePath, vector2 position, bool
 
 
 
-	Mesh square = MESH::create_box(100, { 100,100,100,255 });
+	Mesh square = MESH::create_box(scale.x, { 100,100,100,255 });
 	shape.InitializeWithMeshAndLayout(square, SHADER::textured_vertex_layout());
 
 	m_owner->SetMesh(square);

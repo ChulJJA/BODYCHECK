@@ -100,7 +100,7 @@ public:
 	void Sprite_After_Preparation(Component* sprite_to_change);
 	void State_After_Preparation(Char_State state);
 
-	
+	void Change_Weapon_Sprite(Component* weapon_sprite);
 	
 private:
     Object* hp_bar = nullptr;
@@ -124,5 +124,7 @@ private:
 
 	float prepare_sprite_timer = 0.f;
 	Component* change_to_sprite = nullptr;
+	Component* weapon_state = nullptr;
+	
 	Char_State change_to_state = Char_State::None;
 };
