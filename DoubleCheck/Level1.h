@@ -35,7 +35,7 @@ public:
         next_level = {};
         is_next = false;
     }
-
+    void CreateArena();
 private:
     Object* player;
     Object* player_sec;

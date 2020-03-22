@@ -1,7 +1,7 @@
 #pragma once
 
-
 #include "Message_Function_Base.h"
+#include "Physics.h"
 
 
 class Msg_Func_Collision : public Msg_Func_Base
@@ -27,5 +27,5 @@ public:
 	void Player_And_Lock_Collision(Object* player, Object* lock);
 
 private:
-
+	Physics physics;
 };

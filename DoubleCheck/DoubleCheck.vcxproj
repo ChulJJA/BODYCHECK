@@ -188,8 +188,7 @@
     <ClCompile Include="Logo.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="SoundOption.cpp" />
-    <ClCompile Include="Testing_Level.cpp" />
+    <ClCompile Include="Option.cpp" />
     <ClCompile Include="TestLevel.cpp" />
     <ClCompile Include="Tutorial.cpp" />
   </ItemGroup>
@@ -206,8 +205,7 @@
     <ClInclude Include="Loading_Scene.h" />
     <ClInclude Include="Logo.h" />
     <ClInclude Include="MainMenu.h" />
-    <ClInclude Include="SoundOption.h" />
-    <ClInclude Include="Testing_Level.h" />
+    <ClInclude Include="Option.h" />
     <ClInclude Include="TestLevel.h" />
     <ClInclude Include="Tutorial.hpp" />
   </ItemGroup>

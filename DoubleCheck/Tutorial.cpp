@@ -14,7 +14,6 @@
 
 #include "Windows.h"
 #include "Tutorial.hpp"
-#include "Component_Collision.h"
 #include "Referee.h"
 #include "Component_Text.h"
 #include "Player_Ui.h"
