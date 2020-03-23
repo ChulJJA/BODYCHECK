@@ -21,14 +21,6 @@
 void PLAYER_UI::Initialize()
 {
 	const vector2 this_trans = this->GetTransform().GetTranslation();
-	
-    /*info_hp_bar = new Object();
-	info_hp_bar->GetTransform().SetTranslation({ this_trans.x + 350, this_trans.y});
-	info_hp_bar->GetTransform().SetScale({ 4.f, 6.f });
-    info_hp_bar->AddComponent(new Sprite(info_hp_bar, "../Sprite/HP.png", info_hp_bar->GetTransform().GetTranslation(), false));
-    info_hp_bar->Set_Tag("hp_info");
-    info_hp_bar->Set_Name(this->GetName() + "info_hp");
-    ObjectManager::GetObjectManager()->AddObject(info_hp_bar);*/
 
     info_item = new Object();
 	info_item->GetTransform().SetTranslation({ this_trans.x + 200, this_trans.y});
@@ -48,7 +40,6 @@ void PLAYER_UI::Initialize()
     info_item->Set_Name(this->GetName() + "info_item");
 	info_item->Set_Current_Sprite(info_item->Find_Sprite_By_Type(Sprite_Type::None));
     ObjectManager::GetObjectManager()->AddObject(info_item);
-	//asd
 
     num_life = new Object();
 	num_life->GetTransform().SetTranslation({ this_trans.x + 500, this_trans.y - 100 });
