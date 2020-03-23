@@ -46,6 +46,7 @@ enum class Sprite_Type
     Bulkup_Showing,
 	Throwing_Showing,
 	Heal_Showing,
+	Magnet_Showing,
 };
 
 

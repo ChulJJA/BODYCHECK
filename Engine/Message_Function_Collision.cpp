@@ -161,7 +161,7 @@ void Msg_Func_Collision::Player_Get_Item(Object* player, Object* item)
 
 	else if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Magnatic)
 	{
-		player_info->Change_Weapon_Sprite(nullptr);
+		player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Magnet_Showing));
 		player_info->Set_Item_State(Item::Item_Kind::Magnatic);
 		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Magnatic);
 	}

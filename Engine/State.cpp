@@ -45,6 +45,7 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 	std::string sprite_path_bulkup = "../Sprite/bulkup_showing.png";
 	std::string sprite_path_throwing = "../Sprite/throwing_showing.png";
 	std::string sprite_path_heal = "../Sprite/heal_showing.png";
+	std::string sprite_path_magnet = "../Sprite/magnet_showing.png";
 
 	Object* player;
 	player = new Object();
@@ -67,6 +68,7 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 	player->AddComponent(new Sprite(player, sprite_path_bulkup.c_str(), pos, false, Sprite_Type::Bulkup_Showing, { 100.f, 100.f }), "bulkup", false);
 	player->AddComponent(new Sprite(player, sprite_path_throwing.c_str(), pos, false, Sprite_Type::Throwing_Showing, { 100.f, 100.f }), "throwing", false);
 	player->AddComponent(new Sprite(player, sprite_path_heal.c_str(), pos, false, Sprite_Type::Heal_Showing, { 100.f, 100.f }), "heal", false);
+	player->AddComponent(new Sprite(player, sprite_path_magnet.c_str(), pos, false, Sprite_Type::Magnet_Showing, { 100.f, 100.f }), "magnet", false);
 
 	
 	player->AddComponent(new Sprite(player, sprite_path_ready_bulkup.c_str(), true, 8, 24, pos, { 100.f,100.f },
