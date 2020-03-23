@@ -136,6 +136,15 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	sprite_path_crying += sprite_path;
 	sprite_path_crying += "_crying.png";
 
+
+	std::string sprite_path_missile_launcher = "../Sprite/missile_launcher_showing.png";
+	std::string sprite_path_dash = "../Sprite/dash_showing.png";
+	std::string sprite_path_bulkup = "../Sprite/bulkup_showing.png";
+	std::string sprite_path_throwing = "../Sprite/throwing_showing.png";
+	std::string sprite_path_heal = "../Sprite/heal_showing.png";
+	std::string sprite_path_magnet = "../Sprite/magnet_showing.png";
+
+
 	Object* player = new Object();
 	player->Set_Name(name);
 	player->Set_Tag(tag);
@@ -146,11 +155,22 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	player->AddComponent(new Sprite(player, sprite_path_thinking.c_str(), pos, false, Sprite_Type::Player_Thinking), "thinking", false);
 	player->AddComponent(new Sprite(player, sprite_path_reverse_moving_pen.c_str(), pos, false, Sprite_Type::Player_Reverse_Moving), "reverse_moving_pen", false);
 	player->AddComponent(new Sprite(player, sprite_path_ready.c_str(), pos, false, Sprite_Type::Player_Ready), "ready", false);
+
+	player->AddComponent(new Sprite(player, sprite_path_missile_launcher.c_str(), pos, false, Sprite_Type::Missile_Launcher_Showing, { 80.f, 80.f }), "missile_launcher", false);
+	player->AddComponent(new Sprite(player, sprite_path_dash.c_str(), pos, false, Sprite_Type::Dash_Showing, { 50.f, 50.f }), "dash", false);
+	player->AddComponent(new Sprite(player, sprite_path_bulkup.c_str(), pos, false, Sprite_Type::Bulkup_Showing, { 100.f, 100.f }), "bulkup", false);
+	player->AddComponent(new Sprite(player, sprite_path_throwing.c_str(), pos, false, Sprite_Type::Throwing_Showing, { 100.f, 100.f }), "throwing", false);
+	player->AddComponent(new Sprite(player, sprite_path_heal.c_str(), pos, false, Sprite_Type::Heal_Showing, { 100.f, 100.f }), "heal", false);
+	player->AddComponent(new Sprite(player, sprite_path_magnet.c_str(), pos, false, Sprite_Type::Magnet_Showing, { 100.f, 100.f }), "magnet", false);
+
+	
 	player->AddComponent(new Sprite(player, sprite_path_ready_bulkup.c_str(), true, 8, 24, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Effect_Bulkp), "effect_bulkup", false);
 	player->AddComponent(new Sprite(player, sprite_path_heal_effect.c_str(), true, 4, 6, pos, { 100.f,100.f },
 		{ 255, 255, 255, 255 }, Sprite_Type::Player_Effect_Heal), "effect_heal", false);
 	player->AddComponent(new Sprite(player, sprite_path_crying.c_str(), pos, false, Sprite_Type::Player_Crying), "crying", false);
+
+	
 	player->AddComponent(new Physics(true));
 	
 	player->Set_Current_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Player_Normal));

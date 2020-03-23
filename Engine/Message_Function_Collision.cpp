@@ -13,6 +13,7 @@
 
 void Msg_Func_Collision::Init()
 {
+	//
 }
 
 
