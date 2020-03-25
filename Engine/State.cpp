@@ -25,6 +25,7 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 	std::string sprite_path_heal_effect = path_to_player_item_effect;
 	std::string sprite_path_ready_bulkup = path_to_player_item_effect;
 	std::string sprite_path_throwing_effect = path_to_player_item_effect;
+	std::string sprite_path_missile_effect = path_to_player_item_effect;
 	
 	std::string sprite_path_missile_launcher = path_to_player_display_item;
 	std::string sprite_path_dash = path_to_player_display_item;
@@ -48,6 +49,7 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 		sprite_path_heal_effect += "effect_heal.png";
 		sprite_path_ready_bulkup += sprite_path + "_effect_bulkup.png";
 		sprite_path_throwing_effect += "effect_throwing.png";
+		sprite_path_missile_effect += "pen_green_effect_missile.png";
 	}
 
 	{
@@ -91,6 +93,8 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 		{ 255, 255, 255, 255 }, Sprite_Type::Player_Effect_Heal), "effect_heal", false);
 	player->AddComponent(new Sprite(player, sprite_path_throwing_effect.c_str(), true, 4, 8, pos, { 100.f,100.f },
 		{ 255, 255, 255, 255 }, Sprite_Type::Player_Effect_Throwing), "effect_throwing", false);
+	player->AddComponent(new Sprite(player, sprite_path_missile_effect.c_str(), true, 8, 12, pos, { 100.f,100.f },
+		{ 255, 255, 255, 255 }, Sprite_Type::Player_Effect_Missile), "effect_missile", false);
 
 	
 	player->AddComponent(new Physics());

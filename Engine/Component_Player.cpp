@@ -539,6 +539,7 @@ void Player::UseItem()
 	}
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Missile)
 	{
+		m_owner->Set_Current_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Missile));
 		Change_Weapon_Sprite(nullptr);
 		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Missile));
 	}
