@@ -29,6 +29,7 @@ enum class Sprite_Type
 	Player_Ready,
 	Player_Effect_Bulkp,
 	Player_Effect_Heal,
+	Player_Effect_Throwing,
 	Player_Crying,
 
 	Item,

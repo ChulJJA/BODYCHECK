@@ -39,7 +39,7 @@ void Player::Update(float dt)
 	{
 		if (curr_state == Char_State::Prepare)
 		{
-			if (prepare_sprite_timer != 0.f && change_to_sprite != nullptr)
+			if (prepare_sprite_timer != 0.f)
 			{
 				if (prepare_sprite_timer > 0.f)
 				{
@@ -519,6 +519,7 @@ void Player::UseItem()
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Throwing)
 	{
 		Change_Weapon_Sprite(nullptr);
+		m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing)->Set_Need_Update(true);
 		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Throwing, 0.f));
 	}
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Magnatic)
