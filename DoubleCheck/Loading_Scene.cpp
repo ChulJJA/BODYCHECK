@@ -47,7 +47,7 @@ void Loading_Scene::Update(float dt)
 	if (state_manager->GetCurrentState()->GetStateInfo() == GameState::Game)
 	{
 		
-		image->AddComponent(new Sprite(image, "../sprite/pen_red_ani.png", true, 8, 2, { 0.f, 0.f },
+		image->AddComponent(new Sprite(image, "../sprite/penguin_animation_Default.png", true, 3, 4, { 0.f, 0.f },
 			{ 200.f, 200.f }, { 255,255,255,255 }));
 		image->SetScale(10.f);
 
