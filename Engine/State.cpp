@@ -70,6 +70,8 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 	player->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
 
 
+	//player->AddComponent(new Sprite(player, sprite_path_normal.c_str(), true, 3, 6, pos, { 100.f,100.f },
+	//	{ 255,255,255,255 }, Sprite_Type::Player_Normal), "normal", true);
 	player->AddComponent(new Sprite(player, sprite_path_normal.c_str(), pos, false, Sprite_Type::Player_Normal), "normal", true);
 	player->AddComponent(new Sprite(player, sprite_path_lock.c_str(), pos, false, Sprite_Type::Player_Locking), "lock", false);
 	player->AddComponent(new Sprite(player, sprite_path_chase.c_str(), pos, false, Sprite_Type::Player_Chasing), "chase", false);

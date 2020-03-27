@@ -42,7 +42,7 @@ void Level1::Load()
 	Loading_Scene* loading = new Loading_Scene();
 	loading->Load();
 
-	HDC hdc = GetDC(glfwGetWin32Window(Application::Get_Application()->Get_Window()));
+	HDC hdc = wglGetCurrentDC();
 	const HGLRC main_context = wglGetCurrentContext();
 	HGLRC loading_context = wglCreateContext(hdc);
 	wglShareLists(main_context, loading_context);
