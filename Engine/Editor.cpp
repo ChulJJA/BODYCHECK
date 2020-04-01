@@ -18,7 +18,7 @@ void Editor::Init()
 	for (int i = 0; i < item_num; i++)
 	{
 		items[i] = new Object();
-		items[i]->AddComponent(new Sprite(items[i], "../Sprite/Item.png", { 0.f,0.f }));
+		items[i]->AddComponent(new Sprite(items[i], "../Sprite/Item/Item.png", { 0.f,0.f }));
 		items[i]->AddComponent(new Item());
 		items[i]->AddComponent(new Physics);
 		items[i]->Set_Name("item");
@@ -35,6 +35,7 @@ void Editor::Init()
 	mouse_pointer->Set_Tag("mouse_pointer");
 	mouse_pointer->Set_Name("mouse_pointer");
 	mouse_pointer->SetScale(1.f);
+<<<<<<< HEAD
 	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/None.png", { 0.f,0.f }), "display", false);
 	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item.png", { 0.f,0.f }), "item", false);
 	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/bulkup.png", { 0.f,0.f }), "bulkup", false);
@@ -46,6 +47,18 @@ void Editor::Init()
 	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/reverse_moving.png", { 0.f,0.f }), "reverse_moving", false);
 	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/mine.png", { 0.f,0.f }), "mine", false);
 	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item.png", { 0.f,0.f }), "missile", false);
+=======
+	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item/None.png", { 0.f,0.f }), "display", false);
+	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item/Item.png", { 0.f,0.f }), "item", false);
+	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item/bulkup.png", { 0.f,0.f }), "bulkup", false);
+	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item/dash.png", { 0.f,0.f }), "dash", false);
+	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item/heal.png", { 0.f,0.f }), "heal", false);
+	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item/throw.png", { 0.f,0.f }), "throwing", false);
+	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item/magnet.png", { 0.f,0.f }), "magnatic", false);
+	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item/time_pause.png", { 0.f,0.f }), "time_pause", false);
+	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item/reverse_moving.png", { 0.f,0.f }), "reverse_moving", false);
+	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item/Item.png", { 0.f,0.f }), "missile", false);
+>>>>>>> master
 	mouse_pointer->Set_Current_Sprite(mouse_pointer->Find_Sprite_By_Name("display"));
 }
 
@@ -53,24 +66,28 @@ void Editor::Setting_Display(float offset, float pos_y)
 {
 	float init_pos_x = -800.f;
 
-	display_item_bulkup = Make_Display("../Sprite/bulkup.png", { init_pos_x,pos_y });
+	display_item_bulkup = Make_Display("../Sprite/Item/bulkup.png", { init_pos_x,pos_y });
 	init_pos_x += offset;
-	display_item_dash = Make_Display("../Sprite/dash.png", { init_pos_x,pos_y });
+	display_item_dash = Make_Display("../Sprite/Item/dash.png", { init_pos_x,pos_y });
 	init_pos_x += offset;
-	display_item_magnetic = Make_Display("../Sprite/magnet.png", { init_pos_x,pos_y });
+	display_item_magnetic = Make_Display("../Sprite/Item/magnet.png", { init_pos_x,pos_y });
 	init_pos_x += offset;
-	display_item_timepause = Make_Display("../Sprite/time_pause.png", { init_pos_x,pos_y });
+	display_item_timepause = Make_Display("../Sprite/Item/time_pause.png", { init_pos_x,pos_y });
 	init_pos_x += offset;
-	display_item_missile = Make_Display("../Sprite/item.png", { init_pos_x,pos_y });
+	display_item_missile = Make_Display("../Sprite/Item/item.png", { init_pos_x,pos_y });
 	init_pos_x += offset;
-	display_item_recover = Make_Display("../Sprite/heal.png", { init_pos_x,pos_y });
+	display_item_recover = Make_Display("../Sprite/Item/heal.png", { init_pos_x,pos_y });
 	init_pos_x += offset;
-	display_item_reverse = Make_Display("../Sprite/reverse_moving.png", { init_pos_x,pos_y });
+	display_item_reverse = Make_Display("../Sprite/Item/reverse_moving.png", { init_pos_x,pos_y });
 	init_pos_x += offset;
+<<<<<<< HEAD
 	display_item_throwing = Make_Display("../Sprite/throw.png", { init_pos_x,pos_y });
 	init_pos_x += offset;
 	display_item_mine = Make_Display("../Sprite/mine.png", { init_pos_x,pos_y });
 	init_pos_x += offset;
+=======
+	display_item_throwing = Make_Display("../Sprite/Item/throw.png", { init_pos_x,pos_y });
+>>>>>>> master
 }
 
 bool Editor::Check_Mouse_Is_In(Object* obj)
@@ -166,7 +183,7 @@ void Editor::Update(float dt)
 
 Object* Editor::Make_Display(std::string path, vector2 trans)
 {
-	std::string path_selected = "../Sprite/item.png";
+	std::string path_selected = "../Sprite/Item/item.png";
 
 	Object* display_obj = new Object();
 	display_obj->Set_Tag("display");

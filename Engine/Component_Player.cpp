@@ -20,15 +20,10 @@
 #include "Component_Sprite.h"
 #include "Component_Hpbar.h"
 #include <GLFW/glfw3.h>
-#include "Component_Throwing.h"
 #include "Player_Ui.h"
-#include "Physics.h"
-#include "Component_Lock.h"
-#include "angles.hpp"
 #include "UsefulTools.hpp"
 #include "Engine.hpp"
 #include "Referee.h"
-#include "Component_Missile.h"
 #include "Message_Kind.h"
 
 void Player::Init(Object* obj)
@@ -44,7 +39,7 @@ void Player::Update(float dt)
 	{
 		if (curr_state == Char_State::Prepare)
 		{
-			if (prepare_sprite_timer != 0.f && change_to_sprite != nullptr)
+			if (prepare_sprite_timer != 0.f)
 			{
 				if (prepare_sprite_timer > 0.f)
 				{
@@ -58,21 +53,6 @@ void Player::Update(float dt)
 			}
 		}
 
-		else if (curr_state == Char_State::Throwing)
-		{
-			Func_Bulk_Throwing(dt);
-		}
-		else if (curr_state == Char_State::Lock_Ready)
-		{
-			Func_Lock_Ready(dt);
-		}
-		else if (curr_state == Char_State::Lock_Ing)
-		{
-		}
-		else if (curr_state == Char_State::Magnatic)
-		{
-			Func_Magnatic(dt);
-		}
 		else if (curr_state == Char_State::Time_Pause)
 		{
 			Func_Time_Pause(dt);
@@ -81,6 +61,7 @@ void Player::Update(float dt)
 		{
 			Func_Reverse_Moving(dt);
 		}
+<<<<<<< HEAD
 		else if (curr_state == Char_State::Missile_Shoot)
 		{
 			Func_Missile_Shoot(dt);
@@ -94,10 +75,19 @@ void Player::Update(float dt)
 		{
 			Func_Mine_Collided(dt);
 		}
+=======
+
+
+
+		vector2& player_pos = m_owner->GetTransform().GetTranslation_Reference();
+
+>>>>>>> master
 		if (hp_bar != nullptr)
 		{
-			hp_bar->GetTransform().GetTranslation_Reference().x = m_owner->GetTransform().GetTranslation().x;
-			hp_bar->GetTransform().GetTranslation_Reference().y = m_owner->GetTransform().GetTranslation().y - 100;
+			vector2& hp_pos = hp_bar->GetTransform().GetTranslation_Reference();
+
+			hp_pos.x = player_pos.x;
+			hp_pos.y = player_pos.y - 100;
 		}
 
 
@@ -105,17 +95,18 @@ void Player::Update(float dt)
 			curr_state_additional != Char_State_Additional::Chasing && curr_state_additional != Char_State_Additional::Get_Mine_Stop)
 		{
 			PlayerMovement(0.6f, 0.12f);
-			m_owner->GetTransform().AddTranslation(velocity);
+			player_pos += velocity;
 
 		}
 		else if (curr_state == Player::Char_State::Reverse_Moving && curr_state != Player::Char_State::Time_Pause &&
 			curr_state_additional != Char_State_Additional::Chasing && curr_state_additional != Char_State_Additional::Get_Mine_Stop)
 		{
 			PlayerMovement(-0.12f, -0.6f);
-			m_owner->GetTransform().AddTranslation(velocity);
+			player_pos += velocity;
 
 		}
 		PlayerDirecting();
+
 		if (input.Is_Key_Triggered(GLFW_KEY_SPACE))
 		{
 			UseItem();
@@ -133,25 +124,24 @@ void Player::SetHPBar()
 	hp_bar->Set_Name(m_owner->Get_Name() + "hp_bar");
 	hp_bar->Set_Tag("hp_bar");
 	hp_bar->AddComponent(new Sprite(hp_bar, "../Sprite/HP.png", hp_bar_pos, false), "sprite_hp_bar", need_update_hp_bar);
+	hp_bar->Set_This_Obj_Owner(m_owner);
 	hp_bar->AddComponent(new Hp_Bar());
 
-	hp_bar->Set_This_Obj_Owner(m_owner);
 	this->hp_bar = hp_bar;
 	m_owner->Get_Belongs_Objects().push_back(hp_bar);
 
 	if (m_owner->Get_Tag() != "save" && m_owner->Get_Tag() != "throwing")
 	{
 		ObjectManager::GetObjectManager()->AddObject(hp_bar);
-		//ObjectManager::GetObjectManager()->Add_Object_Instancing(hp_bar);
 	}
 }
 
-int Player::Get_Damage()
+int Player::Get_Damage() const
 {
 	return damage;
 }
 
-Item::Item_Kind Player::Get_Item_State()
+Item::Item_Kind Player::Get_Item_State() const
 {
 	return belong_item;
 }
@@ -169,7 +159,6 @@ void Player::Set_Locking_By(Object* obj)
 		locking_by = obj;
 		obj->Add_Pointed_By(&locking_by);
 	}
-	//
 }
 
 void Player::Set_Locking_Result(Object* obj)
@@ -182,136 +171,11 @@ void Player::Set_Locking_Result(Object* obj)
 
 }
 
-Object* Player::Get_Locking_Result()
+Object* Player::Get_Locking_Result() const
 {
 	return locking_result;
 }
 
-void Player::Func_Bulk_Up(float dt)
-{
-	if (bulkup_timer > 0.f)
-	{
-		bulkup_timer -= dt;
-
-		if (m_owner->GetTransform().GetScale().x <= 5.f)
-		{
-			m_owner->Get_Plus_Dmg() = 2.f;
-			m_owner->GetTransform().GetScale_Reference().x += dt;
-			m_owner->GetTransform().GetScale_Reference().y += dt;
-		}
-	}
-	else
-	{
-		if (m_owner->GetTransform().GetScale().x >= 3.f)
-		{
-			m_owner->GetTransform().GetScale_Reference().x -= dt;
-			m_owner->GetTransform().GetScale_Reference().y -= dt;
-		}
-		else
-		{
-			m_owner->Get_Plus_Dmg() = 0.f;
-			curr_state = Char_State::None;
-			Change_To_Normal_State();
-		}
-	}
-}
-
-void Player::Func_Bulk_Throwing(float dt)
-{
-
-	curr_state = Char_State::None;
-
-	Object* throwing = new Object();
-	throwing->Set_Name("throwing");
-	throwing->Set_Tag("throwing");
-	throwing->AddComponent(new Sprite(throwing, "../sprite/pen_green.png", m_owner->GetTransform().GetTranslation()));
-	throwing->AddComponent(new Physics());
-	throwing->AddComponent(new Throwing);
-	throwing->GetComponentByTemplate<Throwing>()->Set_Timer(3.f);
-	throwing->GetComponentByTemplate<Throwing>()->Set_Angle(m_owner->GetTransform().GetRotation());
-	throwing->GetComponentByTemplate<Throwing>()->Set_Throwing_Obj(m_owner);
-	throwing->SetScale(2.f);
-	throwing->SetNeedCollision(true);
-	ObjectManager::GetObjectManager()->AddObject(throwing);
-
-}
-
-void Player::Func_Lock_Ready(float dt)
-{
-	curr_state = Char_State::Lock_Ing;
-
-	Object* lock = new Object();
-	lock->Set_Name("lock");
-	lock->Set_Tag("lock");
-	lock->SetNeedCollision(true);
-	lock->AddComponent(new Sprite(lock, "../sprite/zoom.png", m_owner->GetTransform().GetTranslation()));
-	lock->AddComponent(new Physics());
-	lock->AddComponent(new Lock());
-	lock->GetComponentByTemplate<Lock>()->Set_Speed(1000.f);
-	lock->GetComponentByTemplate<Lock>()->Set_Locking_Obj(m_owner);
-	lock->SetScale(2.f);
-	locking_pointer = lock;
-	ObjectManager::GetObjectManager()->AddObject(lock);
-
-	m_owner->Change_Sprite(m_owner->Find_Sprite_By_Name("thinking"));
-
-}
-
-void Player::Func_Magnatic(float dt)
-{
-	if (locking_result != nullptr)
-	{
-		curr_state_additional = Char_State_Additional::Chasing;
-
-		vector2 target = locking_result->GetTransform().GetTranslation() - m_owner->GetTransform().GetTranslation();
-
-		vector2 target_dir = normalize(target);
-		vector2 own_pos = m_owner->GetTransform().GetTranslation();
-
-		own_pos.x += (target_dir.x * 13);
-		own_pos.y += (target_dir.y * 13);
-
-		vector2 this_pos = m_owner->GetTransform().GetTranslation();
-		vector2 obj_pos = locking_result->GetTransform().GetTranslation();
-		float value = cross({ target.x, target.y, 0.f }, { this_pos.x, this_pos.y, 0.f }).z;
-
-		float angle_in_radian = atan2(this_pos.y - obj_pos.y, this_pos.x - obj_pos.x);
-		float angle = to_degrees(angle_in_radian);
-		angle += 90;
-		mag_angle = angle;
-
-		m_owner->GetComponentByTemplate<Player>()->SetPlayerVelocity(
-			{ sin(angle_in_radian) * -20, cos(angle_in_radian) * 20 }
-		);
-
-		m_owner->SetRotation(angle);
-
-		if (value > 0)
-		{
-			vector3 convert_pos(own_pos.x, own_pos.y, 1.f);
-
-			convert_pos = MATRIX3::build_rotation(to_radians(10)) * convert_pos;
-
-			own_pos.x = convert_pos.x;
-			own_pos.y = convert_pos.y;
-		}
-		else if (value < 0)
-		{
-			vector3 convert_pos(own_pos.x, own_pos.y, 1.f);
-
-			convert_pos = MATRIX3::build_rotation(to_radians(-10)) * convert_pos;
-
-			own_pos.x = convert_pos.x;
-			own_pos.y = convert_pos.y;
-		}
-		m_owner->GetTransform().SetTranslation(own_pos);
-	}
-	else
-	{
-		curr_state = Char_State::None;
-		m_owner->Change_Sprite(m_owner->Find_Sprite_By_Name("normal"));
-	}
-}
 
 void Player::Func_Time_Pause(float dt)
 {
@@ -322,26 +186,14 @@ void Player::Func_Time_Pause(float dt)
 	if (stop_timer > 0.0f)
 	{
 		stop_timer -= dt;
-
-		/*for (auto player : another_players)
-		{
-			Player* get_player = player->GetComponentByTemplate<Player>();
-
-			if (get_player != nullptr)
-			{
-					get_player->Set_Char_State(Player::Char_State::None);
-
-			}
-		}*/
 	}
 	else
 	{
 		curr_state = Char_State::None;
-		//m_owner->AddComponent(new Physics);
 	}
 }
 
-void Player::Func_Reverse_Moving(float dt)
+void Player::Func_Reverse_Moving(float dt) const
 {
 	std::vector<Object*> another_players = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("player");
 
@@ -361,6 +213,7 @@ void Player::Func_Reverse_Moving(float dt)
 	}
 }
 
+<<<<<<< HEAD
 void Player::Func_Mine(float dt)
 {
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE))
@@ -414,12 +267,14 @@ void Player::Func_Missile_Shoot(float dt)
 	Change_To_Normal_State();
 }
 
+=======
+>>>>>>> master
 void Player::Set_This_UI_info(PLAYER_UI* ui)
 {
 	this_ui = ui;
 }
 
-PLAYER_UI* Player::Get_Ui()
+PLAYER_UI* Player::Get_Ui() const
 {
 	return this_ui;
 }
@@ -439,7 +294,7 @@ void Player::Set_Bulkup_Timer(float timer_)
 	bulkup_timer = timer_;
 }
 
-Player::Char_State Player::Get_Char_State()
+Player::Char_State Player::Get_Char_State() const
 {
 	return curr_state;
 }
@@ -454,22 +309,13 @@ void Player::Set_Char_State_Additional(Char_State_Additional state)
 	curr_state_additional = state;
 }
 
-Player::Char_State_Additional Player::Get_Char_State_Additional()
+Player::Char_State_Additional Player::Get_Char_State_Additional() const
 {
 	return curr_state_additional;
 }
 
-Player::Char_State_By_Other Player::Get_Char_State_By_Other()
-{
-	return curr_state_by_other;
-}
 
-void Player::Set_Char_State_By_Other(Char_State_By_Other state)
-{
-	curr_state_by_other = state;
-}
-
-Object* Player::Get_Locking()
+Object* Player::Get_Locking() const
 {
 	return locking_pointer;
 }
@@ -483,7 +329,7 @@ void Player::Set_Locking(Object* obj)
 	}
 }
 
-Object* Player::Get_Hp_Bar()
+Object* Player::Get_Hp_Bar() const
 {
 	return hp_bar;
 }
@@ -723,11 +569,13 @@ void Player::UseItem()
 {
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Dash)
 	{
+		Change_Weapon_Sprite(nullptr);
 		sound.Play(SOUND::Dash);
 		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Dash));
 	}
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::HP)
 	{
+		Change_Weapon_Sprite(nullptr);
 		sound.Play(SOUND::HP);
 		Object* hp_bar = m_owner->Get_Belong_Object_By_Tag("hp_bar");
 		Message_Manager::Get_Message_Manager()->Save_Message(new Message(hp_bar, m_owner, Message_Kind::Item_Recover));
@@ -735,28 +583,36 @@ void Player::UseItem()
 
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Bulkup)
 	{
+		Change_Weapon_Sprite(nullptr);
 		sound.Play(SOUND::BulkUp);
 		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 5.f));
 	}
 
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Throwing)
 	{
+		Change_Weapon_Sprite(nullptr);
+		m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing)->Set_Need_Update(true);
 		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Throwing, 0.f));
 	}
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Magnatic)
 	{
+		Change_Weapon_Sprite(nullptr);
 		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Magnetic));
 	}
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Time_Pause)
 	{
+		Change_Weapon_Sprite(nullptr);
 		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Timepause));
 	}
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Reverse_Moving)
 	{
+		Change_Weapon_Sprite(nullptr);
 		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Reverse));
 	}
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Missile)
 	{
+		m_owner->Set_Current_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Missile));
+		Change_Weapon_Sprite(nullptr);
 		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Missile));
 	}
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Mine)
@@ -774,7 +630,7 @@ void Player::Change_To_Normal_State()
 {
 	curr_state = Char_State::None;
 	curr_state_additional = Char_State_Additional::None;
-	m_owner->Change_Sprite(m_owner->Find_Sprite_By_Name("normal"));
+	m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Normal));
 }
 
 void Player::Set_Prepare_Timer(float timer)
@@ -793,4 +649,25 @@ void Player::Sprite_After_Preparation(Component* sprite_to_change)
 void Player::State_After_Preparation(Char_State state)
 {
 	change_to_state = state;
+}
+
+void Player::Change_Weapon_Sprite(Component* weapon_sprite)
+{
+	if (weapon_sprite != nullptr)
+	{
+		if (weapon_state != nullptr)
+		{
+			weapon_state->Set_Need_Update(false);
+		}
+		weapon_state = weapon_sprite;
+		weapon_state->Set_Need_Update(true);
+	}
+	else
+	{
+		if(weapon_state != nullptr)
+		{
+			weapon_state->Set_Need_Update(false);
+			weapon_state = nullptr;
+		}
+	}
 }

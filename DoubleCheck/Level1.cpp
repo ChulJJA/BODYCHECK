@@ -25,7 +25,6 @@
 #define GLFW_EXPOSE_NATIVE_WIN32 
 #include <GLFW/glfw3native.h>
 #include <mutex>
-#include "Editor.h"
 #include "Input.h"
 
 using namespace std;
@@ -33,9 +32,8 @@ using namespace std;
 namespace
 {
 	Referee* referee = nullptr;
+    ObjectManager* object_manager = nullptr;
 
-	ObjectManager* object_manager = nullptr;
-	Editor* editor = nullptr;
 
 }
 
@@ -44,7 +42,7 @@ void Level1::Load()
 	Loading_Scene* loading = new Loading_Scene();
 	loading->Load();
 
-	HDC hdc = GetDC(glfwGetWin32Window(Application::Get_Application()->Get_Window()));
+	HDC hdc = wglGetCurrentDC();
 	const HGLRC main_context = wglGetCurrentContext();
 	HGLRC loading_context = wglCreateContext(hdc);
 	wglShareLists(main_context, loading_context);
@@ -58,10 +56,8 @@ void Level1::Load()
 		}
 	);
 
-
 	current_state = GameState::Game;
 	referee = Referee::Get_Referee();
-	editor = Editor::Get_Editor();
 	object_manager = ObjectManager::GetObjectManager();
 	Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 
@@ -80,10 +76,10 @@ void Level1::Load()
 	text_3 = Make_Set_Text("blue_text", "text", { 200,-400 }, player_third, { 0.54,0,1,1 }, { 150,150 }, &font);
 	text_4 = Make_Set_Text("yellow_text", "text", { 200,-400 }, player_forth, { 0.5,0.5,0.5,1 }, { 150,150 }, &font);
 
-	player_first_ui = Make_Set_Ui("first_ui", "ui", "../sprite/pen_green.png", { -1000, -800 }, { 4.0f,4.0f }, player);
-	player_second_ui = Make_Set_Ui("second_ui", "ui", "../sprite/pen_red.png", { -400, -800 }, { 4.0f,4.0f }, player_sec);
-	player_third_ui = Make_Set_Ui("third_ui", "ui", "../sprite/pen_purple.png", { 200, -800 }, { 4.0f,4.0f }, player_third);
-	player_fourth_ui = Make_Set_Ui("fourth_ui", "ui", "../sprite/pen_normal.png", { 800, -800 }, { 4.0f,4.0f }, player_forth);
+	player_first_ui = Make_Set_Ui("first_ui", "ui", "../Sprite/Player/State/pen_green.png", { -1000, -800 }, { 4.0f,4.0f }, player);
+	player_second_ui = Make_Set_Ui("second_ui", "ui", "../Sprite/Player/State/pen_red.png", { -400, -800 }, { 4.0f,4.0f }, player_sec);
+	player_third_ui = Make_Set_Ui("third_ui", "ui", "../Sprite/Player/State/pen_purple.png", { 200, -800 }, { 4.0f,4.0f }, player_third);
+	player_fourth_ui = Make_Set_Ui("fourth_ui", "ui", "../Sprite/Player/State/pen_normal.png", { 800, -800 }, { 4.0f,4.0f }, player_forth);
 
 	player->GetComponentByTemplate<Player>()->Set_This_UI_info(player_first_ui);
 	player_sec->GetComponentByTemplate<Player>()->Set_This_UI_info(player_second_ui);
@@ -104,7 +100,6 @@ void Level1::Load()
 
 	Graphic::GetGraphic()->get_need_update_sprite() = true;
 
-
 	loading->Set_Done(false);
 	if (loading_thread.joinable())
 	{
@@ -114,10 +109,9 @@ void Level1::Load()
 
 void Level1::Update(float dt)
 {
-
 	referee->Update(dt);
-
 }
+
 
 void Level1::CreateArena()
 {

@@ -29,7 +29,7 @@ void Physics::Init(Object* obj)
 void Physics::Update(float dt)
 {
 	SetGhostReference(dt);
-	MoveObject();
+	//MoveObject();
 }
 
 void Physics::KnockBack(Object* object_1, Object* object_2)
@@ -75,7 +75,12 @@ void Physics::PushPlayer(Object* player, Object* object)
 {
 	vector2 object_velocity = object->GetComponentByTemplate<Physics>()->GetVelocity();
 
-	player->GetTransform().AddTranslation(object_velocity);
+	Player* info_player = player->GetComponentByTemplate<Player>();
+	
+	if(info_player != nullptr)
+	{
+		info_player->SetPlayerVelocity(object_velocity);
+	}
 }
 
 void Physics::SpeedDown(Object* object)

@@ -13,6 +13,7 @@
 
 void Msg_Func_Collision::Init()
 {
+	//
 }
 
 
@@ -73,7 +74,7 @@ void Msg_Func_Collision::Update(float dt)
 				Object* pointer_target = pointer->GetComponentByTemplate<Lock>()->Get_Locking_Target();
 				if (pointer_target != nullptr)
 				{
-					pointer_target->Change_Sprite(pointer_target->Find_Sprite_By_Name("normal"));
+					pointer_target->Change_Sprite(pointer_target->Find_Sprite_By_Type(Sprite_Type::Player_Normal));
 				}
 
 				player_from_info->Change_To_Normal_State();
@@ -88,7 +89,7 @@ void Msg_Func_Collision::Update(float dt)
 				Object* pointer_target = pointer->GetComponentByTemplate<Lock>()->Get_Locking_Target();
 				if (pointer_target != nullptr)
 				{
-					pointer_target->Change_Sprite(pointer_target->Find_Sprite_By_Name("normal"));
+					pointer_target->Change_Sprite(pointer_target->Find_Sprite_By_Type(Sprite_Type::Player_Normal));
 				}
 
 				player_target_info->Change_To_Normal_State();
@@ -144,45 +145,53 @@ void Msg_Func_Collision::Player_Get_Item(Object* player, Object* item)
 
 	if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Dash)
 	{
+		player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Dash_Showing));
 		player_info->Set_Item_State(Item::Item_Kind::Dash);
 		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Dash);
 	}
 	else if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::HP)
 	{
+		player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Heal_Showing));
 		player_info->Set_Item_State(Item::Item_Kind::HP);
 		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Hp);
 	}
 	else if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Bulkup)
 	{
+		player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Bulkup_Showing));
 		player_info->Set_Item_State(Item::Item_Kind::Bulkup);
 		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Bulkup);
 	}
 	else if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Throwing)
 	{
+		player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Throwing_Showing));
 		player_info->Set_Item_State(Item::Item_Kind::Throwing);
 		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Throwing);
 	}
 
 	else if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Magnatic)
 	{
+		player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Magnet_Showing));
 		player_info->Set_Item_State(Item::Item_Kind::Magnatic);
 		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Magnatic);
 	}
 
 	else if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Time_Pause)
 	{
+		player_info->Change_Weapon_Sprite(nullptr);
 		player_info->Set_Item_State(Item::Item_Kind::Time_Pause);
 		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Time_Pause);
 	}
 
 	else if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Reverse_Moving)
 	{
+		player_info->Change_Weapon_Sprite(nullptr);
 		player_info->Set_Item_State(Item::Item_Kind::Reverse_Moving);
 		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Reverse_Moving);
 	}
 	
 	else if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Missile)
 	{
+		player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Missile_Launcher_Showing));
 		player_info->Set_Item_State(Item::Item_Kind::Missile);
 		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Missile);
 	}
@@ -255,8 +264,8 @@ void Msg_Func_Collision::Player_And_Player_Collision()
 						hp_bar_info_target->Set_Timer(1.f);
 						hp_bar_info_from->Set_Timer(1.f);
 						
-						m_from->Change_Sprite(m_from->Find_Sprite_By_Name("crying"));
-						m_target->Change_Sprite(m_target->Find_Sprite_By_Name("crying"));
+						m_from->Change_Sprite(m_from->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
+						m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
 					}
 				}
 				
@@ -271,14 +280,14 @@ void Msg_Func_Collision::Player_And_Lock_Collision(Object* player, Object* lock)
 
 	if (lock->IsDead() == false)
 	{
-		player->Change_Sprite(player->Find_Sprite_By_Name("lock"));
+		player->Change_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Player_Locking));
 
 		if (info_lock->Get_Locking_Target() != nullptr)
 		{
 			if (info_lock->Get_Locking_Target() != player)
 			{
 				info_lock->Get_Locking_Target()->Change_Sprite(
-					info_lock->Get_Locking_Target()->Find_Sprite_By_Name("normal")
+					info_lock->Get_Locking_Target()->Find_Sprite_By_Type(Sprite_Type::Player_Normal)
 				);
 			}
 		}

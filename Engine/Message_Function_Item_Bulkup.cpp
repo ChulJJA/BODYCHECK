@@ -4,6 +4,7 @@
 #include "Message.h"
 #include "Component_Ui.h"
 #include "Player_Ui.h"
+#include "Component_Sprite.h"
 
 void Msg_Func_Item_Bulkup::Init()
 {
@@ -25,9 +26,9 @@ void Msg_Func_Item_Bulkup::Init()
 
 				//bulkup item setting.
 				info_player->Set_Bulkup_Timer(5.f);
-				info_player->Sprite_After_Preparation(obj->Find_Sprite_By_Name("chase"));
+				info_player->Sprite_After_Preparation(obj->Find_Sprite_By_Type(Sprite_Type::Player_Chasing));
 
-				obj->Change_Sprite(obj->Find_Sprite_By_Name("effect_bulkup"));
+				obj->Change_Sprite(obj->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Bulkp));
 			}
 
 			info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Use, Ui::Ui_Status_Obj::Item_Bulkup);

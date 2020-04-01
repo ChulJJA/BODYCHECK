@@ -22,11 +22,10 @@ void Msg_Func_Item_Throwing::Init()
 
 			info_player->Set_Item_State(Item::Item_Kind::None);
 			info_player->Set_Char_State(Player::Char_State::Prepare);
-			info_player->Set_Prepare_Timer(3.f);
+			info_player->Set_Prepare_Timer(0.5f);
 
-			info_player->Sprite_After_Preparation(obj->Find_Sprite_By_Name("chase"));
-
-			obj->Change_Sprite(obj->Find_Sprite_By_Name("ready"));
+			//info_player->Sprite_After_Preparation(obj->Find_Sprite_By_Type(Sprite_Type::Player_Chasing));
+			//obj->Change_Sprite(obj->Find_Sprite_By_Type(Sprite_Type::Player_Ready));
 			
 			info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Use, Ui::Ui_Status_Obj::Item_Throwing);
 		}
@@ -45,7 +44,7 @@ void Msg_Func_Item_Throwing::Update(float dt)
 			Object* throwing = new Object();
 			throwing->Set_Name("throwing");
 			throwing->Set_Tag("throwing");
-			throwing->AddComponent(new Sprite(throwing, "../sprite/pen_green.png", m_target->GetTransform().GetTranslation()));
+			throwing->AddComponent(new Sprite(throwing, "../Sprite/Player/State/pen_green.png", m_target->GetTransform().GetTranslation()));
 			throwing->AddComponent(new Physics());
 			throwing->AddComponent(new Throwing);
 			throwing->GetComponentByTemplate<Throwing>()->Set_Timer(3.f);
@@ -54,8 +53,15 @@ void Msg_Func_Item_Throwing::Update(float dt)
 			throwing->SetScale(2.f);
 			throwing->SetNeedCollision(true);
 			ObjectManager::GetObjectManager()->AddObject(throwing);
+
+			m_target->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing)->Set_Need_Update(false);
+			msg->Set_Should_Delete(true);
+		}
+		else if(info_player->Get_Char_State() == Player::Char_State::None)
+		{
+			m_target->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing)->Set_Need_Update(false);
+			msg->Set_Should_Delete(true);
 		}
 	}
 	
-	msg->Set_Should_Delete(true);
 }
