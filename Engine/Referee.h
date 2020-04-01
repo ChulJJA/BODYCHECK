@@ -130,6 +130,7 @@ private:
 	Object** item_time_pause;
 	Object** item_reverse_moving;
 	Object** item_missile;
+	Object** item_mine;
 
 	Object** missile_saving;
     float item_respawn_timer = 0.0f;
@@ -144,6 +145,7 @@ private:
     int item_num_reverse_moving = 10;
 	int item_num_missile = 10;
 	int missile_num = 50;
+	int item_num_mine = 10;
 
     int total_item_num = 30;
 	int missile_count = 0;

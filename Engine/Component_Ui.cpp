@@ -1,6 +1,5 @@
 #include "Component_Ui.h"
 #include "Player_Ui.h"
-#include "Component_Player.h"
 #include "Component_Sprite.h"
 #include "Component.hpp"
 
@@ -31,47 +30,50 @@ void Ui::Change_Item_Ui()
 
 	if (status_info_verb == Ui_Status_Verb::Use)
 	{
-		item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("none"));
+		item_ui->Change_Sprite(item_ui->Find_Sprite_By_Type(Sprite_Type::None));
 	}
 	
 	else if (status_info_verb == Ui_Status_Verb::Get)
 	{
 		if(status_info_obj == Ui_Status_Obj::Item_Bulkup)
 		{
-			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("bulkup"));
+			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Type(Sprite_Type::Item_Bulkup));
 		}
 		else if (status_info_obj == Ui_Status_Obj::Item_Dash)
 		{
-			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("dash"));
+			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Type(Sprite_Type::Item_Dash));
 		}
 		else if (status_info_obj == Ui_Status_Obj::Item_Hp)
 		{
-			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("heal"));
+			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Type(Sprite_Type::Item_Heal));
 		}
 		else if (status_info_obj == Ui_Status_Obj::Item_Throwing)
 		{
-			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("throwing"));
+			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Type(Sprite_Type::Item_Throw));
 		}
 		else if (status_info_obj == Ui_Status_Obj::Item_Magnatic)
 		{
-			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("magnatic"));
+			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Type(Sprite_Type::Item_Magnet));
 		}
 		else if (status_info_obj == Ui_Status_Obj::Item_Time_Pause)
 		{
-			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("time_pause"));
+			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Type(Sprite_Type::Item_Timepause));
 		}
 		else if (status_info_obj == Ui_Status_Obj::Item_Reverse_Moving)
 		{
-			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("reverse_moving"));
+			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Type(Sprite_Type::Item_Reverse));
 		}
 		else if (status_info_obj == Ui_Status_Obj::Item_Missile)
 		{
-			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("missile"));
+			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Type(Sprite_Type::Item_Missile));
 		}
-
+		else if (status_info_obj == Ui_Status_Obj::Item_Mine)
+		{
+			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("mine"));
+		}
 		else
 		{
-			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Name("none"));
+			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Type(Sprite_Type::None));
 		}
 	}
 

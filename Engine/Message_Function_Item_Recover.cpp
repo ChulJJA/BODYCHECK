@@ -4,6 +4,7 @@
 #include "Message.h"
 #include "Component_Player.h"
 #include "Player_Ui.h"
+#include "Component_Sprite.h"
 
 void Msg_Func_Item_Recover::Init()
 {
@@ -26,7 +27,7 @@ void Msg_Func_Item_Recover::Init()
 				hp_bar->GetMesh().Get_Is_Moved() = true;
 				info_hp_bar->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Recovering);
 				info_hp_bar->Set_Timer(10.f);
-				obj->Find_Sprite_By_Name("effect_heal")->Set_Need_Update(true);
+				obj->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Heal)->Set_Need_Update(true);
 				
 				info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Use, Ui::Ui_Status_Obj::Item_Hp);
 			}

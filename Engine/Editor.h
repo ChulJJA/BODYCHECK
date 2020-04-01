@@ -34,6 +34,7 @@ private:
 	Object* display_item_reverse;
 	Object* display_item_timepause;
 	Object* display_item_magnetic;
+	Object* display_item_mine;
 
 	Object* mouse_pointer;
 	std::vector<Object*> display_vec;

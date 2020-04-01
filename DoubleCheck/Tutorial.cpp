@@ -117,14 +117,14 @@ void Tutorial::SetFirstPlayer()
 	Player_First->SetNeedCollision(true);
 	Player_First->AddComponent(new Player());
 	Player_First->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
-	Player_First->AddComponent(new Sprite(Player_First, "../Sprite/pen_green.png", { 400,400 }));
+	Player_First->AddComponent(new Sprite(Player_First, "../Sprite/Player/State/pen_green.png", { 400,400 }));
 	Player_First->AddComponent(new Physics());
 	Player_First->GetTransform().SetScale({ 3.f,3.f });
 
 	ObjectManager::GetObjectManager()->AddObject(Player_First);
 
 	Player_First_Text = Make_Set_Text("red_text", "text", { 200,0 }, Player_First, { 0,1,0,1 }, { 150,150 }, &font);
-	Player_First_UI = Make_Set_Ui("first_ui", "ui", "../sprite/pen_green.png", { 1200, 800 }, { 4.0f,4.0f }, Player_First);
+	Player_First_UI = Make_Set_Ui("first_ui", "ui", "../Sprite/Player/State/pen_green.png", { 1200, 800 }, { 4.0f,4.0f }, Player_First);
 	Player_First->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_First_UI);
 
 	Referee::Get_Referee()->Set_First_Text(Player_First_Text);

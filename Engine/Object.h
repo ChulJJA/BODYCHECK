@@ -17,7 +17,9 @@
 #include "Object_Component_Info.h"
 #include <iostream>
 
+enum class Sprite_Type;
 class Component;
+
 
 
 inline int object_id_increment = 1;
@@ -270,9 +272,11 @@ public:
 public:
     void SetDeadCondition(bool condition) { is_dead = condition; }
     bool IsDead() { return is_dead; }
-    void AddComponent(Component* comp, std::string name = "component", bool toggle = true);
+	
+	void AddComponent(Component* comp, std::string name = "component", bool toggle = true);
     void DeleteComponent(Component* comp);
 	Component* Find_Sprite_By_Name(std::string name);
+	Component* Find_Sprite_By_Type(Sprite_Type type);
     void SetTranslation(vector2 pos);
 
     void SetRotation(float angle);

@@ -45,6 +45,7 @@ void Object::Set_Current_Sprite(Component* sprite)
 
 }
 
+
 void Object::AddComponent(Component* comp, std::string name, bool toggle)
 {
 	comp->Init(this);
@@ -71,6 +72,20 @@ Component* Object::Find_Sprite_By_Name(std::string name)
 	}
 	return nullptr;
 }
+
+
+Component* Object::Find_Sprite_By_Type(Sprite_Type type)
+{
+	for (auto component : comp_sprite)
+	{
+		if (reinterpret_cast<Sprite*>(component)->Get_Sprite_Type() == type)
+		{
+			return component;
+		}
+	}
+	return nullptr;
+}
+
 
 void Object::SetTranslation(vector2 pos)
 {

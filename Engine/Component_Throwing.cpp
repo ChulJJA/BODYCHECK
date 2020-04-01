@@ -2,7 +2,6 @@
 #include "Object.h"
 #include "angles.hpp"
 #include "Physics.h"
-#include "Component_Player.h"
 
 
 void Throwing::Init(Object* obj)
@@ -52,7 +51,7 @@ void Throwing::Set_Throwing_Obj(Object* obj)
 	}
 }
 
-Object* Throwing::Get_Throwing_Obj()
+Object* Throwing::Get_Throwing_Obj() const
 {
 	return throwing_obj;
 }

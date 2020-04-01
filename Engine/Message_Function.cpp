@@ -12,6 +12,7 @@
 #include "Message_Function_Item_Time_Pause.h"
 #include "Message_Function_Item_Reverse_Moving.h"
 #include "Message_Function_Item_Missile.h"
+#include "Message_Function_Item_Mine.h"
 
 Message_Func::Message_Func(Message* msg)
 {
@@ -72,7 +73,10 @@ void Message_Func::Functioning(float dt)
 		{
 			function = new Msg_Func_Item_Missile(m_from, m_target, 1.f, msg_);
 		}
-
+		else if (kind == Message_Kind::Item_Mine)
+		{
+			function = new Msg_Func_Item_Mine(m_from, m_target, 1.f, msg_);
+		}
 		function->Init();
 	}
 	

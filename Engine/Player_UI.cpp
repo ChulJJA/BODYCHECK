@@ -21,19 +21,12 @@
 void PLAYER_UI::Initialize()
 {
 	const vector2 this_trans = this->GetTransform().GetTranslation();
-	
-    /*info_hp_bar = new Object();
-	info_hp_bar->GetTransform().SetTranslation({ this_trans.x + 350, this_trans.y});
-	info_hp_bar->GetTransform().SetScale({ 4.f, 6.f });
-    info_hp_bar->AddComponent(new Sprite(info_hp_bar, "../Sprite/HP.png", info_hp_bar->GetTransform().GetTranslation(), false));
-    info_hp_bar->Set_Tag("hp_info");
-    info_hp_bar->Set_Name(this->GetName() + "info_hp");
-    ObjectManager::GetObjectManager()->AddObject(info_hp_bar);*/
 
     info_item = new Object();
 	info_item->GetTransform().SetTranslation({ this_trans.x + 200, this_trans.y});
 	info_item->GetTransform().SetScale({ 2.f, 2.f });
 	info_item->Set_Tag("item_info");
+<<<<<<< HEAD
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/None.png", { this_trans.x + 200, this_trans.y}), "none");
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item.png", { this_trans.x + 200, this_trans.y}), "item", false);
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/bulkup.png", { this_trans.x + 200, this_trans.y}), "bulkup", false);
@@ -43,12 +36,25 @@ void PLAYER_UI::Initialize()
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/magnet.png", { this_trans.x + 200, this_trans.y}), "magnatic", false);
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/time_pause.png", { this_trans.x + 200, this_trans.y}), "time_pause", false);
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/reverse_moving.png", { this_trans.x + 200, this_trans.y}), "reverse_moving", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/mine.png", { this_trans.x + 200, this_trans.y}), "mine", false);
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item.png", { this_trans.x + 200, this_trans.y}), "missile", false);
+	
+=======
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/None.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::None), "none");
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/Item.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::Item), "item", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/bulkup.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::Item_Bulkup), "bulkup", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/dash.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::Item_Dash), "dash", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/heal.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::Item_Heal), "heal", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/throwing_showing.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::Item_Throw), "throwing", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/magnet.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::Item_Magnet), "magnatic", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/time_pause.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::Item_Timepause), "time_pause", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/reverse_moving.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::Item_Reverse), "reverse_moving", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/missile_launcher_showing.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::Item_Missile), "missile", false);
+>>>>>>> master
 
     info_item->Set_Name(this->GetName() + "info_item");
-	info_item->Set_Current_Sprite(info_item->Find_Sprite_By_Name("none"));
+	info_item->Set_Current_Sprite(info_item->Find_Sprite_By_Type(Sprite_Type::None));
     ObjectManager::GetObjectManager()->AddObject(info_item);
-	//asd
 
     num_life = new Object();
 	num_life->GetTransform().SetTranslation({ this_trans.x + 500, this_trans.y - 100 });
@@ -68,7 +74,7 @@ void PLAYER_UI::Reset()
 	Sprite* info_item_sprite = info_item->GetComponentByTemplate<Sprite>();
 
 	info_item->GetTransform().SetTranslation({ this_trans.x + 400, this_trans.y });
-	info_item->Change_Sprite(info_item->Find_Sprite_By_Name("none"));
+	info_item->Change_Sprite(info_item->Find_Sprite_By_Type(Sprite_Type::None));
     info_item->GetMesh().Get_Is_Moved() = true;
 }
 

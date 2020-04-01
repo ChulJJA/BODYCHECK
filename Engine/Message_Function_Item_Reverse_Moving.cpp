@@ -36,7 +36,7 @@ void Msg_Func_Item_Reverse_Moving::Init()
 				Player* get_player = another_players[random_select_character]->GetComponentByTemplate<Player>();
 				get_player->Set_Char_State(Player::Char_State::Reverse_Moving);
 
-				another_players[random_select_character]->Change_Sprite(another_players[random_select_character]->Find_Sprite_By_Name("reverse_moving_pen"));
+				another_players[random_select_character]->Change_Sprite(another_players[random_select_character]->Find_Sprite_By_Type(Sprite_Type::Player_Reverse_Moving));
 			}
 
 			info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Use, Ui::Ui_Status_Obj::Item_Reverse_Moving);

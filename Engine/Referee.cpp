@@ -74,8 +74,7 @@ void Referee::Init()
 		missile_saving[i]->Set_Name("missile");
 		missile_saving[i]->Set_Tag("throwing");
 		missile_saving[i]->SetNeedCollision(true);
-		missile_saving[i]->AddComponent(new Player);
-		missile_saving[i]->AddComponent(new Sprite(missile_saving[i], "../sprite/missiles.png", true, 3, 8, { 0.f,0.f },
+		missile_saving[i]->AddComponent(new Sprite(missile_saving[i], "../sprite/Item/missiles.png", true, 3, 8, { 0.f,0.f },
 			{ 100.f,100.f }, { 255,255,255,255 }), "missile");
 		missile_saving[i]->AddComponent(new Physics);
 		missile_saving[i]->AddComponent(new Missile);
@@ -106,55 +105,91 @@ void Referee::Delete()
 
 Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::string name, std::string tag, Object* text)
 {
-	std::string sprite_path_normal = "../Sprite/";
-	sprite_path_normal += sprite_path;
-	sprite_path_normal += ".png";
+	std::string path_to_player_state = "../Sprite/Player/State/";
+	std::string path_to_player_item_effect = "../Sprite/Player/Item_Effect/";
+	std::string path_to_player_display_item = "../Sprite/Player/Display_Item/";
 
-	std::string sprite_path_lock = "../Sprite/";
-	sprite_path_lock += sprite_path;
-	sprite_path_lock += "_lock";
-	sprite_path_lock += ".png";
+	std::string sprite_path_normal = path_to_player_state;
+	std::string sprite_path_lock = path_to_player_state;
+	std::string sprite_path_chase = path_to_player_state;
+	std::string sprite_path_thinking = path_to_player_state;
+	std::string sprite_path_crying = path_to_player_state;
 
-	std::string sprite_path_chase = "../Sprite/";
-	sprite_path_chase += sprite_path;
-	sprite_path_chase += "_chase.png";
+	std::string sprite_path_reverse_moving_pen = path_to_player_item_effect;
+	std::string sprite_path_ready = path_to_player_item_effect;
+	std::string sprite_path_heal_effect = path_to_player_item_effect;
+	std::string sprite_path_ready_bulkup = path_to_player_item_effect;
+	std::string sprite_path_throwing_effect = path_to_player_item_effect;
+	std::string sprite_path_missile_effect = path_to_player_item_effect;
 
-	std::string sprite_path_thinking = "../Sprite/";
-	sprite_path_thinking += sprite_path;
-	sprite_path_thinking += "_thinking.png";
+	
+	std::string sprite_path_missile_launcher = path_to_player_display_item;
+	std::string sprite_path_dash = path_to_player_display_item;
+	std::string sprite_path_bulkup = path_to_player_display_item;
+	std::string sprite_path_throwing = path_to_player_display_item;
+	std::string sprite_path_heal = path_to_player_display_item;
+	std::string sprite_path_magnet = path_to_player_display_item;
 
-	std::string sprite_path_reverse_moving_pen = "../Sprite/reverse_moving_pen";
-	sprite_path_reverse_moving_pen += ".png";
 
-	std::string sprite_path_ready = "../Sprite/loadingscene.png";
-	std::string sprite_path_heal_effect = "../Sprite/effect_heal.png";
+	{
+		sprite_path_normal += sprite_path + ".png";
+		sprite_path_lock += sprite_path + "_lock.png";
+		sprite_path_chase += sprite_path + "_chase.png";
+		sprite_path_thinking += sprite_path + "_thinking.png";
+		sprite_path_crying += sprite_path + "_crying.png";
+	}
 
-	std::string sprite_path_ready_bulkup = "../Sprite/";
-	sprite_path_ready_bulkup += sprite_path;
-	sprite_path_ready_bulkup += "_effect_bulkup.png";
+	{
+		sprite_path_reverse_moving_pen += "reverse_moving_pen.png";
+		sprite_path_ready += "loadingscene.png";
+		sprite_path_heal_effect += "effect_heal.png";
+		sprite_path_ready_bulkup += sprite_path + "_effect_bulkup.png";
+		sprite_path_throwing_effect += "effect_throwing.png";
+		sprite_path_missile_effect += "pen_green_effect_missile.png";
+	}
 
-	std::string sprite_path_crying = "../Sprite/";
-	sprite_path_crying += sprite_path;
-	sprite_path_crying += "_crying.png";
+	{
+		sprite_path_missile_launcher += "missile_launcher_showing.png";
+		sprite_path_dash += "dash_showing.png";
+		sprite_path_bulkup += "bulkup_showing.png";
+		sprite_path_throwing += "throwing_showing.png";
+		sprite_path_heal += "heal_showing.png";
+		sprite_path_magnet += "magnet_showing.png";
+	}
 
 	Object* player = new Object();
 	player->Set_Name(name);
 	player->Set_Tag(tag);
 	player->AddComponent(new Player(false));
-	player->AddComponent(new Sprite(player, sprite_path_normal.c_str(), pos), "normal", true);
-	player->AddComponent(new Sprite(player, sprite_path_lock.c_str(), pos), "lock", false);
-	player->AddComponent(new Sprite(player, sprite_path_chase.c_str(), pos), "chase", false);
-	player->AddComponent(new Sprite(player, sprite_path_thinking.c_str(), pos), "thinking", false);
-	player->AddComponent(new Sprite(player, sprite_path_reverse_moving_pen.c_str(), pos), "reverse_moving_pen", false);
-	player->AddComponent(new Sprite(player, sprite_path_ready.c_str(), pos), "ready", false);
+	player->AddComponent(new Sprite(player, sprite_path_normal.c_str(), pos, false, Sprite_Type::Player_Normal), "normal", true);
+	player->AddComponent(new Sprite(player, sprite_path_lock.c_str(), pos, false, Sprite_Type::Player_Locking), "lock", false);
+	player->AddComponent(new Sprite(player, sprite_path_chase.c_str(), pos, false, Sprite_Type::Player_Chasing), "chase", false);
+	player->AddComponent(new Sprite(player, sprite_path_thinking.c_str(), pos, false, Sprite_Type::Player_Thinking), "thinking", false);
+	player->AddComponent(new Sprite(player, sprite_path_reverse_moving_pen.c_str(), pos, false, Sprite_Type::Player_Reverse_Moving), "reverse_moving_pen", false);
+	player->AddComponent(new Sprite(player, sprite_path_ready.c_str(), pos, false, Sprite_Type::Player_Ready), "ready", false);
+	player->AddComponent(new Sprite(player, sprite_path_crying.c_str(), pos, false, Sprite_Type::Player_Crying), "crying", false);
+
+	player->AddComponent(new Sprite(player, sprite_path_missile_launcher.c_str(), pos, false, Sprite_Type::Missile_Launcher_Showing, { 80.f, 80.f }), "missile_launcher", false);
+	player->AddComponent(new Sprite(player, sprite_path_dash.c_str(), pos, false, Sprite_Type::Dash_Showing, { 50.f, 50.f }), "dash", false);
+	player->AddComponent(new Sprite(player, sprite_path_bulkup.c_str(), pos, false, Sprite_Type::Bulkup_Showing, { 100.f, 100.f }), "bulkup", false);
+	player->AddComponent(new Sprite(player, sprite_path_throwing.c_str(), pos, false, Sprite_Type::Throwing_Showing, { 100.f, 100.f }), "throwing", false);
+	player->AddComponent(new Sprite(player, sprite_path_heal.c_str(), pos, false, Sprite_Type::Heal_Showing, { 100.f, 100.f }), "heal", false);
+	player->AddComponent(new Sprite(player, sprite_path_magnet.c_str(), pos, false, Sprite_Type::Magnet_Showing, { 100.f, 100.f }), "magnet", false);
+
+	
 	player->AddComponent(new Sprite(player, sprite_path_ready_bulkup.c_str(), true, 8, 24, pos, { 100.f,100.f },
-		{ 255,255,255,255 }), "effect_bulkup", false);
+		{ 255,255,255,255 }, Sprite_Type::Player_Effect_Bulkp), "effect_bulkup", false);
 	player->AddComponent(new Sprite(player, sprite_path_heal_effect.c_str(), true, 4, 6, pos, { 100.f,100.f },
-		{ 255, 255, 255, 255 }), "effect_heal", false);
-	player->AddComponent(new Sprite(player, sprite_path_crying.c_str(), pos), "crying", false);
+		{ 255, 255, 255, 255 }, Sprite_Type::Player_Effect_Heal), "effect_heal", false);
+	player->AddComponent(new Sprite(player, sprite_path_throwing_effect.c_str(), true, 4, 8, pos, { 100.f,100.f },
+		{ 255, 255, 255, 255 }, Sprite_Type::Player_Effect_Throwing), "effect_throwing", false);
+	player->AddComponent(new Sprite(player, sprite_path_missile_effect.c_str(), true, 8, 12, pos, { 100.f,100.f },
+		{ 255, 255, 255, 255 }, Sprite_Type::Player_Effect_Missile), "effect_missile", false);
+
+	
 	player->AddComponent(new Physics(true));
 	
-	player->Set_Current_Sprite(player->Find_Sprite_By_Name("normal"));
+	player->Set_Current_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Player_Normal));
 	player->SetScale({ 3.f,3.f });
 	player->Set_Dmg_Text(text);
 	player->SetNeedCollision(true);
@@ -264,7 +299,11 @@ void Referee::Respawn_Player(Stage_Statement state, float dt)
 void Referee::Respawn_Item(float dt)
 {
 	item_respawn_timer -= dt;
-	Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 8));
+<<<<<<< HEAD
+	Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 9));
+=======
+	const Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 8));
+>>>>>>> master
 
 	if (item_respawn_timer <= 0.0f && total_item_num > 0)
 	{
@@ -308,6 +347,11 @@ void Referee::Respawn_Item(float dt)
 			ObjectManager::GetObjectManager()->AddObject(item_missile[item_num_missile - 1]);
 			item_num_missile--;
 		}
+		else if (item == Item::Item_Kind::Mine)
+		{
+			ObjectManager::GetObjectManager()->AddObject(item_mine[item_num_mine - 1]);
+			item_num_mine--;
+		}
 		total_item_num--;
 		item_respawn_timer = 5.0f;
 	}
@@ -349,39 +393,43 @@ void Referee::SetItem()
 	item_time_pause = new Object *[item_num]();
 	item_reverse_moving = new Object *[item_num]();
 	item_missile = new Object *[item_num]();
+	item_mine = new Object * [item_num]();
 
-
 	for (int i = 0; i < item_num; i++)
 	{
-		item_dash[i] = Make_Item_Pool("../Sprite/item.png", { 0,0 }, "item", "item", Item::Item_Kind::Dash);
+		item_dash[i] = Make_Item_Pool("../Sprite/Item/item.png", { 0,0 }, "item", "item", Item::Item_Kind::Dash);
 	}
 	for (int i = 0; i < item_num; i++)
 	{
-		item_heal[i] = Make_Item_Pool("../Sprite/item.png", { -400,0 }, "item", "item", Item::Item_Kind::HP);
+		item_heal[i] = Make_Item_Pool("../Sprite/Item/item.png", { -400,0 }, "item", "item", Item::Item_Kind::HP);
 	}
 	for (int i = 0; i < item_num; i++)
 	{
-		item_bulk_up[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Bulkup);
+		item_bulk_up[i] = Make_Item_Pool("../Sprite/Item/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Bulkup);
 	}
 	for (int i = 0; i < item_num; i++)
 	{
-		item_throwing[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Throwing);
+		item_throwing[i] = Make_Item_Pool("../Sprite/Item/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Throwing);
 	}
 	for (int i = 0; i < item_num; i++)
 	{
-		item_magnetic[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Magnatic);
+		item_magnetic[i] = Make_Item_Pool("../Sprite/Item/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Magnatic);
 	}
 	for (int i = 0; i < item_num; i++)
 	{
-		item_time_pause[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Time_Pause);
+		item_time_pause[i] = Make_Item_Pool("../Sprite/Item/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Time_Pause);
 	}
 	for (int i = 0; i < item_num; i++)
 	{
-		item_reverse_moving[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Reverse_Moving);
+		item_reverse_moving[i] = Make_Item_Pool("../Sprite/Item/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Reverse_Moving);
 	}
 	for (int i = 0; i < item_num; i++)
 	{
-		item_missile[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Missile);
+		item_missile[i] = Make_Item_Pool("../Sprite/Item/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Missile);
+	}
+	for (int i = 0; i < item_num; i++)
+	{
+		item_mine[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Mine);
 	}
 }
 
@@ -391,8 +439,7 @@ Object* Referee::Return_New_Missile()
 	missile->Set_Name("missile");
 	missile->Set_Tag("throwing");
 	missile->SetNeedCollision(true);
-	missile->AddComponent(new Player);
-	missile->AddComponent(new Sprite(missile, "../sprite/missiles.png", true, 3, 8, { 0.f,0.f },
+	missile->AddComponent(new Sprite(missile, "../sprite/Item/missiles.png", true, 3, 8, { 0.f,0.f },
 		{ 100.f,100.f }, { 255,255,255,255 }), "missile");
 	missile->AddComponent(new Physics);
 	missile->AddComponent(new Missile);
