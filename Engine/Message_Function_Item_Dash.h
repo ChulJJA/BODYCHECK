@@ -1,6 +1,7 @@
 #pragma once
 #include "Message_Function_Base.h"
 #include "Physics.h"
+#include "Particle.h"
 class Message;
 
 class Msg_Func_Item_Dash : public Msg_Func_Base
@@ -27,4 +28,5 @@ private:
 	float timer;
 	Message* msg;
 	Physics physics;
+	ParticleGenerator* dash_particle;
 };

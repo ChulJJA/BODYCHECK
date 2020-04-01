@@ -224,6 +224,7 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="Object_Component_Info.h" />
+    <ClInclude Include="Particle.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Player_Ui.h" />
     <ClInclude Include="Referee.h" />
@@ -286,6 +287,7 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="Object_Component_Info.cpp" />
+    <ClCompile Include="Particle.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Player_UI.cpp" />
     <ClCompile Include="Referee.cpp" />

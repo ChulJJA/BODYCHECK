@@ -266,6 +266,9 @@
     <ClCompile Include="Message_Function_Item_Mine.cpp">
       <Filter>Messages</Filter>
     </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Message.h">
@@ -558,6 +561,9 @@
     <ClInclude Include="View.h" />
     <ClInclude Include="Message_Function_Item_Mine.h">
       <Filter>Messages\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Graphics\Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

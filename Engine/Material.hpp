@@ -31,4 +31,5 @@ struct [[nodiscard]] material
     std::map<std::string, Color4f>         color4fUniforms{};
     std::map<std::string, float>           floatUniforms{};
     std::map<std::string, texture_uniform> textureUniforms{};
+    std::map<std::string, vector2> vectorUniforms{};
 };
