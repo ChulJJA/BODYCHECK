@@ -77,6 +77,7 @@ void Message_Func::Functioning(float dt)
 		{
 			function = new Msg_Func_Item_Mine(m_from, m_target, 1.f, msg_);
 		}
+
 		function->Init();
 	}
 	

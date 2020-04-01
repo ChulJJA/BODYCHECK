@@ -59,7 +59,7 @@ private:
     bool need_to_update;
     Object* dmg_text = nullptr;
     float dmg_plus = 0.f;
-	bool is_it_collided;
+	//bool is_it_collided;
 	Component* current_showing_sprite;
     bool need_collision;
 public:

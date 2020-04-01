@@ -27,7 +27,7 @@ public:
 		Time_Pause,
 		Reverse_Moving,
     	Missile,
-		Mine
+        Mine
     };
 
     void Init(Object* obj) override;

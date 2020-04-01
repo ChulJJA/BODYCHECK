@@ -130,6 +130,19 @@ void Msg_Func_Collision::Update(float dt)
 			player_target_info->Change_To_Normal_State();
 		}
 
+		if (player_from_info->Get_Char_State_Additional() == Player::Char_State_Additional::Get_mine)
+		{
+			//player_from_info->Set_Stop_Timer(0.0f);
+			player_from_info->Change_To_Normal_State();
+			
+		}
+		else if (player_target_info->Get_Char_State_Additional() == Player::Char_State_Additional::Get_mine)
+		{
+			//player_target_info->Set_Stop_Timer(0.0f);
+			player_target_info->Change_To_Normal_State();
+			
+		}
+
 	}
 
 	msg->Set_Should_Delete(true);
@@ -195,9 +208,9 @@ void Msg_Func_Collision::Player_Get_Item(Object* player, Object* item)
 		player_info->Set_Item_State(Item::Item_Kind::Missile);
 		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Missile);
 	}
-
 	else if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Mine)
 	{
+		player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Item_Mine));
 		player_info->Set_Item_State(Item::Item_Kind::Mine);
 		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Mine);
 	}
@@ -295,10 +308,10 @@ void Msg_Func_Collision::Player_And_Lock_Collision(Object* player, Object* lock)
 	}
 }
 
-void Msg_Func_Collision::Player_And_Mine_Collision(Object* player, Object* mine/*, float dt*/)
+void Msg_Func_Collision::Player_And_Mine_Collision(Object* player, Object* mine)
 {
 	Player* get_player = player->GetComponentByTemplate<Player>();
-	get_player->Set_Char_State_Additional(Player::Char_State_Additional::Get_Mine_Stop);
-	get_player->Set_Stop_Timer(3.0f);
+	get_player->Set_Char_State_Additional(Player::Char_State_Additional::Get_mine);
+	get_player->Set_Mine_Timer(10.7f);
 	mine->SetDeadCondition(true);
 }

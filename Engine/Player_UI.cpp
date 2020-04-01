@@ -26,20 +26,6 @@ void PLAYER_UI::Initialize()
 	info_item->GetTransform().SetTranslation({ this_trans.x + 200, this_trans.y});
 	info_item->GetTransform().SetScale({ 2.f, 2.f });
 	info_item->Set_Tag("item_info");
-<<<<<<< HEAD
-	info_item->AddComponent(new Sprite(info_item, "../Sprite/None.png", { this_trans.x + 200, this_trans.y}), "none");
-	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item.png", { this_trans.x + 200, this_trans.y}), "item", false);
-	info_item->AddComponent(new Sprite(info_item, "../Sprite/bulkup.png", { this_trans.x + 200, this_trans.y}), "bulkup", false);
-	info_item->AddComponent(new Sprite(info_item, "../Sprite/dash.png", { this_trans.x + 200, this_trans.y}), "dash", false);
-	info_item->AddComponent(new Sprite(info_item, "../Sprite/heal.png", { this_trans.x + 200, this_trans.y}), "heal", false);
-	info_item->AddComponent(new Sprite(info_item, "../Sprite/throw.png", { this_trans.x + 200, this_trans.y}), "throwing", false);
-	info_item->AddComponent(new Sprite(info_item, "../Sprite/magnet.png", { this_trans.x + 200, this_trans.y}), "magnatic", false);
-	info_item->AddComponent(new Sprite(info_item, "../Sprite/time_pause.png", { this_trans.x + 200, this_trans.y}), "time_pause", false);
-	info_item->AddComponent(new Sprite(info_item, "../Sprite/reverse_moving.png", { this_trans.x + 200, this_trans.y}), "reverse_moving", false);
-	info_item->AddComponent(new Sprite(info_item, "../Sprite/mine.png", { this_trans.x + 200, this_trans.y}), "mine", false);
-	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item.png", { this_trans.x + 200, this_trans.y}), "missile", false);
-	
-=======
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/None.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::None), "none");
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/Item.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::Item), "item", false);
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/bulkup.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::Item_Bulkup), "bulkup", false);
@@ -50,8 +36,7 @@ void PLAYER_UI::Initialize()
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/time_pause.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::Item_Timepause), "time_pause", false);
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/reverse_moving.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::Item_Reverse), "reverse_moving", false);
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/missile_launcher_showing.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::Item_Missile), "missile", false);
->>>>>>> master
-
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/mine.png", { this_trans.x + 200, this_trans.y }, false, Sprite_Type::Item_Mine), "mine", false);
     info_item->Set_Name(this->GetName() + "info_item");
 	info_item->Set_Current_Sprite(info_item->Find_Sprite_By_Type(Sprite_Type::None));
     ObjectManager::GetObjectManager()->AddObject(info_item);

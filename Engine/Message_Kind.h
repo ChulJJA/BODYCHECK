@@ -16,6 +16,5 @@ enum class Message_Kind
 	Item_Reverse,
 	Item_Missile,
 	Item_Mine
-
 	
 };

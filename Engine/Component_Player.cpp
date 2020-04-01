@@ -26,11 +26,21 @@
 #include "Referee.h"
 #include "Message_Kind.h"
 
+#include "Physics.h"
+
 void Player::Init(Object* obj)
 {
 	m_owner = obj;
 	m_owner->Get_Component_Info_Reference().component_info_player = true;
-	SetHPBar();
+	if (m_owner->Get_Tag() == "install_mine")
+	{
+		hp_bar = nullptr;
+	}
+	else
+	{
+		SetHPBar();
+	}
+	
 }
 
 void Player::Update(float dt)
@@ -61,27 +71,19 @@ void Player::Update(float dt)
 		{
 			Func_Reverse_Moving(dt);
 		}
-<<<<<<< HEAD
-		else if (curr_state == Char_State::Missile_Shoot)
-		{
-			Func_Missile_Shoot(dt);
-		}
 		else if (curr_state == Char_State::Mine)
 		{
 			Func_Mine(dt);
 		}
 
-		else if (curr_state_additional == Char_State_Additional::Get_Mine_Stop)
+		else if (curr_state_additional == Char_State_Additional::Get_mine)
 		{
 			Func_Mine_Collided(dt);
 		}
-=======
-
 
 
 		vector2& player_pos = m_owner->GetTransform().GetTranslation_Reference();
 
->>>>>>> master
 		if (hp_bar != nullptr)
 		{
 			vector2& hp_pos = hp_bar->GetTransform().GetTranslation_Reference();
@@ -92,14 +94,21 @@ void Player::Update(float dt)
 
 
 		if (curr_state != Player::Char_State::Reverse_Moving && curr_state != Player::Char_State::Time_Pause &&
-			curr_state_additional != Char_State_Additional::Chasing && curr_state_additional != Char_State_Additional::Get_Mine_Stop)
+			curr_state_additional != Char_State_Additional::Chasing /*&& curr_state_additional != Char_State_Additional::Get_mine*/)
 		{
-			PlayerMovement(0.6f, 0.12f);
-			player_pos += velocity;
+			if (curr_state_additional != Char_State_Additional::Get_mine)
+			{
+				PlayerMovement(0.6f, 0.12f);
+				player_pos += velocity;
+			}
+			else
+			{
+				player_pos += velocity;
+			}
 
 		}
 		else if (curr_state == Player::Char_State::Reverse_Moving && curr_state != Player::Char_State::Time_Pause &&
-			curr_state_additional != Char_State_Additional::Chasing && curr_state_additional != Char_State_Additional::Get_Mine_Stop)
+			curr_state_additional != Char_State_Additional::Chasing/*&&curr_state_additional != Char_State_Additional::Get_mine*/)
 		{
 			PlayerMovement(-0.12f, -0.6f);
 			player_pos += velocity;
@@ -213,21 +222,26 @@ void Player::Func_Reverse_Moving(float dt) const
 	}
 }
 
-<<<<<<< HEAD
 void Player::Func_Mine(float dt)
 {
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE))
 	{
+		srand(time(NULL));
+		float random_position_x = rand()%3000 - 1500;
+		float random_position_y = rand()%1300 - 650;
+		
 		curr_state = Char_State::None;
 		install_mine = new Object();
 		install_mine->Set_Name("install_mine");
 		install_mine->Set_Tag("install_mine");
 		install_mine->AddComponent(new Physics());
 		install_mine->AddComponent(new Player());
-		install_mine->AddComponent(new Sprite(install_mine, "../sprite/mine_object.png", { m_owner->GetTransform().GetTranslation().x ,m_owner->GetTransform().GetTranslation().y - 150 }));
+		//install_mine->AddComponent(new Sprite(install_mine, "../sprite/mine_object.png", { m_owner->GetTransform().GetTranslation().x ,m_owner->GetTransform().GetTranslation().y - 150 }));
+		install_mine->AddComponent(new Sprite(install_mine, "../sprite/mine_object.png", { random_position_x ,random_position_y }));
 		//install_mine->DeleteComponent(install_mine->GetComponentByTemplate<Hp_Bar>());
 		install_mine->SetScale(2.f);
 		install_mine->SetNeedCollision(true);
+		//hp_bar->SetDeadCondition(true);
 		ObjectManager::GetObjectManager()->AddObject(install_mine);
 	}
 
@@ -235,40 +249,23 @@ void Player::Func_Mine(float dt)
 
 void Player::Func_Mine_Collided(float dt)
 {
-
-	if (stop_timer > 0.0f)
+	srand(time(NULL));
+	float random_velocity_x = rand() % 5 - 2;
+	float random_velocity_y = rand() % 5 - 2;
+	//m_owner->SetNeedCollision
+	if (mine_timer > 0.0f)
 	{
-		stop_timer -= dt;
+		velocity += {random_velocity_x, random_velocity_y};
+		mine_timer -= dt;
 	}
 	else
 	{
+		velocity += {-velocity.x / 100, -velocity.y / 100};
 		curr_state_additional = Char_State_Additional::None;
 		//install_mine->SetDeadCondition(true);
 	}
 }
 
-void Player::Func_Missile_Shoot(float dt)
-{
-	std::vector<Object*> another_players = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("player");
-	another_players.erase(std::find(another_players.begin(), another_players.end(), m_owner));
-	int player_count = another_players.size();
-
-	for (int i = 0; i < player_count; i++)
-	{
-		int index = Referee::Get_Referee()->Get_Missile_Count();
-		Object* missiles = Referee::Get_Referee()->Get_Missile_From_Saving(index);
-		missiles->GetTransform().SetTranslation(m_owner->GetTransform().GetTranslation());
-		missiles->GetComponentByTemplate<Missile>()->Set_Target(another_players[i]);
-		missiles->GetComponentByTemplate<Missile>()->Set_From_Obj(m_owner);
-		ObjectManager::GetObjectManager()->AddObject(missiles);
-	}
-
-	curr_state = Char_State::None;
-	Change_To_Normal_State();
-}
-
-=======
->>>>>>> master
 void Player::Set_This_UI_info(PLAYER_UI* ui)
 {
 	this_ui = ui;
@@ -341,7 +338,14 @@ void  Player::Set_Stop_Timer(float timer_)
 {
 	stop_timer = timer_;
 }
-
+void  Player::Set_Mine_Timer(float timer)
+{
+	mine_timer = timer;
+}
+float Player::Get_Mine_Timer()
+{
+	return mine_timer;
+}
 
 void Player::PlayerMovement(float max_velocity, float min_velocity)
 {
