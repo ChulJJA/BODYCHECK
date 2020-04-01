@@ -91,6 +91,10 @@ bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 		{
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
 		}
+		else
+		{
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
+		}
 	}
 	/* Player vs Unlock */
 	else if ((object_a_tag == "lock" && object_b_tag == "player"))

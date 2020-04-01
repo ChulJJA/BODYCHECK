@@ -16,8 +16,6 @@ void Msg_Func_Collision::Init()
 	//
 }
 
-
-
 void Msg_Func_Collision::Update(float dt)
 {
 	if (m_target->Get_Tag() == "item" && m_from->Get_Tag() == "player")
