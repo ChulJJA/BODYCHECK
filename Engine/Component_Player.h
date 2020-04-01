@@ -86,16 +86,10 @@ public:
 	Object* Get_Locking_Result() const;
 
 	void Func_Time_Pause(float dt);
-<<<<<<< HEAD
 	void Func_Reverse_Moving(float dt);
 	void Func_Missile_Shoot(float dt);
 	void Func_Mine(float dt);
 	void Func_Mine_Collided(float dt);
-=======
-	void Func_Reverse_Moving(float dt) const;
-
-	
->>>>>>> master
 	void PlayerMovement(float max_velocity, float min_velocity);
 	void SetPlayerVelocity(vector2 current_velocity);
 	vector2 GetPlayerVelocity();

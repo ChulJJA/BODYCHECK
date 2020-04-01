@@ -98,10 +98,10 @@ void Level1::Load()
 
 	referee->Init();
 
-	pause = SetPauseText("pause", "text", "Pause", { 0, 800 }, { 1,1 });
-	restart_button = SetRestartButton("restart_button", "button", "RestartButton", { 0, 600 }, { 1,1 });
-	mainmenu_button = SetMainMenuButton("main_menu", "button", "MainMenu", { 0, 400 }, { 1,1 });
-	option_button = SetOptionButton("option_button", "button", "OptionButton", { 200, 0 }, { 1,1 });
+	//pause = SetPauseText("pause", "text", "Pause", { 0, 800 }, { 1,1 });
+	//restart_button = SetRestartButton("restart_button", "button", "RestartButton", { 0, 600 }, { 1,1 });
+	//mainmenu_button = SetMainMenuButton("main_menu", "button", "MainMenu", { 0, 400 }, { 1,1 });
+	//option_button = SetOptionButton("option_button", "button", "OptionButton", { 200, 0 }, { 1,1 });
 	Graphic::GetGraphic()->get_need_update_sprite() = true;
 
 	loading->Set_Done(false);

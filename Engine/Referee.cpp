@@ -299,11 +299,8 @@ void Referee::Respawn_Player(Stage_Statement state, float dt)
 void Referee::Respawn_Item(float dt)
 {
 	item_respawn_timer -= dt;
-<<<<<<< HEAD
 	Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 9));
-=======
-	const Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 8));
->>>>>>> master
+
 
 	if (item_respawn_timer <= 0.0f && total_item_num > 0)
 	{
@@ -429,7 +426,7 @@ void Referee::SetItem()
 	}
 	for (int i = 0; i < item_num; i++)
 	{
-		item_mine[i] = Make_Item_Pool("../Sprite/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Mine);
+		item_mine[i] = Make_Item_Pool("../Sprite/Item/Item.png", { 400,0 }, "item", "item", Item::Item_Kind::Mine);
 	}
 }
 

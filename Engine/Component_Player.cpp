@@ -25,6 +25,8 @@
 #include "Engine.hpp"
 #include "Referee.h"
 #include "Message_Kind.h"
+#include "Physics.h"
+#include "Component_Missile.h"
 
 void Player::Init(Object* obj)
 {
@@ -61,7 +63,6 @@ void Player::Update(float dt)
 		{
 			Func_Reverse_Moving(dt);
 		}
-<<<<<<< HEAD
 		else if (curr_state == Char_State::Missile_Shoot)
 		{
 			Func_Missile_Shoot(dt);
@@ -75,13 +76,12 @@ void Player::Update(float dt)
 		{
 			Func_Mine_Collided(dt);
 		}
-=======
+
 
 
 
 		vector2& player_pos = m_owner->GetTransform().GetTranslation_Reference();
 
->>>>>>> master
 		if (hp_bar != nullptr)
 		{
 			vector2& hp_pos = hp_bar->GetTransform().GetTranslation_Reference();
@@ -193,7 +193,7 @@ void Player::Func_Time_Pause(float dt)
 	}
 }
 
-void Player::Func_Reverse_Moving(float dt) const
+void Player::Func_Reverse_Moving(float dt)
 {
 	std::vector<Object*> another_players = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("player");
 
@@ -212,9 +212,7 @@ void Player::Func_Reverse_Moving(float dt) const
 		}
 	}
 }
-
-<<<<<<< HEAD
-void Player::Func_Mine(float dt)
+	void Player::Func_Mine(float dt)
 {
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE))
 	{
@@ -267,8 +265,6 @@ void Player::Func_Missile_Shoot(float dt)
 	Change_To_Normal_State();
 }
 
-=======
->>>>>>> master
 void Player::Set_This_UI_info(PLAYER_UI* ui)
 {
 	this_ui = ui;
@@ -664,7 +660,7 @@ void Player::Change_Weapon_Sprite(Component* weapon_sprite)
 	}
 	else
 	{
-		if(weapon_state != nullptr)
+		if (weapon_state != nullptr)
 		{
 			weapon_state->Set_Need_Update(false);
 			weapon_state = nullptr;
