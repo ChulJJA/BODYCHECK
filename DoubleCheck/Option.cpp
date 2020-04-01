@@ -44,7 +44,7 @@ void Option::Load()
 	SetMusicVolumeBox();
 	SetMusicIcon();
 	SetMuteButton();
-	SetInfoText();
+	SetFullScreenButton();
 	SetBackButton();
 }
 
@@ -264,22 +264,18 @@ void Option::Mute()
 	}
 }
 
-void Option::SetInfoText()
+void Option::SetFullScreenButton()
 {
-	info_text[0] = new Object();
-	info_text[0]->AddComponent(new Sprite(info_text[0], "../Sprite/Master.png", { -1300, 800 }, false));
-	info_text[0]->GetTransform().SetScale({ 3, 3 });
-	ObjectManager::GetObjectManager()->AddObject(info_text[0]);
+	full_screen_button = new Object();
+	full_screen_button->AddComponent(new Sprite(full_screen_button, "../Sprite/FullScreenButton.png", { 0, 800 }, false));
+	full_screen_button->GetTransform().SetScale({ 5, 5 });
+	ObjectManager::GetObjectManager()->AddObject(full_screen_button);
 
-	info_text[1] = new Object();
-	info_text[1]->AddComponent(new Sprite(info_text[1], "../Sprite/Music.png", { -1300, 300 }, false));
-	info_text[1]->GetTransform().SetScale({ 3, 3 });
-	ObjectManager::GetObjectManager()->AddObject(info_text[1]);
-
-	info_text[2] = new Object();
-	info_text[2]->AddComponent(new Sprite(info_text[2], "../Sprite/SFX.png", { -1300, -200 }, false));
-	info_text[2]->GetTransform().SetScale({ 3, 3 });
-	ObjectManager::GetObjectManager()->AddObject(info_text[2]);
+	full_screen_button_hover = new Object();
+	full_screen_button_hover->AddComponent(new Sprite(full_screen_button_hover, "../Sprite/FullScreenButtonHover.png", { 0, 800 }, false));
+	full_screen_button_hover->GetTransform().SetScale({ 5, 5 });
+	full_screen_button_hover->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
+	ObjectManager::GetObjectManager()->AddObject(full_screen_button_hover);
 }
 
 void Option::SetBackButton()

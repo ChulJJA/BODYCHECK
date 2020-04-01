@@ -18,6 +18,11 @@ class Object;
 
 class Option : public State
 {
+    int MUSIC;
+    int SFX;
+    int FULLSCREEN;
+    int GAMESPEED;
+	
 	enum class BUTTON
 	{
 		MASTER,
@@ -45,10 +50,11 @@ public:
     void SetMuteButton();
     void MusicVolume();
     void Mute();
-    void SetInfoText();
+    void SetFullScreenButton();
     void SetBackButton();
     void ButtonSelector();
     void SetSoundVolume(float value, bool BGM = true);
+	
 private:
     Object* music_icon[3];
     Object* volume_box[3];
@@ -57,7 +63,8 @@ private:
     Object* unmute_button[3];
     Object* back_button;
     Object* back_button_hover;
-    Object* info_text[3];
+    Object* full_screen_button;
+    Object* full_screen_button_hover;
 	
     BitmapFont      font{};
 

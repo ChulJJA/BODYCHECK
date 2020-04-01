@@ -29,13 +29,12 @@ public:
 
     virtual void Load();
     virtual void Update(float dt);
-
     virtual void UnLoad()
     {
         next_level = {};
         is_next = false;
     }
-    void CreateArena();
+	
 private:
     Object* player;
     Object* player_sec;
@@ -48,6 +47,14 @@ private:
 	Object* text_4;
     Object* arena;
 
+    Object* pause;
+    Object* restart_button;
+    Object* restart_button_hover;
+    Object* mainmenu_button;
+    Object* mainmenu_button_hover;
+    Object* option_button;
+    Object* option_button_hover;
+	
     PLAYER_UI* player_first_ui;
     PLAYER_UI* player_second_ui;
     PLAYER_UI* player_third_ui;

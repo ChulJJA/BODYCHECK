@@ -20,7 +20,7 @@
 #include "Engine.hpp"
 #include "Loading_Scene.h"
 #include "Application.hpp"
-
+#include "ObjectSetter.h"
 #define GLFW_EXPOSE_NATIVE_WGL
 #define GLFW_EXPOSE_NATIVE_WIN32 
 #include <GLFW/glfw3native.h>
@@ -58,7 +58,6 @@ void Level1::Load()
 		}
 	);
 
-
 	current_state = GameState::Game;
 	referee = Referee::Get_Referee();
 	editor = Editor::Get_Editor();
@@ -68,7 +67,7 @@ void Level1::Load()
 	sound.Stop(SOUND::BGM);
 	sound.Play(SOUND::BGM2);
 
-	CreateArena();
+	arena = SetArena("arena", "arena", "IceGround", { 0, 150 }, { 35, 17 });
 
 	player = Make_Player("first", "player", "pen_green", { 400.f, 400.f }, { 3.f, 3.f });
 	player_sec = Make_Player("second", "player", "pen_red", { 400.f, -400.f }, { 3.f, 3.f });
@@ -89,7 +88,7 @@ void Level1::Load()
 	player_sec->GetComponentByTemplate<Player>()->Set_This_UI_info(player_second_ui);
 	player_third->GetComponentByTemplate<Player>()->Set_This_UI_info(player_third_ui);
 	player_forth->GetComponentByTemplate<Player>()->Set_This_UI_info(player_fourth_ui);
-
+	
 	Referee::Get_Referee()->Set_First_Ui(player_first_ui);
 	Referee::Get_Referee()->Set_Second_Ui(player_second_ui);
 	Referee::Get_Referee()->Set_Third_Ui(player_third_ui);
@@ -102,6 +101,10 @@ void Level1::Load()
 
 	referee->Init();
 
+	pause = SetPauseText("pause", "text", "Pause", { 0, 800 }, { 1,1 });
+	restart_button = SetRestartButton("restart_button", "button", "RestartButton", { 0, 600 }, { 1,1 });
+	mainmenu_button = SetMainMenuButton("main_menu", "button", "MainMenu", { 0, 400 }, { 1,1 });
+	option_button = SetOptionButton("option_button", "button", "OptionButton", { 200, 0 }, { 1,1 });
 	Graphic::GetGraphic()->get_need_update_sprite() = true;
 
 
@@ -117,15 +120,4 @@ void Level1::Update(float dt)
 
 	referee->Update(dt);
 
-}
-
-void Level1::CreateArena()
-{
-	arena = new Object();
-	arena->Set_Name("arena");
-	arena->Set_Tag("arena");
-	arena->AddComponent(new Sprite(arena, "../Sprite/IceGround.png", { 0,150 }, false), "arena");
-	arena->Set_Current_Sprite(arena->Find_Sprite_By_Name("arena"));
-	arena->SetScale({ 35, 17 });
-	ObjectManager::GetObjectManager()->AddObject(arena);
 }
