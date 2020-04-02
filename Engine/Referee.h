@@ -43,6 +43,7 @@ public:
 	void Respawn_Item(float dt);
     void SetPlayerTemp();
     void SetItem();
+    void Win();
 
 	int Get_Missile_Count()
 	{
@@ -99,6 +100,7 @@ public:
     {
         fourth_text = ui;
     }
+    void Set_Win_State();
 
 private:
     Referee();
@@ -122,6 +124,8 @@ private:
     int player_third_life;
     int player_fourth_life;
 
+    int total_life_count;
+
     Object** item_dash;
     Object** item_heal;
     Object** item_bulk_up;
@@ -130,6 +134,7 @@ private:
 	Object** item_time_pause;
 	Object** item_reverse_moving;
 	Object** item_missile;
+    Object** item_mine;
 
 	Object** missile_saving;
     float item_respawn_timer = 0.0f;
@@ -144,6 +149,7 @@ private:
     int item_num_reverse_moving = 10;
 	int item_num_missile = 10;
 	int missile_num = 50;
+    int item_num_mine = 10;
 
     int total_item_num = 30;
 	int missile_count = 0;
@@ -158,5 +164,12 @@ private:
     Object* third_text;
     Object* fourth_text;
 
+    Object* first_win;
+    Object* second_win;
+    Object* third_win;
+    Object* fourth_win;
+
+    bool win = false;
+	
 	std::vector<Object*> total_item;
 };

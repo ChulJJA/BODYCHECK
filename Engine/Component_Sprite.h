@@ -47,6 +47,7 @@ enum class Sprite_Type
 	Item_Timepause,
 	Item_Reverse,
 	Item_Missile,
+    Item_Mine,
 
 	Missile_Launcher_Showing,
     Dash_Showing,

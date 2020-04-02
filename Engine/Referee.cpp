@@ -33,15 +33,41 @@ Referee* Referee::referee = nullptr;
 StateManager* state_manager = nullptr;
 Application* app = nullptr;
 
+void Referee::Set_Win_State()
+{
+	first_win = new Object();
+	first_win->AddComponent(new Sprite(first_win, "../Sprite/pen_green2_win.png", true, 2, 8, {0.f,0.f}, { 100.f,100.f },
+		{ 255,255,255,255 }, Sprite_Type::None), "win", true);
+	first_win->GetTransform().SetScale({ 40.f, 22.f });
+
+	second_win = new Object();
+	second_win->AddComponent(new Sprite(second_win, "../Sprite/pen_red2_win.png", true, 2, 8, { 0.f,0.f }, { 100.f,100.f },
+		{ 255,255,255,255 }, Sprite_Type::None), "win", true);
+	second_win->GetTransform().SetScale({ 40.f, 22.f });
+
+	third_win = new Object();
+	third_win->AddComponent(new Sprite(third_win, "../Sprite/pen_blue2_win.png", true, 2, 8, { 0.f,0.f }, { 100.f,100.f },
+		{ 255,255,255,255 }, Sprite_Type::None), "win", true);
+	third_win->GetTransform().SetScale({ 40.f, 22.f });
+
+	fourth_win = new Object();
+	fourth_win->AddComponent(new Sprite(fourth_win, "../Sprite/pen_normal2_win.png", true, 2, 8, { 0.f,0.f }, { 100.f,100.f },
+		{ 255,255,255,255 }, Sprite_Type::None), "win", true);
+	fourth_win->GetTransform().SetScale({ 40.f, 22.f });
+
+}
+
 Referee::Referee()
 {
 	state_manager = StateManager::GetStateManager();
 	if (state_manager->GetCurrentState()->GetStateInfo() == GameState::Game)
 	{
-		player_first_life = 5;
-		player_sec_life = 5;
-		player_third_life = 5;
-		player_fourth_life = 5;
+		player_first_life = 1;
+		player_sec_life = 1;
+		player_third_life = 1;
+		player_fourth_life = 1;
+		total_life_count = player_first_life + player_sec_life + player_third_life + player_fourth_life;
+		total_life_count += 4;
 	}
 	else if (state_manager->GetCurrentState()->GetStateInfo() == GameState::Tutorial)
 	{
@@ -49,6 +75,7 @@ Referee::Referee()
 		player_sec_life = 20;
 		player_third_life = 20;
 		player_fourth_life = 20;
+		total_life_count = player_first_life + player_sec_life + player_third_life + player_fourth_life;
 	}
 }
 
@@ -84,6 +111,7 @@ void Referee::Init()
 	
 	SetPlayerTemp();
 	SetItem();
+	Set_Win_State();
 }
 
 void Referee::Update(float dt)
@@ -96,7 +124,13 @@ void Referee::Update(float dt)
 		}
 	}
 
-	Respawn_Item(dt);
+	if(win == false)
+	{
+		Respawn_Item(dt);
+	}
+	
+	Win();
+	
 }
 
 void Referee::Delete()
@@ -278,6 +312,7 @@ void Referee::Respawn_Player(Stage_Statement state, float dt)
 			player_first_life--;
 			stage_statements.erase(std::find(stage_statements.begin(), stage_statements.end(), state));
 			first_ui->Get_Life_Num()->GetComponentByTemplate<TextComp>()->GetText().SetString(std::to_wstring(player_first_life));
+			total_life_count--;
 		}
 	}
 	break;
@@ -296,6 +331,7 @@ void Referee::Respawn_Player(Stage_Statement state, float dt)
 			player_sec_life--;
 			stage_statements.erase(std::find(stage_statements.begin(), stage_statements.end(), state));
 			second_ui->Get_Life_Num()->GetComponentByTemplate<TextComp>()->GetText().SetString(std::to_wstring(player_sec_life));
+			total_life_count--;
 		}
 	}
 	break;
@@ -314,6 +350,7 @@ void Referee::Respawn_Player(Stage_Statement state, float dt)
 			player_third_life--;
 			stage_statements.erase(std::find(stage_statements.begin(), stage_statements.end(), state));
 			third_ui->Get_Life_Num()->GetComponentByTemplate<TextComp>()->GetText().SetString(std::to_wstring(player_third_life));
+			total_life_count--;
 		}
 	}
 	break;
@@ -332,6 +369,7 @@ void Referee::Respawn_Player(Stage_Statement state, float dt)
 			player_fourth_life--;
 			stage_statements.erase(std::find(stage_statements.begin(), stage_statements.end(), state));
 			fourth_ui->Get_Life_Num()->GetComponentByTemplate<TextComp>()->GetText().SetString(std::to_wstring(player_fourth_life));
+			total_life_count--;
 		}
 	}
 	break;
@@ -344,7 +382,7 @@ void Referee::Respawn_Player(Stage_Statement state, float dt)
 void Referee::Respawn_Item(float dt)
 {
 	item_respawn_timer -= dt;
-	const Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 8));
+	const Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 9));
 
 	if (item_respawn_timer <= 0.0f && total_item_num > 0)
 	{
@@ -388,6 +426,11 @@ void Referee::Respawn_Item(float dt)
 			ObjectManager::GetObjectManager()->AddObject(item_missile[item_num_missile - 1]);
 			item_num_missile--;
 		}
+		else if (item == Item::Item_Kind::Mine)
+		{
+			ObjectManager::GetObjectManager()->AddObject(item_mine[item_num_mine - 1]);
+			item_num_mine--;
+		}
 		total_item_num--;
 		item_respawn_timer = 5.0f;
 	}
@@ -429,7 +472,7 @@ void Referee::SetItem()
 	item_time_pause = new Object *[item_num]();
 	item_reverse_moving = new Object *[item_num]();
 	item_missile = new Object *[item_num]();
-
+	item_mine = new Object * [item_num]();
 
 	for (int i = 0; i < item_num; i++)
 	{
@@ -463,6 +506,37 @@ void Referee::SetItem()
 	{
 		item_missile[i] = Make_Item_Pool("../Sprite/Item/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Missile);
 	}
+	for (int i = 0; i < item_num; i++)
+	{
+		item_mine[i] = Make_Item_Pool("../Sprite/Item/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Mine);
+	}
+}
+
+void Referee::Win()
+{
+	if (win == false)
+	{
+		if (player_first_life == -1 && player_sec_life == -1 && player_third_life == -1)
+		{
+			ObjectManager::GetObjectManager()->AddObject(fourth_win);
+			win = true;
+		}
+		else if (player_first_life == -1 && player_sec_life == -1 && player_fourth_life == -1)
+		{
+			ObjectManager::GetObjectManager()->AddObject(third_win);
+			win = true;
+		}
+		else if (player_first_life == -1 && player_third_life == -1 && player_fourth_life == -1)
+		{
+			ObjectManager::GetObjectManager()->AddObject(second_win);
+			win = true;
+		}
+		else if (player_sec_life == -1 && player_third_life == -1 && player_fourth_life == -1)
+		{
+			ObjectManager::GetObjectManager()->AddObject(first_win);
+			win = true;
+		}
+	}
 }
 
 Object* Referee::Return_New_Missile()
@@ -486,43 +560,55 @@ void Referee::Respawn(Stage_Statement statement)
 	switch (statement)
 	{
 	case Stage_Statement::PLAYER_SECOND_DIE:
-		player_sec_temp[player_sec_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar()->GetComponentByTemplate<Sprite>()->Set_Need_Update(true);
-		player_sec_temp[player_sec_life - 1]->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
-		player_sec_temp[player_sec_life - 1]->GetComponentByTemplate<Player>()->Set_This_UI_info(second_ui);
-		player_sec_temp[player_sec_life - 1]->Set_Tag("player");
-		ObjectManager::GetObjectManager()->AddObject(player_sec_temp[player_sec_life - 1]);
-		ObjectManager::GetObjectManager()->AddObject(player_sec_temp[player_sec_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar());
-		second_ui->Reset();
+		if (player_sec_life > 0)
+		{
+			player_sec_temp[player_sec_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar()->GetComponentByTemplate<Sprite>()->Set_Need_Update(true);
+			player_sec_temp[player_sec_life - 1]->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
+			player_sec_temp[player_sec_life - 1]->GetComponentByTemplate<Player>()->Set_This_UI_info(second_ui);
+			player_sec_temp[player_sec_life - 1]->Set_Tag("player");
+			ObjectManager::GetObjectManager()->AddObject(player_sec_temp[player_sec_life - 1]);
+			ObjectManager::GetObjectManager()->AddObject(player_sec_temp[player_sec_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar());
+			second_ui->Reset();
+		}
 		break;
 
 	case Stage_Statement::PLAYER_FIRST_DIE:
-		player_first_temp[player_first_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar()->GetComponentByTemplate<Sprite>()->Set_Need_Update(true);
-		player_first_temp[player_first_life - 1]->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
-		player_first_temp[player_first_life - 1]->GetComponentByTemplate<Player>()->Set_This_UI_info(first_ui);
-		player_first_temp[player_first_life - 1]->Set_Tag("player");
-		ObjectManager::GetObjectManager()->AddObject(player_first_temp[player_first_life - 1]);
-		ObjectManager::GetObjectManager()->AddObject(player_first_temp[player_first_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar());
-		first_ui->Reset();
+		if (player_first_life > 0)
+		{
+			player_first_temp[player_first_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar()->GetComponentByTemplate<Sprite>()->Set_Need_Update(true);
+			player_first_temp[player_first_life - 1]->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
+			player_first_temp[player_first_life - 1]->GetComponentByTemplate<Player>()->Set_This_UI_info(first_ui);
+			player_first_temp[player_first_life - 1]->Set_Tag("player");
+			ObjectManager::GetObjectManager()->AddObject(player_first_temp[player_first_life - 1]);
+			ObjectManager::GetObjectManager()->AddObject(player_first_temp[player_first_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar());
+			first_ui->Reset();
+		}
 		break;
 
 	case Stage_Statement::PLAYER_THIRD_DIE:
-		player_third_temp[player_third_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar()->GetComponentByTemplate<Sprite>()->Set_Need_Update(true);
-		player_third_temp[player_third_life - 1]->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
-		player_third_temp[player_third_life - 1]->GetComponentByTemplate<Player>()->Set_This_UI_info(third_ui);
-		player_third_temp[player_third_life - 1]->Set_Tag("player");
-		ObjectManager::GetObjectManager()->AddObject(player_third_temp[player_third_life - 1]);
-		ObjectManager::GetObjectManager()->AddObject(player_third_temp[player_third_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar());
-		third_ui->Reset();
+		if (player_third_life > 0)
+		{
+			player_third_temp[player_third_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar()->GetComponentByTemplate<Sprite>()->Set_Need_Update(true);
+			player_third_temp[player_third_life - 1]->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
+			player_third_temp[player_third_life - 1]->GetComponentByTemplate<Player>()->Set_This_UI_info(third_ui);
+			player_third_temp[player_third_life - 1]->Set_Tag("player");
+			ObjectManager::GetObjectManager()->AddObject(player_third_temp[player_third_life - 1]);
+			ObjectManager::GetObjectManager()->AddObject(player_third_temp[player_third_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar());
+			third_ui->Reset();
+		}
 		break;
 
 	case Stage_Statement::PLAYER_FOURTH_DIE:
-		player_fourth_temp[player_fourth_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar()->GetComponentByTemplate<Sprite>()->Set_Need_Update(true);
-		player_fourth_temp[player_fourth_life - 1]->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
-		player_fourth_temp[player_fourth_life - 1]->GetComponentByTemplate<Player>()->Set_This_UI_info(fourth_ui);
-		player_fourth_temp[player_fourth_life - 1]->Set_Tag("player");
-		ObjectManager::GetObjectManager()->AddObject(player_fourth_temp[player_fourth_life - 1]);
-		ObjectManager::GetObjectManager()->AddObject(player_fourth_temp[player_fourth_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar());
-		fourth_ui->Reset();
+		if (player_fourth_life > 0)
+		{
+			player_fourth_temp[player_fourth_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar()->GetComponentByTemplate<Sprite>()->Set_Need_Update(true);
+			player_fourth_temp[player_fourth_life - 1]->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
+			player_fourth_temp[player_fourth_life - 1]->GetComponentByTemplate<Player>()->Set_This_UI_info(fourth_ui);
+			player_fourth_temp[player_fourth_life - 1]->Set_Tag("player");
+			ObjectManager::GetObjectManager()->AddObject(player_fourth_temp[player_fourth_life - 1]);
+			ObjectManager::GetObjectManager()->AddObject(player_fourth_temp[player_fourth_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar());
+			fourth_ui->Reset();
+		}
 		break;
 	}
 }

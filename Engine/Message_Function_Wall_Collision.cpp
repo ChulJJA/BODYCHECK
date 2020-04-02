@@ -15,6 +15,7 @@ void Msg_Func_Wall_Collision::Update(float dt)
 	if (m_target->GetComponentByTemplate<Player>() != nullptr)
 	{
 		Object* target_hp_bar = m_target->Get_Belong_Object_By_Tag("hp_bar");
+		Player* find_object_state = m_target->GetComponentByTemplate<Player>();
 		if (target_hp_bar != nullptr)
 		{
 			if (target_hp_bar->GetComponentByTemplate<Hp_Bar>() != nullptr)
@@ -32,6 +33,11 @@ void Msg_Func_Wall_Collision::Update(float dt)
 				m_target->Get_Dmg_Text()->GetTransform().GetTranslation_Reference().x = m_target->GetTransform().GetTranslation().x;
 				m_target->Get_Dmg_Text()->GetTransform().GetTranslation_Reference().y = m_target->GetTransform().GetTranslation().y;
 			}
+		}
+		
+		if (find_object_state->Get_Char_State_Additional() == Player::Char_State_Additional::Get_mine)
+		{
+			find_object_state->Change_To_Normal_State();
 		}
 	}
 	msg->Set_Should_Delete(true);

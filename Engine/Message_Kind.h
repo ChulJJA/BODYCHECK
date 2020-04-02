@@ -20,7 +20,7 @@ enum class Message_Kind
 	Audience_Red_Joy,
 	Audience_Blue_Joy,
 	Audience_Green_Joy,
-	Audience_Normal_Joy
-
+	Audience_Normal_Joy,
+	Item_Mine
 	
 };
