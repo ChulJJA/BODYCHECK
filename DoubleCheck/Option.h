@@ -54,7 +54,6 @@ public:
     void SetBackButton();
     void ButtonSelector();
     void SetSoundVolume(float value, bool BGM = true);
-	
 private:
     Object* music_icon[3];
     Object* volume_box[3];

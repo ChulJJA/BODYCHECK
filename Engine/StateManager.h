@@ -32,10 +32,17 @@ public:
     {
         return current_state;
     }
-
-    bool is_pause = true;
+    State* GetPrevState()
+    {
+        return prev_state;
+    }
+    bool is_pause = false;
+    void LeaveState(float dt);
+    void BackToLevel();
+    void BackToMenu();
 private:
     static StateManager* state_manager;
     std::unordered_map<std::string, std::shared_ptr<State>> states;
     State* current_state = nullptr;
+	State* prev_state = nullptr;
 };

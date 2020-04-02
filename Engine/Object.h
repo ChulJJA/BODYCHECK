@@ -16,6 +16,7 @@
 #include <string>
 #include "Object_Component_Info.h"
 #include <iostream>
+#include "State.h"
 
 enum class Sprite_Type;
 class Component;
@@ -63,6 +64,7 @@ private:
 	Component* current_showing_sprite;
     bool need_collision;
 public:
+    GameState object_state;
 	void Add_Sprite_List(Component* comp)
 	{
 		if(current_showing_sprite == nullptr)

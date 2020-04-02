@@ -22,7 +22,7 @@
 #include <GLFW/glfw3.h>
 #include "Option.h"
 #include "UsefulTools.hpp"
-
+#include "StateManager.h"
 namespace
 {
 	ObjectManager* object_manager = nullptr;
@@ -33,14 +33,13 @@ void Option::Load()
 {
 	state_manager = StateManager::GetStateManager();
 	object_manager = ObjectManager::GetObjectManager();
-
 	Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 	Graphic::GetGraphic()->get_need_update_sprite() = true;
 
 	volume_timer = 0;
 	button_timer = 0;
 	pointer = 0;
-	
+
 	SetMusicVolumeBox();
 	SetMusicIcon();
 	SetMuteButton();
@@ -49,16 +48,16 @@ void Option::Load()
 }
 
 void Option::Update(float dt)
-{	
+{
 	volume_timer++;
 	button_timer++;
-	
+
 	Mute();
 	if (button_timer >= 10)
 	{
 		ButtonSelector();
 	}
-	if(volume_timer >= 10)
+	if (volume_timer >= 10)
 	{
 		MusicVolume();
 	}
@@ -66,7 +65,25 @@ void Option::Update(float dt)
 
 void Option::Clear()
 {
-	object_manager->Clear();
+	music_icon[0]->SetDeadCondition(true);
+	music_icon[1]->SetDeadCondition(true);
+	music_icon[2]->SetDeadCondition(true);
+	volume_box[0]->SetDeadCondition(true);
+	volume_box[1]->SetDeadCondition(true);
+	volume_box[2]->SetDeadCondition(true);
+	volume_box_hover[0]->SetDeadCondition(true);
+	volume_box_hover[1]->SetDeadCondition(true);
+	volume_box_hover[2]->SetDeadCondition(true);
+	mute_button[0]->SetDeadCondition(true);
+	mute_button[1]->SetDeadCondition(true);
+	mute_button[2]->SetDeadCondition(true);
+	unmute_button[0]->SetDeadCondition(true);
+	unmute_button[1]->SetDeadCondition(true);
+	unmute_button[2]->SetDeadCondition(true);
+	back_button->SetDeadCondition(true);
+	back_button_hover->SetDeadCondition(true);
+	full_screen_button->SetDeadCondition(true);
+	full_screen_button_hover->SetDeadCondition(true);
 }
 
 void Option::SetMusicIcon()
@@ -76,7 +93,6 @@ void Option::SetMusicIcon()
 	const float initial_bgm_icon = bgm_volume * 4 * 680;
 	const float initial_sfx_icon = sfx_volume * 4 * 680;
 
-	
 	music_icon[0] = new Object();
 	music_icon[0]->AddComponent(new Sprite(music_icon[0], "../Sprite/icon.png", { -1410 + initial_sfx_icon, -390 }, false));
 	music_icon[0]->GetTransform().SetScale({ 5, 5 });
@@ -129,10 +145,11 @@ void Option::SetMusicVolumeBox()
 void Option::MusicVolume()
 {
 	float volume;
-	
+	State* lev_state;
+
 	if (pointer == static_cast<int>(BUTTON::MASTER))
 	{
-		
+
 	}
 	else if (pointer == static_cast<int>(BUTTON::MUSIC))
 	{
@@ -195,16 +212,21 @@ void Option::MusicVolume()
 			volume_timer = 0;
 		}
 	}
-	else if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::BACK))
+	else if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::BACK) && state_manager->GetPrevState()->GetStateInfo() == GameState::Menu)
 	{
 		pointer = static_cast<int>(BUTTON::MASTER);
 		sound.Play(SOUND::Click);
 		is_next = true;
 		next_level = "Menu";
-		
-		Clear(); 
+		Clear();
 	}
-
+	else if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::BACK) && state_manager->GetPrevState()->GetStateInfo() == GameState::Game)
+	{
+		pointer = static_cast<int>(BUTTON::MASTER);
+		sound.Play(SOUND::Click);
+		state_manager->BackToLevel();
+		Clear();
+	}
 }
 
 void Option::SetMuteButton()
@@ -244,21 +266,21 @@ void Option::Mute()
 {
 	float bgm_volume = sound.GetSoundGroupVolume(true);
 	float sfx_volume = sound.GetSoundGroupVolume(false);
-	
+
 	if (bgm_volume <= 0)
 	{
 		ObjectHover(unmute_button[1], mute_button[1]);
 	}
-	else if(bgm_volume > 0)
+	else if (bgm_volume > 0)
 	{
 		ObjectHover(mute_button[1], unmute_button[1]);
 	}
-	
+
 	if (sfx_volume <= 0)
 	{
 		ObjectHover(unmute_button[2], mute_button[2]);
 	}
-	else if(sfx_volume > 0)
+	else if (sfx_volume > 0)
 	{
 		ObjectHover(mute_button[2], unmute_button[2]);
 	}
@@ -357,13 +379,13 @@ void Option::ButtonSelector()
 void Option::SetSoundVolume(float value, bool BGM)
 {
 	float volume;
-	
+
 	if (BGM == true)
 	{
 		volume = sound.GetSoundGroupVolume(true);
 		sound.SetSoundGroupVolume(true, volume + value);
 	}
-	else if(BGM == false)
+	else if (BGM == false)
 	{
 		volume = sound.GetSoundGroupVolume(false);
 		sound.SetSoundGroupVolume(false, volume + value);

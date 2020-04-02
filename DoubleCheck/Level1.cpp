@@ -26,14 +26,15 @@
 #include <GLFW/glfw3native.h>
 #include <mutex>
 #include "Input.h"
-
+#include "Option.h"
+#include "StateManager.h"
 using namespace std;
 
 namespace
 {
 	Referee* referee = nullptr;
     ObjectManager* object_manager = nullptr;
-
+	StateManager* state_manager = nullptr;
 
 }
 
@@ -59,6 +60,7 @@ void Level1::Load()
 	current_state = GameState::Game;
 	referee = Referee::Get_Referee();
 	object_manager = ObjectManager::GetObjectManager();
+	state_manager = StateManager::GetStateManager();
 	Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 
 	sound.Stop(SOUND::BGM);
@@ -114,5 +116,22 @@ void Level1::Load()
 void Level1::Update(float dt)
 {
 	referee->Update(dt);
+	CallOption();
+}
 
+void Level1::CallOption()
+{
+	if(input.Is_Key_Pressed(GLFW_KEY_P))
+	{
+		sound.Play(SOUND::Click);
+		is_pause = true;
+		//is_next = true;
+		//next_level = "Option";
+		//Clear();
+	}
+}
+
+void Level1::Clear()
+{
+	object_manager->Clear();
 }

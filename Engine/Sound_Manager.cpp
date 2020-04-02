@@ -115,6 +115,7 @@ void Sound::Play(SOUND sound_Num)
 void Sound::Stop(SOUND sound_Num)
 {
 	result = FMOD_Channel_Stop(channel[static_cast<int>(sound_Num)]);
+
 	ErrorCheck(result);
 }
 

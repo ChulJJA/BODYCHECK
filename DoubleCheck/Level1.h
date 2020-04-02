@@ -34,6 +34,8 @@ public:
         next_level = {};
         is_next = false;
     }
+    void CallOption();
+    void Clear();
 	
 private:
     Object* player;

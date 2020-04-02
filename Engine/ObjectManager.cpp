@@ -34,7 +34,7 @@ void ObjectManager::Init()
 
 void ObjectManager::Update(float dt)
 {
-    if (StateManager::GetStateManager()->is_pause)//
+    if (!StateManager::GetStateManager()->GetPrevState()->is_pause)//
     {
         delete_obj.clear();
 
@@ -42,6 +42,7 @@ void ObjectManager::Update(float dt)
         {
             if (obj->Get_Need_To_Update())
             {
+                obj->object_state = StateManager::GetStateManager()->GetCurrentState()->GetStateInfo();
                 for (auto component : obj->GetComponentContainer())
                 {
                 	if(component->Get_Need_Update())
@@ -62,8 +63,27 @@ void ObjectManager::Update(float dt)
 			remove_obj = nullptr;
         }
     }
-    else
+    else if(StateManager::GetStateManager()->GetPrevState()->is_pause)
     {
+        delete_obj.clear();
+
+        for (auto& obj : objects)
+        {
+            if (obj->Get_Need_To_Update() && obj->object_state != GameState::Game)
+            {
+                for (auto component : obj->GetComponentContainer())
+                {
+                    if (component->Get_Need_Update())
+                    {
+                        component->Update(dt);
+                    }
+                }
+            }
+            if (obj->IsDead())
+            {
+                delete_obj.push_back(obj);
+            }
+        }
     }
     ObjectCollision();
 }
@@ -105,6 +125,7 @@ void ObjectManager::DeleteObject(std::shared_ptr<Object> obj)
      objects.erase(std::find(objects.begin(), objects.end(), obj));
 	
 }
+
 
 std::vector<Object*> ObjectManager::Find_Objects_By_Tag(std::string tag)
 {

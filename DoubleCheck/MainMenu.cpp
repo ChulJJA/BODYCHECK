@@ -190,7 +190,7 @@ void MainMenu::ButtonSelector()
 	if(input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::START))
 	{
         pointer = static_cast<int>(BUTTON::START);
-        sound.Play(SOUND::Click);
+		sound.Play(SOUND::Click);
         is_next = true;
         next_level = "Level1";
         Clear();
@@ -199,7 +199,7 @@ void MainMenu::ButtonSelector()
     {
         sound.Play(SOUND::Click);
         is_next = true;
-        next_level = "Tutorial";
+            next_level = "Tutorial";
         Clear();
     }
     else if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::MUSIC))
