@@ -176,6 +176,7 @@
   <ItemGroup>
     <ClInclude Include="angles.hpp" />
     <ClInclude Include="Application.hpp" />
+    <ClInclude Include="Audience.h" />
     <ClInclude Include="BitmapFont.hpp" />
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="CameraView.hpp" />
@@ -206,8 +207,10 @@
     <ClInclude Include="Message.h" />
     <ClInclude Include="Messagebox.h" />
     <ClInclude Include="Message_Function.h" />
+    <ClInclude Include="Message_Function_Audience.h" />
     <ClInclude Include="Message_Function_Base.h" />
     <ClInclude Include="Message_Function_Collision.h" />
+    <ClInclude Include="Message_Function_Dead.h" />
     <ClInclude Include="Message_Function_Item_Bulkup.h" />
     <ClInclude Include="Message_Function_Item_Dash.h" />
     <ClInclude Include="Message_Function_Item_Magnatic.h" />
@@ -225,6 +228,7 @@
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="ObjectSetter.h" />
     <ClInclude Include="Object_Component_Info.h" />
+    <ClInclude Include="Particle.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Player_Ui.h" />
     <ClInclude Include="Referee.h" />
@@ -244,6 +248,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Audience.cpp" />
     <ClCompile Include="BitmapFont.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraView.cpp" />
@@ -271,7 +276,9 @@
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="Messagebox.cpp" />
     <ClCompile Include="Message_Function.cpp" />
+    <ClCompile Include="Message_Function_Audience.cpp" />
     <ClCompile Include="Message_Function_Collision.cpp" />
+    <ClCompile Include="Message_Function_Dead.cpp" />
     <ClCompile Include="Message_Function_Item_Bulkup.cpp" />
     <ClCompile Include="Message_Function_Item_Dash.cpp" />
     <ClCompile Include="Message_Function_Item_Magnatic.cpp" />
@@ -288,6 +295,7 @@
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="ObjectSetter.cpp" />
     <ClCompile Include="Object_Component_Info.cpp" />
+    <ClCompile Include="Particle.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Player_UI.cpp" />
     <ClCompile Include="Referee.cpp" />

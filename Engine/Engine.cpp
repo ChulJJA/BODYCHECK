@@ -30,10 +30,13 @@
 #include "Editor.h"
 
 
+
 Sound sound;
+
 
 namespace
 {
+    
     Application* app_ = nullptr;
     ObjectManager* object_manager = nullptr;
     StateManager* state_manager = nullptr;
@@ -94,7 +97,7 @@ void Engine::Update()
     m_dt = game_timer.GetElapsedSeconds();
     game_timer.Reset();
 
-	if (input.Is_Key_Pressed(GLFW_KEY_V))
+	/*if (input.Is_Key_Pressed(GLFW_KEY_V))
 	{
 		editor->Update(m_dt);
 		if (showing_editor == false)
@@ -107,16 +110,16 @@ void Engine::Update()
 	{
 		showing_editor = false;
 		editor->Set_Visible(false);
-	}
+	}*/
 	
     app_->Update(m_dt);
     graphic->Update(m_dt);
+    object_manager->Update(m_dt);
 	state_manager->Update(m_dt);
 	msg_manager->Update(m_dt);
-	object_manager->Update(m_dt);
 
 	
-    if (input.Is_Key_Triggered(GLFW_KEY_1))
+    /*if (input.Is_Key_Triggered(GLFW_KEY_1))
     {
         state_manager->GetCurrentState()->is_pause = !state_manager->GetCurrentState()->is_pause;
     }
@@ -124,8 +127,7 @@ void Engine::Update()
     {
         Clear();
         StateManager::GetStateManager()->Get_States().at("Level1").get()->Load();
-    }
-
+    }*/
 
 }
 

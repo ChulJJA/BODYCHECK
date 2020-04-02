@@ -18,6 +18,7 @@
 
 class PLAYER_UI;
 
+
 class Level1 : public State
 {
 public:
@@ -61,6 +62,8 @@ private:
     PLAYER_UI* player_second_ui;
     PLAYER_UI* player_third_ui;
     PLAYER_UI* player_fourth_ui;
+
+    Object* aud;
 
 	bool showing_editor = true;
 };

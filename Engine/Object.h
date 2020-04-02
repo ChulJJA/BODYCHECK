@@ -60,7 +60,7 @@ private:
     bool need_to_update;
     Object* dmg_text = nullptr;
     float dmg_plus = 0.f;
-	bool is_it_collided;
+	//bool is_it_collided;
 	Component* current_showing_sprite;
     bool need_collision;
 public:
@@ -279,7 +279,9 @@ public:
     void DeleteComponent(Component* comp);
 	Component* Find_Sprite_By_Name(std::string name);
 	Component* Find_Sprite_By_Type(Sprite_Type type);
+    Component* Find_Comp_By_Name(std::string name);
     void SetTranslation(vector2 pos);
+    void Delete_All_Components_But_Sprite();
 
     void SetRotation(float angle);
     void SetScale(vector2 scale);

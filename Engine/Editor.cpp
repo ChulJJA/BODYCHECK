@@ -46,6 +46,7 @@ void Editor::Init()
 	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item/reverse_moving.png", { 0.f,0.f }), "reverse_moving", false);
 	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item/mine.png", { 0.f,0.f }), "mine", false);
 	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item/Item.png", { 0.f,0.f }), "missile", false);
+	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item/mine.png", { 0.f,0.f }), "mine", false);
 	mouse_pointer->Set_Current_Sprite(mouse_pointer->Find_Sprite_By_Name("display"));
 }
 
@@ -149,7 +150,6 @@ void Editor::Update(float dt)
 		mouse_pointer->Change_Sprite(mouse_pointer->Find_Sprite_By_Name("magnatic"));
 		mouse_pointer_state = Item::Item_Kind::Magnatic;
 	}
-
 	else if (Check_Mouse_Is_In(display_item_mine))
 	{
 		mouse_pointer->Change_Sprite(mouse_pointer->Find_Sprite_By_Name("mine"));

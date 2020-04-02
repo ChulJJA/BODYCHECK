@@ -23,7 +23,6 @@
 #include <GLFW/glfw3.h>
 #include "UsefulTools.hpp"
 
-GLFWgamepadstate state;
 
 namespace
 {
@@ -40,6 +39,13 @@ void MainMenu::Load()
 
     pointer = 0;
     button_timer = 0;
+
+    Object* back = new Object();
+
+    back->AddComponent(new Sprite(back, "../Sprite/menu_background.png", true, 2, 8, {0.f, 0.f}, { 100.f,100.f },
+        { 255,255,255,255 }, Sprite_Type::None), "none", true);
+    back->GetTransform().SetScale({ 40.f, 22.f });
+    object_manager->AddObject(back);
     SetPlayButton();
     SetTutorialButton();
     SetMusicButton();

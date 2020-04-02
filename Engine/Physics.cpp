@@ -71,6 +71,23 @@ void Physics::KnockBack(Object* object_1, Object* object_2)
 	}
 }
 
+void Physics::KnockBack_Missile(Object* player, Object* missile)
+{
+	if (player->GetComponentByTemplate<Physics>() != nullptr && missile->GetComponentByTemplate<Physics>() != nullptr)
+	{
+		const vector2 object_1_pos = player->GetTransform().GetTranslation();
+		const vector2 object_2_pos = missile->GetTransform().GetTranslation();
+
+		const vector2 object_2_velocity = missile->GetComponentByTemplate<Physics>()->GetVelocity();
+		const vector2 direction_to_go = normalize(object_1_pos - object_2_pos);
+		const float object_2_speed = VectorToScalar(object_2_velocity);
+		sound.Play(SOUND::Crack);
+		
+		player->GetComponentByTemplate<Player>()->SetPlayerVelocity(direction_to_go * object_2_speed);
+		player->GetTransform().AddTranslation(player->GetComponentByTemplate<Player>()->GetPlayerVelocity());
+	}
+}
+
 void Physics::PushPlayer(Object* player, Object* object)
 {
 	vector2 object_velocity = object->GetComponentByTemplate<Physics>()->GetVelocity();
@@ -85,13 +102,17 @@ void Physics::PushPlayer(Object* player, Object* object)
 
 void Physics::SpeedDown(Object* object)
 {
-	if(!object->IsDead())
+	Component* info_player = object->GetComponentByTemplate<Player>();
+	if(info_player != nullptr)
 	{
-		vector2 velocity = object->GetComponentByTemplate<Player>()->GetPlayerVelocity();
+		if (!object->IsDead())
+		{
+			vector2 velocity = object->GetComponentByTemplate<Player>()->GetPlayerVelocity();
 
-		velocity /= 5;
+			velocity /= 5;
 
-		object->GetComponentByTemplate<Player>()->SetPlayerVelocity(velocity);
+			object->GetComponentByTemplate<Player>()->SetPlayerVelocity(velocity);
+		}
 	}
 }
 

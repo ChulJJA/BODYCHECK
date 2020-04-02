@@ -21,10 +21,7 @@
 #include "Loading_Scene.h"
 #include "Application.hpp"
 #include "ObjectSetter.h"
-#define GLFW_EXPOSE_NATIVE_WGL
-#define GLFW_EXPOSE_NATIVE_WIN32 
-#include <GLFW/glfw3native.h>
-#include <mutex>
+#include "Audience.h"
 #include "Input.h"
 #include "Option.h"
 #include "StateManager.h"
@@ -35,7 +32,6 @@ namespace
 	Referee* referee = nullptr;
     ObjectManager* object_manager = nullptr;
 	StateManager* state_manager = nullptr;
-
 }
 
 void Level1::Load()
@@ -66,22 +62,55 @@ void Level1::Load()
 	sound.Stop(SOUND::BGM);
 	sound.Play(SOUND::BGM2);
 
-	arena = SetArena("arena", "arena", "IceGround", { 0, 150 }, { 35, 17 });
+	aud = Get_Audience();
 
-	player = Make_Player("first", "player", "pen_green", { 400.f, 400.f }, { 3.f, 3.f });
-	player_sec = Make_Player("second", "player", "pen_red", { 400.f, -400.f }, { 3.f, 3.f });
-	player_third = Make_Player("third", "player", "pen_purple", { -400.f, 400.f }, { 3.f, 3.f });
-	player_forth = Make_Player("forth", "player", "pen_normal", { -400.f, -400.f }, { 3.f, 3.f });
+	arena = new Object();
+	arena->Set_Name("arena");
+	arena->Set_Tag("arena");
+	arena->AddComponent(new Sprite(arena, "../Sprite/IceGround.png", { 0,-100 }, false), "arena");
+	arena->Set_Current_Sprite(arena->Find_Sprite_By_Name("arena"));
+	arena->SetScale({ 35, 17 });
 
+	Object* fire1 = new Object();
+	fire1->Set_Name("fire");
+	fire1->Set_Tag("fire");
+	fire1->AddComponent(new Sprite(fire1, "../Sprite/fire.png", true, 5, 15, { -1600.f,800.f }, { 100.f, 100.f },
+		{ 255,255,255,255 }, Sprite_Type::None), "fire", true);
+	fire1->Set_Current_Sprite(fire1->Find_Sprite_By_Type(Sprite_Type::None));
+	fire1->SetScale(3.f);
+
+	Object* fire2 = new Object();
+	fire2->Set_Name("fire");
+	fire2->Set_Tag("fire");
+	fire2->AddComponent(new Sprite(fire2, "../Sprite/fire.png", true, 5, 15, { 1600.f,800.f }, { 100.f, 100.f },
+		{ 255,255,255,255 }, Sprite_Type::None), "fire", true);
+	fire2->Set_Current_Sprite(fire2->Find_Sprite_By_Type(Sprite_Type::None));
+	fire2->SetScale(3.f);
+
+	ObjectManager::GetObjectManager()->AddObject(arena);
+	ObjectManager::GetObjectManager()->AddObject(fire1);
+	ObjectManager::GetObjectManager()->AddObject(fire2);
+	
+	player_first_ui = Make_Set_Ui("first_ui", "ui", "../Sprite/pen_green_ui.png", { -1300, -800 }, { 5.0f,5.0f }, player);
+	player_second_ui = Make_Set_Ui("second_ui", "ui", "../Sprite/pen_red_ui.png", { -500, -800 }, { 5.0f,5.0f }, player_sec);
+	player_third_ui = Make_Set_Ui("third_ui", "ui", "../Sprite/pen_blue_ui.png", { 300, -800 }, { 5.0f,5.0f }, player_third);
+	player_fourth_ui = Make_Set_Ui("fourth_ui", "ui", "../Sprite/pen_normal_ui.png", { 1100, -800 }, { 5.0f,5.0f }, player_forth);
+	
+	player = Make_Player("first", "player", "pen_green2", { 400.f, 400.f }, { 2.f, 2.f });
+	player_sec = Make_Player("second", "player", "pen_red2", { 400.f, -400.f }, { 2.f, 2.f });
+	player_third = Make_Player("third", "player", "pen_blue2", { -400.f, 400.f }, { 2.f, 2.f });
+	player_forth = Make_Player("fourth", "player", "pen_normal2", { -400.f, -400.f }, { 2.f, 2.f });
+
+	player->GetComponentByTemplate<Player>()->Set_This_UI_info(player_first_ui);
+	player_sec->GetComponentByTemplate<Player>()->Set_This_UI_info(player_second_ui);
+	player_third->GetComponentByTemplate<Player>()->Set_This_UI_info(player_third_ui);
+	player_forth->GetComponentByTemplate<Player>()->Set_This_UI_info(player_fourth_ui);
+	
 	text = Make_Set_Text("red_text", "text", { 200,0 }, player, { 0,1,0,1 }, { 150,150 }, &font);
 	text_2 = Make_Set_Text("green_text", "text", { 200,-200 }, player_sec, { 1,0,0,1 }, { 150,150 }, &font);
 	text_3 = Make_Set_Text("blue_text", "text", { 200,-400 }, player_third, { 0.54,0,1,1 }, { 150,150 }, &font);
 	text_4 = Make_Set_Text("yellow_text", "text", { 200,-400 }, player_forth, { 0.5,0.5,0.5,1 }, { 150,150 }, &font);
 
-	player_first_ui = Make_Set_Ui("first_ui", "ui", "../Sprite/Player/State/pen_green.png", { -1000, -800 }, { 4.0f,4.0f }, player);
-	player_second_ui = Make_Set_Ui("second_ui", "ui", "../Sprite/Player/State/pen_red.png", { -400, -800 }, { 4.0f,4.0f }, player_sec);
-	player_third_ui = Make_Set_Ui("third_ui", "ui", "../Sprite/Player/State/pen_purple.png", { 200, -800 }, { 4.0f,4.0f }, player_third);
-	player_fourth_ui = Make_Set_Ui("fourth_ui", "ui", "../Sprite/Player/State/pen_normal.png", { 800, -800 }, { 4.0f,4.0f }, player_forth);
 
 	player->GetComponentByTemplate<Player>()->Set_This_UI_info(player_first_ui);
 	player_sec->GetComponentByTemplate<Player>()->Set_This_UI_info(player_second_ui);
@@ -98,6 +127,7 @@ void Level1::Load()
 	Referee::Get_Referee()->Set_Third_Text(text_3);
 	Referee::Get_Referee()->Set_Fourth_Text(text_4);
 
+	
 	referee->Init();
 
 	//pause = SetPauseText("pause", "text", "Pause", { 0, 800 }, { 1,1 });
@@ -106,6 +136,8 @@ void Level1::Load()
 	//option_button = SetOptionButton("option_button", "button", "OptionButton", { 200, 0 }, { 1,1 });
 	Graphic::GetGraphic()->get_need_update_sprite() = true;
 
+
+	
 	loading->Set_Done(false);
 	if (loading_thread.joinable())
 	{

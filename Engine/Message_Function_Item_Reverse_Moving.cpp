@@ -21,10 +21,11 @@ void Msg_Func_Item_Reverse_Moving::Init()
 
 		srand(time(NULL));
 
-		int random_select_character = rand() % 3;
+		
 
 		std::vector<Object*> another_players = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("player");
-
+		const int random_select_character = rand() % another_players.size();
+		
 		another_players.erase(std::find(another_players.begin(), another_players.end(), obj));
 
 		if (info_player != nullptr && info_ui != nullptr)

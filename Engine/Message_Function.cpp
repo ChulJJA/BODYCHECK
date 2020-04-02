@@ -12,6 +12,8 @@
 #include "Message_Function_Item_Time_Pause.h"
 #include "Message_Function_Item_Reverse_Moving.h"
 #include "Message_Function_Item_Missile.h"
+#include "Message_Function_Audience.h"
+#include "Message_Function_Dead.h"
 #include "Message_Function_Item_Mine.h"
 
 Message_Func::Message_Func(Message* msg)
@@ -43,7 +45,7 @@ void Message_Func::Functioning(float dt)
 		}
 		else if (kind == Message_Kind::Item_Bulkup)
 		{
-			function = new Msg_Func_Item_Bulkup(m_from, m_target, 5.f, msg_);
+			function = new Msg_Func_Item_Bulkup(m_from, m_target, 15.f, msg_);
 		}
 		else if (kind == Message_Kind::Item_Recover)
 		{
@@ -73,10 +75,20 @@ void Message_Func::Functioning(float dt)
 		{
 			function = new Msg_Func_Item_Missile(m_from, m_target, 1.f, msg_);
 		}
+		else if(kind == Message_Kind::Audience_Blue_Joy || kind == Message_Kind::Audience_Red_Joy || 
+			kind == Message_Kind::Audience_Normal_Joy || kind == Message_Kind::Audience_Green_Joy)
+		{
+			function = new Msg_Func_Audience(m_from, m_target, 3.f, msg_);
+		}
+		else if (kind == Message_Kind::Die)
+		{
+			function = new Msg_Func_Dead(m_from, m_target, 3.f, msg_);
+		}
 		else if (kind == Message_Kind::Item_Mine)
 		{
 			function = new Msg_Func_Item_Mine(m_from, m_target, 1.f, msg_);
 		}
+
 		function->Init();
 	}
 	

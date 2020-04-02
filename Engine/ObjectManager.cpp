@@ -34,57 +34,61 @@ void ObjectManager::Init()
 
 void ObjectManager::Update(float dt)
 {
-    if (!StateManager::GetStateManager()->GetPrevState()->is_pause)//
-    {
-        delete_obj.clear();
+	if(StateManager::GetStateManager()->GetPrevState() != nullptr)
+	{
+        if (!StateManager::GetStateManager()->GetPrevState()->is_pause)//
+        {
+            delete_obj.clear();
 
-        for (auto& obj : objects)
-        {
-            if (obj->Get_Need_To_Update())
+            for (auto& obj : objects)
             {
-                obj->object_state = StateManager::GetStateManager()->GetCurrentState()->GetStateInfo();
-                for (auto component : obj->GetComponentContainer())
+                if (obj->Get_Need_To_Update())
                 {
-                	if(component->Get_Need_Update())
-                	{
-						component->Update(dt);
-                	}
-                }
-            }
-            if (obj->IsDead())
-            {
-				delete_obj.push_back(obj);
-            }
-                
-        }
-        for (auto& remove_obj : delete_obj)
-        {
-            DeleteObject(remove_obj);
-			remove_obj = nullptr;
-        }
-    }
-    else if(StateManager::GetStateManager()->GetPrevState()->is_pause)
-    {
-        delete_obj.clear();
-
-        for (auto& obj : objects)
-        {
-            if (obj->Get_Need_To_Update() && obj->object_state != GameState::Game)
-            {
-                for (auto component : obj->GetComponentContainer())
-                {
-                    if (component->Get_Need_Update())
+                    obj->object_state = StateManager::GetStateManager()->GetCurrentState()->GetStateInfo();
+                    for (auto component : obj->GetComponentContainer())
                     {
-                        component->Update(dt);
+                        if (component->Get_Need_Update())
+                        {
+                            component->Update(dt);
+                        }
                     }
                 }
+                if (obj->IsDead())
+                {
+                    delete_obj.push_back(obj);
+                }
+
             }
-            if (obj->IsDead())
+            for (auto& remove_obj : delete_obj)
             {
-                delete_obj.push_back(obj);
+                DeleteObject(remove_obj);
+                remove_obj = nullptr;
             }
         }
-    }
+        else if (StateManager::GetStateManager()->GetPrevState()->is_pause)
+        {
+            delete_obj.clear();
+
+            for (auto& obj : objects)
+            {
+                if (obj->Get_Need_To_Update() && obj->object_state != GameState::Game)
+                {
+                    for (auto component : obj->GetComponentContainer())
+                    {
+                        if (component->Get_Need_Update())
+                        {
+                            component->Update(dt);
+                        }
+                    }
+                }
+                if (obj->IsDead())
+                {
+                    delete_obj.push_back(obj);
+                }
+            }
+        }
+	}
+    
     ObjectCollision();
 }
 
