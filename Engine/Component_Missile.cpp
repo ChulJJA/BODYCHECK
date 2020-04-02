@@ -29,6 +29,11 @@ void Missile::Update(float dt)
 	{
 		m_owner->SetDeadCondition(true);
 	}
+
+	if(target->IsDead() == true)
+	{
+		m_owner->SetDeadCondition(true);
+	}
 }
 
 void Missile::Set_Target(Object* obj)

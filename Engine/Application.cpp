@@ -123,7 +123,7 @@ void Application::Update(float dt)
         {
             Toggle_Fullscreen();
         }
-    }*/
+    }
     if (input.Is_Key_Triggered(GLFW_KEY_F))
     {
         Toggle_Fullscreen();
@@ -166,7 +166,7 @@ void Application::Update(float dt)
     if (input.Is_Mouse_Double_Clicked(GLFW_MOUSE_BUTTON_LEFT))
     {
         std::cout << "aaa" << std::endl;
-    }
+    }*/
 }
 
 //

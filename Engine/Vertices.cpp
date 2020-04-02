@@ -137,7 +137,6 @@ void Vertices::DeleteVerticesOnGPU() noexcept
 
 void Vertices::WriteMeshDataToVertexBuffer(const Mesh& mesh) const noexcept
 {
-	std::lock_guard<std::mutex> lock(mutex_);
     glBindBuffer(GL_ARRAY_BUFFER, dataBufferHandle);
     Select(*this);
     void* ptr_buffer;

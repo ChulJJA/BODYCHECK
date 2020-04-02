@@ -39,10 +39,10 @@ private:
     void DeleteVerticesOnGPU() noexcept;
     void WriteMeshDataToVertexBuffer(const Mesh & mesh) const noexcept;
 
-private:
     unsigned int            verticesHandle = 0;
     unsigned int            dataBufferHandle = 0;
     int                     verticesCount = 0;
+	
     unsigned int            verticesListPattern = 0;
     int                     bufferVertexCapacity = 0;
     VertexLayoutDescription layout{};

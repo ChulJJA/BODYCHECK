@@ -45,6 +45,7 @@ void Editor::Init()
 	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item/time_pause.png", { 0.f,0.f }), "time_pause", false);
 	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item/reverse_moving.png", { 0.f,0.f }), "reverse_moving", false);
 	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item/Item.png", { 0.f,0.f }), "missile", false);
+	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item/mine.png", { 0.f,0.f }), "mine", false);
 	mouse_pointer->Set_Current_Sprite(mouse_pointer->Find_Sprite_By_Name("display"));
 }
 
@@ -67,6 +68,9 @@ void Editor::Setting_Display(float offset, float pos_y)
 	display_item_reverse = Make_Display("../Sprite/Item/reverse_moving.png", { init_pos_x,pos_y });
 	init_pos_x += offset;
 	display_item_throwing = Make_Display("../Sprite/Item/throw.png", { init_pos_x,pos_y });
+	init_pos_x += offset;
+	display_item_mine = Make_Display("../Sprite/Item/mine.png", { init_pos_x,pos_y });
+	init_pos_x += offset;
 }
 
 bool Editor::Check_Mouse_Is_In(Object* obj)
@@ -145,7 +149,11 @@ void Editor::Update(float dt)
 		mouse_pointer->Change_Sprite(mouse_pointer->Find_Sprite_By_Name("magnatic"));
 		mouse_pointer_state = Item::Item_Kind::Magnatic;
 	}
-
+	else if (Check_Mouse_Is_In(display_item_mine))
+	{
+		mouse_pointer->Change_Sprite(mouse_pointer->Find_Sprite_By_Name("mine"));
+		mouse_pointer_state = Item::Item_Kind::Mine;
+	}
 	if(input.Is_Mouse_Triggered(GLFW_MOUSE_BUTTON_LEFT))
 	{
 		items[item_spawned_num]->SetTranslation(mouse_pointer->GetTransform().GetTranslation());
@@ -189,6 +197,7 @@ void Editor::Set_Visible(bool toggle)
 	display_item_missile->Find_Sprite_By_Name("display")->Set_Need_Update(toggle);
 	display_item_throwing->Find_Sprite_By_Name("display")->Set_Need_Update(toggle);
 	display_item_timepause->Find_Sprite_By_Name("display")->Set_Need_Update(toggle);
+	display_item_mine->Find_Sprite_By_Name("display")->Set_Need_Update(toggle);
 	mouse_pointer->Find_Sprite_By_Name("display")->Set_Need_Update(toggle);
 	mouse_pointer->Set_Current_Sprite(mouse_pointer->Find_Sprite_By_Name("display"));
 
@@ -210,6 +219,7 @@ void Editor::Set_Visible(bool toggle)
 	display_item_missile->Set_Need_To_Update(toggle);
 	display_item_throwing->Set_Need_To_Update(toggle);
 	display_item_timepause->Set_Need_To_Update(toggle);
+	display_item_mine->Set_Need_To_Update(toggle);
 	mouse_pointer->Set_Need_To_Update(toggle);
 
 	if(toggle == false)

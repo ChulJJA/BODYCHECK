@@ -25,16 +25,27 @@
 #include "Engine.hpp"
 #include "Referee.h"
 #include "Message_Kind.h"
+#include "Physics.h"
 
 GLFWgamepadstate state;
 Gamepad gamepad;
+
+
 
 void Player::Init(Object* obj)
 {
 	gamepad = Gamepad(1);
 	m_owner = obj;
 	m_owner->Get_Component_Info_Reference().component_info_player = true;
-	SetHPBar();
+	if (m_owner->Get_Tag() == "install_mine")
+	{
+		hp_bar = nullptr;
+	}
+	else
+	{
+		SetHPBar();
+	}
+
 }
 
 void Player::Update(float dt)
@@ -57,6 +68,10 @@ void Player::Update(float dt)
 				}
 			}
 		}
+		if (item_used == Item_Use_Status::Bulkup)
+		{
+			m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Bulkup_Used));
+		}
 
 		else if (curr_state == Char_State::Time_Pause)
 		{
@@ -66,7 +81,15 @@ void Player::Update(float dt)
 		{
 			Func_Reverse_Moving(dt);
 		}
+		else if (curr_state == Char_State::Mine)
+		{
+			Func_Mine(dt);
+		}
 
+		else if (curr_state_additional == Char_State_Additional::Get_mine)
+		{
+			Func_Mine_Collided(dt);
+		}
 
 
 		vector2& player_pos = m_owner->GetTransform().GetTranslation_Reference();
@@ -81,22 +104,38 @@ void Player::Update(float dt)
 
 
 		if (curr_state != Player::Char_State::Reverse_Moving && curr_state != Player::Char_State::Time_Pause &&
-			curr_state_additional != Char_State_Additional::Chasing)
+			curr_state_additional != Char_State_Additional::Chasing /*&& curr_state_additional != Char_State_Additional::Get_mine*/)
 		{
-			PlayerMovement(0.6f, 0.12f);
-			player_pos += velocity;
+			if (m_owner->Get_Current_Sprite() != m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Die))
+			{
+				if (curr_state_additional != Char_State_Additional::Get_mine)
+				{
+
+					PlayerMovement(0.6f, 0.12f);
+					player_pos += velocity;
+				}
+				else
+				{
+					player_pos += velocity;
+				}
+			}
 
 		}
 		else if (curr_state == Player::Char_State::Reverse_Moving && curr_state != Player::Char_State::Time_Pause &&
-			curr_state_additional != Char_State_Additional::Chasing)
+			curr_state_additional != Char_State_Additional::Chasing/*&&curr_state_additional != Char_State_Additional::Get_mine*/)
 		{
-			PlayerMovement(-0.12f, -0.6f);
-			player_pos += velocity;
-
+			if (m_owner->Get_Current_Sprite() != m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Die))
+			{
+				PlayerMovement(-0.12f, -0.6f);
+				player_pos += velocity;
+			}
 		}
 		PlayerDirecting();
 
-		if (input.Is_Key_Triggered(GLFW_KEY_SPACE) || state.buttons[GLFW_GAMEPAD_BUTTON_RIGHT_BUMPER])
+		if (input.Is_Key_Triggered(GLFW_KEY_R) 
+			|| input.Is_Key_Triggered(GLFW_KEY_O)
+			|| input.Is_Key_Triggered(GLFW_KEY_KP_7)
+			|| state.buttons[GLFW_GAMEPAD_BUTTON_RIGHT_BUMPER])
 		{
 			UseItem();
 		}
@@ -202,6 +241,50 @@ void Player::Func_Reverse_Moving(float dt) const
 	}
 }
 
+void Player::Func_Mine(float dt)
+{
+	if (input.Is_Key_Pressed(GLFW_KEY_SPACE))
+	{
+		srand(time(NULL));
+		float random_position_x = rand() % 3000 - 1500;
+		float random_position_y = rand() % 1300 - 650;
+
+		curr_state = Char_State::None;
+		install_mine = new Object();
+		install_mine->Set_Name("install_mine");
+		install_mine->Set_Tag("install_mine");
+		install_mine->AddComponent(new Physics());
+		install_mine->AddComponent(new Player());
+		//install_mine->AddComponent(new Sprite(install_mine, "../sprite/mine_object.png", { m_owner->GetTransform().GetTranslation().x ,m_owner->GetTransform().GetTranslation().y - 150 }));
+		install_mine->AddComponent(new Sprite(install_mine, "../sprite/mine_object.png", { random_position_x ,random_position_y }));
+		//install_mine->DeleteComponent(install_mine->GetComponentByTemplate<Hp_Bar>());
+		install_mine->SetScale(2.f);
+		install_mine->SetNeedCollision(true);
+		//hp_bar->SetDeadCondition(true);
+		ObjectManager::GetObjectManager()->AddObject(install_mine);
+	}
+
+}
+
+void Player::Func_Mine_Collided(float dt)
+{
+	srand(time(NULL));
+	float random_velocity_x = rand() % 5 - 2;
+	float random_velocity_y = rand() % 5 - 2;
+	//m_owner->SetNeedCollision
+	if (mine_timer > 0.0f)
+	{
+		velocity += {random_velocity_x, random_velocity_y};
+		mine_timer -= dt;
+	}
+	else
+	{
+		velocity += {-velocity.x / 100, -velocity.y / 100};
+		curr_state_additional = Char_State_Additional::None;
+		//install_mine->SetDeadCondition(true);
+	}
+}
+
 void Player::Set_This_UI_info(PLAYER_UI* ui)
 {
 	this_ui = ui;
@@ -274,7 +357,14 @@ void  Player::Set_Stop_Timer(float timer_)
 {
 	stop_timer = timer_;
 }
-
+void  Player::Set_Mine_Timer(float timer)
+{
+	mine_timer = timer;
+}
+float Player::Get_Mine_Timer()
+{
+	return mine_timer;
+}
 
 void Player::PlayerMovement(float max_velocity, float min_velocity)
 {
@@ -1134,6 +1224,7 @@ vector2 Player::GetPlayerDirection()
 void Player::UseItem()
 {
 
+
 	if (glfwGetGamepadState(GLFW_JOYSTICK_1, &state))
 	{
 		if (m_owner->Get_Name() == "first")
@@ -1141,6 +1232,7 @@ void Player::UseItem()
 			if (state.buttons[GLFW_GAMEPAD_BUTTON_RIGHT_BUMPER] && belong_item == Item::Item_Kind::Dash)
 			{
 				Change_Weapon_Sprite(nullptr);
+				Change_To_Normal_State();
 				sound.Play(SOUND::Dash);
 				Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Dash));
 			}
@@ -1156,7 +1248,7 @@ void Player::UseItem()
 			{
 				Change_Weapon_Sprite(nullptr);
 				sound.Play(SOUND::BulkUp);
-				Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 5.f));
+				Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 15.f));
 			}
 
 			if (state.buttons[GLFW_GAMEPAD_BUTTON_RIGHT_BUMPER] && belong_item == Item::Item_Kind::Throwing)
@@ -1185,6 +1277,10 @@ void Player::UseItem()
 				m_owner->Set_Current_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Missile));
 				Change_Weapon_Sprite(nullptr);
 				Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Missile));
+			}
+			if (state.buttons[GLFW_GAMEPAD_BUTTON_RIGHT_BUMPER] && belong_item == Item::Item_Kind::Mine)
+			{
+				Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Mine));
 			}
 		}
 		else if (m_owner->Get_Name() == "second")
@@ -1237,6 +1333,10 @@ void Player::UseItem()
 				Change_Weapon_Sprite(nullptr);
 				Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Missile));
 			}
+			if (input.Is_Key_Pressed(GLFW_KEY_O) && belong_item == Item::Item_Kind::Mine)
+			{
+				Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Mine));
+			}
 		}
 		else if (m_owner->Get_Name() == "third")
 		{
@@ -1287,6 +1387,10 @@ void Player::UseItem()
 				m_owner->Set_Current_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Missile));
 				Change_Weapon_Sprite(nullptr);
 				Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Missile));
+			}
+			if (input.Is_Key_Pressed(GLFW_KEY_KP_7) && belong_item == Item::Item_Kind::Mine)
+			{
+				Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Mine));
 			}
 		}
 		else if (m_owner->Get_Name() == "fourth")
@@ -1339,6 +1443,10 @@ void Player::UseItem()
 				m_owner->Set_Current_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Missile));
 				Change_Weapon_Sprite(nullptr);
 				Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Missile));
+			}
+			if (input.Is_Key_Pressed(GLFW_KEY_R) && belong_item == Item::Item_Kind::Mine)
+			{
+				Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Mine));
 			}
 		}
 	}
@@ -1393,4 +1501,14 @@ void Player::Change_Weapon_Sprite(Component* weapon_sprite)
 			weapon_state = nullptr;
 		}
 	}
+}
+
+Player::Item_Use_Status Player::Get_Item_Used_Status()
+{
+	return item_used;
+}
+
+void Player::Set_Item_Used_Status(Item_Use_Status status)
+{
+	item_used = status;
 }

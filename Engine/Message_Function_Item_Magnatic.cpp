@@ -23,11 +23,12 @@ void Msg_Func_Item_Magnatic::Init()
 
 			info_player->Set_Item_State(Item::Item_Kind::None);
 			info_player->Set_Char_State(Player::Char_State::Prepare);
-			info_player->Set_Prepare_Timer(3.f);
+			info_player->Set_Prepare_Timer(-1.f);
 
-			info_player->Sprite_After_Preparation(obj->Find_Sprite_By_Type(Sprite_Type::Player_Chasing));
 			
-			obj->Change_Sprite(obj->Find_Sprite_By_Type(Sprite_Type::Player_Ready));
+			//info_player->Sprite_After_Preparation(obj->Find_Sprite_By_Type(Sprite_Type::Player_Chasing));
+			
+			obj->Change_Sprite(obj->Find_Sprite_By_Type(Sprite_Type::Player_Aiming));
 			
 			info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Use, Ui::Ui_Status_Obj::Item_Magnatic);
 		}
@@ -67,14 +68,14 @@ void Msg_Func_Item_Magnatic::Update(float dt)
 				vector2 target_dir = normalize(target);
 				vector2 own_pos = m_target->GetTransform().GetTranslation();
 
-				own_pos.x += (target_dir.x * 10);
-				own_pos.y += (target_dir.y * 10);
+				own_pos.x += (target_dir.x * 15);
+				own_pos.y += (target_dir.y * 15);
 
 				vector2 this_pos = m_target->GetTransform().GetTranslation();
 				vector2 obj_pos = locking_result->GetTransform().GetTranslation();
 				float value = cross({ target.x, target.y, 0.f }, { this_pos.x, this_pos.y, 0.f }).z;
 
-				float angle_in_radian = atan2(this_pos.y - obj_pos.y, this_pos.x - obj_pos.x);
+				float angle_in_radian = atan2(obj_pos.y - this_pos.y, obj_pos.x - this_pos.x);
 				float angle = to_degrees(angle_in_radian);
 				angle += 90;
 

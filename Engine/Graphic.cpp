@@ -68,6 +68,9 @@ void Graphic::Instancing_Draw(Vertices& shape, material material)
 
 void Graphic::Render()
 {
+    glVertexAttribDivisor(0, 0); 
+    glVertexAttribDivisor(1, 1); 
+    glVertexAttribDivisor(2, 1); 
 	
 	glDrawArraysInstanced(GL_TRIANGLE_FAN, 0, 4, 30);
 

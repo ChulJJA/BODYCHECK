@@ -6,6 +6,7 @@ enum class Message_Kind
 	Collision_Wall,
 	Collision,
 	Respawn,
+	Die,
 
 	Item_Bulkup,
 	Item_Recover,
@@ -14,7 +15,12 @@ enum class Message_Kind
 	Item_Magnetic,
 	Item_Timepause,
 	Item_Reverse,
-	Item_Missile
+	Item_Missile,
 
+	Audience_Red_Joy,
+	Audience_Blue_Joy,
+	Audience_Green_Joy,
+	Audience_Normal_Joy,
+	Item_Mine
 	
 };

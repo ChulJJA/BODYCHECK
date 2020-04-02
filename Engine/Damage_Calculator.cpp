@@ -16,16 +16,12 @@ std::pair<float, float> DamageCalculator(Object* target, Object* from)
 	{
 		const float damage_setting = VectorToScalar(target_velocity - from_velocity);
 		damage = { total_power * damage_setting / 50, total_power * damage_setting / 100 };
-		std::cout << "first: " << damage.first << std::endl;
-		std::cout << "second: " << damage.second << std::endl;
 		return damage;
 	}
-	else if(total_power < 0)
+	if(total_power < 0)
 	{
 		const float damage_setting = VectorToScalar(from_velocity - target_velocity);
 		damage = { -total_power * damage_setting /100, -total_power * damage_setting / 50};
-		std::cout << "first: " << damage.first << std::endl;
-		std::cout << "second: " << damage.second << std::endl;
 		return damage;
 	}
 

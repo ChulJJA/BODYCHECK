@@ -41,8 +41,8 @@ public:
 		Item_Magnatic,
 		Item_Time_Pause,
 		Item_Reverse_Moving,
-		Item_Missile
-
+		Item_Missile,
+		Item_Mine
 	};
 
 	void Init(Object* obj) override;

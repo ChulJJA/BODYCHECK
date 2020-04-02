@@ -37,17 +37,26 @@ public:
 		Prepare,
 		Prepared,
 		Disturbed,
+		Mine
 	};
 	enum class Char_State_Additional
 	{
 		None,
 		Chasing,
-		Chasing_stop
+		Chasing_stop,
+		Get_mine
 	};
 	enum class Char_State_By_Other
 	{
 		None,
 		Locked
+	};
+	enum class Item_Use_Status
+	{
+		None,
+		Bulkup,
+		Dash,
+		Magnet
 	};
 
 	Player(bool need_update_hp = true)
@@ -79,15 +88,17 @@ public:
 	Object* Get_Hp_Bar() const;
 	float& Get_Stop_Timer();
 	void Set_Stop_Timer(float timer_);
-
+	void Set_Mine_Timer(float timer);
 	void Set_Locking_By(Object* obj);
 	void Set_Locking_Result(Object* obj);
 	Object* Get_Locking_Result() const;
-
+	float Get_Mine_Timer();
 	void Func_Time_Pause(float dt);
 	void Func_Reverse_Moving(float dt) const;
 
-	
+	void Func_Mine(float dt);
+	void Func_Mine_Collided(float dt);
+
 	void PlayerMovement(float max_velocity, float min_velocity);
 	void SetPlayerVelocity(vector2 current_velocity);
 	vector2 GetPlayerVelocity();
@@ -102,6 +113,9 @@ public:
 	void State_After_Preparation(Char_State state);
 
 	void Change_Weapon_Sprite(Component* weapon_sprite);
+
+	Item_Use_Status Get_Item_Used_Status();
+	void Set_Item_Used_Status(Item_Use_Status status);
 	
 private:
     Object* hp_bar = nullptr;
@@ -119,6 +133,7 @@ private:
 	bool need_update_hp_bar;
 	Object* locking_result = nullptr;
 	float stop_timer = 0.0f;
+	float mine_timer = 0.0f;
 	float missile_timer = 0.f;
 	vector2 velocity{};
 	vector2 direction = {0, 1};
@@ -128,4 +143,6 @@ private:
 	Component* weapon_state = nullptr;
 	
 	Char_State change_to_state = Char_State::None;
+	Item_Use_Status item_used = Item_Use_Status::None;
+	Object* install_mine;
 };

@@ -41,7 +41,7 @@ public:
 	void Recovering(float dt);
 	void Damaging(float dt);
 	
-	Hp_Bar_State Get_Hp_Bard_State()
+	Hp_Bar_State Get_Hp_Bar_State()
 	{
 		return curr_state;
 	}
