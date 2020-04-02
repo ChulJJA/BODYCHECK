@@ -123,10 +123,14 @@ void Player::Update(float dt)
 				PlayerMovement(-0.12f, -0.6f);
 				player_pos += velocity;
 			}
+			else
+			{
+				player_pos += velocity;
+			}
 		}
 		PlayerDirecting();
 
-		if (input.Is_Key_Triggered(GLFW_KEY_SPACE))
+		if (input.Is_Key_Triggered(GLFW_KEY_SPACE) && curr_state != Char_State::Reverse_Moving && curr_state != Char_State::Time_Pause)
 		{
 			UseItem();
 		}
@@ -208,6 +212,7 @@ void Player::Func_Time_Pause(float dt)
 	}
 	else
 	{
+		Change_To_Normal_State();
 		curr_state = Char_State::None;
 	}
 }
@@ -247,7 +252,9 @@ void Player::Func_Mine(float dt)
 		install_mine->AddComponent(new Physics());
 		install_mine->AddComponent(new Player());
 		//install_mine->AddComponent(new Sprite(install_mine, "../sprite/mine_object.png", { m_owner->GetTransform().GetTranslation().x ,m_owner->GetTransform().GetTranslation().y - 150 }));
-		install_mine->AddComponent(new Sprite(install_mine, "../sprite/mine_object.png", { random_position_x ,random_position_y }));
+		install_mine->AddComponent(new Sprite(install_mine, "../Sprite/Item/mine.png", { random_position_x ,random_position_y }));
+		//install_mine->AddComponent(new Sprite(install_mine, "../Sprite/Player/Item_Effect/mine_active.png", true, 4, 8, {random_position_x, random_position_y},
+		//	{100.f, 100.f}, {255,255,255,255}, Sprite_Type::Item), "none", false);
 		//install_mine->DeleteComponent(install_mine->GetComponentByTemplate<Hp_Bar>());
 		install_mine->SetScale(2.f);
 		install_mine->SetNeedCollision(true);
