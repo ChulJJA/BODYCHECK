@@ -14,6 +14,7 @@
 #include "Component.hpp"
 #include "Component_Item.h"
 #include "Component_Ui.h"
+#include "Gamepad.hpp"
 
 class PLAYER_UI;
 

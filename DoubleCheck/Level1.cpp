@@ -72,7 +72,7 @@ void Level1::Load()
 	player = Make_Player("first", "player", "pen_green2", { 400.f, 400.f }, { 2.f, 2.f });
 	player_sec = Make_Player("second", "player", "pen_red2", { 400.f, -400.f }, { 2.f, 2.f });
 	player_third = Make_Player("third", "player", "pen_blue2", { -400.f, 400.f }, { 2.f, 2.f });
-	player_forth = Make_Player("forth", "player", "pen_normal2", { -400.f, -400.f }, { 2.f, 2.f });
+	player_forth = Make_Player("fourth", "player", "pen_normal2", { -400.f, -400.f }, { 2.f, 2.f });
 
 	player->GetComponentByTemplate<Player>()->Set_This_UI_info(player_first_ui);
 	player_sec->GetComponentByTemplate<Player>()->Set_This_UI_info(player_second_ui);

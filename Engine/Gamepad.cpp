@@ -1,7 +1,6 @@
-#include <Windows.h>
-
 #include "Gamepad.hpp"
-#pragma comment (lib, "Xinput.lib")
+
+#pragma comment(lib, "XInput9_1_0.lib")
 
 XInput_ButtonIDs xButtons;
 
