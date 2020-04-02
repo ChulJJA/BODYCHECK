@@ -115,7 +115,7 @@ void Application::Update(float dt)
     glfwGetWindowSize(window, &w, &h);
     window_size.width = (float)w;
     window_size.height = (float)h;
-    GLFWgamepadstate state;
+    /*GLFWgamepadstate state;
 
     if (glfwGetGamepadState(GLFW_JOYSTICK_1, &state))
     {
@@ -123,7 +123,7 @@ void Application::Update(float dt)
         {
             Toggle_Fullscreen();
         }
-    }
+    }*/
     if (input.Is_Key_Triggered(GLFW_KEY_F))
     {
         Toggle_Fullscreen();

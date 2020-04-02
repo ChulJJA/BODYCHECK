@@ -76,10 +76,10 @@ void Level1::Load()
 	text_3 = Make_Set_Text("blue_text", "text", { 200,-400 }, player_third, { 0.54,0,1,1 }, { 150,150 }, &font);
 	text_4 = Make_Set_Text("yellow_text", "text", { 200,-400 }, player_forth, { 0.5,0.5,0.5,1 }, { 150,150 }, &font);
 
-	player_first_ui = Make_Set_Ui("first_ui", "ui", "../Sprite/Player/State/pen_green.png", { -1000, -800 }, { 4.0f,4.0f }, player);
-	player_second_ui = Make_Set_Ui("second_ui", "ui", "../Sprite/Player/State/pen_red.png", { -400, -800 }, { 4.0f,4.0f }, player_sec);
-	player_third_ui = Make_Set_Ui("third_ui", "ui", "../Sprite/Player/State/pen_purple.png", { 200, -800 }, { 4.0f,4.0f }, player_third);
-	player_fourth_ui = Make_Set_Ui("fourth_ui", "ui", "../Sprite/Player/State/pen_normal.png", { 800, -800 }, { 4.0f,4.0f }, player_forth);
+	player_first_ui = Make_Set_Ui("first_ui", "ui", "../Sprite/Player/State/pen_normal2.png", { -1000, -800 }, { 5.0f,5.0f }, player);
+	player_second_ui = Make_Set_Ui("second_ui", "ui", "../Sprite/Player/State/pen_normal2.png", { -400, -800 }, { 5.0f,5.0f }, player_sec);
+	player_third_ui = Make_Set_Ui("third_ui", "ui", "../Sprite/Player/State/pen_normal2.png", { 200, -800 }, { 5.0f,5.0f }, player_third);
+	player_fourth_ui = Make_Set_Ui("fourth_ui", "ui", "../Sprite/Player/State/pen_normal2.png", { 800, -800 }, { 5.0f,5.0f }, player_forth);
 
 	player->GetComponentByTemplate<Player>()->Set_This_UI_info(player_first_ui);
 	player_sec->GetComponentByTemplate<Player>()->Set_This_UI_info(player_second_ui);

@@ -30,10 +30,13 @@
 #include "Editor.h"
 
 
+
 Sound sound;
+
 
 namespace
 {
+    
     Application* app_ = nullptr;
     ObjectManager* object_manager = nullptr;
     StateManager* state_manager = nullptr;
@@ -125,7 +128,6 @@ void Engine::Update()
         Clear();
         StateManager::GetStateManager()->Get_States().at("Level1").get()->Load();
     }
-
 
 }
 

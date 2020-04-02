@@ -36,7 +36,7 @@ void View::Update(float dt)
         Graphic::GetGraphic()->get_need_update_sprite() = true;
     }
 
-    if (input.Is_Key_Pressed(GLFW_KEY_KP_6))
+    /*if (input.Is_Key_Pressed(GLFW_KEY_KP_6))
     {
         vector2 new_center = camera.GetCenter();
         new_center.x += 1.0f;
@@ -63,7 +63,7 @@ void View::Update(float dt)
         new_center.y += 1.0f;
         camera.SetCenter(new_center);
         Graphic::GetGraphic()->get_need_update_sprite() = true;
-    }
+    }*/
 }
 
 bool myfunction(int i, int j)
