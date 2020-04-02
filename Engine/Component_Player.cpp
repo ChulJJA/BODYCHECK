@@ -52,6 +52,10 @@ void Player::Update(float dt)
 				}
 			}
 		}
+		if(item_used == Item_Use_Status::Bulkup)
+		{
+			m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Bulkup_Used));
+		}
 
 		else if (curr_state == Char_State::Time_Pause)
 		{
@@ -78,16 +82,20 @@ void Player::Update(float dt)
 		if (curr_state != Player::Char_State::Reverse_Moving && curr_state != Player::Char_State::Time_Pause &&
 			curr_state_additional != Char_State_Additional::Chasing)
 		{
-			PlayerMovement(0.6f, 0.12f);
-			player_pos += velocity;
-
+			if(m_owner->Get_Current_Sprite() != m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Die))
+			{
+				PlayerMovement(0.6f, 0.12f);
+				player_pos += velocity;
+			}
 		}
 		else if (curr_state == Player::Char_State::Reverse_Moving && curr_state != Player::Char_State::Time_Pause &&
 			curr_state_additional != Char_State_Additional::Chasing)
 		{
-			PlayerMovement(-0.12f, -0.6f);
-			player_pos += velocity;
-
+			if (m_owner->Get_Current_Sprite() != m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Die))
+			{
+				PlayerMovement(-0.12f, -0.6f);
+				player_pos += velocity;
+			}
 		}
 		PlayerDirecting();
 
@@ -498,6 +506,7 @@ void Player::UseItem()
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Dash)
 	{
 		Change_Weapon_Sprite(nullptr);
+		Change_To_Normal_State();
 		sound.Play(SOUND::Dash);
 		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Dash));
 	}
@@ -513,7 +522,7 @@ void Player::UseItem()
 	{
 		Change_Weapon_Sprite(nullptr);
 		sound.Play(SOUND::BulkUp);
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 5.f));
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 15.f));
 	}
 
 	if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Throwing)
@@ -594,4 +603,14 @@ void Player::Change_Weapon_Sprite(Component* weapon_sprite)
 			weapon_state = nullptr;
 		}
 	}
+}
+
+Player::Item_Use_Status Player::Get_Item_Used_Status()
+{
+	return item_used;
+}
+
+void Player::Set_Item_Used_Status(Item_Use_Status status)
+{
+	item_used = status;
 }

@@ -31,8 +31,13 @@ enum class Sprite_Type
 	Player_Effect_Heal,
 	Player_Effect_Throwing,
     Player_Effect_Missile,
+	Player_Effect_Dash,
+	Player_Bulkup_Used,
 	Player_Crying,
-
+	Player_Die,
+    Player_Aiming,
+	
+	
 	Item,
 	Item_Dash,
 	Item_Bulkup,
@@ -49,6 +54,12 @@ enum class Sprite_Type
 	Throwing_Showing,
 	Heal_Showing,
 	Magnet_Showing,
+
+	Audience_Normal,
+	Audience_Red_Good,
+    Audience_Blue_Good,
+    Audience_Normal_Good,
+    Audience_Green_Good,
 };
 
 
@@ -96,6 +107,6 @@ private:
     int frame = 0;
     int speed = 100;
     float spriteWidth = 0;
-
+    bool animated_init = true;
 	Sprite_Type sprite_type;
 };

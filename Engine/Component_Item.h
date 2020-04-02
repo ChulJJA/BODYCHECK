@@ -36,4 +36,7 @@ public:
 
 private:
     Item_Kind this_kind = Item_Kind::None;
+    float timer = -1.f;
+    int random_dir = 0;
+    const float speed = 200.f;
 };

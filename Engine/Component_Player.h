@@ -48,6 +48,13 @@ public:
 		None,
 		Locked
 	};
+	enum class Item_Use_Status
+	{
+		None,
+		Bulkup,
+		Dash,
+		Magnet
+	};
 
 	Player(bool need_update_hp = true)
 	{
@@ -101,6 +108,9 @@ public:
 	void State_After_Preparation(Char_State state);
 
 	void Change_Weapon_Sprite(Component* weapon_sprite);
+
+	Item_Use_Status Get_Item_Used_Status();
+	void Set_Item_Used_Status(Item_Use_Status status);
 	
 private:
     Object* hp_bar = nullptr;
@@ -127,4 +137,5 @@ private:
 	Component* weapon_state = nullptr;
 	
 	Char_State change_to_state = Char_State::None;
+	Item_Use_Status item_used = Item_Use_Status::None;
 };

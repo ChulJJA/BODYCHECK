@@ -277,7 +277,9 @@ public:
     void DeleteComponent(Component* comp);
 	Component* Find_Sprite_By_Name(std::string name);
 	Component* Find_Sprite_By_Type(Sprite_Type type);
+    Component* Find_Comp_By_Name(std::string name);
     void SetTranslation(vector2 pos);
+    void Delete_All_Components_But_Sprite();
 
     void SetRotation(float angle);
     void SetScale(vector2 scale);

@@ -21,8 +21,8 @@ bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 
 	const vector2 obj_a_trans = object_a->GetTransform().GetTranslation();
 	const vector2 obj_b_trans = object_b->GetTransform().GetTranslation();
-	const float obj_a_radius = object_a->GetTransform().GetScale().x * 30.f;
-	const float obj_b_radius = object_b->GetTransform().GetScale().x * 30.f;
+	const float obj_a_radius = object_a->GetTransform().GetScale().x * 45.f;
+	const float obj_b_radius = object_b->GetTransform().GetScale().x * 45.f;
 	const float distance = DistanceBetween(obj_a_trans, obj_b_trans);
 	std::string object_a_tag = object_a->Get_Tag();
 	std::string object_b_tag = object_b->Get_Tag();
@@ -53,19 +53,17 @@ bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 		/* Player vs Item Missile */
 		else if (object_a_name == "missile")
 		{
-			if (object_a->GetComponentByTemplate<Missile>()->Get_Target() == object_b)
-			{
+
 				physics.PushPlayer(object_b, object_a);
 				Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
-			}
+			
 		}
 		else if (object_b_name == "missile")
 		{
-			if (object_b->GetComponentByTemplate<Missile>()->Get_Target() == object_a)
-			{
+			
 				physics.PushPlayer(object_a, object_b);
 				Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
-			}
+			
 		}
 		/* Player vs Item Lock */
 		else if (object_a_tag == "lock")
@@ -104,85 +102,88 @@ void ArenaAndObjectCollision(Object* object)
 {
 	const float x_max_point = 1720;
 	const float x_min_point = -1720;
-	const float y_max_point = 1000;
-	const float y_min_point = -700;
+	const float y_max_point = 700;
+	const float y_min_point = -900;
 	float angle;
 	float temp_angle;
 
 	const vector2 object_translation = object->GetTransform().GetTranslation();
 	const vector2 object_scale = object->GetTransform().GetScale();
 
-	const double max_x = object_translation.x + (30.0 * object_scale.x);
-	const double min_x = object_translation.x - (30.0 * object_scale.x);
-	const double max_y = object_translation.y + (30.0 * object_scale.y);
-	const double min_y = object_translation.y - (30.0 * object_scale.y);
+	const double max_x = object_translation.x + (40.0 * object_scale.x);
+	const double min_x = object_translation.x - (40.0 * object_scale.x);
+	const double max_y = object_translation.y + (40.0 * object_scale.y);
+	const double min_y = object_translation.y - (40.0 * object_scale.y);
 
 	Player* object_player = object->GetComponentByTemplate<Player>();
 
-	if (x_max_point - max_x < 0)
+	if (object_player != nullptr)
 	{
-		if (DeleteUnlessPlayer(object))
+		if (x_max_point - max_x < 0)
 		{
-			return;
+			if (DeleteUnlessPlayer(object))
+			{
+				return;
+			}
+			vector2 direction_to_go = object_player->GetPlayerVelocity();
+
+			angle = RadianToDegree(angle_between({ 0,1 }, direction_to_go));
+			temp_angle = 2 * (180 - angle);
+			angle = 360 - temp_angle;
+			direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
+			object_player->SetPlayerVelocity(direction_to_go);
+
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, Message_Kind::Collision_Wall));
 		}
-		vector2 direction_to_go = object_player->GetPlayerVelocity();
-
-		angle = RadianToDegree(angle_between({ 0,1 }, direction_to_go));
-		temp_angle = 2 * (180 - angle);
-		angle = 360 - temp_angle;
-		direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
-		object_player->SetPlayerVelocity(direction_to_go);
-
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, Message_Kind::Collision_Wall));
-	}
-	else if (y_max_point - max_y < 0)
-	{
-		if (DeleteUnlessPlayer(object))
+		else if (y_max_point - max_y < 0)
 		{
-			return;
+			if (DeleteUnlessPlayer(object))
+			{
+				return;
+			}
+
+			vector2 direction_to_go = object_player->GetPlayerVelocity();
+			angle = RadianToDegree(angle_between({ -1,0 }, direction_to_go));
+
+			temp_angle = 2 * (180 - angle);
+			angle = 360 - temp_angle;
+			direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
+			object_player->SetPlayerVelocity(direction_to_go);
+
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, Message_Kind::Collision_Wall));
 		}
-
-		vector2 direction_to_go = object_player->GetPlayerVelocity();
-		angle = RadianToDegree(angle_between({ -1,0 }, direction_to_go));
-
-		temp_angle = 2 * (180 - angle);
-		angle = 360 - temp_angle;
-		direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
-		object_player->SetPlayerVelocity(direction_to_go);
-
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, Message_Kind::Collision_Wall));
-	}
-	else if (x_min_point - min_x > 0)
-	{
-		if (DeleteUnlessPlayer(object))
+		else if (x_min_point - min_x > 0)
 		{
-			return;
+			if (DeleteUnlessPlayer(object))
+			{
+				return;
+			}
+			vector2 direction_to_go = object_player->GetPlayerVelocity();
+			angle = RadianToDegree(angle_between({ 0,-1 }, direction_to_go));
+
+			temp_angle = 2 * (180 - angle);
+			angle = 360 - temp_angle;
+			direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
+			object_player->SetPlayerVelocity(direction_to_go);
+
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, Message_Kind::Collision_Wall));
 		}
-		vector2 direction_to_go = object_player->GetPlayerVelocity();
-		angle = RadianToDegree(angle_between({ 0,-1 }, direction_to_go));
-
-		temp_angle = 2 * (180 - angle);
-		angle = 360 - temp_angle;
-		direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
-		object_player->SetPlayerVelocity(direction_to_go);
-
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, Message_Kind::Collision_Wall));
-	}
-	else if (y_min_point - min_y > 0)
-	{
-		if (DeleteUnlessPlayer(object))
+		else if (y_min_point - min_y > 0)
 		{
-			return;
+			if (DeleteUnlessPlayer(object))
+			{
+				return;
+			}
+			vector2 direction_to_go = object_player->GetPlayerVelocity();
+			angle = RadianToDegree(angle_between({ 1,0 }, direction_to_go));
+
+			temp_angle = 2 * (180 - angle);
+			angle = 360 - temp_angle;
+			direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
+			object_player->SetPlayerVelocity(direction_to_go);
+
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, Message_Kind::Collision_Wall));
 		}
-		vector2 direction_to_go = object_player->GetPlayerVelocity();
-		angle = RadianToDegree(angle_between({ 1,0 }, direction_to_go));
-
-		temp_angle = 2 * (180 - angle);
-		angle = 360 - temp_angle;
-		direction_to_go = rotate_by(DegreeToRadian(angle), direction_to_go);
-		object_player->SetPlayerVelocity(direction_to_go);
-
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(object, nullptr, Message_Kind::Collision_Wall));
 	}
 }
 
@@ -207,6 +208,21 @@ bool DeleteUnlessPlayer(Object* object)
 
 	if (object_throwing != nullptr || object_lock != nullptr)
 	{
+		if(object_lock != nullptr)
+		{
+			Object* locking_obj = object_lock->Get_Locking_Obj();
+			Object* locking_target = object_lock->Get_Locking_Target();
+
+			if(locking_obj != nullptr)
+			{
+				locking_obj->Change_Sprite(locking_obj->Find_Sprite_By_Type(Sprite_Type::Player_Normal));
+			}
+
+			if(locking_target != nullptr)
+			{
+				locking_target->Change_Sprite(locking_target->Find_Sprite_By_Type(Sprite_Type::Player_Normal));
+			}
+		}
 		object->SetDeadCondition(true);
 		return true;
 	}

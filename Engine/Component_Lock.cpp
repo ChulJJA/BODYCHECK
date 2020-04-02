@@ -102,7 +102,7 @@ void Lock::Control_Input(float dt)
 void Lock::Func_Set_Magnatic() const
 {
 	locking_target->Change_Sprite(locking_target->Find_Sprite_By_Type(Sprite_Type::Player_Normal));
-	
+	info_player_locking_obj->Set_Item_Used_Status(Player::Item_Use_Status::Magnet);
 	info_player_locking_obj->Set_Char_State(Player::Char_State::Magnatic);
 	info_player_locking_obj->Set_Locking_Result(locking_target);
 	locking_obj->Change_Sprite(locking_obj->Find_Sprite_By_Type(Sprite_Type::Player_Chasing));

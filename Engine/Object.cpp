@@ -86,10 +86,40 @@ Component* Object::Find_Sprite_By_Type(Sprite_Type type)
 	return nullptr;
 }
 
+Component* Object::Find_Comp_By_Name(std::string name)
+{
+	for (auto component : components_)
+	{
+		if (component->GetComponentName() == name)
+		{
+			return component;
+		}
+	}
+	return nullptr;
+}
+
 
 void Object::SetTranslation(vector2 pos)
 {
 	m_transform.SetTranslation(pos);
+}
+
+void Object::Delete_All_Components_But_Sprite()
+{
+	Component* comp_player = Find_Comp_By_Name("player");
+
+	if(comp_player != nullptr)
+	{
+		DeleteComponent(comp_player);
+	}
+
+	Component* comp_physics = Find_Comp_By_Name("physics");
+
+	if(comp_physics != nullptr)
+	{
+		DeleteComponent(comp_physics);
+	}
+	
 }
 
 void Object::SetRotation(float angle)

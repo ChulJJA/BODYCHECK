@@ -21,8 +21,9 @@
 void PLAYER_UI::Initialize()
 {
 	const vector2 this_trans = this->GetTransform().GetTranslation();
-
+	
     info_item = new Object();
+	info_item->SetNeedCollision(false);
 	info_item->GetTransform().SetTranslation({ this_trans.x + 200, this_trans.y});
 	info_item->GetTransform().SetScale({ 2.f, 2.f });
 	info_item->Set_Tag("item_info");

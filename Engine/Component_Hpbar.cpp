@@ -20,6 +20,7 @@
 #include "Component_Text.h"
 #include "Component_Player.h"
 #include "Message_Kind.h"
+#include "ObjectManager.h"
 
 void Hp_Bar::Init(Object* obj)
 {
@@ -62,10 +63,33 @@ void Hp_Bar::Decrease(float dmg)
 			{
 				hitting_obj->GetTransform().GetScale_Reference() += {0.7f, 0.7f};
 				hitting_obj->Get_Plus_Dmg() += 0.1f;
+				Object* audience = ObjectManager::GetObjectManager()->Find_Object_By_Name("audience");
+
+				if(hitting_obj->GetName() == "first")
+				{
+					Message_Manager::Get_Message_Manager()->Save_Message(new Message(
+						audience, nullptr, Message_Kind::Audience_Green_Joy, 3.f));
+				}
+				else if (hitting_obj->GetName() == "second")
+				{
+					Message_Manager::Get_Message_Manager()->Save_Message(new Message(
+						audience, nullptr, Message_Kind::Audience_Red_Joy, 3.f));
+				}
+				else if (hitting_obj->GetName() == "third")
+				{
+					Message_Manager::Get_Message_Manager()->Save_Message(new Message(
+						audience, nullptr, Message_Kind::Audience_Blue_Joy, 3.f));
+				}
+				else if (hitting_obj->GetName() == "forth")
+				{
+					Message_Manager::Get_Message_Manager()->Save_Message(new Message(
+						audience, nullptr, Message_Kind::Audience_Normal_Joy, 3.f));
+				}
 			}
 			
 			m_owner->SetDeadCondition(true);
-			hp_owner->SetDeadCondition(true);
+			//hp_owner->SetDeadCondition(true);
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(hp_owner, nullptr, Message_Kind::Die));
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(Referee::Get_Referee(), hp_owner, Message_Kind::Respawn));
 		}
 	}
