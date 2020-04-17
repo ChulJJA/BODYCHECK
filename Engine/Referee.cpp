@@ -36,7 +36,7 @@ Application* app = nullptr;
 void Referee::Set_Win_State()
 {
 	first_win = new Object();
-	first_win->AddComponent(new Sprite(first_win, "../Sprite/pen_green2_win.png", true, 2, 8, {0.f,0.f}, { 100.f,100.f },
+	first_win->AddComponent(new Sprite(first_win, "../Sprite/pen_green2_win.png", true, 2, 8, { 0.f,0.f }, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::None), "win", true);
 	first_win->GetTransform().SetScale({ 40.f, 22.f });
 
@@ -92,7 +92,7 @@ void Referee::Init()
 {
 
 	stage_statements.clear();
-	missile_saving = new Object *[missile_num];
+	missile_saving = new Object * [missile_num];
 	missile_saving = new Object * [missile_num];
 
 	for (int i = 0; i < missile_num; i++)
@@ -108,7 +108,7 @@ void Referee::Init()
 		missile_saving[i]->SetScale(2.f);
 		missile_saving[i]->Set_Current_Sprite(missile_saving[i]->Find_Sprite_By_Name("missile"));
 	}
-	
+
 	SetPlayerTemp();
 	SetItem();
 	Set_Win_State();
@@ -124,13 +124,13 @@ void Referee::Update(float dt)
 		}
 	}
 
-	if(win == false)
+	if (win == false)
 	{
 		Respawn_Item(dt);
 	}
-	
+
 	Win();
-	
+
 }
 
 void Referee::Delete()
@@ -145,10 +145,9 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 
 	std::string sprite_path_normal = path_to_player_state;
 	std::string sprite_path_lock = path_to_player_state;
-	//std::string sprite_path_chase = path_to_player_state;
-	//std::string sprite_path_thinking = path_to_player_state;
 	std::string sprite_path_crying = path_to_player_state;
 	std::string sprite_path_die = path_to_player_state;
+	std::string sprite_path_paused = path_to_player_state;
 
 
 	std::string sprite_path_reverse_moving_pen = path_to_player_item_effect;
@@ -161,28 +160,30 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	std::string sprite_path_magnet_aiming = path_to_player_item_effect;
 	std::string sprite_path_magnet_chasing = path_to_player_item_effect;
 	std::string sprite_path_dash_effect = path_to_player_item_effect;
-	
+	std::string sprite_path_timestop_effect = path_to_player_item_effect;
+
 	std::string sprite_path_missile_launcher = path_to_player_display_item;
 	std::string sprite_path_dash = path_to_player_display_item;
 	std::string sprite_path_bulkup = path_to_player_display_item;
 	std::string sprite_path_throwing = path_to_player_display_item;
 	std::string sprite_path_heal = path_to_player_display_item;
 	std::string sprite_path_magnet = path_to_player_display_item;
+	std::string sprite_path_timestop = path_to_player_display_item;
+	std::string sprite_path_reverse = path_to_player_display_item;
 
 
 	{
 		sprite_path_normal += sprite_path + ".png";
 		sprite_path_lock += sprite_path + "_lock.png";
-		//sprite_path_chase += sprite_path + "_chase.png";
-		//sprite_path_thinking += sprite_path + "_thinking.png";
 		sprite_path_crying += sprite_path + "_hit.png";
 		sprite_path_die += sprite_path + "_die.png";
+		sprite_path_paused += sprite_path + "_paused.png";
 
 	}
 
 	//effect when using item.
 	{
-		sprite_path_reverse_moving_pen += "reverse_moving_pen.png";
+		sprite_path_reverse_moving_pen += sprite_path + "_reverse.png";
 		sprite_path_ready += "loadingscene.png";
 		sprite_path_heal_effect += "heal_effect.png";
 		sprite_path_ready_bulkup += sprite_path + "_bulkupready.png";
@@ -192,6 +193,8 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 		sprite_path_magnet_aiming += sprite_path + "_magnet_aiming.png";
 		sprite_path_magnet_chasing += sprite_path + "_chasing.png";
 		sprite_path_dash_effect += sprite_path + "_dash_effect.png";
+		sprite_path_timestop_effect += sprite_path + "_timestop.png";
+
 	}
 
 	//display when get item.
@@ -202,6 +205,8 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 		sprite_path_throwing += "throwing_display.png";
 		sprite_path_heal += "heal_showing.png";
 		sprite_path_magnet += "magnet_display.png";
+		sprite_path_timestop += "time_stop_display.png";
+		sprite_path_reverse += "reverse_display.png";
 	}
 
 	Object* player = new Object();
@@ -212,43 +217,41 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 
 	player->AddComponent(new Sprite(player, sprite_path_normal.c_str(), true, 3, 6, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Normal), "normal", true);
-	
-	//player->AddComponent(new Sprite(player, sprite_path_normal.c_str(), pos, false, Sprite_Type::Player_Normal), "normal", true);
-	//player->AddComponent(new Sprite(player, sprite_path_lock.c_str(), pos, false, Sprite_Type::Player_Locking), "lock", false);
+
 	player->AddComponent(new Sprite(player, sprite_path_lock.c_str(), true, 4, 8, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Locking), "lock", false);
-	//player->AddComponent(new Sprite(player, sprite_path_chase.c_str(), pos, false, Sprite_Type::Player_Chasing), "chase", false);
-	//player->AddComponent(new Sprite(player, sprite_path_thinking.c_str(), pos, false, Sprite_Type::Player_Thinking), "thinking", false);
-	player->AddComponent(new Sprite(player, sprite_path_reverse_moving_pen.c_str(), pos, false, Sprite_Type::Player_Reverse_Moving), "reverse_moving_pen", false);
+	player->AddComponent(new Sprite(player, sprite_path_reverse_moving_pen.c_str(), true, 2, 8, pos, { 100.f,100.f },
+		{ 255,255,255,255 }, Sprite_Type::Player_Reverse_Moving), "reverse", false);
 	player->AddComponent(new Sprite(player, sprite_path_ready.c_str(), pos, false, Sprite_Type::Player_Ready), "ready", false);
-	//player->AddComponent(new Sprite(player, sprite_path_crying.c_str(), pos, false, Sprite_Type::Player_Crying), "crying", false);
-	//player->AddComponent(new Sprite(player, sprite_path_die.c_str(), pos, false, Sprite_Type::Player_Die), "die", false);
-	//
+	player->AddComponent(new Sprite(player, sprite_path_timestop_effect.c_str(), true, 4, 8, pos, { 100.f,100.f },
+		{ 255,255,255,255 }, Sprite_Type::Player_Effect_Timestop), "time", false);
 	player->AddComponent(new Sprite(player, sprite_path_die.c_str(), true, 8, 16, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Die), "die", false);
-	
+
 	player->AddComponent(new Sprite(player, sprite_path_crying.c_str(), true, 2, 4, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Crying), "crying", false);
-	
+
 	player->AddComponent(new Sprite(player, sprite_path_missile_launcher.c_str(), pos, false, Sprite_Type::Missile_Launcher_Showing, { 80.f, 80.f }), "missile_launcher", false);
 
 	player->AddComponent(new Sprite(player, sprite_path_dash.c_str(), true, 4, 8, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Dash_Showing), "dash", false);
-	
+
 	player->AddComponent(new Sprite(player, sprite_path_bulkup.c_str(), pos, false, Sprite_Type::Bulkup_Showing, { 100.f, 100.f }), "bulkup", false);
 	player->AddComponent(new Sprite(player, sprite_path_throwing.c_str(), pos, false, Sprite_Type::Throwing_Showing, { 100.f, 100.f }), "throwing", false);
 	player->AddComponent(new Sprite(player, sprite_path_magnet.c_str(), pos, false, Sprite_Type::Magnet_Showing, { 100.f, 100.f }), "magnet", false);
-
+	player->AddComponent(new Sprite(player, sprite_path_timestop.c_str(), pos, false, Sprite_Type::Timestop_Showing, { 100.f, 100.f }), "time", false);
+	player->AddComponent(new Sprite(player, sprite_path_reverse.c_str(), pos, false, Sprite_Type::Reverse_Showing, { 100.f, 100.f }), "reverse", false);
+	player->AddComponent(new Sprite(player, sprite_path_paused.c_str(), pos, false, Sprite_Type::Player_Paused, { 100.f, 100.f }), "paused", false);
 	player->AddComponent(new Sprite(player, sprite_path_heal.c_str(), true, 4, 8, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Heal_Showing), "heal", false);
-	
+
 	player->AddComponent(new Sprite(player, sprite_path_ready_bulkup.c_str(), true, 8, 16, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Effect_Bulkp), "effect_bulkup", false);
 
 	player->AddComponent(new Sprite(player, sprite_path_bulkup_used.c_str(), true, 3, 9, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Bulkup_Used), "effect_bulkup", false);
 
-	
+
 	player->AddComponent(new Sprite(player, sprite_path_heal_effect.c_str(), true, 6, 12, pos, { 100.f,100.f },
 		{ 255, 255, 255, 255 }, Sprite_Type::Player_Effect_Heal), "effect_heal", false);
 	player->AddComponent(new Sprite(player, sprite_path_throwing_effect.c_str(), true, 4, 8, pos, { 100.f,100.f },
@@ -264,9 +267,9 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 
 	player->AddComponent(new Sprite(player, sprite_path_dash_effect.c_str(), true, 4, 8, pos, { 100.f,100.f },
 		{ 255, 255, 255, 255 }, Sprite_Type::Player_Effect_Dash), "effect_dash", false);
-	
+
 	player->AddComponent(new Physics(true), "physics");
-	
+
 	player->Set_Current_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Player_Normal));
 	player->SetScale({ 2.f,2.f });
 	player->Set_Dmg_Text(text);
@@ -388,48 +391,76 @@ void Referee::Respawn_Item(float dt)
 	{
 		if (item == Item::Item_Kind::Dash)
 		{
-			ObjectManager::GetObjectManager()->AddObject(item_dash[item_num_dash - 1]);
-			item_num_dash--;
+			if (item_num_dash > 0)
+			{
+				ObjectManager::GetObjectManager()->AddObject(item_dash[item_num_dash - 1]);
+				item_num_dash--;
+			}
 		}
 		else if (item == Item::Item_Kind::HP)
 		{
-			ObjectManager::GetObjectManager()->AddObject(item_heal[item_num_heal - 1]);
-			item_num_heal--;
+			if (item_num_heal > 0)
+			{
+				ObjectManager::GetObjectManager()->AddObject(item_heal[item_num_heal - 1]);
+				item_num_heal--;
+			}
 		}
 		else if (item == Item::Item_Kind::Bulkup)
 		{
-			ObjectManager::GetObjectManager()->AddObject(item_bulk_up[item_num_bulk_up - 1]);
-			item_num_bulk_up--;
+			if (item_num_bulk_up > 0)
+			{
+				ObjectManager::GetObjectManager()->AddObject(item_bulk_up[item_num_bulk_up - 1]);
+				item_num_bulk_up--;
+			}
+
 		}
 		else if (item == Item::Item_Kind::Throwing)
 		{
-			ObjectManager::GetObjectManager()->AddObject(item_throwing[item_num_throwing - 1]);
-			item_num_throwing--;
+			if (item_num_throwing > 0)
+			{
+				ObjectManager::GetObjectManager()->AddObject(item_throwing[item_num_throwing - 1]);
+				item_num_throwing--;
+			}
 		}
 		else if (item == Item::Item_Kind::Magnatic)
 		{
-			ObjectManager::GetObjectManager()->AddObject(item_magnetic[item_num_magnetic - 1]);
-			item_num_magnetic--;
+			if (item_num_magnetic > 0)
+			{
+				ObjectManager::GetObjectManager()->AddObject(item_magnetic[item_num_magnetic - 1]);
+				item_num_magnetic--;
+			}
 		}
 		else if (item == Item::Item_Kind::Time_Pause)
 		{
-			ObjectManager::GetObjectManager()->AddObject(item_time_pause[item_num_time_pause - 1]);
-			item_num_time_pause--;
+			if (item_num_time_pause > 0)
+			{
+				ObjectManager::GetObjectManager()->AddObject(item_time_pause[item_num_time_pause - 1]);
+				item_num_time_pause--;
+			}
 		}
 		else if (item == Item::Item_Kind::Reverse_Moving)
-		{//
-			ObjectManager::GetObjectManager()->AddObject(item_reverse_moving[item_num_reverse_moving - 1]);
-			item_num_reverse_moving--;
+		{
+			if (item_num_reverse_moving > 0)
+			{
+				ObjectManager::GetObjectManager()->AddObject(item_reverse_moving[item_num_reverse_moving - 1]);
+				item_num_reverse_moving--;
+			}
 		}
 		else if (item == Item::Item_Kind::Missile)
 		{
-			ObjectManager::GetObjectManager()->AddObject(item_missile[item_num_missile - 1]);
-			item_num_missile--;
+			if (item_num_missile > 0)
+			{
+				ObjectManager::GetObjectManager()->AddObject(item_missile[item_num_missile - 1]);
+				item_num_missile--;
+			}
 		}
 		else if (item == Item::Item_Kind::Mine)
 		{
-			ObjectManager::GetObjectManager()->AddObject(item_mine[item_num_mine - 1]);
-			item_num_mine--;
+			if (item_num_mine > 0)
+			{
+				ObjectManager::GetObjectManager()->AddObject(item_mine[item_num_mine - 1]);
+				item_num_mine--;
+			}
 		}
 		total_item_num--;
 		item_respawn_timer = 5.0f;
@@ -438,10 +469,10 @@ void Referee::Respawn_Item(float dt)
 
 void Referee::SetPlayerTemp()
 {
-	player_first_temp = new Object *[player_first_life]();
-	player_sec_temp = new Object *[player_sec_life]();
-	player_third_temp = new Object *[player_third_life]();
-	player_fourth_temp = new Object *[player_fourth_life]();
+	player_first_temp = new Object * [player_first_life]();
+	player_sec_temp = new Object * [player_sec_life]();
+	player_third_temp = new Object * [player_third_life]();
+	player_fourth_temp = new Object * [player_fourth_life]();
 
 
 	for (int i = 0; i < player_first_life; i++)
@@ -464,14 +495,14 @@ void Referee::SetPlayerTemp()
 
 void Referee::SetItem()
 {
-	item_dash = new Object *[item_num]();
-	item_heal = new Object *[item_num]();
-	item_bulk_up = new Object *[item_num]();
-	item_throwing = new Object *[item_num]();
-	item_magnetic = new Object *[item_num]();
-	item_time_pause = new Object *[item_num]();
-	item_reverse_moving = new Object *[item_num]();
-	item_missile = new Object *[item_num]();
+	item_dash = new Object * [item_num]();
+	item_heal = new Object * [item_num]();
+	item_bulk_up = new Object * [item_num]();
+	item_throwing = new Object * [item_num]();
+	item_magnetic = new Object * [item_num]();
+	item_time_pause = new Object * [item_num]();
+	item_reverse_moving = new Object * [item_num]();
+	item_missile = new Object * [item_num]();
 	item_mine = new Object * [item_num]();
 
 	for (int i = 0; i < item_num; i++)

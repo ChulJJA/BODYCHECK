@@ -16,10 +16,9 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 
 	std::string sprite_path_normal = path_to_player_state;
 	std::string sprite_path_lock = path_to_player_state;
-	//std::string sprite_path_chase = path_to_player_state;
-	//std::string sprite_path_thinking = path_to_player_state;
 	std::string sprite_path_crying = path_to_player_state;
 	std::string sprite_path_die = path_to_player_state;
+	std::string sprite_path_paused = path_to_player_state;
 	
 	std::string sprite_path_reverse_moving_pen = path_to_player_item_effect;
 	std::string sprite_path_ready = path_to_player_item_effect;
@@ -31,6 +30,7 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 	std::string sprite_path_magnet_aiming = path_to_player_item_effect;
 	std::string sprite_path_magnet_chasing = path_to_player_item_effect;
 	std::string sprite_path_dash_effect = path_to_player_item_effect;
+	std::string sprite_path_timestop_effect = path_to_player_item_effect;
 	
 	std::string sprite_path_missile_launcher = path_to_player_display_item;
 	std::string sprite_path_dash = path_to_player_display_item;
@@ -38,20 +38,21 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 	std::string sprite_path_throwing = path_to_player_display_item;
 	std::string sprite_path_heal = path_to_player_display_item;
 	std::string sprite_path_magnet = path_to_player_display_item;
+	std::string sprite_path_timestop = path_to_player_display_item;
+	std::string sprite_path_reverse = path_to_player_display_item;
 
 
 	{
 		sprite_path_normal += sprite_path + ".png";
 		sprite_path_lock += sprite_path + "_lock.png";
-		//sprite_path_chase += sprite_path + "_chase.png";
-		//sprite_path_thinking += sprite_path + "_thinking.png";
 		sprite_path_crying += sprite_path + "_hit.png";
 		sprite_path_die += sprite_path + "_die.png";
+		sprite_path_paused += sprite_path + "_paused.png";
 	}
 
 	//itwem effect
 	{
-		sprite_path_reverse_moving_pen += "reverse_moving_pen.png";
+		sprite_path_reverse_moving_pen += sprite_path + "_reverse.png";
 		sprite_path_ready += "loadingscene.png";
 		sprite_path_heal_effect += "heal_effect.png";
 		sprite_path_ready_bulkup += sprite_path + "_bulkupready.png";
@@ -61,6 +62,7 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 		sprite_path_magnet_aiming += sprite_path + "_magnet_aiming.png";
 		sprite_path_magnet_chasing += sprite_path + "_chasing.png";
 		sprite_path_dash_effect += sprite_path + "_dash_effect.png";
+		sprite_path_timestop_effect += sprite_path + "_timestop.png";
 	}
 
 	{
@@ -70,6 +72,8 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 		sprite_path_throwing += "throwing_display.png";
 		sprite_path_heal += "heal_showing.png";
 		sprite_path_magnet += "magnet_display.png";
+		sprite_path_timestop += "time_stop_display.png";
+		sprite_path_reverse += "reverse_display.png";
 	}
 	
 	Object* player;
@@ -85,24 +89,34 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 		{ 255,255,255,255 }, Sprite_Type::Player_Normal), "normal", true);
 	player->AddComponent(new Sprite(player, sprite_path_lock.c_str(), true, 4, 8, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Locking), "lock", false);
-	player->AddComponent(new Sprite(player, sprite_path_reverse_moving_pen.c_str(), pos, false, Sprite_Type::Player_Reverse_Moving), "reverse_moving_pen", false);
+	
 	player->AddComponent(new Sprite(player, sprite_path_ready.c_str(), pos, false, Sprite_Type::Player_Ready), "ready", false);
 	player->AddComponent(new Sprite(player, sprite_path_die.c_str(), true, 8, 16, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Die), "die", false);
 	
 	player->AddComponent(new Sprite(player, sprite_path_crying.c_str(), true, 2, 4, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Crying), "crying", false);
+
+
+	player->AddComponent(new Sprite(player, sprite_path_reverse_moving_pen.c_str(), true, 2, 8, pos, { 100.f,100.f },
+		{ 255,255,255,255 }, Sprite_Type::Player_Reverse_Moving), "reverse", false);
 	
 	player->AddComponent(new Sprite(player, sprite_path_missile_launcher.c_str(), pos, false, Sprite_Type::Missile_Launcher_Showing, { 80.f, 80.f }), "missile_launcher", false);
 
 	player->AddComponent(new Sprite(player, sprite_path_dash.c_str(), true, 4, 8, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Dash_Showing), "dash", false);
 
+	player->AddComponent(new Sprite(player, sprite_path_timestop_effect.c_str(), true, 4, 8, pos, { 200.f,100.f },
+		{ 255,255,255,255 }, Sprite_Type::Player_Effect_Timestop), "time", false);
+
 	
 	player->AddComponent(new Sprite(player, sprite_path_bulkup.c_str(), pos, false, Sprite_Type::Bulkup_Showing, { 100.f, 100.f }), "bulkup", false);
 	player->AddComponent(new Sprite(player, sprite_path_throwing.c_str(), pos, false, Sprite_Type::Throwing_Showing, { 100.f, 100.f }), "throwing", false);
 	//player->AddComponent(new Sprite(player, sprite_path_heal.c_str(), pos, false, Sprite_Type::Heal_Showing, { 100.f, 100.f }), "heal", false);
 	player->AddComponent(new Sprite(player, sprite_path_magnet.c_str(), pos, false, Sprite_Type::Magnet_Showing, { 100.f, 100.f }), "magnet", false);
+	player->AddComponent(new Sprite(player, sprite_path_timestop.c_str(), pos, false, Sprite_Type::Timestop_Showing, { 100.f, 100.f }), "time", false);
+	player->AddComponent(new Sprite(player, sprite_path_reverse.c_str(), pos, false, Sprite_Type::Reverse_Showing, { 100.f, 100.f }), "reverse", false);
+	player->AddComponent(new Sprite(player, sprite_path_paused.c_str(), pos, false, Sprite_Type::Player_Paused, { 100.f, 100.f }), "paused", false);
 
 
 	player->AddComponent(new Sprite(player, sprite_path_heal.c_str(), true, 4, 8, pos, { 100.f,100.f },

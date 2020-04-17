@@ -20,8 +20,6 @@ void Msg_Func_Collision::Init()
 	//
 }
 
-
-
 void Msg_Func_Collision::Update(float dt)
 {
 	if (m_target->Get_Tag() == "item" && m_from->Get_Tag() == "player")
@@ -291,14 +289,14 @@ void Msg_Func_Collision::Player_Get_Item(Object* player, Object* item)
 
 	else if (item_kind == Item::Item_Kind::Time_Pause)
 	{
-		player_info->Change_Weapon_Sprite(nullptr);
+		player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Timestop_Showing));
 		player_info->Set_Item_State(Item::Item_Kind::Time_Pause);
 		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Time_Pause);
 	}
 
 	else if (item_kind == Item::Item_Kind::Reverse_Moving)
 	{
-		player_info->Change_Weapon_Sprite(nullptr);
+		player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Reverse_Showing));
 		player_info->Set_Item_State(Item::Item_Kind::Reverse_Moving);
 		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Reverse_Moving);
 	}
@@ -370,17 +368,25 @@ void Msg_Func_Collision::Player_And_Player_Collision()
 						hp_bar_info_target->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
 					{
 						hp_bar_info_target->Decrease(dmg_set.first / 50);
-						m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
-						hp_bar_info_target->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
-						hp_bar_info_target->Set_Timer(1.f);
+
+						if (info_player_target->Get_Char_State() != Player::Char_State::Reverse_Moving)
+						{
+							m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
+							hp_bar_info_target->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
+							hp_bar_info_target->Set_Timer(1.f);
+						}
 					}
 					if (info_player_from->Get_Item_Used_Status() == Player::Item_Use_Status::None &&
 						hp_bar_info_from->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
 					{
 						hp_bar_info_from->Decrease(dmg_set.second / 50);
-						m_from->Change_Sprite(m_from->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
-						hp_bar_info_from->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
-						hp_bar_info_from->Set_Timer(1.f);
+
+						if (info_player_from->Get_Char_State() != Player::Char_State::Reverse_Moving)
+						{
+							m_from->Change_Sprite(m_from->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
+							hp_bar_info_from->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
+							hp_bar_info_from->Set_Timer(1.f);
+						}
 					}
 				}
 			}
@@ -404,5 +410,6 @@ void Msg_Func_Collision::Player_And_Mine_Collision(Object* player, Object* mine)
 	Player* get_player = player->GetComponentByTemplate<Player>();
 	get_player->Set_Char_State_Additional(Player::Char_State_Additional::Get_mine);
 	get_player->Set_Mine_Timer(10.7f);
+	//mine->Change_Sprite(mine->Find_Sprite_By_Type(Sprite_Type::Audience_Blue_Good));
 	mine->SetDeadCondition(true);
 }

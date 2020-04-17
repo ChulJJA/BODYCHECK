@@ -39,6 +39,13 @@ void MainMenu::Load()
 
     pointer = 0;
     button_timer = 0;
+
+    Object* back = new Object();
+
+    back->AddComponent(new Sprite(back, "../Sprite/menu_background.png", true, 2, 8, {0.f, 0.f}, { 100.f,100.f },
+        { 255,255,255,255 }, Sprite_Type::None), "none", true);
+    back->GetTransform().SetScale({ 40.f, 22.f });
+    object_manager->AddObject(back);
     SetPlayButton();
     SetTutorialButton();
     SetMusicButton();
@@ -189,7 +196,7 @@ void MainMenu::ButtonSelector()
 	if(input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::START))
 	{
         pointer = static_cast<int>(BUTTON::START);
-        sound.Play(SOUND::Click);
+		sound.Play(SOUND::Click);
         is_next = true;
         next_level = "Level1";
         Clear();
@@ -198,7 +205,7 @@ void MainMenu::ButtonSelector()
     {
         sound.Play(SOUND::Click);
         is_next = true;
-        next_level = "Tutorial";
+            next_level = "Tutorial";
         Clear();
     }
     else if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::MUSIC))

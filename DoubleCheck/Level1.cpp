@@ -20,16 +20,18 @@
 #include "Engine.hpp"
 #include "Loading_Scene.h"
 #include "Application.hpp"
+#include "ObjectSetter.h"
 #include "Audience.h"
-
 #include "Input.h"
-
+#include "Option.h"
+#include "StateManager.h"
 using namespace std;
 
 namespace
 {
 	Referee* referee = nullptr;
     ObjectManager* object_manager = nullptr;
+	StateManager* state_manager = nullptr;
 }
 
 void Level1::Load()
@@ -54,16 +56,41 @@ void Level1::Load()
 	current_state = GameState::Game;
 	referee = Referee::Get_Referee();
 	object_manager = ObjectManager::GetObjectManager();
+	state_manager = StateManager::GetStateManager();
 	Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 
 	sound.Stop(SOUND::BGM);
 	sound.Play(SOUND::BGM2);
 
-	CreateArena();
-
 	aud = Get_Audience();
 
+	arena = new Object();
+	arena->Set_Name("arena");
+	arena->Set_Tag("arena");
+	arena->AddComponent(new Sprite(arena, "../Sprite/IceGround.png", { 0,-100 }, false), "arena");
+	arena->Set_Current_Sprite(arena->Find_Sprite_By_Name("arena"));
+	arena->SetScale({ 35, 17 });
 
+	Object* fire1 = new Object();
+	fire1->Set_Name("fire");
+	fire1->Set_Tag("fire");
+	fire1->AddComponent(new Sprite(fire1, "../Sprite/fire.png", true, 5, 15, { -1600.f,800.f }, { 100.f, 100.f },
+		{ 255,255,255,255 }, Sprite_Type::None), "fire", true);
+	fire1->Set_Current_Sprite(fire1->Find_Sprite_By_Type(Sprite_Type::None));
+	fire1->SetScale(3.f);
+
+	Object* fire2 = new Object();
+	fire2->Set_Name("fire");
+	fire2->Set_Tag("fire");
+	fire2->AddComponent(new Sprite(fire2, "../Sprite/fire.png", true, 5, 15, { 1600.f,800.f }, { 100.f, 100.f },
+		{ 255,255,255,255 }, Sprite_Type::None), "fire", true);
+	fire2->Set_Current_Sprite(fire2->Find_Sprite_By_Type(Sprite_Type::None));
+	fire2->SetScale(3.f);
+
+	ObjectManager::GetObjectManager()->AddObject(arena);
+	ObjectManager::GetObjectManager()->AddObject(fire1);
+	ObjectManager::GetObjectManager()->AddObject(fire2);
+	
 	player_first_ui = Make_Set_Ui("first_ui", "ui", "../Sprite/pen_green_ui.png", { -1300, -800 }, { 5.0f,5.0f }, player);
 	player_second_ui = Make_Set_Ui("second_ui", "ui", "../Sprite/pen_red_ui.png", { -500, -800 }, { 5.0f,5.0f }, player_sec);
 	player_third_ui = Make_Set_Ui("third_ui", "ui", "../Sprite/pen_blue_ui.png", { 300, -800 }, { 5.0f,5.0f }, player_third);
@@ -89,7 +116,7 @@ void Level1::Load()
 	player_sec->GetComponentByTemplate<Player>()->Set_This_UI_info(player_second_ui);
 	player_third->GetComponentByTemplate<Player>()->Set_This_UI_info(player_third_ui);
 	player_forth->GetComponentByTemplate<Player>()->Set_This_UI_info(player_fourth_ui);
-
+	
 	Referee::Get_Referee()->Set_First_Ui(player_first_ui);
 	Referee::Get_Referee()->Set_Second_Ui(player_second_ui);
 	Referee::Get_Referee()->Set_Third_Ui(player_third_ui);
@@ -103,6 +130,10 @@ void Level1::Load()
 	
 	referee->Init();
 
+	//pause = SetPauseText("pause", "text", "Pause", { 0, 800 }, { 1,1 });
+	//restart_button = SetRestartButton("restart_button", "button", "RestartButton", { 0, 600 }, { 1,1 });
+	//mainmenu_button = SetMainMenuButton("main_menu", "button", "MainMenu", { 0, 400 }, { 1,1 });
+	//option_button = SetOptionButton("option_button", "button", "OptionButton", { 200, 0 }, { 1,1 });
 	Graphic::GetGraphic()->get_need_update_sprite() = true;
 
 
@@ -117,35 +148,22 @@ void Level1::Load()
 void Level1::Update(float dt)
 {
 	referee->Update(dt);
+	CallOption();
 }
 
-
-void Level1::CreateArena()
+void Level1::CallOption()
 {
-	arena = new Object();
-	arena->Set_Name("arena");
-	arena->Set_Tag("arena");
-	arena->AddComponent(new Sprite(arena, "../Sprite/IceGround.png", { 0,-100}, false), "arena");
-	arena->Set_Current_Sprite(arena->Find_Sprite_By_Name("arena"));
-	arena->SetScale({ 35, 17 });
+	if(input.Is_Key_Pressed(GLFW_KEY_P))
+	{
+		sound.Play(SOUND::Click);
+		is_pause = true;
+		//is_next = true;
+		//next_level = "Option";
+		//Clear();
+	}
+}
 
-	Object* fire1 = new Object();
-	fire1->Set_Name("fire");
-	fire1->Set_Tag("fire");
-	fire1->AddComponent(new Sprite(fire1, "../Sprite/fire.png", true, 5, 15, { -1600.f,800.f }, { 100.f, 100.f },
-		{ 255,255,255,255 }, Sprite_Type::None), "fire", true);
-	fire1->Set_Current_Sprite(fire1->Find_Sprite_By_Type(Sprite_Type::None));
-	fire1->SetScale(3.f);
-
-	Object* fire2 = new Object();
-	fire2->Set_Name("fire");
-	fire2->Set_Tag("fire");
-	fire2->AddComponent(new Sprite(fire2, "../Sprite/fire.png", true, 5, 15, { 1600.f,800.f }, { 100.f, 100.f },
-		{ 255,255,255,255 }, Sprite_Type::None), "fire", true);
-	fire2->Set_Current_Sprite(fire2->Find_Sprite_By_Type(Sprite_Type::None));
-	fire2->SetScale(3.f);
-	
-	ObjectManager::GetObjectManager()->AddObject(arena);
-	ObjectManager::GetObjectManager()->AddObject(fire1);
-	ObjectManager::GetObjectManager()->AddObject(fire2);
+void Level1::Clear()
+{
+	object_manager->Clear();
 }

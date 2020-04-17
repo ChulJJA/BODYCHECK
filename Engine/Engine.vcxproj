@@ -226,6 +226,7 @@
     <ClInclude Include="Message_Manager.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectManager.h" />
+    <ClInclude Include="ObjectSetter.h" />
     <ClInclude Include="Object_Component_Info.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="Physics.h" />
@@ -292,6 +293,7 @@
     <ClCompile Include="Message_Mananger.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
+    <ClCompile Include="ObjectSetter.cpp" />
     <ClCompile Include="Object_Component_Info.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="Physics.cpp" />
