@@ -23,12 +23,12 @@ class Option : public State
     int FULLSCREEN;
     int GAMESPEED;
 	
-	enum class BUTTON
-	{
-		MASTER,
+    enum class BUTTON
+    {
+        FULLSCREEN,
+        SFX,
 		MUSIC,
-		SFX,
-		BACK
+		BACK,
 	};
 public:
     Option()
@@ -48,18 +48,18 @@ public:
     void SetMusicIcon();
     void SetMusicVolumeBox();
     void SetMuteButton();
-    void MusicVolume();
+    void ButtonBehavior();
     void Mute();
     void SetFullScreenButton();
     void SetBackButton();
     void ButtonSelector();
-    void SetSoundVolume(float value, bool BGM = true);
+    void SetSoundVolume(float value, bool isBGM = true);
 private:
-    Object* music_icon[3];
-    Object* volume_box[3];
-    Object* volume_box_hover[3];
-    Object* mute_button[3];
-    Object* unmute_button[3];
+    Object* music_icon[2];
+    Object* volume_box[2];
+    Object* volume_box_hover[2];
+    Object* mute_button[2];
+    Object* unmute_button[2];
     Object* back_button;
     Object* back_button_hover;
     Object* full_screen_button;
