@@ -14,6 +14,7 @@
 #include "ObjectManager.h"
 #include "Component_Text.h"
 #include "StateManager.h"
+#include "Application.hpp"
 #include "Object.h"
 #include "Transform.hpp"
 #include "Engine.hpp"
@@ -22,145 +23,116 @@
 #include <GLFW/glfw3.h>
 #include "Option.h"
 #include "UsefulTools.hpp"
-
+#include "StateManager.h"
 namespace
 {
 	ObjectManager* object_manager = nullptr;
 	StateManager* state_manager = nullptr;
+	Application* app = Application::Get_Application();
 }
 
 void Option::Load()
 {
 	state_manager = StateManager::GetStateManager();
 	object_manager = ObjectManager::GetObjectManager();
-
 	Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 	Graphic::GetGraphic()->get_need_update_sprite() = true;
 
 	volume_timer = 0;
 	button_timer = 0;
 	pointer = 0;
-	
+
 	SetMusicVolumeBox();
 	SetMusicIcon();
 	SetMuteButton();
-	SetInfoText();
+	SetFullScreenButton();
 	SetBackButton();
 }
 
 void Option::Update(float dt)
-{	
+{
 	volume_timer++;
 	button_timer++;
-	
+
 	Mute();
 	if (button_timer >= 10)
 	{
 		ButtonSelector();
 	}
-	if(volume_timer >= 10)
+	if (volume_timer >= 10)
 	{
-		MusicVolume();
+		ButtonBehavior();
 	}
 }
 
 void Option::Clear()
 {
-	object_manager->Clear();
+	music_icon[0]->SetDeadCondition(true);
+	music_icon[1]->SetDeadCondition(true);
+	volume_box[0]->SetDeadCondition(true);
+	volume_box[1]->SetDeadCondition(true);
+	volume_box_hover[0]->SetDeadCondition(true);
+	volume_box_hover[1]->SetDeadCondition(true);
+	mute_button[0]->SetDeadCondition(true);
+	mute_button[1]->SetDeadCondition(true);
+	unmute_button[0]->SetDeadCondition(true);
+	unmute_button[1]->SetDeadCondition(true);
+	back_button->SetDeadCondition(true);
+	back_button_hover->SetDeadCondition(true);
+	full_screen_button->SetDeadCondition(true);
+	full_screen_button_hover->SetDeadCondition(true);
 }
 
 void Option::SetMusicIcon()
 {
-	const float bgm_volume = sound.GetSoundGroupVolume(true);
 	const float sfx_volume = sound.GetSoundGroupVolume(false);
-	const float initial_bgm_icon = bgm_volume * 4 * 680;
+	const float bgm_volume = sound.GetSoundGroupVolume(true);
 	const float initial_sfx_icon = sfx_volume * 4 * 680;
+	const float initial_bgm_icon = bgm_volume * 4 * 680;
 
-	
 	music_icon[0] = new Object();
-	music_icon[0]->AddComponent(new Sprite(music_icon[0], "../Sprite/icon.png", { -1410 + initial_sfx_icon, -390 }, false));
+	music_icon[0]->AddComponent(new Sprite(music_icon[0], "../Sprite/icon.png", { -1410 + initial_sfx_icon, 120 }, false));
 	music_icon[0]->GetTransform().SetScale({ 5, 5 });
 	ObjectManager::GetObjectManager()->AddObject(music_icon[0]);
 
 	music_icon[1] = new Object();
-	music_icon[1]->AddComponent(new Sprite(music_icon[1], "../Sprite/icon.png", { -1410 + initial_bgm_icon, 120 }, false));
+	music_icon[1]->AddComponent(new Sprite(music_icon[1], "../Sprite/icon.png", { -1410 + initial_bgm_icon, -390 }, false));
 	music_icon[1]->GetTransform().SetScale({ 5, 5 });
 	ObjectManager::GetObjectManager()->AddObject(music_icon[1]);
-
-	music_icon[2] = new Object();
-	music_icon[2]->AddComponent(new Sprite(music_icon[2], "../Sprite/icon.png", { -50, 620 }, false));
-	music_icon[2]->GetTransform().SetScale({ 5, 5 });
-	ObjectManager::GetObjectManager()->AddObject(music_icon[2]);
 }
 
 void Option::SetMusicVolumeBox()
 {
 	volume_box[0] = new Object();
-	volume_box[0]->AddComponent(new Sprite(volume_box[0], "../Sprite/VolumeBox.png", { 0, 500 }, false));
+	volume_box[0]->AddComponent(new Sprite(volume_box[0], "../Sprite/VolumeBox.png", { 0, 0 }, false));
 	volume_box[0]->GetTransform().SetScale({ 30, 5 });
-	volume_box[0]->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1, 1,1, 0 };
 	ObjectManager::GetObjectManager()->AddObject(volume_box[0]);
 	volume_box_hover[0] = new Object();
-	volume_box_hover[0]->AddComponent(new Sprite(volume_box_hover[0], "../Sprite/VolumeBoxHover.png", { 0, 500 }, false));
+	volume_box_hover[0]->AddComponent(new Sprite(volume_box_hover[0], "../Sprite/VolumeBoxHover.png", { 0, 0 }, false));
 	volume_box_hover[0]->GetTransform().SetScale({ 30, 5 });
+	volume_box_hover[0]->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1, 1,1, 0 };
 	ObjectManager::GetObjectManager()->AddObject(volume_box_hover[0]);
 
 	volume_box[1] = new Object();
-	volume_box[1]->AddComponent(new Sprite(volume_box[1], "../Sprite/VolumeBox.png", { 0, 0 }, false));
+	volume_box[1]->AddComponent(new Sprite(volume_box[1], "../Sprite/VolumeBox.png", { 0, -500 }, false));
 	volume_box[1]->GetTransform().SetScale({ 30, 5 });
 	ObjectManager::GetObjectManager()->AddObject(volume_box[1]);
 	volume_box_hover[1] = new Object();
-	volume_box_hover[1]->AddComponent(new Sprite(volume_box_hover[1], "../Sprite/VolumeBoxHover.png", { 0, 0 }, false));
+	volume_box_hover[1]->AddComponent(new Sprite(volume_box_hover[1], "../Sprite/VolumeBoxHover.png", { 0, -500 }, false));
 	volume_box_hover[1]->GetTransform().SetScale({ 30, 5 });
 	volume_box_hover[1]->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1, 1,1, 0 };
 	ObjectManager::GetObjectManager()->AddObject(volume_box_hover[1]);
-
-	volume_box[2] = new Object();
-	volume_box[2]->AddComponent(new Sprite(volume_box[2], "../Sprite/VolumeBox.png", { 0, -500 }, false));
-	volume_box[2]->GetTransform().SetScale({ 30, 5 });
-	ObjectManager::GetObjectManager()->AddObject(volume_box[2]);
-	volume_box_hover[2] = new Object();
-	volume_box_hover[2]->AddComponent(new Sprite(volume_box_hover[2], "../Sprite/VolumeBoxHover.png", { 0, -500 }, false));
-	volume_box_hover[2]->GetTransform().SetScale({ 30, 5 });
-	volume_box_hover[2]->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1, 1,1, 0 };
-	ObjectManager::GetObjectManager()->AddObject(volume_box_hover[2]);
 }
 
-void Option::MusicVolume()
+void Option::ButtonBehavior()
 {
 	float volume;
-	
-	if (pointer == static_cast<int>(BUTTON::MASTER))
+
+	if (pointer == static_cast<int>(BUTTON::FULLSCREEN))
 	{
-		
-	}
-	else if (pointer == static_cast<int>(BUTTON::MUSIC))
-	{
-		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
+		if (input.Is_Key_Pressed(GLFW_KEY_SPACE))
 		{
-			vector2 icon_translation = music_icon[1]->GetTransform().GetTranslation();
-			volume = sound.GetSoundGroupVolume(true);
-			if (volume >= 1)
-			{
-				return;
-			}
-			SetSoundVolume(0.25, true);
-			music_icon[1]->SetTranslation({ icon_translation.x + 680, icon_translation.y });
-
-			volume_timer = 0;
-		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
-		{
-			vector2 icon_translation = music_icon[1]->GetTransform().GetTranslation();
-			volume = sound.GetSoundGroupVolume(true);
-			if (volume <= 0)
-			{
-				return;
-			}
-
-			SetSoundVolume(-0.25, true);
-			music_icon[1]->SetTranslation({ icon_translation.x - 680, icon_translation.y });
-
+			app->Toggle_Fullscreen();
 			volume_timer = 0;
 		}
 	}
@@ -168,14 +140,13 @@ void Option::MusicVolume()
 	{
 		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
 		{
-			vector2 icon_translation = music_icon[0]->GetTransform().GetTranslation();
-			volume = sound.GetSoundGroupVolume(false);
+			const vector2 icon_translation = music_icon[0]->GetTransform().GetTranslation();
+			volume = sound.GetSoundGroupVolume(true);
 			if (volume >= 1)
 			{
 				return;
 			}
-
-			SetSoundVolume(0.25, false);
+			SetSoundVolume(0.25, true);
 			music_icon[0]->SetTranslation({ icon_translation.x + 680, icon_translation.y });
 
 			volume_timer = 0;
@@ -183,6 +154,37 @@ void Option::MusicVolume()
 		else if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
 		{
 			vector2 icon_translation = music_icon[0]->GetTransform().GetTranslation();
+			volume = sound.GetSoundGroupVolume(true);
+			if (volume <= 0)
+			{
+				return;
+			}
+
+			SetSoundVolume(-0.25, true);
+			music_icon[0]->SetTranslation({ icon_translation.x - 680, icon_translation.y });
+
+			volume_timer = 0;
+		}
+	}
+	else if (pointer == static_cast<int>(BUTTON::MUSIC))
+	{
+		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
+		{
+			vector2 icon_translation = music_icon[1]->GetTransform().GetTranslation();
+			volume = sound.GetSoundGroupVolume(false);
+			if (volume >= 1)
+			{
+				return;
+			}
+
+			SetSoundVolume(0.25, false);
+			music_icon[1]->SetTranslation({ icon_translation.x + 680, icon_translation.y });
+
+			volume_timer = 0;
+		}
+		else if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
+		{
+			vector2 icon_translation = music_icon[1]->GetTransform().GetTranslation();
 			volume = sound.GetSoundGroupVolume(false);
 			if (volume <= 0)
 			{
@@ -190,96 +192,95 @@ void Option::MusicVolume()
 			}
 
 			SetSoundVolume(-0.25, false);
-			music_icon[0]->SetTranslation({ icon_translation.x - 680, icon_translation.y });
+			music_icon[1]->SetTranslation({ icon_translation.x - 680, icon_translation.y });
 
 			volume_timer = 0;
 		}
 	}
-	else if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::BACK))
+	else if (pointer == static_cast<int>(BUTTON::BACK) && state_manager->GetPrevState()->GetStateInfo() == GameState::Menu)
 	{
-		pointer = static_cast<int>(BUTTON::MASTER);
-		sound.Play(SOUND::Click);
-		is_next = true;
-		next_level = "Menu";
-		
-		Clear(); 
-	}
+		if (input.Is_Key_Pressed(GLFW_KEY_SPACE))
+		{
+			pointer = static_cast<int>(BUTTON::MUSIC);
+			sound.Play(SOUND::Click);
+			is_next = true;
+			next_level = "Menu";
+			Clear();
+		}
 
+	}
+	else if (pointer == static_cast<int>(BUTTON::BACK) && state_manager->GetPrevState()->GetStateInfo() == GameState::Game)
+	{
+		if (input.Is_Key_Pressed(GLFW_KEY_SPACE))
+		{
+			pointer = static_cast<int>(BUTTON::MUSIC);
+			sound.Play(SOUND::Click);
+			state_manager->BackToLevel();
+			Clear();
+		}
+
+	}
 }
 
 void Option::SetMuteButton()
 {
 	mute_button[0] = new Object();
-	mute_button[0]->AddComponent(new Sprite(mute_button[0], "../Sprite/Mute.png", { 1600, 600 }, false));
+	mute_button[0]->AddComponent(new Sprite(mute_button[0], "../Sprite/Mute.png", { 1600, 100 }, false));
 	mute_button[0]->GetTransform().SetScale({ 1, 1 });
 	ObjectManager::GetObjectManager()->AddObject(mute_button[0]);
 	unmute_button[0] = new Object();
-	unmute_button[0]->AddComponent(new Sprite(unmute_button[0], "../Sprite/Unmute.png", { 1600, 600 }, false));
+	unmute_button[0]->AddComponent(new Sprite(unmute_button[0], "../Sprite/Unmute.png", { 1600, 100 }, false));
 	unmute_button[0]->GetTransform().SetScale({ 1, 1 });
 	unmute_button[0]->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
 	ObjectManager::GetObjectManager()->AddObject(unmute_button[0]);
 
 	mute_button[1] = new Object();
-	mute_button[1]->AddComponent(new Sprite(mute_button[1], "../Sprite/Mute.png", { 1600, 100 }, false));
+	mute_button[1]->AddComponent(new Sprite(mute_button[1], "../Sprite/Mute.png", { 1600, -400 }, false));
 	mute_button[1]->GetTransform().SetScale({ 1, 1 });
 	ObjectManager::GetObjectManager()->AddObject(mute_button[1]);
 	unmute_button[1] = new Object();
-	unmute_button[1]->AddComponent(new Sprite(unmute_button[1], "../Sprite/Unmute.png", { 1600, 100 }, false));
+	unmute_button[1]->AddComponent(new Sprite(unmute_button[1], "../Sprite/Unmute.png", { 1600, -400 }, false));
 	unmute_button[1]->GetTransform().SetScale({ 1, 1 });
 	unmute_button[1]->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
 	ObjectManager::GetObjectManager()->AddObject(unmute_button[1]);
-
-	mute_button[2] = new Object();
-	mute_button[2]->AddComponent(new Sprite(mute_button[2], "../Sprite/Mute.png", { 1600, -400 }, false));
-	mute_button[2]->GetTransform().SetScale({ 1, 1 });
-	ObjectManager::GetObjectManager()->AddObject(mute_button[2]);
-	unmute_button[2] = new Object();
-	unmute_button[2]->AddComponent(new Sprite(unmute_button[2], "../Sprite/Unmute.png", { 1600, -400 }, false));
-	unmute_button[2]->GetTransform().SetScale({ 1, 1 });
-	unmute_button[2]->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
-	ObjectManager::GetObjectManager()->AddObject(unmute_button[2]);
 }
 
 void Option::Mute()
 {
 	float bgm_volume = sound.GetSoundGroupVolume(true);
 	float sfx_volume = sound.GetSoundGroupVolume(false);
-	
+
 	if (bgm_volume <= 0)
+	{
+		ObjectHover(unmute_button[0], mute_button[0]);
+	}
+	else if (bgm_volume > 0)
+	{
+		ObjectHover(mute_button[0], unmute_button[0]);
+	}
+
+	if (sfx_volume <= 0)
 	{
 		ObjectHover(unmute_button[1], mute_button[1]);
 	}
-	else if(bgm_volume > 0)
+	else if (sfx_volume > 0)
 	{
 		ObjectHover(mute_button[1], unmute_button[1]);
 	}
-	
-	if (sfx_volume <= 0)
-	{
-		ObjectHover(unmute_button[2], mute_button[2]);
-	}
-	else if(sfx_volume > 0)
-	{
-		ObjectHover(mute_button[2], unmute_button[2]);
-	}
 }
 
-void Option::SetInfoText()
+void Option::SetFullScreenButton()
 {
-	info_text[0] = new Object();
-	info_text[0]->AddComponent(new Sprite(info_text[0], "../Sprite/Master.png", { -1300, 800 }, false));
-	info_text[0]->GetTransform().SetScale({ 3, 3 });
-	ObjectManager::GetObjectManager()->AddObject(info_text[0]);
+	full_screen_button = new Object();
+	full_screen_button->AddComponent(new Sprite(full_screen_button, "../Sprite/FullScreenButton.png", { 0, 800 }, false));
+	full_screen_button->GetTransform().SetScale({ 5, 5 });
+	full_screen_button->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
+	ObjectManager::GetObjectManager()->AddObject(full_screen_button);
 
-	info_text[1] = new Object();
-	info_text[1]->AddComponent(new Sprite(info_text[1], "../Sprite/Music.png", { -1300, 300 }, false));
-	info_text[1]->GetTransform().SetScale({ 3, 3 });
-	ObjectManager::GetObjectManager()->AddObject(info_text[1]);
-
-	info_text[2] = new Object();
-	info_text[2]->AddComponent(new Sprite(info_text[2], "../Sprite/SFX.png", { -1300, -200 }, false));
-	info_text[2]->GetTransform().SetScale({ 3, 3 });
-	ObjectManager::GetObjectManager()->AddObject(info_text[2]);
+	full_screen_button_hover = new Object();
+	full_screen_button_hover->AddComponent(new Sprite(full_screen_button_hover, "../Sprite/FullScreenButtonHover.png", { 0, 800 }, false));
+	full_screen_button_hover->GetTransform().SetScale({ 5, 5 });
+	ObjectManager::GetObjectManager()->AddObject(full_screen_button_hover);
 }
 
 void Option::SetBackButton()
@@ -301,37 +302,43 @@ void Option::ButtonSelector()
 	if (input.Is_Key_Pressed(GLFW_KEY_DOWN) && pointer <= static_cast<int>(BUTTON::BACK))
 	{
 		pointer++;
-
-		if (pointer == static_cast<int>(BUTTON::MASTER))
+		if(pointer == static_cast<int>(BUTTON::FULLSCREEN))
+		{
+			ObjectHover(full_screen_button, full_screen_button_hover);
+		}
+		if (pointer == static_cast<int>(BUTTON::SFX))
 		{
 			ObjectHover(volume_box[0], volume_box_hover[0]);
+			ObjectHover(full_screen_button_hover, full_screen_button);
 		}
 		else if (pointer == static_cast<int>(BUTTON::MUSIC))
 		{
 			ObjectHover(volume_box[1], volume_box_hover[1]);
 			ObjectHover(volume_box_hover[0], volume_box[0]);
 		}
-		else if (pointer == static_cast<int>(BUTTON::SFX))
-		{
-			ObjectHover(volume_box[2], volume_box_hover[2]);
-			ObjectHover(volume_box_hover[1], volume_box[1]);
-		}
 		else if (pointer == static_cast<int>(BUTTON::BACK))
 		{
 			ObjectHover(back_button, back_button_hover);
-			ObjectHover(volume_box_hover[2], volume_box[2]);
+			ObjectHover(volume_box_hover[1], volume_box[1]);
 		}
-		else if (pointer > 3)
+
+		if (pointer > 3)
 		{
 			pointer = 3;
 		}
+
 		button_timer = 0;
 	}
-	else if (input.Is_Key_Pressed(GLFW_KEY_UP) && pointer >= static_cast<int>(BUTTON::MASTER))
+	else if (input.Is_Key_Pressed(GLFW_KEY_UP) && pointer >= static_cast<int>(BUTTON::SFX))
 	{
 		pointer--;
 
-		if (pointer == static_cast<int>(BUTTON::MASTER))
+		if(pointer == static_cast<int>(BUTTON::FULLSCREEN))
+		{
+			ObjectHover(full_screen_button, full_screen_button_hover);
+			ObjectHover(volume_box_hover[0], volume_box[0]);
+		}
+		else if (pointer == static_cast<int>(BUTTON::SFX))
 		{
 			ObjectHover(volume_box[0], volume_box_hover[0]);
 			ObjectHover(volume_box_hover[1], volume_box[1]);
@@ -339,35 +346,32 @@ void Option::ButtonSelector()
 		else if (pointer == static_cast<int>(BUTTON::MUSIC))
 		{
 			ObjectHover(volume_box[1], volume_box_hover[1]);
-			ObjectHover(volume_box_hover[2], volume_box[2]);
-		}
-		else if (pointer == static_cast<int>(BUTTON::SFX))
-		{
-			ObjectHover(volume_box[2], volume_box_hover[2]);
 			ObjectHover(back_button_hover, back_button);
 		}
 		else if (pointer == static_cast<int>(BUTTON::BACK))
 		{
 			ObjectHover(back_button, back_button_hover);
 		}
-		else if (pointer < 0)
+
+		if (pointer < 0)
 		{
 			pointer = 0;
 		}
+
 		button_timer = 0;
 	}
 }
 
-void Option::SetSoundVolume(float value, bool BGM)
+void Option::SetSoundVolume(float value, bool isBGM)
 {
 	float volume;
-	
-	if (BGM == true)
+
+	if (isBGM == true)
 	{
 		volume = sound.GetSoundGroupVolume(true);
 		sound.SetSoundGroupVolume(true, volume + value);
 	}
-	else if(BGM == false)
+	else if (isBGM == false)
 	{
 		volume = sound.GetSoundGroupVolume(false);
 		sound.SetSoundGroupVolume(false, volume + value);

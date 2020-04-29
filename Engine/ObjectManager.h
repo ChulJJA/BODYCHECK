@@ -29,7 +29,7 @@ public:
     void AddObject(Object* obj);
 	void Add_Object_Instancing(Object* obj);
     void DeleteObject(std::shared_ptr<Object> obj);
-
+    void DivideObjectByState();
     std::vector<Object*> Find_Objects_By_Tag(std::string tag);
     Object* Find_Object_By_Name(std::string name);
 
@@ -45,9 +45,11 @@ public:
 	void Instancing_Update(float dt);
     void ObjectCollision();
     void ArenaCollision();
+    void DivideObjectByStateOnce();
 private:
     static ObjectManager* object_manager;
     std::vector<std::shared_ptr<Object>> objects{};
 	std::vector<std::shared_ptr<Object>> objects_instancing{};
     std::vector<std::shared_ptr<Object>> delete_obj{};
+    std::vector<std::shared_ptr<Object>> objects_by_state;
 };

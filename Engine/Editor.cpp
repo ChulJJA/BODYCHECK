@@ -44,6 +44,7 @@ void Editor::Init()
 	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item/magnet.png", { 0.f,0.f }), "magnatic", false);
 	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item/time_pause.png", { 0.f,0.f }), "time_pause", false);
 	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item/reverse_moving.png", { 0.f,0.f }), "reverse_moving", false);
+	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item/mine.png", { 0.f,0.f }), "mine", false);
 	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item/Item.png", { 0.f,0.f }), "missile", false);
 	mouse_pointer->AddComponent(new Sprite(mouse_pointer, "../Sprite/Item/mine.png", { 0.f,0.f }), "mine", false);
 	mouse_pointer->Set_Current_Sprite(mouse_pointer->Find_Sprite_By_Name("display"));

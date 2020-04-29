@@ -11,63 +11,91 @@
 
 #include "StateManager.h"
 #include <iostream>
+#include "ObjectManager.h"
 
 StateManager* StateManager::state_manager = nullptr;
 
 StateManager* StateManager::GetStateManager()
 {
-    if (state_manager == nullptr)
-        state_manager = new StateManager();
+	if (state_manager == nullptr)
+		state_manager = new StateManager();
 
-    return state_manager;
+	return state_manager;
 }
 
 void StateManager::Init()
 {
-    current_state = nullptr;
-    states.clear();
+	current_state = nullptr;
+	states.clear();
 }
 
 void StateManager::Update(float dt)
 {
-    if (is_pause)
-    {
-        current_state->Update(dt);
+	if(!current_state->is_pause)
+	{
+		current_state->Update(dt);
 
-        if (current_state->IsNextLevel())
-        {
-            std::string temp_name = current_state->GetNextLevelName();
-            current_state->UnLoad();
-            current_state = states.find(temp_name)->second.get();
-            current_state->Load();
-        }
-    }
-    else
-    {
-    }
+		if (current_state->IsNextLevel())
+		{
+			prev_state = current_state;
+			std::string temp_name = current_state->GetNextLevelName();
+			current_state->UnLoad();
+			current_state = states.find(temp_name)->second.get();
+			if(current_state->is_pause)
+			{
+				current_state->is_pause = false;
+			}
+			else
+			{
+				current_state->Load();
+			}
+		}
+	}
+	else if(current_state->is_pause)
+	{
+		LeaveState(dt);
+	}
 }
 
 void StateManager::Delete()
 {
-    current_state = nullptr;
-    states.clear();
+	current_state = nullptr;
+	states.clear();
 }
 
 void StateManager::AddState(std::string name, State* state)
 {
-    auto temp = std::make_pair(name, state);
+	auto temp = std::make_pair(name, state);
 
-    if (current_state == nullptr)
-    {
-        if (state->GetStateInfo() == GameState::Logo)
-        {
-            current_state = state;
-            current_state->Load();
-        }
-    }
-    states.insert(temp);
+	if (current_state == nullptr)
+	{
+		if (state->GetStateInfo() == GameState::Logo)
+		{
+			current_state = state;
+			current_state->Load();
+		}
+	}
+	states.insert(temp);
 }
 
 void StateManager::DeleteState(std::shared_ptr<State> state)
 {
+}
+
+void StateManager::LeaveState(float dt)
+{
+	prev_state = current_state;
+	std::string stateName = "Option";
+	current_state = states.find(stateName)->second.get();
+	current_state->Load();
+	//current_state->is_pause = false;
+}
+
+void StateManager::BackToLevel()
+{
+	prev_state = current_state;
+	current_state->UnLoad();
+	std::string stateName = "Level1";
+	current_state = states.find(stateName)->second.get();
+	current_state->is_pause = false;
 }

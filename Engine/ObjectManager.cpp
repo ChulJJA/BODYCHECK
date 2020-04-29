@@ -34,37 +34,61 @@ void ObjectManager::Init()
 
 void ObjectManager::Update(float dt)
 {
-    if (StateManager::GetStateManager()->is_pause)//
-    {
-        delete_obj.clear();
-
-        for (auto& obj : objects)
+	if(StateManager::GetStateManager()->GetPrevState() != nullptr)
+	{
+        if (!StateManager::GetStateManager()->GetPrevState()->is_pause)//
         {
-            if (obj->Get_Need_To_Update())
+            delete_obj.clear();
+
+            for (auto& obj : objects)
             {
-                for (auto component : obj->GetComponentContainer())
+                if (obj->Get_Need_To_Update())
                 {
-                	if(component->Get_Need_Update())
-                	{
-						component->Update(dt);
-                	}
+                    obj->object_state = StateManager::GetStateManager()->GetCurrentState()->GetStateInfo();
+                    for (auto component : obj->GetComponentContainer())
+                    {
+                        if (component->Get_Need_Update())
+                        {
+                            component->Update(dt);
+                        }
+                    }
+                }
+                if (obj->IsDead())
+                {
+                    delete_obj.push_back(obj);
+                }
+
+            }
+            for (auto& remove_obj : delete_obj)
+            {
+                DeleteObject(remove_obj);
+                remove_obj = nullptr;
+            }
+        }
+        else if (StateManager::GetStateManager()->GetPrevState()->is_pause)
+        {
+            delete_obj.clear();
+
+            for (auto& obj : objects)
+            {
+                if (obj->Get_Need_To_Update() && obj->object_state != GameState::Game)
+                {
+                    for (auto component : obj->GetComponentContainer())
+                    {
+                        if (component->Get_Need_Update())
+                        {
+                            component->Update(dt);
+                        }
+                    }
+                }
+                if (obj->IsDead())
+                {
+                    delete_obj.push_back(obj);
                 }
             }
-            if (obj->IsDead())
-            {
-				delete_obj.push_back(obj);
-            }
-                
         }
-        for (auto& remove_obj : delete_obj)
-        {
-            DeleteObject(remove_obj);
-			remove_obj = nullptr;
-        }
-    }
-    else
-    {
-    }
+	}
+    
     ObjectCollision();
 }
 
@@ -105,6 +129,7 @@ void ObjectManager::DeleteObject(std::shared_ptr<Object> obj)
      objects.erase(std::find(objects.begin(), objects.end(), obj));
 	
 }
+
 
 std::vector<Object*> ObjectManager::Find_Objects_By_Tag(std::string tag)
 {

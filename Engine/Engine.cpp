@@ -121,7 +121,7 @@ void Engine::Update()
 	
     /*if (input.Is_Key_Triggered(GLFW_KEY_1))
     {
-        state_manager->is_pause = !state_manager->is_pause;
+        state_manager->GetCurrentState()->is_pause = !state_manager->GetCurrentState()->is_pause;
     }
     if (input.Is_Key_Triggered(GLFW_KEY_N))
     {
