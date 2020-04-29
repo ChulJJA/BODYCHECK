@@ -129,6 +129,7 @@ void Referee::Update(float dt)
 		Respawn_Item(dt);
 	}
 
+
 	Win();
 
 }
@@ -489,7 +490,7 @@ void Referee::SetPlayerTemp()
 	}
 	for (int i = 0; i < player_fourth_life; i++)
 	{
-		player_fourth_temp[i] = Make_Player_Pool("pen_normal2", { -400,-400 }, "forth", "save", fourth_text);
+		player_fourth_temp[i] = Make_Player_Pool("pen_normal2", { -400,-400 }, "fourth", "save", fourth_text);
 	}
 }
 
@@ -552,17 +553,17 @@ void Referee::Win()
 			ObjectManager::GetObjectManager()->AddObject(fourth_win);
 			win = true;
 		}
-		else if (player_first_life == -1 && player_sec_life == -1 && player_fourth_life == -1)
+		if (player_first_life == -1 && player_sec_life == -1 && player_fourth_life == -1)
 		{
 			ObjectManager::GetObjectManager()->AddObject(third_win);
 			win = true;
 		}
-		else if (player_first_life == -1 && player_third_life == -1 && player_fourth_life == -1)
+		if (player_first_life == -1 && player_third_life == -1 && player_fourth_life == -1)
 		{
 			ObjectManager::GetObjectManager()->AddObject(second_win);
 			win = true;
 		}
-		else if (player_sec_life == -1 && player_third_life == -1 && player_fourth_life == -1)
+		if (player_sec_life == -1 && player_third_life == -1 && player_fourth_life == -1)
 		{
 			ObjectManager::GetObjectManager()->AddObject(first_win);
 			win = true;
