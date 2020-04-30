@@ -59,6 +59,8 @@ void Hp_Bar::Decrease(float dmg)
 
 		if (hp_scale.x <= 0)
 		{
+			Graphic::GetGraphic()->Get_View().Active_Screen_Shake(30.f);
+
 			if (hitting_obj != nullptr)
 			{
 				hitting_obj->GetTransform().GetScale_Reference() += {0.7f, 0.7f};
@@ -79,8 +81,10 @@ void Hp_Bar::Decrease(float dmg)
 				{
 					Message_Manager::Get_Message_Manager()->Save_Message(new Message(
 						audience, nullptr, Message_Kind::Audience_Blue_Joy, 3.f));
+					//Message_Manager::Get_Message_Manager()->Save_Message(new Message(Referee::Get_Referee()->Get_Third_Kill(), 
+						//nullptr, Message_Kind::));
 				}
-				else if (hitting_obj->GetName() == "forth")
+				else if (hitting_obj->GetName() == "fourth")
 				{
 					Message_Manager::Get_Message_Manager()->Save_Message(new Message(
 						audience, nullptr, Message_Kind::Audience_Normal_Joy, 3.f));

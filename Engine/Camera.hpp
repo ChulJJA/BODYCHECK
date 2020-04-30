@@ -21,7 +21,7 @@ public:
     constexpr Camera() noexcept = default;
     Camera(vector2 camera_center, vector2 camera_up) noexcept;
 
-    vector2 GetCenter() const noexcept { return center; }
+    vector2& GetCenter() noexcept { return center; }
     void    SetCenter(vector2 camera_center) noexcept { center = camera_center; }
     vector2 GetUp() const noexcept { return up; }
     vector2 GetRight() const noexcept { return right; }

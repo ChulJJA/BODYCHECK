@@ -90,7 +90,6 @@ Referee* Referee::Get_Referee()
 
 void Referee::Init()
 {
-
 	stage_statements.clear();
 	missile_saving = new Object * [missile_num];
 	missile_saving = new Object * [missile_num];
@@ -112,6 +111,8 @@ void Referee::Init()
 	SetPlayerTemp();
 	SetItem();
 	Set_Win_State();
+	Set_Kill_State();
+
 }
 
 void Referee::Update(float dt)
@@ -544,6 +545,50 @@ void Referee::SetItem()
 	}
 }
 
+void Referee::Set_Kill_State()
+{
+	first_kill = new Object;
+	first_kill->Set_Name("kill");
+	first_kill->Set_Tag("kill");
+	first_kill->AddComponent(new Sprite(first_kill, "../sprite/Player/State/green_kill.png", true, 4, 12, { 0.f, 0.f }, { 100.f, 100.f },
+		{ 255,255,255,255 }), "kill");
+	first_kill->SetScale({ 10.f, 5.f });
+	first_kill->SetTranslation({ 1400.f, 600.f });
+	first_kill->Set_Need_To_Update(false);
+
+	second_kill = new Object;
+	second_kill->Set_Name("kill");
+	second_kill->Set_Tag("kill");
+	second_kill->AddComponent(new Sprite(second_kill, "../sprite/Player/State/red_kill.png", true, 4, 12, { 0.f, 0.f }, { 100.f, 100.f },
+		{ 255,255,255,255 }), "kill");
+	second_kill->SetScale({ 10.f, 5.f });
+	second_kill->SetTranslation({ 1400.f, -600.f });
+	second_kill->Set_Need_To_Update(false);
+
+	third_kill = new Object;
+	third_kill->Set_Name("kill");
+	third_kill->Set_Tag("kill");
+	third_kill->AddComponent(new Sprite(third_kill, "../sprite/Player/State/blue_kill.png", true, 4, 12, { 0.f, 0.f }, { 100.f, 100.f },
+		{ 255,255,255,255 }), "kill");
+	third_kill->SetScale({ 10.f, 5.f });
+	third_kill->SetTranslation({ -1400.f, 600.f });
+	third_kill->Set_Need_To_Update(false);
+
+	fourth_kill = new Object;
+	fourth_kill->Set_Name("kill");
+	fourth_kill->Set_Tag("kill");
+	fourth_kill->AddComponent(new Sprite(fourth_kill, "../sprite/Player/State/normal_kill.png", true, 4, 12, { 0.f, 0.f }, { 100.f, 100.f },
+		{ 255,255,255,255 }), "kill");
+	fourth_kill->SetScale({ 10.f, 5.f });
+	fourth_kill->SetTranslation({ -1400.f, -600.f });
+	fourth_kill->Set_Need_To_Update(false);
+
+	ObjectManager::GetObjectManager()->AddObject(first_kill);
+	ObjectManager::GetObjectManager()->AddObject(second_kill);
+	ObjectManager::GetObjectManager()->AddObject(third_kill);
+	ObjectManager::GetObjectManager()->AddObject(fourth_kill);
+}
+
 void Referee::Win()
 {
 	if (win == false)
@@ -569,6 +614,26 @@ void Referee::Win()
 			win = true;
 		}
 	}
+}
+
+Object* Referee::Get_Third_Kill()
+{
+	return third_kill;
+}
+
+Object* Referee::Get_First_Kill()
+{
+	return first_kill;
+}
+
+Object* Referee::Get_Second_Kill()
+{
+	return second_kill;
+}
+
+Object* Referee::Get_Fourth_Kill()
+{
+	return fourth_kill;
 }
 
 Object* Referee::Return_New_Missile()

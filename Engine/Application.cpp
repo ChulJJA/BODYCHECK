@@ -115,7 +115,7 @@ void Application::Update(float dt)
     glfwGetWindowSize(window, &w, &h);
     window_size.width = (float)w;
     window_size.height = (float)h;
-    /*GLFWgamepadstate state;
+    GLFWgamepadstate state;
 
     if (glfwGetGamepadState(GLFW_JOYSTICK_1, &state))
     {
@@ -166,7 +166,7 @@ void Application::Update(float dt)
     if (input.Is_Mouse_Double_Clicked(GLFW_MOUSE_BUTTON_LEFT))
     {
         std::cout << "aaa" << std::endl;
-    }*/
+    }
 }
 
 //

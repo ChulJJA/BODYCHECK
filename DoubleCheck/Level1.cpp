@@ -67,7 +67,7 @@ void Level1::Load()
 	arena = new Object();
 	arena->Set_Name("arena");
 	arena->Set_Tag("arena");
-	arena->AddComponent(new Sprite(arena, "../Sprite/IceGround.png", { 0,-100 }, false), "arena");
+	arena->AddComponent(new Sprite(arena, "../Sprite/IceGround2.png", { 0,-100 }, false), "arena");
 	arena->Set_Current_Sprite(arena->Find_Sprite_By_Name("arena"));
 	arena->SetScale({ 35, 17 });
 

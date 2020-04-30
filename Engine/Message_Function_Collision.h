@@ -2,6 +2,7 @@
 
 #include "Message_Function_Base.h"
 #include "Physics.h"
+#include "View.h"
 
 
 class Msg_Func_Collision : public Msg_Func_Base
@@ -9,6 +10,7 @@ class Msg_Func_Collision : public Msg_Func_Base
 public:
 	void Init() override;
 	void Update(float dt) override;
+	
 
 	Msg_Func_Collision(Object* m_from_, Object* m_target_, Message* msg_)
 	{
