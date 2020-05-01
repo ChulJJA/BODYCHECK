@@ -22,18 +22,22 @@
 #include "Windows.h"
 #include <GLFW/glfw3.h>
 #include "UsefulTools.hpp"
+#include "Gamepad.hpp"
 
 
 namespace
 {
     ObjectManager* object_manager = nullptr;
     StateManager* state_manager = nullptr;
+    Gamepad* gamepadManager = nullptr;
 }
 
 void MainMenu::Load()
 {
     state_manager = StateManager::GetStateManager();
     object_manager = ObjectManager::GetObjectManager();
+    gamepadManager = Gamepad::getGamepad();
+
     Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
     Graphic::GetGraphic()->get_need_update_sprite() = true;
 
@@ -134,7 +138,9 @@ void MainMenu::SetTestLevelButton()
 
 void MainMenu::ButtonSelector()
 {
-	if(input.Is_Key_Pressed(GLFW_KEY_DOWN) && pointer <= static_cast<int>(BUTTON::TEST))
+    float LeftThumbStateY = gamepadManager->LeftStick_Y();
+
+	if((input.Is_Key_Pressed(GLFW_KEY_DOWN) || (LeftThumbStateY < 0)) && pointer <= static_cast<int>(BUTTON::TEST))
 	{
         pointer++;
 		
@@ -163,7 +169,7 @@ void MainMenu::ButtonSelector()
         }
         button_timer = 0;
 	}
-    else if(input.Is_Key_Pressed(GLFW_KEY_UP) && pointer >= static_cast<int>(BUTTON::START))
+    else if((input.Is_Key_Pressed(GLFW_KEY_UP) || LeftThumbStateY > 0)&& pointer >= static_cast<int>(BUTTON::START))
     {
         pointer--;
     	
@@ -193,7 +199,7 @@ void MainMenu::ButtonSelector()
         button_timer = 0;
     }
 
-	if(input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::START))
+	if((input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A))&& pointer == static_cast<int>(BUTTON::START))
 	{
         pointer = static_cast<int>(BUTTON::START);
 		sound.Play(SOUND::Click);
@@ -201,14 +207,14 @@ void MainMenu::ButtonSelector()
         next_level = "Level1";
         Clear();
 	}
-    else if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::TUTORIAL))
+    else if ((input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::TUTORIAL))
     {
         sound.Play(SOUND::Click);
         is_next = true;
             next_level = "Tutorial";
         Clear();
     }
-    else if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::MUSIC))
+    else if ((input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::MUSIC))
     {
         pointer = static_cast<int>(BUTTON::START);
         sound.Play(SOUND::Click);
@@ -216,7 +222,7 @@ void MainMenu::ButtonSelector()
         next_level = "Option";
         Clear();
     }
-    else if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::TEST))
+    else if ((input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::TEST))
     {
         pointer = static_cast<int>(BUTTON::START);
         sound.Play(SOUND::Click);

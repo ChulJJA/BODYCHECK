@@ -84,18 +84,27 @@ void StateManager::DeleteState(std::shared_ptr<State> state)
 
 void StateManager::LeaveState(float dt)
 {
+	std::string stateName;
 	prev_state = current_state;
-	std::string stateName = "Option";
+
+	if(prev_state->GetStateInfo() == GameState::Game)
+	{
+		stateName = "PauseLevel";
+	}
+	else if(prev_state->GetStateInfo() == GameState::PauseLevel)
+	{
+		stateName = "Option";
+	}
 	current_state = states.find(stateName)->second.get();
 	current_state->Load();
-	//current_state->is_pause = false;
 }
 
 void StateManager::BackToLevel()
 {
+	//level_state = states.find("Level1")->second.get();
+	level_state->is_pause = false;
 	prev_state = current_state;
 	current_state->UnLoad();
 	std::string stateName = "Level1";
-	current_state = states.find(stateName)->second.get();
-	current_state->is_pause = false;
+	current_state = level_state;
 }

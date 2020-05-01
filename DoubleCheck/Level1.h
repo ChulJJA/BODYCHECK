@@ -35,7 +35,7 @@ public:
         next_level = {};
         is_next = false;
     }
-    void CallOption();
+    void Pause();
     void Clear();
 	
 private:

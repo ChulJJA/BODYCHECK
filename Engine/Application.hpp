@@ -52,8 +52,6 @@ public:
     void Delete();
     bool IsFullScreen();
     void Toggle_Fullscreen();
-    //void Imgui_Init();
-    //void Imgui_Update();
     void Clear();
     void Save();
     void framebuffer_size_callback(GLFWwindow* window, int width, int height);

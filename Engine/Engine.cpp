@@ -28,7 +28,7 @@
 #include "Option.h"
 #include "Loading_Scene.h"
 #include "Editor.h"
-
+#include "PauseLevel.h"
 
 
 Sound sound;
@@ -43,6 +43,7 @@ namespace
     Graphic* graphic = nullptr;
     Message_Manager* msg_manager = nullptr;
 	Editor* editor = nullptr;
+    Gamepad* gamepadManager = nullptr;
 }
 
 void Update_App(float dt)
@@ -74,6 +75,7 @@ void Engine::Init()
     state_manager = StateManager::GetStateManager();
     graphic = Graphic::GetGraphic();
 	editor = Editor::Get_Editor();
+    gamepadManager = Gamepad::getGamepad();
     
     app_->Init();
     object_manager->Init();
@@ -89,11 +91,14 @@ void Engine::Init()
     state_manager->AddState("Option", new Option);
     state_manager->AddState("TestLevel", new TestLevel);
 	state_manager->AddState("Loading", new Loading_Scene);
+    state_manager->AddState("PauseLevel", new PauseLevel);
+    StateManager::GetStateManager()->level_state = state_manager->Get_States().find("Level1")->second.get();
     game_timer.Reset();
 }
 
 void Engine::Update()
 {
+    gamepadManager->Update();
     m_dt = game_timer.GetElapsedSeconds();
     game_timer.Reset();
 
@@ -129,11 +134,13 @@ void Engine::Update()
         StateManager::GetStateManager()->Get_States().at("Level1").get()->Load();
     }*/
 
+    gamepadManager->Refresh();
 }
 
 void Engine::Delete()
 {
     object_manager->Delete();
+    gamepadManager->Delete();
 }
 
 void Engine::Reset()

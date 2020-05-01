@@ -36,7 +36,7 @@ void ObjectManager::Update(float dt)
 {
 	if(StateManager::GetStateManager()->GetPrevState() != nullptr)
 	{
-        if (!StateManager::GetStateManager()->GetPrevState()->is_pause)//
+        if (!StateManager::GetStateManager()->level_state->is_pause)//
         {
             delete_obj.clear();
 
@@ -65,7 +65,7 @@ void ObjectManager::Update(float dt)
                 remove_obj = nullptr;
             }
         }
-        else if (StateManager::GetStateManager()->GetPrevState()->is_pause)
+        else if (StateManager::GetStateManager()->level_state->is_pause)
         {
             delete_obj.clear();
 
