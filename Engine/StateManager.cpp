@@ -93,6 +93,7 @@ void StateManager::LeaveState(float dt)
 	}
 	else if(prev_state->GetStateInfo() == GameState::PauseLevel)
 	{
+		prev_state->UnLoad();
 		stateName = "Option";
 	}
 	current_state = states.find(stateName)->second.get();
@@ -101,10 +102,8 @@ void StateManager::LeaveState(float dt)
 
 void StateManager::BackToLevel()
 {
-	//level_state = states.find("Level1")->second.get();
 	level_state->is_pause = false;
 	prev_state = current_state;
 	current_state->UnLoad();
-	std::string stateName = "Level1";
 	current_state = level_state;
 }
