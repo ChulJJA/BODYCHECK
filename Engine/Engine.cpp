@@ -43,6 +43,7 @@ namespace
     Graphic* graphic = nullptr;
     Message_Manager* msg_manager = nullptr;
 	Editor* editor = nullptr;
+    Gamepad* gamepadManager = nullptr;
 }
 
 void Update_App(float dt)
@@ -74,6 +75,7 @@ void Engine::Init()
     state_manager = StateManager::GetStateManager();
     graphic = Graphic::GetGraphic();
 	editor = Editor::Get_Editor();
+    gamepadManager = Gamepad::getGamepad();
     
     app_->Init();
     object_manager->Init();
@@ -94,6 +96,7 @@ void Engine::Init()
 
 void Engine::Update()
 {
+    gamepadManager->Update();
     m_dt = game_timer.GetElapsedSeconds();
     game_timer.Reset();
 
@@ -129,11 +132,13 @@ void Engine::Update()
         StateManager::GetStateManager()->Get_States().at("Level1").get()->Load();
     }*/
 
+    gamepadManager->Refresh();
 }
 
 void Engine::Delete()
 {
     object_manager->Delete();
+    gamepadManager->Delete();
 }
 
 void Engine::Reset()

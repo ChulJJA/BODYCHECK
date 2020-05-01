@@ -26,6 +26,17 @@ XInput_ButtonIDs::XInput_ButtonIDs()
 	Back = 13;
 
 }
+
+Gamepad* Gamepad::gamepadManager = nullptr;
+
+Gamepad* Gamepad::getGamepad()
+{
+	if (gamepadManager == nullptr)
+		gamepadManager = new Gamepad(1);
+
+	return gamepadManager;
+}
+
 Gamepad::Gamepad(){}
 
 Gamepad::Gamepad(int controllerNumber)
@@ -53,6 +64,12 @@ void Gamepad::Update()
 void Gamepad::Refresh()
 {
 	memcpy(Prev_ButtonStates, ButtonStates, sizeof(Prev_ButtonStates));
+}
+
+void Gamepad::Delete()
+{
+	delete gamepadManager;
+	gamepadManager = nullptr;
 }
 
 bool Gamepad::LStick_InDeadzone()

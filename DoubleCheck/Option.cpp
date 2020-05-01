@@ -23,16 +23,19 @@
 #include "Option.h"
 #include "UsefulTools.hpp"
 #include "StateManager.h"
+#include "Gamepad.hpp"
 namespace
 {
 	ObjectManager* object_manager = nullptr;
 	StateManager* state_manager = nullptr;
+	Gamepad* gamepadManager = nullptr;
 }
 
 void Option::Load()
 {
 	state_manager = StateManager::GetStateManager();
 	object_manager = ObjectManager::GetObjectManager();
+	gamepadManager = Gamepad::getGamepad();
 	Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 	Graphic::GetGraphic()->get_need_update_sprite() = true;
 
@@ -146,6 +149,7 @@ void Option::MusicVolume()
 {
 	float volume;
 	State* lev_state;
+	float LeftThumbStateX = gamepadManager->LeftStick_X();
 
 	if (pointer == static_cast<int>(BUTTON::MASTER))
 	{
@@ -153,7 +157,7 @@ void Option::MusicVolume()
 	}
 	else if (pointer == static_cast<int>(BUTTON::MUSIC))
 	{
-		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
+		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT) || LeftThumbStateX > 0)
 		{
 			vector2 icon_translation = music_icon[1]->GetTransform().GetTranslation();
 			volume = sound.GetSoundGroupVolume(true);
@@ -166,7 +170,7 @@ void Option::MusicVolume()
 
 			volume_timer = 0;
 		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
+		else if (input.Is_Key_Pressed(GLFW_KEY_LEFT) || LeftThumbStateX < 0)
 		{
 			vector2 icon_translation = music_icon[1]->GetTransform().GetTranslation();
 			volume = sound.GetSoundGroupVolume(true);
@@ -183,7 +187,7 @@ void Option::MusicVolume()
 	}
 	else if (pointer == static_cast<int>(BUTTON::SFX))
 	{
-		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
+		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT) || LeftThumbStateX > 0)
 		{
 			vector2 icon_translation = music_icon[0]->GetTransform().GetTranslation();
 			volume = sound.GetSoundGroupVolume(false);
@@ -197,7 +201,7 @@ void Option::MusicVolume()
 
 			volume_timer = 0;
 		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
+		else if (input.Is_Key_Pressed(GLFW_KEY_LEFT) || LeftThumbStateX < 0)
 		{
 			vector2 icon_translation = music_icon[0]->GetTransform().GetTranslation();
 			volume = sound.GetSoundGroupVolume(false);
@@ -212,7 +216,7 @@ void Option::MusicVolume()
 			volume_timer = 0;
 		}
 	}
-	else if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::BACK) && state_manager->GetPrevState()->GetStateInfo() == GameState::Menu)
+	else if ((input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::BACK) && state_manager->GetPrevState()->GetStateInfo() == GameState::Menu)
 	{
 		pointer = static_cast<int>(BUTTON::MASTER);
 		sound.Play(SOUND::Click);
@@ -220,7 +224,7 @@ void Option::MusicVolume()
 		next_level = "Menu";
 		Clear();
 	}
-	else if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && pointer == static_cast<int>(BUTTON::BACK) && state_manager->GetPrevState()->GetStateInfo() == GameState::Game)
+	else if ((input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::BACK) && state_manager->GetPrevState()->GetStateInfo() == GameState::Game)
 	{
 		pointer = static_cast<int>(BUTTON::MASTER);
 		sound.Play(SOUND::Click);
@@ -316,7 +320,9 @@ void Option::SetBackButton()
 
 void Option::ButtonSelector()
 {
-	if (input.Is_Key_Pressed(GLFW_KEY_DOWN) && pointer <= static_cast<int>(BUTTON::BACK))
+	float LeftThumbStateY = gamepadManager->LeftStick_Y();
+
+	if ((input.Is_Key_Pressed(GLFW_KEY_DOWN) || LeftThumbStateY < 0)&& pointer <= static_cast<int>(BUTTON::BACK))
 	{
 		pointer++;
 
@@ -345,7 +351,7 @@ void Option::ButtonSelector()
 		}
 		button_timer = 0;
 	}
-	else if (input.Is_Key_Pressed(GLFW_KEY_UP) && pointer >= static_cast<int>(BUTTON::MASTER))
+	else if ((input.Is_Key_Pressed(GLFW_KEY_UP) || LeftThumbStateY > 0)&& pointer >= static_cast<int>(BUTTON::MASTER))
 	{
 		pointer--;
 
