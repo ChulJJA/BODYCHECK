@@ -50,6 +50,8 @@ public:
     Object* Get_Second_Kill();
     Object* Get_Fourth_Kill();
 
+    void Set_Random_Pos(vector2& pos);
+
 	int Get_Missile_Count()
 	{
 		return missile_count;

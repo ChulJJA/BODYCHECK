@@ -506,42 +506,53 @@ void Referee::SetItem()
 	item_reverse_moving = new Object * [item_num]();
 	item_missile = new Object * [item_num]();
 	item_mine = new Object * [item_num]();
-
+	
+	vector2 rand_pos;
+	
 	for (int i = 0; i < item_num; i++)
 	{
-		item_dash[i] = Make_Item_Pool("../Sprite/Item/item.png", { 0,0 }, "item", "item", Item::Item_Kind::Dash);
+		Set_Random_Pos(rand_pos);
+		item_dash[i] = Make_Item_Pool("../Sprite/Item/item.png", rand_pos, "item", "item", Item::Item_Kind::Dash);
 	}
 	for (int i = 0; i < item_num; i++)
 	{
-		item_heal[i] = Make_Item_Pool("../Sprite/Item/item.png", { -400,0 }, "item", "item", Item::Item_Kind::HP);
+		Set_Random_Pos(rand_pos);
+		item_heal[i] = Make_Item_Pool("../Sprite/Item/item.png", rand_pos, "item", "item", Item::Item_Kind::HP);
 	}
 	for (int i = 0; i < item_num; i++)
 	{
-		item_bulk_up[i] = Make_Item_Pool("../Sprite/Item/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Bulkup);
+		Set_Random_Pos(rand_pos);
+		item_bulk_up[i] = Make_Item_Pool("../Sprite/Item/item.png", rand_pos, "item", "item", Item::Item_Kind::Bulkup);
 	}
 	for (int i = 0; i < item_num; i++)
 	{
-		item_throwing[i] = Make_Item_Pool("../Sprite/Item/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Throwing);
+		Set_Random_Pos(rand_pos);
+		item_throwing[i] = Make_Item_Pool("../Sprite/Item/item.png", rand_pos, "item", "item", Item::Item_Kind::Throwing);
 	}
 	for (int i = 0; i < item_num; i++)
 	{
-		item_magnetic[i] = Make_Item_Pool("../Sprite/Item/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Magnatic);
+		Set_Random_Pos(rand_pos);
+		item_magnetic[i] = Make_Item_Pool("../Sprite/Item/item.png", rand_pos, "item", "item", Item::Item_Kind::Magnatic);
 	}
 	for (int i = 0; i < item_num; i++)
 	{
-		item_time_pause[i] = Make_Item_Pool("../Sprite/Item/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Time_Pause);
+		Set_Random_Pos(rand_pos);
+		item_time_pause[i] = Make_Item_Pool("../Sprite/Item/item.png", rand_pos, "item", "item", Item::Item_Kind::Time_Pause);
 	}
 	for (int i = 0; i < item_num; i++)
 	{
-		item_reverse_moving[i] = Make_Item_Pool("../Sprite/Item/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Reverse_Moving);
+		Set_Random_Pos(rand_pos);
+		item_reverse_moving[i] = Make_Item_Pool("../Sprite/Item/item.png", rand_pos, "item", "item", Item::Item_Kind::Reverse_Moving);
 	}
 	for (int i = 0; i < item_num; i++)
 	{
-		item_missile[i] = Make_Item_Pool("../Sprite/Item/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Missile);
+		Set_Random_Pos(rand_pos);
+		item_missile[i] = Make_Item_Pool("../Sprite/Item/item.png", rand_pos, "item", "item", Item::Item_Kind::Missile);
 	}
 	for (int i = 0; i < item_num; i++)
 	{
-		item_mine[i] = Make_Item_Pool("../Sprite/Item/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Mine);
+		Set_Random_Pos(rand_pos);
+		item_mine[i] = Make_Item_Pool("../Sprite/Item/item.png", rand_pos, "item", "item", Item::Item_Kind::Mine);
 	}
 }
 
@@ -634,6 +645,18 @@ Object* Referee::Get_Second_Kill()
 Object* Referee::Get_Fourth_Kill()
 {
 	return fourth_kill;
+}
+
+void Referee::Set_Random_Pos(vector2& pos)
+{
+	int rand_x = RandomNumberGenerator(0, 2400);
+	int rand_y = RandomNumberGenerator(0, 1400);
+
+	rand_x -= 1200;
+	rand_y -= 800;
+
+	pos.x = static_cast<int>(rand_x);
+	pos.y = static_cast<int>(rand_y);
 }
 
 Object* Referee::Return_New_Missile()
