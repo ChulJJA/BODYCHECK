@@ -37,11 +37,15 @@ struct XInput_ButtonIDs
 class Gamepad
 {
 public:
+	static Gamepad* getGamepad();
+
 	Gamepad();
 	Gamepad(int controllerNumber);
 
     void Update();
 	void Refresh();
+
+	void Delete();
 
 	bool LStick_InDeadzone();
 	bool RStick_InDeadzone();
@@ -66,6 +70,7 @@ public:
 	
 
 private:
+	static Gamepad* gamepadManager;
 	XINPUT_STATE m_State;
 	int m_GamepadID;
 
