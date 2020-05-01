@@ -209,7 +209,7 @@ void Option::ButtonBehavior()
 		}
 
 	}
-	else if (pointer == static_cast<int>(BUTTON::BACK) && state_manager->GetPrevState()->GetStateInfo() == GameState::Game)
+	else if (pointer == static_cast<int>(BUTTON::BACK) && state_manager->GetPrevState()->GetStateInfo() == GameState::PauseLevel)
 	{
 		if (input.Is_Key_Pressed(GLFW_KEY_SPACE))
 		{

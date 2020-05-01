@@ -40,6 +40,7 @@ public:
     void LeaveState(float dt);
     void BackToLevel();
     void BackToMenu();
+    State* level_state = nullptr;
 private:
     static StateManager* state_manager;
     std::unordered_map<std::string, std::shared_ptr<State>> states;

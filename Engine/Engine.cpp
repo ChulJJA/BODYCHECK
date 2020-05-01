@@ -28,7 +28,7 @@
 #include "Option.h"
 #include "Loading_Scene.h"
 #include "Editor.h"
-
+#include "PauseLevel.h"
 
 
 Sound sound;
@@ -89,6 +89,8 @@ void Engine::Init()
     state_manager->AddState("Option", new Option);
     state_manager->AddState("TestLevel", new TestLevel);
 	state_manager->AddState("Loading", new Loading_Scene);
+    state_manager->AddState("PauseLevel", new PauseLevel);
+    StateManager::GetStateManager()->level_state = state_manager->Get_States().find("Level1")->second.get();
     game_timer.Reset();
 }
 
