@@ -41,6 +41,7 @@ enum class Sprite_Type
 	
 	
 	Item,
+	Item_Eateffect,
 	Item_Dash,
 	Item_Bulkup,
 	Item_Heal,
@@ -65,6 +66,13 @@ enum class Sprite_Type
     Audience_Blue_Good,
     Audience_Normal_Good,
     Audience_Green_Good,
+
+    Num_0,
+	Num_1,
+	Num_2,
+    Num_3,
+    Num_4,
+    Num_5,
 };
 
 

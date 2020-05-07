@@ -76,6 +76,11 @@ public:
 		should_delete = toggle;
 	}
 
+	float Get_Timer()
+	{
+		return timer;
+	}
+
 	Message_Func* Get_Func()
 	{
 		return func;

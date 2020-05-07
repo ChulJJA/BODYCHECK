@@ -28,10 +28,6 @@ void Msg_Func_Wall_Collision::Update(float dt)
 
 				target_hp_bar->GetComponentByTemplate<Hp_Bar>()->Decrease(damage_to_target / 200);
 
-				m_target->Get_Dmg_Text()->GetComponentByTemplate<TextComp>()->GetText().SetString(L"-" + std::to_wstring(static_cast<int>(damage_to_target)));
-				m_target->Get_Dmg_Text()->GetComponentByTemplate<TextComp>()->Get_Timer() = 1.f;
-				m_target->Get_Dmg_Text()->GetTransform().GetTranslation_Reference().x = m_target->GetTransform().GetTranslation().x;
-				m_target->Get_Dmg_Text()->GetTransform().GetTranslation_Reference().y = m_target->GetTransform().GetTranslation().y;
 			}
 		}
 		

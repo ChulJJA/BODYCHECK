@@ -36,34 +36,10 @@ void View::Update(float dt)
         Graphic::GetGraphic()->get_need_update_sprite() = true;
     }
 
-    /*if (input.Is_Key_Pressed(GLFW_KEY_KP_6))
-    {
-        vector2 new_center = camera.GetCenter();
-        new_center.x += 1.0f;
-        camera.SetCenter(new_center);
-        Graphic::GetGraphic()->get_need_update_sprite() = true;
-    }
-    if (input.Is_Key_Pressed(GLFW_KEY_KP_4))
-    {
-        vector2 new_center = camera.GetCenter();
-        new_center.x -= 1.0f;
-        camera.SetCenter(new_center);
-        Graphic::GetGraphic()->get_need_update_sprite() = true;
-    }
-    if (input.Is_Key_Pressed(GLFW_KEY_KP_2))
-    {
-        vector2 new_center = camera.GetCenter();
-        new_center.y -= 1.0f;
-        camera.SetCenter(new_center);
-        Graphic::GetGraphic()->get_need_update_sprite() = true;
-    }
-    if (input.Is_Key_Pressed(GLFW_KEY_KP_8))
-    {
-        vector2 new_center = camera.GetCenter();
-        new_center.y += 1.0f;
-        camera.SetCenter(new_center);
-        Graphic::GetGraphic()->get_need_update_sprite() = true;
-    }*/
+	if(status != Shake_Status::None)
+	{
+        Screen_Shake();
+	}
 }
 
 bool myfunction(int i, int j)
@@ -154,4 +130,55 @@ void View::Convert_Cam_Zoom()
     player_pos.clear();
     x_sorted.clear();
     y_sorted.clear();
+}
+
+void View::Screen_Shake()
+{
+    vector2& cam_pos = camera.GetCenter();
+
+	switch(status)
+	{
+	case Shake_Status::To_Left:
+        cam_pos.x -= force;
+        status = Shake_Status::To_Right;
+		break;
+	case Shake_Status::To_Right:
+        cam_pos.x += force;
+        status = Shake_Status::To_Up;
+		break;
+	case Shake_Status::To_Up:
+        cam_pos.y -= force;
+        status = Shake_Status::To_Down;
+		break;
+	case Shake_Status::To_Down:
+        cam_pos.y += force;
+        status = Shake_Status::Done;
+		break;
+    case Shake_Status::Done:
+        cam_pos.x = 0.f;
+        cam_pos.y = 0.f;
+
+		if(shake_num < 0)
+		{
+            status = Shake_Status::None;
+		}
+        else
+        {
+            shake_num--;
+            status = Shake_Status::To_Left;
+        }
+        break;
+	default: ;
+	}
+	
+}
+
+void View::Active_Screen_Shake(float force, int how_many)
+{
+	if(status == Shake_Status::None)
+	{
+        this->force = force;
+        status = Shake_Status::To_Left;
+        shake_num = how_many;
+	}
 }

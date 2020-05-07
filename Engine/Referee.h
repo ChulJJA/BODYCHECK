@@ -26,10 +26,10 @@ public:
     enum class Stage_Statement
     {
         NONE = 99,
-        PLAYER_FIRST_DIE = 100,
-        PLAYER_SECOND_DIE = 101,
-        PLAYER_THIRD_DIE = 102,
-        PLAYER_FOURTH_DIE = 103
+        PLAYER_FIRST_DIE,
+        PLAYER_SECOND_DIE,
+        PLAYER_THIRD_DIE,
+        PLAYER_FOURTH_DIE,
     };
 
     static Referee* Get_Referee();
@@ -43,7 +43,14 @@ public:
 	void Respawn_Item(float dt);
     void SetPlayerTemp();
     void SetItem();
+    void Set_Kill_State();
     void Win();
+    Object* Get_Third_Kill();
+    Object* Get_First_Kill();
+    Object* Get_Second_Kill();
+    Object* Get_Fourth_Kill();
+
+    void Set_Random_Pos(vector2& pos);
 
 	int Get_Missile_Count()
 	{
@@ -101,6 +108,11 @@ public:
         fourth_text = ui;
     }
     void Set_Win_State();
+
+	int Get_Player_Life()
+	{
+        return player_first_life;
+	}
 
 private:
     Referee();
@@ -168,6 +180,11 @@ private:
     Object* second_win;
     Object* third_win;
     Object* fourth_win;
+
+    Object* first_kill;
+    Object* second_kill;
+    Object* third_kill;
+    Object* fourth_kill;
 
     bool win = false;
 	

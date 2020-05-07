@@ -6,19 +6,20 @@
     <ClCompile Include="Logo.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="Testing_Level.cpp" />
     <ClCompile Include="TestLevel.cpp" />
     <ClCompile Include="Tutorial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Option.cpp" />
+    <ClCompile Include="PauseLevel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Level1.h" />
     <ClInclude Include="Loading_Scene.h" />
     <ClInclude Include="Logo.h" />
     <ClInclude Include="MainMenu.h" />
-    <ClInclude Include="Testing_Level.h" />
     <ClInclude Include="TestLevel.h" />
     <Filter Include="Source Files">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
@@ -35,6 +36,7 @@
       <Filter>Source Files\Header</Filter>
     </ClInclude>
     <ClInclude Include="Option.h" />
+    <ClInclude Include="PauseLevel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Level1.cpp">
@@ -47,9 +49,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundOption.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TestLevel.cpp">
@@ -73,9 +72,6 @@
       <Filter>Source Files\Header</Filter>
     </ClInclude>
     <ClInclude Include="MainMenu.h">
-      <Filter>Source Files\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundOption.h">
       <Filter>Source Files\Header</Filter>
     </ClInclude>
     <ClInclude Include="Testing_Level.h">

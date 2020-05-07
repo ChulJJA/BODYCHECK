@@ -211,7 +211,7 @@ Sprite::Sprite(Object* obj, const char* aniamtedSpritePath, bool animated, int f
 	mat_ndc *= m_owner->GetTransform().GetModelToWorld();
 
 	material.matrix3Uniforms["to_ndc"] = mat_ndc;
-
+	shape.InitializeWithMeshAndLayout(m_owner->GetMesh(), SHADER::textured_vertex_layout());
 	material.floatUniforms["time"] = 1;
 
 	sprite_type = type_player;
@@ -266,13 +266,10 @@ void Sprite::Update(float dt)
 		m_owner->GetMesh().Get_Is_Moved() = false;
 		material.floatUniforms["time"] = 1;
 
-		if(animated_init == false)
-		{
+
 			material.matrix3Uniforms["to_ndc"] = mat_ndc;
 			Graphic::GetGraphic()->Draw(shape, material);
-		}
-		
-		animated_init = false;
+
 	}
 
 

@@ -21,6 +21,9 @@ enum class Message_Kind
 	Audience_Blue_Joy,
 	Audience_Green_Joy,
 	Audience_Normal_Joy,
-	Item_Mine
+	Item_Mine,
+	Item_Eat,
+
+	Delete_Object,
 	
 };

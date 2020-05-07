@@ -87,10 +87,12 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 
 	player->AddComponent(new Sprite(player, sprite_path_normal.c_str(), true, 3, 6, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Normal), "normal", true);
+	
 	player->AddComponent(new Sprite(player, sprite_path_lock.c_str(), true, 4, 8, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Locking), "lock", false);
 	
 	player->AddComponent(new Sprite(player, sprite_path_ready.c_str(), pos, false, Sprite_Type::Player_Ready), "ready", false);
+	
 	player->AddComponent(new Sprite(player, sprite_path_die.c_str(), true, 8, 16, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Die), "die", false);
 	

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Message_Function_Base.h"
+#include "vector2.hpp"
 
 class Message;
 
@@ -26,4 +27,16 @@ public:
 private:
 	float timer;
 	Message* msg;
+	Object* kill_tag;
+	bool tag_reach = false;
+
+	float tag_turning_pos;
+	float tag_turn_to;
+	vector2 tag_origin_pos;
+
+	float speed = 1500.f;
+	float back_speed = 1000.f;
+
+	bool is_left = true;
+	
 };

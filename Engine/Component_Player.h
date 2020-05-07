@@ -24,32 +24,24 @@ public:
 	enum class Char_State
 	{
 		None,
-		Bulk_Up,
-		Regeneration,
-		Throwing,
 		Magnatic,
-		Lock_Ready,
 		Lock_Ing,
 		Time_Pause,
 		Reverse_Moving,
 		Missile_Ready,
-		Missile_Shoot,
 		Prepare,
 		Prepared,
-		Disturbed,
 		Mine
 	};
 	enum class Char_State_Additional
 	{
 		None,
 		Chasing,
-		Chasing_stop,
 		Get_mine
 	};
 	enum class Char_State_By_Other
 	{
 		None,
-		Locked
 	};
 	enum class Item_Use_Status
 	{

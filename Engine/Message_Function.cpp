@@ -15,6 +15,7 @@
 #include "Message_Function_Audience.h"
 #include "Message_Function_Dead.h"
 #include "Message_Function_Item_Mine.h"
+#include "Message_Function_Delete_Object.h"
 
 Message_Func::Message_Func(Message* msg)
 {
@@ -87,6 +88,10 @@ void Message_Func::Functioning(float dt)
 		else if (kind == Message_Kind::Item_Mine)
 		{
 			function = new Msg_Func_Item_Mine(m_from, m_target, 1.f, msg_);
+		}
+		else if(kind == Message_Kind::Delete_Object)
+		{
+			function = new Msg_Func_Delete_Object(m_from, m_target, msg_->Get_Timer(), msg_);
 		}
 
 		function->Init();

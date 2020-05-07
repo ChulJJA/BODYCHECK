@@ -11,25 +11,27 @@ void Msg_Func_Respawn::Update(float dt)
 {
 	if (m_from->GetName() == "second")
 	{
+		std::cout << "second die!" << std::endl;
 		sound.Play(SOUND::Die);
 		Referee::Get_Referee()->Get_Stage_Statement().push_back(Referee::Stage_Statement::PLAYER_SECOND_DIE);
 	}
 	if (m_from->GetName() == "first")
 	{
 		sound.Play(SOUND::Die);
-
+		std::cout << "first die!" << std::endl;
 		Referee::Get_Referee()->Get_Stage_Statement().push_back(Referee::Stage_Statement::PLAYER_FIRST_DIE);
 	}
 	if (m_from->GetName() == "third")
 	{
 		sound.Play(SOUND::Die);
+		std::cout << "third die!" << std::endl;
 
 		Referee::Get_Referee()->Get_Stage_Statement().push_back(Referee::Stage_Statement::PLAYER_THIRD_DIE);
 	}
-	if (m_from->GetName() == "forth")
+	if (m_from->GetName() == "fourth")
 	{
 		sound.Play(SOUND::Die);
-
+		std::cout << "forth die!" << std::endl;
 		Referee::Get_Referee()->Get_Stage_Statement().push_back(Referee::Stage_Statement::PLAYER_FOURTH_DIE);
 	}
 

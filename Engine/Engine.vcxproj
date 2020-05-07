@@ -211,6 +211,7 @@
     <ClInclude Include="Message_Function_Base.h" />
     <ClInclude Include="Message_Function_Collision.h" />
     <ClInclude Include="Message_Function_Dead.h" />
+    <ClInclude Include="Message_Function_Delete_Object.h" />
     <ClInclude Include="Message_Function_Item_Bulkup.h" />
     <ClInclude Include="Message_Function_Item_Dash.h" />
     <ClInclude Include="Message_Function_Item_Magnatic.h" />
@@ -279,6 +280,7 @@
     <ClCompile Include="Message_Function_Audience.cpp" />
     <ClCompile Include="Message_Function_Collision.cpp" />
     <ClCompile Include="Message_Function_Dead.cpp" />
+    <ClCompile Include="Message_Function_Delete_Object.cpp" />
     <ClCompile Include="Message_Function_Item_Bulkup.cpp" />
     <ClCompile Include="Message_Function_Item_Dash.cpp" />
     <ClCompile Include="Message_Function_Item_Magnatic.cpp" />

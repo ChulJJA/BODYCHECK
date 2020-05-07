@@ -14,6 +14,7 @@
 #include "Referee.h"
 #include "Component_Missile.h"
 #include "Component_Throwing.h"
+#include "View.h"
 
 void Msg_Func_Collision::Init()
 {
@@ -151,6 +152,8 @@ void Msg_Func_Collision::Update(float dt)
 	else if (m_from->Get_Tag() == "player" && m_target->Get_Tag() == "player")
 	{
 		Player_And_Player_Collision();
+		Graphic::GetGraphic()->Get_View().Active_Screen_Shake(10.f);
+		
 		Player* player_from_info = m_from->GetComponentByTemplate<Player>();
 		Player* player_target_info = m_target->GetComponentByTemplate<Player>();
 
@@ -249,7 +252,8 @@ void Msg_Func_Collision::Update(float dt)
 void Msg_Func_Collision::Player_Get_Item(Object* player, Object* item)
 {
 	sound.Play(SOUND::Item);
-	item->SetDeadCondition(true);
+	item->Change_Sprite(item->Find_Sprite_By_Type(Sprite_Type::Item_Eateffect));
+	Message_Manager::Get_Message_Manager()->Save_Message(new Message(item, nullptr, Message_Kind::Delete_Object, 0.5f));
 
 	Player* player_info = player->GetComponentByTemplate<Player>();
 	PLAYER_UI* ui_info = player_info->Get_Ui();
@@ -327,22 +331,6 @@ void Msg_Func_Collision::Player_And_Player_Collision()
 		info_player_target->Get_Regeneration_Timer() = 0.f;
 		info_player_from->Get_Regeneration_Timer() = 0.f;
 
-		TextComp* target_text_comp = m_target->Get_Dmg_Text()->GetComponentByTemplate<TextComp>();
-		TextComp* from_text_comp = m_target->Get_Dmg_Text()->GetComponentByTemplate<TextComp>();
-
-		if (from_text_comp != nullptr && target_text_comp != nullptr)
-		{
-			target_text_comp->GetText().SetString(L"-" + std::to_wstring(static_cast<int>(dmg_set.first)));
-			target_text_comp->Get_Timer() = 1.f;
-			from_text_comp->GetText().SetString(L"-" + std::to_wstring(static_cast<int>(dmg_set.second)));
-			from_text_comp->Get_Timer() = 1.f;
-
-			Object* target_text = m_target->Get_Dmg_Text();
-			Object* from_text = m_from->Get_Dmg_Text();
-			target_text->GetTransform().GetTranslation_Reference().x = m_target->GetTransform().GetTranslation().x;
-			target_text->GetTransform().GetTranslation_Reference().y = m_target->GetTransform().GetTranslation().y;
-			from_text->GetTransform().GetTranslation_Reference().x = m_from->GetTransform().GetTranslation().x;
-			from_text->GetTransform().GetTranslation_Reference().y = m_from->GetTransform().GetTranslation().y;
 
 			if (m_from->GetComponentByTemplate<Player>() != nullptr)
 			{
@@ -367,7 +355,7 @@ void Msg_Func_Collision::Player_And_Player_Collision()
 					if (info_player_target->Get_Item_Used_Status() == Player::Item_Use_Status::None &&
 						hp_bar_info_target->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
 					{
-						hp_bar_info_target->Decrease(dmg_set.first / 50);
+						hp_bar_info_target->Decrease(dmg_set.first / 20);
 
 						if (info_player_target->Get_Char_State() != Player::Char_State::Reverse_Moving)
 						{
@@ -379,7 +367,7 @@ void Msg_Func_Collision::Player_And_Player_Collision()
 					if (info_player_from->Get_Item_Used_Status() == Player::Item_Use_Status::None &&
 						hp_bar_info_from->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
 					{
-						hp_bar_info_from->Decrease(dmg_set.second / 50);
+						hp_bar_info_from->Decrease(dmg_set.second / 20);
 
 						if (info_player_from->Get_Char_State() != Player::Char_State::Reverse_Moving)
 						{
@@ -390,7 +378,7 @@ void Msg_Func_Collision::Player_And_Player_Collision()
 					}
 				}
 			}
-		}
+		
 	}
 }
 

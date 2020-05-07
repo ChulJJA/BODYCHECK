@@ -112,10 +112,6 @@ void Msg_Func_Item_Magnatic::Update(float dt)
 				msg->Set_Should_Delete(true);
 			}
 		}
-		else if(info_player->Get_Char_State() == Player::Char_State::Disturbed)
-		{
-			msg->Set_Should_Delete(true);
-		}
 		else if(info_player->Get_Char_State() == Player::Char_State::None)
 		{
 			msg->Set_Should_Delete(true);

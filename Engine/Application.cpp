@@ -115,7 +115,7 @@ void Application::Update(float dt)
     glfwGetWindowSize(window, &w, &h);
     window_size.width = (float)w;
     window_size.height = (float)h;
-    /*GLFWgamepadstate state;
+    GLFWgamepadstate state;
 
     if (glfwGetGamepadState(GLFW_JOYSTICK_1, &state))
     {
@@ -147,7 +147,7 @@ void Application::Update(float dt)
         int axesCount;
         const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &axesCount);
     }
-    */
+    
     save_dt += dt;
     if (save_dt >= 1.0f)
     {
@@ -158,7 +158,7 @@ void Application::Update(float dt)
         save_dt = 0;
     }
     FPS_frame++;
-    /*
+    
     if (input.Is_Key_Triggered(GLFW_KEY_ESCAPE))
     {
         exit(0);
@@ -166,7 +166,7 @@ void Application::Update(float dt)
     if (input.Is_Mouse_Double_Clicked(GLFW_MOUSE_BUTTON_LEFT))
     {
         std::cout << "aaa" << std::endl;
-    }*/
+    }
 }
 
 //

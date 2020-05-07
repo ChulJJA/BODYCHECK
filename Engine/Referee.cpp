@@ -62,10 +62,11 @@ Referee::Referee()
 	state_manager = StateManager::GetStateManager();
 	if (state_manager->GetCurrentState()->GetStateInfo() == GameState::Game)
 	{
-		player_first_life = 1;
-		player_sec_life = 1;
-		player_third_life = 1;
-		player_fourth_life = 1;
+		int total = 3;
+		player_first_life = total;
+		player_sec_life = total;
+		player_third_life = total;
+		player_fourth_life = total;
 		total_life_count = player_first_life + player_sec_life + player_third_life + player_fourth_life;
 		total_life_count += 4;
 	}
@@ -90,7 +91,6 @@ Referee* Referee::Get_Referee()
 
 void Referee::Init()
 {
-
 	stage_statements.clear();
 	missile_saving = new Object * [missile_num];
 	missile_saving = new Object * [missile_num];
@@ -112,6 +112,8 @@ void Referee::Init()
 	SetPlayerTemp();
 	SetItem();
 	Set_Win_State();
+	Set_Kill_State();
+
 }
 
 void Referee::Update(float dt)
@@ -128,6 +130,7 @@ void Referee::Update(float dt)
 	{
 		Respawn_Item(dt);
 	}
+
 
 	Win();
 
@@ -282,7 +285,15 @@ Object* Referee::Make_Item_Pool(std::string sprite_path, vector2 pos, std::strin
 	Item::Item_Kind kind)
 {
 	Object* item = new Object();
-	item->AddComponent(new Sprite(item, sprite_path.c_str(), pos, false), "item");
+	//item->AddComponent(new Sprite(item, sprite_path.c_str(), pos, false), "item");
+	std::string eat_effect = "../Sprite/Item/item_eateffect.png";
+
+	item->AddComponent(new Sprite(item, sprite_path.c_str(), true, 6, 12, pos, { 200.f,200.f },
+		{ 255,255,255,255 }, Sprite_Type::Item), "item", true);
+
+	item->AddComponent(new Sprite(item, eat_effect.c_str(), true, 3, 12, pos, { 200.f,200.f },
+		{ 255,255,255,255 }, Sprite_Type::Item_Eateffect), "item_eat", false);
+	
 	item->AddComponent(new Item());
 	item->AddComponent(new Physics());
 	item->Set_Name(name);
@@ -291,7 +302,7 @@ Object* Referee::Make_Item_Pool(std::string sprite_path, vector2 pos, std::strin
 	item->GetComponentByTemplate<Item>()->Set_Kind(kind);
 	item->Set_Current_Sprite(item->Find_Sprite_By_Name("item"));
 	item->SetNeedCollision(true);
-	item->SetScale(2.f);
+	item->SetScale(1.5f);
 	total_item.push_back(item);
 
 	return item;
@@ -314,7 +325,6 @@ void Referee::Respawn_Player(Stage_Statement state, float dt)
 
 			player_first_life--;
 			stage_statements.erase(std::find(stage_statements.begin(), stage_statements.end(), state));
-			first_ui->Get_Life_Num()->GetComponentByTemplate<TextComp>()->GetText().SetString(std::to_wstring(player_first_life));
 			total_life_count--;
 		}
 	}
@@ -333,7 +343,6 @@ void Referee::Respawn_Player(Stage_Statement state, float dt)
 
 			player_sec_life--;
 			stage_statements.erase(std::find(stage_statements.begin(), stage_statements.end(), state));
-			second_ui->Get_Life_Num()->GetComponentByTemplate<TextComp>()->GetText().SetString(std::to_wstring(player_sec_life));
 			total_life_count--;
 		}
 	}
@@ -352,7 +361,6 @@ void Referee::Respawn_Player(Stage_Statement state, float dt)
 
 			player_third_life--;
 			stage_statements.erase(std::find(stage_statements.begin(), stage_statements.end(), state));
-			third_ui->Get_Life_Num()->GetComponentByTemplate<TextComp>()->GetText().SetString(std::to_wstring(player_third_life));
 			total_life_count--;
 		}
 	}
@@ -371,7 +379,6 @@ void Referee::Respawn_Player(Stage_Statement state, float dt)
 
 			player_fourth_life--;
 			stage_statements.erase(std::find(stage_statements.begin(), stage_statements.end(), state));
-			fourth_ui->Get_Life_Num()->GetComponentByTemplate<TextComp>()->GetText().SetString(std::to_wstring(player_fourth_life));
 			total_life_count--;
 		}
 	}
@@ -489,7 +496,7 @@ void Referee::SetPlayerTemp()
 	}
 	for (int i = 0; i < player_fourth_life; i++)
 	{
-		player_fourth_temp[i] = Make_Player_Pool("pen_normal2", { -400,-400 }, "forth", "save", fourth_text);
+		player_fourth_temp[i] = Make_Player_Pool("pen_normal2", { -400,-400 }, "fourth", "save", fourth_text);
 	}
 }
 
@@ -504,43 +511,98 @@ void Referee::SetItem()
 	item_reverse_moving = new Object * [item_num]();
 	item_missile = new Object * [item_num]();
 	item_mine = new Object * [item_num]();
+	
+	vector2 rand_pos;
+	
+	for (int i = 0; i < item_num; i++)
+	{
+		Set_Random_Pos(rand_pos);
+		item_dash[i] = Make_Item_Pool("../Sprite/Item/fish.png", rand_pos, "item", "item", Item::Item_Kind::Dash);
+	}
+	for (int i = 0; i < item_num; i++)
+	{
+		Set_Random_Pos(rand_pos);
+		item_heal[i] = Make_Item_Pool("../Sprite/Item/fish.png", rand_pos, "item", "item", Item::Item_Kind::HP);
+	}
+	for (int i = 0; i < item_num; i++)
+	{
+		Set_Random_Pos(rand_pos);
+		item_bulk_up[i] = Make_Item_Pool("../Sprite/Item/fish.png", rand_pos, "item", "item", Item::Item_Kind::Bulkup);
+	}
+	for (int i = 0; i < item_num; i++)
+	{
+		Set_Random_Pos(rand_pos);
+		item_throwing[i] = Make_Item_Pool("../Sprite/Item/fish.png", rand_pos, "item", "item", Item::Item_Kind::Throwing);
+	}
+	for (int i = 0; i < item_num; i++)
+	{
+		Set_Random_Pos(rand_pos);
+		item_magnetic[i] = Make_Item_Pool("../Sprite/Item/fish.png", rand_pos, "item", "item", Item::Item_Kind::Magnatic);
+	}
+	for (int i = 0; i < item_num; i++)
+	{
+		Set_Random_Pos(rand_pos);
+		item_time_pause[i] = Make_Item_Pool("../Sprite/Item/fish.png", rand_pos, "item", "item", Item::Item_Kind::Time_Pause);
+	}
+	for (int i = 0; i < item_num; i++)
+	{
+		Set_Random_Pos(rand_pos);
+		item_reverse_moving[i] = Make_Item_Pool("../Sprite/Item/fish.png", rand_pos, "item", "item", Item::Item_Kind::Reverse_Moving);
+	}
+	for (int i = 0; i < item_num; i++)
+	{
+		Set_Random_Pos(rand_pos);
+		item_missile[i] = Make_Item_Pool("../Sprite/Item/fish.png", rand_pos, "item", "item", Item::Item_Kind::Missile);
+	}
+	for (int i = 0; i < item_num; i++)
+	{
+		Set_Random_Pos(rand_pos);
+		item_mine[i] = Make_Item_Pool("../Sprite/Item/fish.png", rand_pos, "item", "item", Item::Item_Kind::Mine);
+	}
+}
 
-	for (int i = 0; i < item_num; i++)
-	{
-		item_dash[i] = Make_Item_Pool("../Sprite/Item/item.png", { 0,0 }, "item", "item", Item::Item_Kind::Dash);
-	}
-	for (int i = 0; i < item_num; i++)
-	{
-		item_heal[i] = Make_Item_Pool("../Sprite/Item/item.png", { -400,0 }, "item", "item", Item::Item_Kind::HP);
-	}
-	for (int i = 0; i < item_num; i++)
-	{
-		item_bulk_up[i] = Make_Item_Pool("../Sprite/Item/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Bulkup);
-	}
-	for (int i = 0; i < item_num; i++)
-	{
-		item_throwing[i] = Make_Item_Pool("../Sprite/Item/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Throwing);
-	}
-	for (int i = 0; i < item_num; i++)
-	{
-		item_magnetic[i] = Make_Item_Pool("../Sprite/Item/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Magnatic);
-	}
-	for (int i = 0; i < item_num; i++)
-	{
-		item_time_pause[i] = Make_Item_Pool("../Sprite/Item/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Time_Pause);
-	}
-	for (int i = 0; i < item_num; i++)
-	{
-		item_reverse_moving[i] = Make_Item_Pool("../Sprite/Item/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Reverse_Moving);
-	}
-	for (int i = 0; i < item_num; i++)
-	{
-		item_missile[i] = Make_Item_Pool("../Sprite/Item/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Missile);
-	}
-	for (int i = 0; i < item_num; i++)
-	{
-		item_mine[i] = Make_Item_Pool("../Sprite/Item/item.png", { 400,0 }, "item", "item", Item::Item_Kind::Mine);
-	}
+void Referee::Set_Kill_State()
+{
+	first_kill = new Object;
+	first_kill->Set_Name("kill");
+	first_kill->Set_Tag("kill");
+	first_kill->AddComponent(new Sprite(first_kill, "../sprite/Player/State/green_kill.png", true, 4, 12, { 0.f, 0.f }, { 100.f, 100.f },
+		{ 255,255,255,255 }), "kill");
+	first_kill->SetScale({ 10.f, 5.f });
+	first_kill->SetTranslation({ 1400.f, 600.f });
+	first_kill->Set_Need_To_Update(false);
+
+	second_kill = new Object;
+	second_kill->Set_Name("kill");
+	second_kill->Set_Tag("kill");
+	second_kill->AddComponent(new Sprite(second_kill, "../sprite/Player/State/red_kill.png", true, 4, 12, { 0.f, 0.f }, { 100.f, 100.f },
+		{ 255,255,255,255 }), "kill");
+	second_kill->SetScale({ 10.f, 5.f });
+	second_kill->SetTranslation({ 1400.f, -600.f });
+	second_kill->Set_Need_To_Update(false);
+
+	third_kill = new Object;
+	third_kill->Set_Name("kill");
+	third_kill->Set_Tag("kill");
+	third_kill->AddComponent(new Sprite(third_kill, "../sprite/Player/State/blue_kill.png", true, 4, 12, { 0.f, 0.f }, { 100.f, 100.f },
+		{ 255,255,255,255 }), "kill");
+	third_kill->SetScale({ 10.f, 5.f });
+	third_kill->SetTranslation({ -1400.f, 600.f });
+	third_kill->Set_Need_To_Update(false);
+
+	fourth_kill = new Object;
+	fourth_kill->Set_Name("kill");
+	fourth_kill->Set_Tag("kill");
+	fourth_kill->AddComponent(new Sprite(fourth_kill, "../sprite/Player/State/normal_kill.png", true, 4, 12, { 0.f, 0.f }, { 100.f, 100.f },
+		{ 255,255,255,255 }), "kill");
+	fourth_kill->SetScale({ 10.f, 5.f });
+	fourth_kill->SetTranslation({ -1400.f, -600.f });
+	fourth_kill->Set_Need_To_Update(false);
+
+	ObjectManager::GetObjectManager()->AddObject(first_kill);
+	ObjectManager::GetObjectManager()->AddObject(second_kill);
+	ObjectManager::GetObjectManager()->AddObject(third_kill);
+	ObjectManager::GetObjectManager()->AddObject(fourth_kill);
 }
 
 void Referee::Win()
@@ -552,22 +614,54 @@ void Referee::Win()
 			ObjectManager::GetObjectManager()->AddObject(fourth_win);
 			win = true;
 		}
-		else if (player_first_life == -1 && player_sec_life == -1 && player_fourth_life == -1)
+		if (player_first_life == -1 && player_sec_life == -1 && player_fourth_life == -1)
 		{
 			ObjectManager::GetObjectManager()->AddObject(third_win);
 			win = true;
 		}
-		else if (player_first_life == -1 && player_third_life == -1 && player_fourth_life == -1)
+		if (player_first_life == -1 && player_third_life == -1 && player_fourth_life == -1)
 		{
 			ObjectManager::GetObjectManager()->AddObject(second_win);
 			win = true;
 		}
-		else if (player_sec_life == -1 && player_third_life == -1 && player_fourth_life == -1)
+		if (player_sec_life == -1 && player_third_life == -1 && player_fourth_life == -1)
 		{
 			ObjectManager::GetObjectManager()->AddObject(first_win);
 			win = true;
 		}
 	}
+}
+
+Object* Referee::Get_Third_Kill()
+{
+	return third_kill;
+}
+
+Object* Referee::Get_First_Kill()
+{
+	return first_kill;
+}
+
+Object* Referee::Get_Second_Kill()
+{
+	return second_kill;
+}
+
+Object* Referee::Get_Fourth_Kill()
+{
+	return fourth_kill;
+}
+
+void Referee::Set_Random_Pos(vector2& pos)
+{
+	int rand_x = RandomNumberGenerator(0, 2400);
+	int rand_y = RandomNumberGenerator(0, 1400);
+
+	rand_x -= 1200;
+	rand_y -= 800;
+
+	pos.x = static_cast<int>(rand_x);
+	pos.y = static_cast<int>(rand_y);
 }
 
 Object* Referee::Return_New_Missile()

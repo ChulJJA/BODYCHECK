@@ -22,7 +22,7 @@ void Item::Init(Object* obj)
 
 void Item::Update(float dt)
 {
-	if(timer < 0.f)
+	/*if(timer < 0.f)
 	{
         random_dir = RandomNumberGenerator(1, 4);
         timer = 2.f;
@@ -53,7 +53,7 @@ void Item::Update(float dt)
         default:
             ;
         }
-    }
+    }*/
 }
 
 void Item::Set_Kind(Item_Kind kind)
