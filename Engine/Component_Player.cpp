@@ -1010,61 +1010,62 @@ vector2 Player::GetPlayerVelocity()
 void Player::PlayerDirecting()
 {
 
+	float RightThumbStateX = gamepadManager->RightStick_X();
+	float RightThumbStateY = gamepadManager->RightStick_Y();
+
 	if (m_owner->Get_Name() == "first")
 	{
-		if (glfwGetGamepadState(GLFW_JOYSTICK_1, &state))
+		if (RightThumbStateX > 0)
 		{
-			if (state.buttons[GLFW_GAMEPAD_BUTTON_B])
+			if (RightThumbStateY > 0)
 			{
-				if (state.buttons[GLFW_GAMEPAD_BUTTON_Y])
-				{
-					direction.x += 0.03f;
-					direction.y += 0.03f;
-				}
-				else if (state.buttons[GLFW_GAMEPAD_BUTTON_A])
-				{
-					direction.x += 0.03f;
-					direction.y -= 0.03f;
-				}
-				else
-				{
-					direction.x += 0.045f;
-				}
+				direction.x += 0.03f;
+				direction.y += 0.03f;
 			}
-			else if (state.buttons[GLFW_GAMEPAD_BUTTON_X])
+			else if (RightThumbStateY < 0)
 			{
-				if (state.buttons[GLFW_GAMEPAD_BUTTON_Y])
-				{
-					direction.x -= 0.03f;
-					direction.y += 0.03f;
-				}
-				else if (state.buttons[GLFW_GAMEPAD_BUTTON_A])
-				{
-					direction.x -= 0.03f;
-					direction.y -= 0.03f;
-				}
-				else
-				{
-					direction.x -= 0.045f;
-				}
+				direction.x += 0.03f;
+				direction.y -= 0.03f;
 			}
-			else if (state.buttons[GLFW_GAMEPAD_BUTTON_A])
+			else
 			{
-				direction.y -= 0.045f;
+				direction.x += 0.045f;
 			}
-			else if (state.buttons[GLFW_GAMEPAD_BUTTON_Y])
-			{
-				direction.y += 0.045f;
-			}
-
-			float angle = RadianToDegree(angle_between({ 0,1 }, direction));
-			if (direction.x >= 0)
-			{
-				angle *= -1;
-			}
-			m_owner->SetRotation(angle);
-			direction = normalize(direction);
 		}
+		else if (RightThumbStateX < 0)
+		{
+			if (RightThumbStateY > 0)
+			{
+				direction.x -= 0.03f;
+				direction.y += 0.03f;
+			}
+			else if (RightThumbStateY < 0)
+			{
+				direction.x -= 0.03f;
+				direction.y -= 0.03f;
+			}
+			else
+			{
+				direction.x -= 0.045f;
+			}
+		} 
+		else if (RightThumbStateY < 0)
+		{
+			direction.y -= 0.045f;
+		}
+		else if (RightThumbStateY > 0)
+		{
+			direction.y += 0.045f;
+		}
+
+		float angle = RadianToDegree(angle_between({ 0,1 }, direction));
+		if (direction.x >= 0)
+		{
+			angle *= -1;
+		}
+		m_owner->SetRotation(angle);
+		direction = normalize(direction);
+
 	}
 	else if (m_owner->Get_Name() == "second")
 	{
