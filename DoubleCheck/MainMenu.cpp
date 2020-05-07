@@ -23,6 +23,7 @@
 #include <GLFW/glfw3.h>
 #include "UsefulTools.hpp"
 #include "Gamepad.hpp"
+#include "Level1.h"
 
 
 namespace
@@ -50,6 +51,7 @@ void MainMenu::Load()
         { 255,255,255,255 }, Sprite_Type::None), "none", true);
     back->GetTransform().SetScale({ 40.f, 22.f });
     object_manager->AddObject(back);
+    sound.Play(SOUND::BGM);
     SetPlayButton();
     SetTutorialButton();
     SetMusicButton();
@@ -203,8 +205,9 @@ void MainMenu::ButtonSelector()
 	{
         pointer = static_cast<int>(BUTTON::START);
 		sound.Play(SOUND::Click);
+        StateManager::GetStateManager()->level_state->is_pause = false;
         is_next = true;
-        next_level = "Level1";
+        next_level = "Level1";        
         Clear();
 	}
     else if ((input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::TUTORIAL))

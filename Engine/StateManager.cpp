@@ -44,6 +44,7 @@ void StateManager::Update(float dt)
 			if(current_state->is_pause)
 			{
 				current_state->is_pause = false;
+				
 			}
 			else
 			{
@@ -78,8 +79,10 @@ void StateManager::AddState(std::string name, State* state)
 	states.insert(temp);
 }
 
-void StateManager::DeleteState(std::shared_ptr<State> state)
+void StateManager::DeleteState()
 {
+	//auto find = std::find(states.begin(), states.end(), find);
+	states.erase("Level1");
 }
 
 void StateManager::LeaveState(float dt)
@@ -95,6 +98,13 @@ void StateManager::LeaveState(float dt)
 	{
 		prev_state->UnLoad();
 		stateName = "Option";
+	}
+	else
+	{
+		prev_state->UnLoad();
+		level_state->is_pause = false;
+		level_state->UnLoad();
+		stateName = " MainMenu";
 	}
 	current_state = states.find(stateName)->second.get();
 	current_state->Load();

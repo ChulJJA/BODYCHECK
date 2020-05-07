@@ -4,6 +4,9 @@
 #include "Graphic.h"
 #include "UsefulTools.hpp"
 #include <Input.h>
+#include "Level1.h"
+#include "Sound_Manager.h"
+#include "Engine.hpp"
 
 namespace
 {
@@ -202,7 +205,8 @@ void PauseLevel::ButtonBehavior()
 	else if(pointer == static_cast<int>(BUTTON::MAINMENU) && input.Is_Key_Pressed(GLFW_KEY_SPACE))
 	{
 		is_next = true;
-		next_level = "MainMenu";
+		next_level = "Menu";
+		sound.Stop(SOUND::BGM2);
 		Clear();
 	}
 	else if(pointer == static_cast<int>(BUTTON::OPTION) && input.Is_Key_Pressed(GLFW_KEY_SPACE))

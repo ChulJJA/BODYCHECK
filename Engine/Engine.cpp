@@ -67,7 +67,6 @@ void Engine::Init()
 {
     sound.Initialize();
     sound.Play(SOUND::TeamDoubleCheck);
-    sound.Play(SOUND::BGM);
 
     app_ = Application::Get_Application();
 	msg_manager = Message_Manager::Get_Message_Manager();
