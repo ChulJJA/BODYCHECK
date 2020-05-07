@@ -40,35 +40,6 @@ void View::Update(float dt)
 	{
         Screen_Shake();
 	}
-
-    /*if (input.Is_Key_Pressed(GLFW_KEY_KP_6))
-    {
-        vector2 new_center = camera.GetCenter();
-        new_center.x += 1.0f;
-        camera.SetCenter(new_center);
-        Graphic::GetGraphic()->get_need_update_sprite() = true;
-    }
-    if (input.Is_Key_Pressed(GLFW_KEY_KP_4))
-    {
-        vector2 new_center = camera.GetCenter();
-        new_center.x -= 1.0f;
-        camera.SetCenter(new_center);
-        Graphic::GetGraphic()->get_need_update_sprite() = true;
-    }
-    if (input.Is_Key_Pressed(GLFW_KEY_KP_2))
-    {
-        vector2 new_center = camera.GetCenter();
-        new_center.y -= 1.0f;
-        camera.SetCenter(new_center);
-        Graphic::GetGraphic()->get_need_update_sprite() = true;
-    }
-    if (input.Is_Key_Pressed(GLFW_KEY_KP_8))
-    {
-        vector2 new_center = camera.GetCenter();
-        new_center.y += 1.0f;
-        camera.SetCenter(new_center);
-        Graphic::GetGraphic()->get_need_update_sprite() = true;
-    }*/
 }
 
 bool myfunction(int i, int j)
@@ -186,18 +157,28 @@ void View::Screen_Shake()
     case Shake_Status::Done:
         cam_pos.x = 0.f;
         cam_pos.y = 0.f;
-        status = Shake_Status::None;
+
+		if(shake_num < 0)
+		{
+            status = Shake_Status::None;
+		}
+        else
+        {
+            shake_num--;
+            status = Shake_Status::To_Left;
+        }
         break;
 	default: ;
 	}
 	
 }
 
-void View::Active_Screen_Shake(float force)
+void View::Active_Screen_Shake(float force, int how_many)
 {
 	if(status == Shake_Status::None)
 	{
         this->force = force;
         status = Shake_Status::To_Left;
+        shake_num = how_many;
 	}
 }

@@ -59,7 +59,7 @@ void Hp_Bar::Decrease(float dmg)
 
 		if (hp_scale.x <= 0)
 		{
-			Graphic::GetGraphic()->Get_View().Active_Screen_Shake(30.f);
+			Graphic::GetGraphic()->Get_View().Active_Screen_Shake(30.f, 5);
 
 			if (hitting_obj != nullptr)
 			{

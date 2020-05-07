@@ -18,7 +18,8 @@ public:
 		None,
 		Hp,
 		Item,
-		Image
+		Image,
+		Life,
 	};
 	enum class Ui_Status_Verb
 	{
@@ -53,6 +54,7 @@ public:
 	void Set_Status_Verb(Ui_Status_Verb status);
 
 	void Change_Item_Ui();
+	void Change_Life_Ui();
 	
 	
 private:

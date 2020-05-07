@@ -252,7 +252,8 @@ void Msg_Func_Collision::Update(float dt)
 void Msg_Func_Collision::Player_Get_Item(Object* player, Object* item)
 {
 	sound.Play(SOUND::Item);
-	item->SetDeadCondition(true);
+	item->Change_Sprite(item->Find_Sprite_By_Type(Sprite_Type::Item_Eateffect));
+	Message_Manager::Get_Message_Manager()->Save_Message(new Message(item, nullptr, Message_Kind::Delete_Object, 0.5f));
 
 	Player* player_info = player->GetComponentByTemplate<Player>();
 	PLAYER_UI* ui_info = player_info->Get_Ui();
@@ -330,22 +331,6 @@ void Msg_Func_Collision::Player_And_Player_Collision()
 		info_player_target->Get_Regeneration_Timer() = 0.f;
 		info_player_from->Get_Regeneration_Timer() = 0.f;
 
-		TextComp* target_text_comp = m_target->Get_Dmg_Text()->GetComponentByTemplate<TextComp>();
-		TextComp* from_text_comp = m_target->Get_Dmg_Text()->GetComponentByTemplate<TextComp>();
-
-		if (from_text_comp != nullptr && target_text_comp != nullptr)
-		{
-			target_text_comp->GetText().SetString(L"-" + std::to_wstring(static_cast<int>(dmg_set.first)));
-			target_text_comp->Get_Timer() = 1.f;
-			from_text_comp->GetText().SetString(L"-" + std::to_wstring(static_cast<int>(dmg_set.second)));
-			from_text_comp->Get_Timer() = 1.f;
-
-			Object* target_text = m_target->Get_Dmg_Text();
-			Object* from_text = m_from->Get_Dmg_Text();
-			target_text->GetTransform().GetTranslation_Reference().x = m_target->GetTransform().GetTranslation().x;
-			target_text->GetTransform().GetTranslation_Reference().y = m_target->GetTransform().GetTranslation().y;
-			from_text->GetTransform().GetTranslation_Reference().x = m_from->GetTransform().GetTranslation().x;
-			from_text->GetTransform().GetTranslation_Reference().y = m_from->GetTransform().GetTranslation().y;
 
 			if (m_from->GetComponentByTemplate<Player>() != nullptr)
 			{
@@ -393,7 +378,7 @@ void Msg_Func_Collision::Player_And_Player_Collision()
 					}
 				}
 			}
-		}
+		
 	}
 }
 

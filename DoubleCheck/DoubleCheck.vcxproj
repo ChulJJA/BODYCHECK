@@ -187,6 +187,7 @@
     <ClCompile Include="Loading_Scene.cpp" />
     <ClCompile Include="Logo.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="PauseLevel.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Option.cpp" />
     <ClCompile Include="TestLevel.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="Logo.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Option.h" />
+    <ClInclude Include="PauseLevel.h" />
     <ClInclude Include="TestLevel.h" />
     <ClInclude Include="Tutorial.hpp" />
   </ItemGroup>

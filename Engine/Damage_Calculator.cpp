@@ -9,21 +9,12 @@ std::pair<float, float> DamageCalculator(Object* target, Object* from)
 	const vector2 from_velocity = from->GetComponentByTemplate<Player>()->GetPlayerVelocity();
 	const float target_power = (VectorToScalar(target_velocity) * target->GetTransform().GetScale().x);
 	const float from_power = (VectorToScalar(from_velocity) * from->GetTransform().GetScale().x);
-	const float total_power = target_power - from_power;
-	std::pair<float, float> damage{};
-	
-	if(total_power >= 0)
-	{
-		const float damage_setting = VectorToScalar(target_velocity - from_velocity);
-		damage = { total_power * damage_setting / 50, total_power * damage_setting / 100 };
-		return damage;
-	}
-	if(total_power < 0)
+
+	if(target_power > from_power)
 	{
 		const float damage_setting = VectorToScalar(from_velocity - target_velocity);
-		damage = { -total_power * damage_setting /100, -total_power * damage_setting / 50};
-		return damage;
+		return {(from_power * damage_setting) / 200, (target_power * damage_setting) / 100};
 	}
-
-	return damage;
+	const float damage_setting = VectorToScalar(target_velocity - from_velocity);
+	return { (from_power * damage_setting) / 100, (target_power * damage_setting) / 200 };
 }

@@ -109,6 +109,11 @@ public:
     }
     void Set_Win_State();
 
+	int Get_Player_Life()
+	{
+        return player_first_life;
+	}
+
 private:
     Referee();
     static Referee* referee;

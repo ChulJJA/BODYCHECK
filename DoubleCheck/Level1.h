@@ -35,6 +35,7 @@ public:
         next_level = {};
         is_next = false;
     }
+    //void Pause();
     void Pause();
     void Clear();
 	
@@ -44,10 +45,10 @@ private:
     Object* player_third;
     Object* player_forth;
 
-    Object* text;
-	Object* text_2;
-	Object* text_3;
-	Object* text_4;
+ //   Object* text;
+	//Object* text_2;
+	//Object* text_3;
+	//Object* text_4;
     Object* arena;
 
     Object* pause;

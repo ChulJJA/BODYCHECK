@@ -36,6 +36,7 @@ private:
     vector2 center, distance;
     Shake_Status status = Shake_Status::None;
     float force = 10.f;
+    int shake_num;
 	
 public:
     void Init();
@@ -63,5 +64,5 @@ public:
 	{
         return force;
 	}
-    void Active_Screen_Shake(float force);
+    void Active_Screen_Shake(float force, int how_many = 1);
 };

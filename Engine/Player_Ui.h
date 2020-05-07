@@ -37,8 +37,11 @@ public:
     }
     void Reset();
 	void Change_Ui_Info(Ui::Ui_Status_Base base, Ui::Ui_Status_Verb verb, Ui::Ui_Status_Obj obj);
+	
 private:
+    void Set_Life_Ui();
 
+	
     //Object* info_hp_bar = nullptr;
     Object* info_item = nullptr;
     Object* num_life = nullptr;

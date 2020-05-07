@@ -16,6 +16,10 @@ void Ui::Update(float dt)
 		{
 			Change_Item_Ui();
 		}
+		else if(status_info_base == Ui_Status_Base::Life)
+		{
+			Change_Life_Ui();
+		}
 
 		status_info_base = Ui_Status_Base::None;
 		status_info_obj = Ui_Status_Obj::None;
@@ -77,6 +81,35 @@ void Ui::Change_Item_Ui()
 		}
 	}
 
+	
+}
+
+void Ui::Change_Life_Ui()
+{
+	Object* life_info = ui_info->Get_Life_Num();
+
+	Sprite* curr_sprite = reinterpret_cast<Sprite*>(life_info->Get_Current_Sprite());
+
+	if(curr_sprite->Get_Sprite_Type() == Sprite_Type::Num_5)
+	{
+		life_info->Change_Sprite(life_info->Find_Sprite_By_Type(Sprite_Type::Num_4));
+	}
+	else if (curr_sprite->Get_Sprite_Type() == Sprite_Type::Num_4)
+	{
+		life_info->Change_Sprite(life_info->Find_Sprite_By_Type(Sprite_Type::Num_3));
+	}
+	else if (curr_sprite->Get_Sprite_Type() == Sprite_Type::Num_3)
+	{
+		life_info->Change_Sprite(life_info->Find_Sprite_By_Type(Sprite_Type::Num_2));
+	}
+	else if (curr_sprite->Get_Sprite_Type() == Sprite_Type::Num_2)
+	{
+		life_info->Change_Sprite(life_info->Find_Sprite_By_Type(Sprite_Type::Num_1));
+	}
+	else if (curr_sprite->Get_Sprite_Type() == Sprite_Type::Num_1)
+	{
+		life_info->Change_Sprite(life_info->Find_Sprite_By_Type(Sprite_Type::Num_0));
+	}
 	
 }
 
