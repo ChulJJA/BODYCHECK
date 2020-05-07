@@ -51,7 +51,6 @@ void MainMenu::Load()
         { 255,255,255,255 }, Sprite_Type::None), "none", true);
     back->GetTransform().SetScale({ 40.f, 22.f });
     object_manager->AddObject(back);
-    sound.Play(SOUND::BGM);
     SetPlayButton();
     SetTutorialButton();
     SetMusicButton();
@@ -148,20 +147,24 @@ void MainMenu::ButtonSelector()
 		
         if (pointer == static_cast<int>(BUTTON::START))
         {
+            sound.Play(SOUND::Click);
             ObjectHover(play_button, play_button_hover);
         }
         else if (pointer == static_cast<int>(BUTTON::TUTORIAL))
         {
+            sound.Play(SOUND::Click);
             ObjectHover(tutorial_button, tutorial_button_hover);
             ObjectHover(play_button_hover, play_button);
         }
         else if(pointer == static_cast<int>(BUTTON::MUSIC))
         {
+            sound.Play(SOUND::Click);
             ObjectHover(music_button, music_button_hover);
             ObjectHover(tutorial_button_hover, tutorial_button);
         }
         else if(pointer == static_cast<int>(BUTTON::TEST))
         {
+            sound.Play(SOUND::Click);
             ObjectHover(test_button, test_button_hover);
             ObjectHover(music_button_hover, music_button);
         }
@@ -177,21 +180,25 @@ void MainMenu::ButtonSelector()
     	
         if (pointer == static_cast<int>(BUTTON::START))
         {
+            sound.Play(SOUND::Click);
             ObjectHover(play_button, play_button_hover);
             ObjectHover(tutorial_button_hover, tutorial_button);
         }
         else if (pointer == static_cast<int>(BUTTON::TUTORIAL))
         {
+            sound.Play(SOUND::Click);
             ObjectHover(tutorial_button, tutorial_button_hover);
             ObjectHover(music_button_hover, music_button);
         }
         else if (pointer == static_cast<int>(BUTTON::MUSIC))
         {
+            sound.Play(SOUND::Click);
             ObjectHover(music_button, music_button_hover);
             ObjectHover(test_button_hover, test_button);
         }
         else if (pointer == static_cast<int>(BUTTON::TEST))
         {
+            sound.Play(SOUND::Click);
             ObjectHover(test_button, test_button_hover);
         }
         else if(pointer < 0)

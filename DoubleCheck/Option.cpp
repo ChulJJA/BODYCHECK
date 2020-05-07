@@ -311,20 +311,24 @@ void Option::ButtonSelector()
 		pointer++;
 		if(pointer == static_cast<int>(BUTTON::FULLSCREEN))
 		{
+			sound.Play(SOUND::Click);
 			ObjectHover(full_screen_button, full_screen_button_hover);
 		}
 		if (pointer == static_cast<int>(BUTTON::SFX))
 		{
+			sound.Play(SOUND::Click);
 			ObjectHover(volume_box[0], volume_box_hover[0]);
 			ObjectHover(full_screen_button_hover, full_screen_button);
 		}
 		else if (pointer == static_cast<int>(BUTTON::MUSIC))
 		{
+			sound.Play(SOUND::Click);
 			ObjectHover(volume_box[1], volume_box_hover[1]);
 			ObjectHover(volume_box_hover[0], volume_box[0]);
 		}
 		else if (pointer == static_cast<int>(BUTTON::BACK))
 		{
+			sound.Play(SOUND::Click);
 			ObjectHover(back_button, back_button_hover);
 			ObjectHover(volume_box_hover[1], volume_box[1]);
 		}
@@ -342,21 +346,25 @@ void Option::ButtonSelector()
 
 		if(pointer == static_cast<int>(BUTTON::FULLSCREEN))
 		{
+			sound.Play(SOUND::Click);
 			ObjectHover(full_screen_button, full_screen_button_hover);
 			ObjectHover(volume_box_hover[0], volume_box[0]);
 		}
 		else if (pointer == static_cast<int>(BUTTON::SFX))
 		{
+			sound.Play(SOUND::Click);
 			ObjectHover(volume_box[0], volume_box_hover[0]);
 			ObjectHover(volume_box_hover[1], volume_box[1]);
 		}
 		else if (pointer == static_cast<int>(BUTTON::MUSIC))
 		{
+			sound.Play(SOUND::Click);
 			ObjectHover(volume_box[1], volume_box_hover[1]);
 			ObjectHover(back_button_hover, back_button);
 		}
 		else if (pointer == static_cast<int>(BUTTON::BACK))
 		{
+			sound.Play(SOUND::Click);
 			ObjectHover(back_button, back_button_hover);
 		}
 

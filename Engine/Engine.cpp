@@ -75,7 +75,8 @@ void Engine::Init()
     graphic = Graphic::GetGraphic();
 	editor = Editor::Get_Editor();
     gamepadManager = Gamepad::getGamepad();
-    
+    sound.Play(SOUND::BGM);
+
     app_->Init();
     object_manager->Init();
     state_manager->Init();
