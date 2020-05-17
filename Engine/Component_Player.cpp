@@ -142,7 +142,7 @@ void Player::Update(float dt)
 		PlayerDirecting();
 
 		if (input.Is_Key_Triggered(GLFW_KEY_R)
-			|| input.Is_Key_Triggered(GLFW_KEY_O)
+			|| input.Is_Key_Triggered(GLFW_KEY_SPACE)
 			|| input.Is_Key_Triggered(GLFW_KEY_KP_7)
 			|| RightTriggerState > 0 && (
 				curr_state != Char_State::Reverse_Moving && curr_state != Char_State::Time_Pause))
@@ -538,9 +538,9 @@ void Player::PlayerMovement(float max_velocity, float min_velocity)
 	}
 	else if (m_owner->Get_Name() == "second")
 	{
-		if (input.Is_Key_Pressed(GLFW_KEY_J))
+		if (input.Is_Key_Pressed(GLFW_KEY_W))
 		{
-			if (input.Is_Key_Pressed(GLFW_KEY_J) && input.Is_Key_Pressed(GLFW_KEY_N))
+			if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_A))
 			{
 				if (velocity.x >= 0 && velocity.y >= 0)
 				{
@@ -559,7 +559,7 @@ void Player::PlayerMovement(float max_velocity, float min_velocity)
 					velocity += {-min_velocity, max_velocity};
 				}
 			}
-			else if (input.Is_Key_Pressed(GLFW_KEY_J) && input.Is_Key_Pressed(GLFW_KEY_COMMA))
+			else if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_D))
 			{
 				if (velocity.x >= 0 && velocity.y >= 0)
 				{
@@ -594,9 +594,9 @@ void Player::PlayerMovement(float max_velocity, float min_velocity)
 				}
 			}
 		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_N))
+		else if (input.Is_Key_Pressed(GLFW_KEY_A))
 		{
-			if (input.Is_Key_Pressed(GLFW_KEY_N) && input.Is_Key_Pressed(GLFW_KEY_M))
+			if (input.Is_Key_Pressed(GLFW_KEY_A) && input.Is_Key_Pressed(GLFW_KEY_S))
 			{
 				if (velocity.x >= 0 && velocity.y >= 0)
 				{
@@ -631,9 +631,9 @@ void Player::PlayerMovement(float max_velocity, float min_velocity)
 				}
 			}
 		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_M))
+		else if (input.Is_Key_Pressed(GLFW_KEY_S))
 		{
-			if (input.Is_Key_Pressed(GLFW_KEY_M) && input.Is_Key_Pressed(GLFW_KEY_COMMA))
+			if (input.Is_Key_Pressed(GLFW_KEY_S) && input.Is_Key_Pressed(GLFW_KEY_D))
 			{
 				if (velocity.x >= 0 && velocity.y >= 0)
 				{
@@ -668,7 +668,7 @@ void Player::PlayerMovement(float max_velocity, float min_velocity)
 				}
 			}
 		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_COMMA))
+		else if (input.Is_Key_Pressed(GLFW_KEY_D))
 		{
 			if (velocity.x >= 0)
 			{
@@ -1069,14 +1069,14 @@ void Player::PlayerDirecting()
 	}
 	else if (m_owner->Get_Name() == "second")
 	{
-		if (input.Is_Key_Pressed(GLFW_KEY_APOSTROPHE))
+		if (input.Is_Key_Pressed(GLFW_KEY_K))
 		{
 			if (input.Is_Key_Pressed(GLFW_KEY_P))
 			{
 				direction.x += 0.03f;
 				direction.y += 0.03f;
 			}
-			else if (input.Is_Key_Pressed(GLFW_KEY_SEMICOLON))
+			else if (input.Is_Key_Pressed(GLFW_KEY_U))
 			{
 				direction.x += 0.03f;
 				direction.y -= 0.03f;
@@ -1086,14 +1086,14 @@ void Player::PlayerDirecting()
 				direction.x += 0.045f;
 			}
 		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_L))
+		else if (input.Is_Key_Pressed(GLFW_KEY_H))
 		{
-			if (input.Is_Key_Pressed(GLFW_KEY_P))
+			if (input.Is_Key_Pressed(GLFW_KEY_U))
 			{
 				direction.x -= 0.03f;
 				direction.y += 0.03f;
 			}
-			else if (input.Is_Key_Pressed(GLFW_KEY_SEMICOLON))
+			else if (input.Is_Key_Pressed(GLFW_KEY_J))
 			{
 				direction.x -= 0.03f;
 				direction.y -= 0.03f;
@@ -1103,11 +1103,11 @@ void Player::PlayerDirecting()
 				direction.x -= 0.045f;
 			}
 		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_SEMICOLON))
+		else if (input.Is_Key_Pressed(GLFW_KEY_J))
 		{
 			direction.y -= 0.045f;
 		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_P))
+		else if (input.Is_Key_Pressed(GLFW_KEY_U))
 		{
 			direction.y += 0.045f;
 		}
@@ -1298,13 +1298,13 @@ void Player::UseItem()
 	}
 	else if (m_owner->Get_Name() == "second")
 	{
-		if (input.Is_Key_Pressed(GLFW_KEY_O) && belong_item == Item::Item_Kind::Dash)
+		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Dash)
 		{
 			Change_Weapon_Sprite(nullptr);
 			sound.Play(SOUND::Dash);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Dash));
 		}
-		if (input.Is_Key_Pressed(GLFW_KEY_O) && belong_item == Item::Item_Kind::HP)
+		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::HP)
 		{
 			Change_Weapon_Sprite(nullptr);
 			sound.Play(SOUND::HP);
@@ -1312,41 +1312,41 @@ void Player::UseItem()
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(hp_bar, m_owner, Message_Kind::Item_Recover));
 		}
 
-		if (input.Is_Key_Pressed(GLFW_KEY_O) && belong_item == Item::Item_Kind::Bulkup)
+		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Bulkup)
 		{
 			Change_Weapon_Sprite(nullptr);
 			sound.Play(SOUND::BulkUp);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 5.f));
 		}
 
-		if (input.Is_Key_Pressed(GLFW_KEY_O) && belong_item == Item::Item_Kind::Throwing)
+		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Throwing)
 		{
 			Change_Weapon_Sprite(nullptr);
 			m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing)->Set_Need_Update(true);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Throwing, 0.f));
 		}
-		if (input.Is_Key_Pressed(GLFW_KEY_O) && belong_item == Item::Item_Kind::Magnatic)
+		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Magnatic)
 		{
 			Change_Weapon_Sprite(nullptr);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Magnetic));
 		}
-		if (input.Is_Key_Pressed(GLFW_KEY_O) && belong_item == Item::Item_Kind::Time_Pause)
+		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Time_Pause)
 		{
 			Change_Weapon_Sprite(nullptr);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Timepause));
 		}
-		if (input.Is_Key_Pressed(GLFW_KEY_O) && belong_item == Item::Item_Kind::Reverse_Moving)
+		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Reverse_Moving)
 		{
 			Change_Weapon_Sprite(nullptr);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Reverse));
 		}
-		if (input.Is_Key_Pressed(GLFW_KEY_O) && belong_item == Item::Item_Kind::Missile)
+		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Missile)
 		{
 			m_owner->Set_Current_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Missile));
 			Change_Weapon_Sprite(nullptr);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Missile));
 		}
-		if (input.Is_Key_Pressed(GLFW_KEY_O) && belong_item == Item::Item_Kind::Mine)
+		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Mine)
 		{
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Mine));
 		}
