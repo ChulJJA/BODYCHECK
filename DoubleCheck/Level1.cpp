@@ -97,8 +97,8 @@ void Level1::Load()
 	//player_fourth_ui = Make_Set_Ui("fourth_ui", "ui", "../Sprite/UI/pen_normal_ui.png", { 1100, -800 }, { 5.0f,5.0f }, player_forth);
 	
 	//player = Make_Player("first", "player", "pen_green2", { 400.f, 400.f }, { 2.f, 2.f });
-	player_sec = Make_Player("second", "player", "pen_red2", { 400.f, -400.f }, { 2.f, 2.f });
-	player_third = Make_Player("third", "player", "pen_blue2", { -400.f, 400.f }, { 2.f, 2.f });
+	player_sec = Make_Player("second", "player", "pen_red2", {-800.f, 0.f}/*{ 400.f, -400.f }*/, { 2.f, 2.f });
+	player_third = Make_Player("third", "player", "pen_blue2", { 800.f, 0.f }/*{ -400.f, 400.f }*/, { 2.f, 2.f });
 	//player_forth = Make_Player("fourth", "player", "pen_normal2", { -400.f, -400.f }, { 2.f, 2.f });
 
 	//player->GetComponentByTemplate<Player>()->Set_This_UI_info(player_first_ui);
