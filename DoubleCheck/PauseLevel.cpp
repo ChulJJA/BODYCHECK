@@ -210,7 +210,11 @@ void PauseLevel::ButtonBehavior()
 {
 	if(pointer == static_cast<int>(BUTTON::RESTART) && input.Is_Key_Pressed(GLFW_KEY_SPACE))
 	{
-
+		object_manager->Clear();
+		is_next = true;
+		next_level = "Level1";
+		state_manager->level_state->is_pause = false;
+		Clear();
 	}
 	else if(pointer == static_cast<int>(BUTTON::MAINMENU) && input.Is_Key_Pressed(GLFW_KEY_SPACE))
 	{
