@@ -147,15 +147,6 @@ void Level1::Update(float dt)
 	Pause();
 }
 
-//void Level1::Pause()
-//{
-//	if(input.Is_Key_Pressed(GLFW_KEY_P))
-//	{
-//		sound.Play(SOUND::Click);
-//		is_pause = true;
-//	}
-//}
-
 void Level1::Pause()
 {
 	if (input.Is_Key_Pressed(GLFW_KEY_P))

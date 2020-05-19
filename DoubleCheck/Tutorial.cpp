@@ -21,6 +21,10 @@
 #include "UsefulTools.hpp"
 #include "Application.hpp"
 #include "Loading_Scene.h"
+#include "ObjectSetter.h"
+#include "Audience.h"
+#include "Input.h"
+#include "Option.h"
 #include "StateManager.h"
 
 
@@ -43,7 +47,7 @@ void Tutorial::Load()
 	Loading_Scene* loading = new Loading_Scene();
 	loading->Load();
 
-	HDC hdc = GetDC(glfwGetWin32Window(Application::Get_Application()->Get_Window()));
+	HDC hdc = wglGetCurrentDC();//GetDC(glfwGetWin32Window(Application::Get_Application()->Get_Window()));
 	HGLRC main_context = wglGetCurrentContext();
 	HGLRC loading_context = wglCreateContext(hdc);
 	wglShareLists(main_context, loading_context);
@@ -59,28 +63,41 @@ void Tutorial::Load()
 	);
 
 	{
-		state_manager = StateManager::GetStateManager();
 		current_state = GameState::Tutorial;
 		referee = Referee::Get_Referee();
-
 		object_manager = ObjectManager::GetObjectManager();
+		state_manager = StateManager::GetStateManager();
 		Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 
 		sound.Stop(SOUND::BGM);
 		sound.Play(SOUND::BGM2);
 
-
 		SetArena();
-		SetFirstPlayer();
-		SetSecondPlayer();
-		SetThirdPlayer();
-		SetFourthPlayer();
-		SetStaffAndExplanation();
+		//SetStaffAndExplanation();
+		Player_First_UI = Make_Set_Ui("first_ui", "ui", "../Sprite/UI/pen_green_ui.png", { -1300, -800 }, { 5.0f,5.0f }, Player_First);
+		Player_Second_UI = Make_Set_Ui("second_ui", "ui", "../Sprite/UI/pen_red_ui.png", { -500, -800 }, { 5.0f,5.0f }, Player_Second);
+		Player_Third_UI = Make_Set_Ui("third_ui", "ui", "../Sprite/UI/pen_blue_ui.png", { 300, -800 }, { 5.0f,5.0f }, Player_Third);
+		Player_Fourth_UI = Make_Set_Ui("fourth_ui", "ui", "../Sprite/UI/pen_normal_ui.png", { 1100, -800 }, { 5.0f,5.0f }, Player_Fourth);
+
+		Player_First = Make_Player("first", "player", "pen_green2", { 400.f, 400.f }, { 2.f, 2.f });
+		Player_Second = Make_Player("second", "player", "pen_red2", { 400.f, -400.f }, { 2.f, 2.f });
+		Player_Third = Make_Player("third", "player", "pen_blue2", { -400.f, 400.f }, { 2.f, 2.f });
+		Player_Fourth = Make_Player("fourth", "player", "pen_normal2", { -400.f, -400.f }, { 2.f, 2.f });
+
+		Player_First->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_First_UI);
+		Player_Second->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Second_UI);
+		Player_Third->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Third_UI);
+		Player_Fourth->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Fourth_UI);
+
+		
+
+		Referee::Get_Referee()->Set_First_Ui(Player_First_UI);
+		Referee::Get_Referee()->Set_Second_Ui(Player_Second_UI);
+		Referee::Get_Referee()->Set_Third_Ui(Player_Third_UI);
+		Referee::Get_Referee()->Set_Fourth_Ui(Player_Fourth_UI);
 
 
 
-		//referee->SetNeedCollision(true);
-		//referee->SetTutorialLife();
 		referee->Init();
 		Graphic::GetGraphic()->get_need_update_sprite() = true;
 	}
@@ -95,7 +112,7 @@ void Tutorial::Load()
 void Tutorial::Update(float dt)
 {
 	referee->Update(dt);
-	EventCheck();
+	//EventCheck();
 }
 
 
@@ -104,97 +121,10 @@ void Tutorial::SetArena()
 	Arena = new Object();
 	Arena->Set_Name("arena");
 	Arena->Set_Tag("arena");
-	Arena->AddComponent(new Sprite(Arena, "../Sprite/IceGround.png", { 0,0 }, false));
-	Arena->SetScale({ 20, 20 });
+	Arena->AddComponent(new Sprite(Arena, "../Sprite/IceGround2.png", { 0,-100 }, false));
+	Arena->Set_Current_Sprite(Arena->Find_Sprite_By_Name("arena"));
+	Arena->SetScale({ 35, 17 });
 	ObjectManager::GetObjectManager()->AddObject(Arena);
-}
-
-void Tutorial::SetFirstPlayer()
-{
-	Player_First = new Object();
-	Player_First->Set_Name("first");
-	Player_First->Set_Tag("player");
-	Player_First->SetNeedCollision(true);
-	Player_First->AddComponent(new Player());
-	Player_First->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
-	Player_First->AddComponent(new Sprite(Player_First, "../Sprite/Player/State/pen_green.png", { 400,400 }));
-	Player_First->AddComponent(new Physics());
-	Player_First->GetTransform().SetScale({ 3.f,3.f });
-
-	ObjectManager::GetObjectManager()->AddObject(Player_First);
-
-	Player_First_Text = Make_Set_Text("red_text", "text", { 200,0 }, Player_First, { 0,1,0,1 }, { 150,150 }, &font);
-	Player_First_UI = Make_Set_Ui("first_ui", "ui", "../Sprite/Player/State/pen_green.png", { 1200, 800 }, { 4.0f,4.0f }, Player_First);
-	Player_First->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_First_UI);
-
-	Referee::Get_Referee()->Set_First_Text(Player_First_Text);
-	Referee::Get_Referee()->Set_First_Ui(Player_First_UI);
-}
-
-void Tutorial::SetSecondPlayer()
-{
-	Player_Second = new Object();
-	Player_Second->Set_Name("second");
-	Player_Second->Set_Tag("player");
-	Player_Second->SetNeedCollision(true);
-	Player_Second->AddComponent(new Player());
-	Player_Second->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
-	Player_Second->AddComponent(new Sprite(Player_Second, "../Sprite/pen_red.png", { -400,400 }));
-	Player_Second->AddComponent(new Physics());
-	Player_Second->GetTransform().SetScale({ 3.f,3.f });
-
-	ObjectManager::GetObjectManager()->AddObject(Player_Second);
-
-	Player_Second_Text = Make_Set_Text("green_text", "text", { 200,-200 }, Player_Second, { 1,0,0,1 }, { 150,150 }, &font);
-	Player_Second_UI = Make_Set_Ui("second_ui", "ui", "../sprite/pen_red.png", { 1200, -600 }, { 4.0f,4.0f }, Player_Second);
-	Player_Second->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Second_UI);
-
-	Referee::Get_Referee()->Set_Second_Text(Player_Second_Text);
-	Referee::Get_Referee()->Set_Second_Ui(Player_Second_UI);
-}
-
-void Tutorial::SetThirdPlayer()
-{
-	Player_Third = new Object();
-	Player_Third->Set_Name("third");
-	Player_Third->Set_Tag("player");
-	Player_Third->SetNeedCollision(true);
-	Player_Third->AddComponent(new Player());
-	Player_Third->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
-	Player_Third->AddComponent(new Sprite(Player_Third, "../Sprite/pen_purple.png", { 400,-400 }));
-	Player_Third->AddComponent(new Physics());
-	Player_Third->GetTransform().SetScale({ 3.f,3.f });
-
-	ObjectManager::GetObjectManager()->AddObject(Player_Third);
-
-	Player_Third_Text = Make_Set_Text("blue_text", "text", { 200,-400 }, Player_Third, { 0.54,0,1,1 }, { 150,150 }, &font);
-	Player_Third_UI = Make_Set_Ui("third_ui", "ui", "../sprite/pen_purple.png", { -1600, 800 }, { 4.0f,4.0f }, Player_Third);
-	Player_Third->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Third_UI);
-
-	Referee::Get_Referee()->Set_Third_Text(Player_Third_Text);
-	Referee::Get_Referee()->Set_Third_Ui(Player_Third_UI);
-}
-
-void Tutorial::SetFourthPlayer()
-{
-	Player_Fourth = new Object();
-	Player_Fourth->Set_Name("fourth");
-	Player_Fourth->Set_Tag("player");
-	Player_Fourth->SetNeedCollision(true);
-	Player_Fourth->AddComponent(new Player());
-	Player_Fourth->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
-	Player_Fourth->AddComponent(new Sprite(Player_Fourth, "../Sprite/pen_normal.png", { -400,-400 }));
-	Player_Fourth->AddComponent(new Physics());
-	Player_Fourth->GetTransform().SetScale({ 3.f,3.f });
-
-	ObjectManager::GetObjectManager()->AddObject(Player_Fourth);
-
-	Player_Fourth_Text = Make_Set_Text("yellow_text", "text", { 200,-400 }, Player_Fourth, { 0.5,0.5,0.5,1 }, { 150,150 }, &font);
-	Player_Fourth_UI = Make_Set_Ui("fourth_ui", "ui", "../sprite/pen_normal.png", { -1600, -600 }, { 4.0f,4.0f }, Player_Fourth);
-	Player_Fourth->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Fourth_UI);
-
-	Referee::Get_Referee()->Set_Fourth_Text(Player_Fourth_Text);
-	Referee::Get_Referee()->Set_Fourth_Ui(Player_Fourth_UI);
 }
 
 void Tutorial::SetStaffAndExplanation()
@@ -251,3 +181,18 @@ void Tutorial::EventCheck()
 
 
 }
+
+void Tutorial::Pause()
+{
+	if (input.Is_Key_Pressed(GLFW_KEY_P))
+	{
+		sound.Play(SOUND::Click);
+		is_pause = true;
+	}
+}
+
+void Tutorial::Clear()
+{
+	object_manager->Clear();
+}
+

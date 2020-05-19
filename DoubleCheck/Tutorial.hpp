@@ -36,12 +36,11 @@ public:
     }
 
     void SetArena();
-    void SetFirstPlayer();
-    void SetSecondPlayer();
-    void SetThirdPlayer();
-    void SetFourthPlayer();
     void SetStaffAndExplanation();
     void EventCheck();
+
+    void Pause();
+    void Clear();
 
 private:
     Object* Arena;
@@ -51,21 +50,30 @@ private:
     Object* Player_Third;
     Object* Player_Fourth;
 
-    Object* Player_First_Text;
+    /*Object* Player_First_Text;
     Object* Player_Second_Text;
     Object* Player_Third_Text;
-    Object* Player_Fourth_Text;
+    Object* Player_Fourth_Text;*/
 
     Object* Explanation_Staff;
-    Object* Explanation_Text_First;
+    /*Object* Explanation_Text_First;
     Object* Explanation_Text_Second;
     Object* Explanation_Text_Third;
-    Object* Explanation_Text_Fourth;
+    Object* Explanation_Text_Fourth;*/
     
     PLAYER_UI* Player_First_UI;
     PLAYER_UI* Player_Second_UI;
     PLAYER_UI* Player_Third_UI;
     PLAYER_UI* Player_Fourth_UI;
 
+    Object* pause;
+    Object* restart_button;
+    Object* restart_button_hover;
+    Object* mainmenu_button;
+    Object* mainmenu_button_hover;
+    Object* option_button;
+    Object* option_button_hover;
+
     BitmapFont      font{};
+    bool showing_editor = true;
 };
