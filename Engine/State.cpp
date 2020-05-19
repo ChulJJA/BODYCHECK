@@ -19,6 +19,8 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 	std::string sprite_path_crying = path_to_player_state;
 	std::string sprite_path_die = path_to_player_state;
 	std::string sprite_path_paused = path_to_player_state;
+	std::string sprite_path_speed2 = path_to_player_state;
+	std::string sprite_path_speed3 = path_to_player_state;
 	
 	std::string sprite_path_reverse_moving_pen = path_to_player_item_effect;
 	std::string sprite_path_ready = path_to_player_item_effect;
@@ -48,6 +50,8 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 		sprite_path_crying += sprite_path + "_hit.png";
 		sprite_path_die += sprite_path + "_die.png";
 		sprite_path_paused += sprite_path + "_paused.png";
+		sprite_path_speed2 += sprite_path + "_speed2.png";
+		sprite_path_speed3 += sprite_path + "_speed3.png";
 	}
 
 	//itwem effect
@@ -87,6 +91,12 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 
 	player->AddComponent(new Sprite(player, sprite_path_normal.c_str(), true, 3, 6, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Normal), "normal", true);
+
+	player->AddComponent(new Sprite(player, sprite_path_speed2.c_str(), true, 3, 24, pos, { 100.f,100.f },
+		{ 255,255,255,255 }, Sprite_Type::Player_Speed2), "speed2", false);
+
+	player->AddComponent(new Sprite(player, sprite_path_speed3.c_str(), true, 3, 48, pos, { 100.f,100.f },
+		{ 255,255,255,255 }, Sprite_Type::Player_Speed3), "speed3", false);
 	
 	player->AddComponent(new Sprite(player, sprite_path_lock.c_str(), true, 4, 8, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Locking), "lock", false);
