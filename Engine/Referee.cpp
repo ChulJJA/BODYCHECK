@@ -617,27 +617,27 @@ void Referee::Set_Kill_State()
 void Referee::Win()
 {
 	if (win == false)
-	{
+	{/*
 		if (player_first_life == -1 && player_sec_life == -1 && player_third_life == -1)
 		{
 			ObjectManager::GetObjectManager()->AddObject(fourth_win);
 			win = true;
-		}
-		if (player_first_life == -1 && player_sec_life == -1 && player_fourth_life == -1)
+		}*/
+		if (/*player_first_life == -1 &&*/ player_sec_life == -1 /*&& player_fourth_life == -1*/)
 		{
 			ObjectManager::GetObjectManager()->AddObject(third_win);
 			win = true;
 		}
-		if (player_first_life == -1 && player_third_life == -1 && player_fourth_life == -1)
+		if (/*player_first_life == -1 &&*/ player_third_life == -1/* && player_fourth_life == -1*/)
 		{
 			ObjectManager::GetObjectManager()->AddObject(second_win);
 			win = true;
 		}
-		if (player_sec_life == -1 && player_third_life == -1 && player_fourth_life == -1)
+		/*if (player_sec_life == -1 && player_third_life == -1 && player_fourth_life == -1)
 		{
 			ObjectManager::GetObjectManager()->AddObject(first_win);
 			win = true;
-		}
+		}*/
 	}
 }
 
