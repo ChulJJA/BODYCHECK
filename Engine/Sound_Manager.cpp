@@ -13,6 +13,7 @@
 #include "fmod_errors.h"
 #include "Messagebox.h"
 #include <cassert>
+#include <iostream>
 
 float sound_timer = 0;
 
@@ -81,6 +82,10 @@ void Sound::LoadSound()
 	ErrorCheck(result);
 }
 
+void Sound::UnLoad()
+{
+}
+
 void Sound::SetSoundGroup()
 {
 	for (int count = 0; count < static_cast<int>(SOUND::END); ++count)
@@ -92,6 +97,7 @@ void Sound::SetSoundGroup()
 		{
 			result = FMOD_Sound_SetSoundGroup(sound[count], bgm_group);
 			ErrorCheck(result);
+			result = FMOD_Channel_Stop(channel[count]);
 		}
 		else if (count < static_cast<int>(SOUND::END))
 		{
@@ -102,7 +108,7 @@ void Sound::SetSoundGroup()
 
 	result = FMOD_SoundGroup_SetVolume(bgm_group, 0.5f);
 	ErrorCheck(result);
-	result = FMOD_SoundGroup_SetVolume(sfx_group, 1.f);
+	result = FMOD_SoundGroup_SetVolume(sfx_group, 0.5f);
 	ErrorCheck(result);
 }
 
@@ -115,7 +121,6 @@ void Sound::Play(SOUND sound_Num)
 void Sound::Stop(SOUND sound_Num)
 {
 	result = FMOD_Channel_Stop(channel[static_cast<int>(sound_Num)]);
-
 	ErrorCheck(result);
 }
 
