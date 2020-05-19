@@ -214,7 +214,6 @@ void Option::ButtonBehavior()
 			next_level = "Menu";
 			Clear();
 		}
-
 	}
 	else if (pointer == static_cast<int>(BUTTON::BACK) && state_manager->GetPrevState()->GetStateInfo() == GameState::PauseLevel)
 	{
@@ -225,7 +224,6 @@ void Option::ButtonBehavior()
 			state_manager->BackToLevel();
 			Clear();
 		}
-
 	}
 }
 

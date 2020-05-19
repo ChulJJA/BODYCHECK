@@ -29,7 +29,7 @@ void Physics::Init(Object* obj)
 void Physics::Update(float dt)
 {
 	SetGhostReference(dt);
-	sound_timer -= dt;
+	--sound_timer;
 	//MoveObject();
 }
 
@@ -50,7 +50,7 @@ void Physics::KnockBack(Object* object_1, Object* object_2)
 			if (sound_timer <= 0)
 			{
 				sound.Play(SOUND::Crack);
-				sound_timer = 1.f;
+				sound_timer = 10.f;
 			}
 
 			direction_to_go = normalize(object_1_pos - object_2_pos);
@@ -66,7 +66,7 @@ void Physics::KnockBack(Object* object_1, Object* object_2)
 			if(sound_timer <= 0)
 			{
 				sound.Play(SOUND::Crack);
-				sound_timer = 1.f;
+				sound_timer = 10.f;
 			}
 
 			direction_to_go = normalize(object_2_pos - object_1_pos);
