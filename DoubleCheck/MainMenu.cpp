@@ -35,6 +35,16 @@ namespace
 
 void MainMenu::Load()
 {
+	if(sound.isInitialized == false)
+	{
+        sound.Initialize();
+	}
+    FMOD_BOOL isPlaying;
+    FMOD_Channel_IsPlaying(sound.channel[0], &isPlaying);
+	if(isPlaying == false)
+	{
+        sound.Play(SOUND::BGM);
+	}
     state_manager = StateManager::GetStateManager();
     object_manager = ObjectManager::GetObjectManager();
     gamepadManager = Gamepad::getGamepad();

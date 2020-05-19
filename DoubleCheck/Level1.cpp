@@ -36,6 +36,10 @@ namespace
 
 void Level1::Load()
 {
+	if(sound.isInitialized == false)
+	{
+		sound.Initialize();
+	}
 	Loading_Scene* loading = new Loading_Scene();
 	loading->Load();
 
