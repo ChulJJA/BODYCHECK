@@ -22,7 +22,7 @@ public:
     void Update(float dt);
     void Delete();
     void AddState(std::string name, State* state);
-    void DeleteState(std::shared_ptr<State> state);
+    void DeleteState();
     std::unordered_map<std::string, std::shared_ptr<State>> Get_States()
     {
         return states;

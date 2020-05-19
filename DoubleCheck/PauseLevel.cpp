@@ -4,6 +4,9 @@
 #include "Graphic.h"
 #include "UsefulTools.hpp"
 #include <Input.h>
+#include "Level1.h"
+#include "Sound_Manager.h"
+#include "Engine.hpp"
 
 namespace
 {
@@ -126,25 +129,30 @@ void PauseLevel::ButtonSelector()
 		pointer++;
 		if (pointer == static_cast<int>(BUTTON::RESTART))
 		{
+			sound.Play(SOUND::Click);
 			ObjectHover(restartButton, restartButtonHover);
 		}
 		if (pointer == static_cast<int>(BUTTON::MAINMENU))
 		{
+			sound.Play(SOUND::Click);
 			ObjectHover(mainMenuButton, mainMenuButtonHover);
 			ObjectHover(restartButtonHover, restartButton);
 		}
 		else if (pointer == static_cast<int>(BUTTON::OPTION))
 		{
+			sound.Play(SOUND::Click);
 			ObjectHover(optionButton, optionButtonHover);
 			ObjectHover(mainMenuButtonHover, mainMenuButton);
 		}
 		else if (pointer == static_cast<int>(BUTTON::QUIT))
 		{
+			sound.Play(SOUND::Click);
 			ObjectHover(quitButton, quitButtonHover);
 			ObjectHover(optionButtonHover, optionButton);
 		}
 		else if (pointer == static_cast<int>(BUTTON::BACK))
 		{
+			sound.Play(SOUND::Click);
 			ObjectHover(backButton, backButtonHover);
 			ObjectHover(quitButtonHover, quitButton);
 		}
@@ -161,26 +169,31 @@ void PauseLevel::ButtonSelector()
 
 		if (pointer == static_cast<int>(BUTTON::RESTART))
 		{
+			sound.Play(SOUND::Click);
 			ObjectHover(restartButton, restartButtonHover);
 			ObjectHover(mainMenuButtonHover, mainMenuButton);
 		}
 		else if (pointer == static_cast<int>(BUTTON::MAINMENU))
 		{
+			sound.Play(SOUND::Click);
 			ObjectHover(mainMenuButton, mainMenuButtonHover);
 			ObjectHover(optionButtonHover, optionButton);
 		}
 		else if (pointer == static_cast<int>(BUTTON::OPTION))
 		{
+			sound.Play(SOUND::Click);
 			ObjectHover(optionButton, optionButtonHover);
 			ObjectHover(quitButtonHover, quitButton);
 		}
 		else if (pointer == static_cast<int>(BUTTON::QUIT))
 		{
+			sound.Play(SOUND::Click);
 			ObjectHover(quitButton, quitButtonHover);
 			ObjectHover(backButtonHover, backButton);
 		}
 		else if (pointer == static_cast<int>(BUTTON::BACK))
 		{
+			sound.Play(SOUND::Click);
 			ObjectHover(backButton, backButtonHover);
 		}
 
@@ -197,12 +210,18 @@ void PauseLevel::ButtonBehavior()
 {
 	if(pointer == static_cast<int>(BUTTON::RESTART) && input.Is_Key_Pressed(GLFW_KEY_SPACE))
 	{
-
+		object_manager->Clear();
+		is_next = true;
+		next_level = "Level1";
+		state_manager->level_state->is_pause = false;
+		Clear();
 	}
 	else if(pointer == static_cast<int>(BUTTON::MAINMENU) && input.Is_Key_Pressed(GLFW_KEY_SPACE))
 	{
 		is_next = true;
-		next_level = "MainMenu";
+		next_level = "Menu";
+		sound.Stop(SOUND::BGM2);
+		sound.Play(SOUND::BGM);
 		Clear();
 	}
 	else if(pointer == static_cast<int>(BUTTON::OPTION) && input.Is_Key_Pressed(GLFW_KEY_SPACE))

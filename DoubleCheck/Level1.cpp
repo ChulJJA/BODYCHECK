@@ -30,7 +30,7 @@ using namespace std;
 namespace
 {
 	Referee* referee = nullptr;
-    ObjectManager* object_manager = nullptr;
+	ObjectManager* object_manager = nullptr;
 	StateManager* state_manager = nullptr;
 }
 
@@ -58,9 +58,9 @@ void Level1::Load()
 	object_manager = ObjectManager::GetObjectManager();
 	state_manager = StateManager::GetStateManager();
 	Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
-
-	sound.Stop(SOUND::BGM);
-	sound.Play(SOUND::BGM2);
+	
+	//sound.Stop(SOUND::BGM);
+	//sound.Play(SOUND::BGM2);
 
 	aud = Get_Audience();
 
@@ -90,12 +90,12 @@ void Level1::Load()
 	ObjectManager::GetObjectManager()->AddObject(arena);
 	ObjectManager::GetObjectManager()->AddObject(fire1);
 	ObjectManager::GetObjectManager()->AddObject(fire2);
-	
+
 	player_first_ui = Make_Set_Ui("first_ui", "ui", "../Sprite/UI/pen_green_ui.png", { -1300, -800 }, { 5.0f,5.0f }, player);
 	player_second_ui = Make_Set_Ui("second_ui", "ui", "../Sprite/UI/pen_red_ui.png", { -500, -800 }, { 5.0f,5.0f }, player_sec);
 	player_third_ui = Make_Set_Ui("third_ui", "ui", "../Sprite/UI/pen_blue_ui.png", { 300, -800 }, { 5.0f,5.0f }, player_third);
 	player_fourth_ui = Make_Set_Ui("fourth_ui", "ui", "../Sprite/UI/pen_normal_ui.png", { 1100, -800 }, { 5.0f,5.0f }, player_forth);
-	
+
 	player = Make_Player("first", "player", "pen_green2", { 400.f, 400.f }, { 2.f, 2.f });
 	player_sec = Make_Player("second", "player", "pen_red2", { 400.f, -400.f }, { 2.f, 2.f });
 	player_third = Make_Player("third", "player", "pen_blue2", { -400.f, 400.f }, { 2.f, 2.f });
@@ -105,7 +105,7 @@ void Level1::Load()
 	player_sec->GetComponentByTemplate<Player>()->Set_This_UI_info(player_second_ui);
 	player_third->GetComponentByTemplate<Player>()->Set_This_UI_info(player_third_ui);
 	player_forth->GetComponentByTemplate<Player>()->Set_This_UI_info(player_fourth_ui);
-	
+
 	//text = Make_Set_Text("red_text", "text", { 200,0 }, player, { 0,1,0,1 }, { 150,150 }, &font);
 	//text_2 = Make_Set_Text("green_text", "text", { 200,-200 }, player_sec, { 1,0,0,1 }, { 150,150 }, &font);
 	//text_3 = Make_Set_Text("blue_text", "text", { 200,-400 }, player_third, { 0.54,0,1,1 }, { 150,150 }, &font);
@@ -116,7 +116,7 @@ void Level1::Load()
 	//player_sec->GetComponentByTemplate<Player>()->Set_This_UI_info(player_second_ui);
 	//player_third->GetComponentByTemplate<Player>()->Set_This_UI_info(player_third_ui);
 	//player_forth->GetComponentByTemplate<Player>()->Set_This_UI_info(player_fourth_ui);
-	
+
 	Referee::Get_Referee()->Set_First_Ui(player_first_ui);
 	Referee::Get_Referee()->Set_Second_Ui(player_second_ui);
 	Referee::Get_Referee()->Set_Third_Ui(player_third_ui);
@@ -127,13 +127,13 @@ void Level1::Load()
 	//Referee::Get_Referee()->Set_Third_Text(text_3);
 	//Referee::Get_Referee()->Set_Fourth_Text(text_4);
 
-	
+
 	referee->Init();
-	
+
 	Graphic::GetGraphic()->get_need_update_sprite() = true;
 
 
-	
+
 	loading->Set_Done(false);
 	if (loading_thread.joinable())
 	{

@@ -102,7 +102,7 @@ void Sound::SetSoundGroup()
 
 	result = FMOD_SoundGroup_SetVolume(bgm_group, 0.5f);
 	ErrorCheck(result);
-	result = FMOD_SoundGroup_SetVolume(sfx_group, 0.5f);
+	result = FMOD_SoundGroup_SetVolume(sfx_group, 1.f);
 	ErrorCheck(result);
 }
 

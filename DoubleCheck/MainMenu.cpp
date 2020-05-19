@@ -23,6 +23,7 @@
 #include <GLFW/glfw3.h>
 #include "UsefulTools.hpp"
 #include "Gamepad.hpp"
+#include "Level1.h"
 
 
 namespace
@@ -146,20 +147,24 @@ void MainMenu::ButtonSelector()
 		
         if (pointer == static_cast<int>(BUTTON::START))
         {
+            sound.Play(SOUND::Click);
             ObjectHover(play_button, play_button_hover);
         }
         else if (pointer == static_cast<int>(BUTTON::TUTORIAL))
         {
+            sound.Play(SOUND::Click);
             ObjectHover(tutorial_button, tutorial_button_hover);
             ObjectHover(play_button_hover, play_button);
         }
         else if(pointer == static_cast<int>(BUTTON::MUSIC))
         {
+            sound.Play(SOUND::Click);
             ObjectHover(music_button, music_button_hover);
             ObjectHover(tutorial_button_hover, tutorial_button);
         }
         else if(pointer == static_cast<int>(BUTTON::TEST))
         {
+            sound.Play(SOUND::Click);
             ObjectHover(test_button, test_button_hover);
             ObjectHover(music_button_hover, music_button);
         }
@@ -175,21 +180,25 @@ void MainMenu::ButtonSelector()
     	
         if (pointer == static_cast<int>(BUTTON::START))
         {
+            sound.Play(SOUND::Click);
             ObjectHover(play_button, play_button_hover);
             ObjectHover(tutorial_button_hover, tutorial_button);
         }
         else if (pointer == static_cast<int>(BUTTON::TUTORIAL))
         {
+            sound.Play(SOUND::Click);
             ObjectHover(tutorial_button, tutorial_button_hover);
             ObjectHover(music_button_hover, music_button);
         }
         else if (pointer == static_cast<int>(BUTTON::MUSIC))
         {
+            sound.Play(SOUND::Click);
             ObjectHover(music_button, music_button_hover);
             ObjectHover(test_button_hover, test_button);
         }
         else if (pointer == static_cast<int>(BUTTON::TEST))
         {
+            sound.Play(SOUND::Click);
             ObjectHover(test_button, test_button_hover);
         }
         else if(pointer < 0)
@@ -203,8 +212,9 @@ void MainMenu::ButtonSelector()
 	{
         pointer = static_cast<int>(BUTTON::START);
 		sound.Play(SOUND::Click);
+        StateManager::GetStateManager()->level_state->is_pause = false;
         is_next = true;
-        next_level = "Level1";
+        next_level = "Level1";        
         Clear();
 	}
     else if ((input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::TUTORIAL))
