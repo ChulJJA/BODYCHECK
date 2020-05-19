@@ -210,7 +210,12 @@ void PauseLevel::ButtonBehavior()
 {
 	if(pointer == static_cast<int>(BUTTON::RESTART) && input.Is_Key_Pressed(GLFW_KEY_SPACE))
 	{
-		sound.Stop(SOUND::BGM2);
+		FMOD_BOOL isPlaying;
+		FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlaying);
+		if (isPlaying == true)
+		{
+			sound.Stop(SOUND::BGM2);
+		}
 		object_manager->Clear();
 		is_next = true;
 		next_level = "Level1";
