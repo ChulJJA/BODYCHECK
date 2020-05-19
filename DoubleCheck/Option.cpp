@@ -92,23 +92,18 @@ void Option::SetMusicIcon()
 {
 	const float sfx_volume = sound.GetSoundGroupVolume(false);
 	const float bgm_volume = sound.GetSoundGroupVolume(true);
-	std::cout << sfx_volume << std::endl;
-	std::cout << bgm_volume << std::endl;
 	const float initial_sfx_icon = sfx_volume * 4 * 680;
 	const float initial_bgm_icon = bgm_volume * 4 * 680;
 	
 	music_icon[0] = new Object();
-	music_icon[0]->AddComponent(new Sprite(music_icon[0], "../Sprite/icon.png", { -1410 + initial_sfx_icon, 120 }, false));
+	music_icon[0]->AddComponent(new Sprite(music_icon[0], "../Sprite/icon.png", { -1410 + initial_bgm_icon, 120 }, false));
 	music_icon[0]->GetTransform().SetScale({ 5, 5 });
 	ObjectManager::GetObjectManager()->AddObject(music_icon[0]);
 
 	music_icon[1] = new Object();
-	music_icon[1]->AddComponent(new Sprite(music_icon[1], "../Sprite/icon.png", { -1410 + initial_bgm_icon, -390 }, false));
+	music_icon[1]->AddComponent(new Sprite(music_icon[1], "../Sprite/icon.png", { -1410 + initial_sfx_icon, -390 }, false));
 	music_icon[1]->GetTransform().SetScale({ 5, 5 });
 	ObjectManager::GetObjectManager()->AddObject(music_icon[1]);
-
-	std::cout << music_icon[0]->GetTransform().GetTranslation().x << std::endl;
-	std::cout << music_icon[1]->GetTransform().GetTranslation().x << std::endl;
 }
 
 void Option::SetMusicVolumeBox()

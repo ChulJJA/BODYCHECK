@@ -82,6 +82,10 @@ void Sound::LoadSound()
 	ErrorCheck(result);
 }
 
+void Sound::UnLoad()
+{
+}
+
 void Sound::SetSoundGroup()
 {
 	for (int count = 0; count < static_cast<int>(SOUND::END); ++count)
@@ -93,6 +97,7 @@ void Sound::SetSoundGroup()
 		{
 			result = FMOD_Sound_SetSoundGroup(sound[count], bgm_group);
 			ErrorCheck(result);
+			result = FMOD_Channel_Stop(channel[count]);
 		}
 		else if (count < static_cast<int>(SOUND::END))
 		{
@@ -110,16 +115,12 @@ void Sound::SetSoundGroup()
 void Sound::Play(SOUND sound_Num)
 {
 	result = FMOD_System_PlaySound(f_system, sound[(int)sound_Num], 0, 0, &channel[(int)sound_Num]);
-	float sex;
-	FMOD_Channel_GetVolume(channel[5], &sex);
-	std::cout << sex << std::endl;
 	ErrorCheck(result);
 }
 
 void Sound::Stop(SOUND sound_Num)
 {
 	result = FMOD_Channel_Stop(channel[static_cast<int>(sound_Num)]);
-
 	ErrorCheck(result);
 }
 
