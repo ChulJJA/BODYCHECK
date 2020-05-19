@@ -80,6 +80,7 @@ void StateManager::AddState(std::string name, State* state)
 
 void StateManager::DeleteState(std::shared_ptr<State> state)
 {
+	//states.erase(std::find(states.begin(), states.end(),state));
 }
 
 void StateManager::LeaveState(float dt)
