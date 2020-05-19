@@ -63,8 +63,8 @@ void Hp_Bar::Decrease(float dmg)
 
 			if (hitting_obj != nullptr)
 			{
-				hitting_obj->GetTransform().GetScale_Reference() += {0.7f, 0.7f};
-				hitting_obj->Get_Plus_Dmg() += 0.1f;
+				//hitting_obj->GetTransform().GetScale_Reference() += {0.7f, 0.7f};
+				//hitting_obj->Get_Plus_Dmg() += 0.1f;
 				Object* audience = ObjectManager::GetObjectManager()->Find_Object_By_Name("audience");
 
 				if(hitting_obj->GetName() == "first")

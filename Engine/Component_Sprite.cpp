@@ -206,6 +206,7 @@ Sprite::Sprite(Object* obj, const char* aniamtedSpritePath, bool animated, int f
 	m_owner->SetTranslation(position);
 	m_owner->Set_Center({ position.x , position.y });
 	speed = m_speed;
+	original_speed = m_speed;
 	matrix3 mat_ndc = Graphic::GetGraphic()->Get_View().Get_Camera_View().GetCameraToNDCTransform();
 	mat_ndc *= Graphic::GetGraphic()->Get_View().Get_Camera().WorldToCamera();
 	mat_ndc *= m_owner->GetTransform().GetModelToWorld();
@@ -267,8 +268,8 @@ void Sprite::Update(float dt)
 		material.floatUniforms["time"] = 1;
 
 
-			material.matrix3Uniforms["to_ndc"] = mat_ndc;
-			Graphic::GetGraphic()->Draw(shape, material);
+		material.matrix3Uniforms["to_ndc"] = mat_ndc;
+		Graphic::GetGraphic()->Draw(shape, material);
 
 	}
 
