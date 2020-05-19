@@ -13,6 +13,7 @@
 #include "fmod_errors.h"
 #include "Messagebox.h"
 #include <cassert>
+#include <iostream>
 
 float sound_timer = 0;
 
@@ -102,13 +103,16 @@ void Sound::SetSoundGroup()
 
 	result = FMOD_SoundGroup_SetVolume(bgm_group, 0.5f);
 	ErrorCheck(result);
-	result = FMOD_SoundGroup_SetVolume(sfx_group, 1.f);
+	result = FMOD_SoundGroup_SetVolume(sfx_group, 0.5f);
 	ErrorCheck(result);
 }
 
 void Sound::Play(SOUND sound_Num)
 {
 	result = FMOD_System_PlaySound(f_system, sound[(int)sound_Num], 0, 0, &channel[(int)sound_Num]);
+	float sex;
+	FMOD_Channel_GetVolume(channel[5], &sex);
+	std::cout << sex << std::endl;
 	ErrorCheck(result);
 }
 

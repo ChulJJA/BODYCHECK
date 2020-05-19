@@ -10,8 +10,10 @@
     <ClCompile Include="Tutorial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Option.cpp" />
     <ClCompile Include="PauseLevel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Option.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,8 +37,12 @@
     <ClInclude Include="Tutorial.hpp">
       <Filter>Source Files\Header</Filter>
     </ClInclude>
-    <ClInclude Include="Option.h" />
-    <ClInclude Include="PauseLevel.h" />
+    <ClInclude Include="Option.h">
+      <Filter>Source Files\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseLevel.h">
+      <Filter>Source Files\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Level1.cpp">
@@ -54,9 +60,6 @@
     <ClCompile Include="TestLevel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Testing_Level.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Loading_Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -72,9 +75,6 @@
       <Filter>Source Files\Header</Filter>
     </ClInclude>
     <ClInclude Include="MainMenu.h">
-      <Filter>Source Files\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Testing_Level.h">
       <Filter>Source Files\Header</Filter>
     </ClInclude>
     <ClInclude Include="TestLevel.h">
