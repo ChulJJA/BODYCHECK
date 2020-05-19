@@ -22,6 +22,8 @@ enum class Sprite_Type
 {
     None,
     Player_Normal,
+    Player_Speed2,
+    Player_Speed3,
     Player_Locking,
     Player_Chasing,
     Player_Thinking,
@@ -101,6 +103,14 @@ public:
     {
         return shape;
     }
+    int& Get_Speed()
+    {
+        return speed;
+    }
+    int Get_Original_Speed()
+    {
+        return original_speed;
+    }
 private:
 
     Shader debug_shader;
@@ -119,6 +129,7 @@ private:
     bool is_animated = false;
     int frame = 0;
     int speed = 100;
+    int original_speed;
     float spriteWidth = 0;
     bool animated_init = true;
 	Sprite_Type sprite_type;

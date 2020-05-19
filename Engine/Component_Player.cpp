@@ -124,6 +124,54 @@ void Player::Update(float dt)
 					player_pos += velocity;
 				}
 			}
+			const float scale_plus = 0.003f;
+			const float scale_minus = 0.01f;
+
+			const float speed_mag = magnitude_squared(velocity);
+			if (speed_mag > 100.f)
+			{
+				if (speed_mag < 400.f)
+				{
+					Component* speed2_sprite = m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Speed2);
+					if (speed2_sprite != m_owner->Get_Current_Sprite())
+					{
+						m_owner->Change_Sprite(speed2_sprite);
+					}
+				}
+				else
+				{
+					Component* speed3_sprite = m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Speed3);
+					if (speed3_sprite != m_owner->Get_Current_Sprite())
+					{
+						m_owner->Change_Sprite(speed3_sprite);
+					}
+				}
+				m_owner->GetScale_Reference().x += scale_plus;
+				m_owner->GetScale_Reference().y += scale_plus;
+			}
+			else
+			{
+				vector2& scale = m_owner->GetScale_Reference();
+				vector2 og_scale = m_owner->GetTransform().Get_Original_Scale();
+				if (scale.x > og_scale.x)
+				{
+					scale.x -= scale_minus;
+					scale.y -= scale_minus;
+				}
+
+				if (speed_mag < 20.f)
+				{
+					if (m_owner->Get_Current_Sprite() == m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Speed2) || 
+						m_owner->Get_Current_Sprite() == m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Speed3))
+					{
+						Component* normal_sprite = m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Normal);
+						if (normal_sprite != m_owner->Get_Current_Sprite())
+						{
+							m_owner->Change_Sprite(normal_sprite);
+						}
+					}
+				}
+			}
 
 		}
 		else if (curr_state == Player::Char_State::Reverse_Moving && curr_state != Player::Char_State::Time_Pause &&
@@ -1048,7 +1096,7 @@ void Player::PlayerDirecting()
 			{
 				direction.x -= 0.045f;
 			}
-		} 
+		}
 		else if (RightThumbStateY < 0)
 		{
 			direction.y -= 0.045f;

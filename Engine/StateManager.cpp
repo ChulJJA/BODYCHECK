@@ -81,7 +81,6 @@ void StateManager::AddState(std::string name, State* state)
 
 void StateManager::DeleteState()
 {
-	//auto find = std::find(states.begin(), states.end(), find);
 	states.erase("Level1");
 }
 

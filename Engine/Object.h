@@ -63,6 +63,7 @@ private:
 	//bool is_it_collided;
 	Component* current_showing_sprite;
     bool need_collision;
+
 public:
     GameState object_state;
 	void Add_Sprite_List(Component* comp)
@@ -73,6 +74,8 @@ public:
 		}
 		comp_sprite.push_back(comp);
 	}
+
+    
 	void Add_Pointed_By(Object** ptr)
 	{
 		if(std::find(pointed_by.begin(), pointed_by.end(), ptr) == pointed_by.end())

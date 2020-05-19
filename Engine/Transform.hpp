@@ -23,7 +23,10 @@ public:
     float CalculateWorldDepth() const noexcept;
     float GetDepth() const noexcept;
     void  SetDepth(float new_depth) noexcept;
-
+    vector2 Get_Original_Scale()
+    {
+        return original_scale;
+    }
     vector2 GetTranslation() const noexcept;
     vector2& GetTranslation_Reference()
     {
@@ -60,6 +63,6 @@ private:
     float            rotation = 0.0f;
     float            depth = 0.0f;
     const Transform* parent = nullptr;
-
+    vector2          original_scale{2.f, 2.f};
     vector2          center{0.0f, 0.0f};
 };
