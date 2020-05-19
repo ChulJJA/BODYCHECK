@@ -34,4 +34,5 @@ private:
 	bool is_ghost;
 	float ghost_timer = 5.0f;
     vector2 velocity{};
+    float sound_timer = 1.0f;
 };

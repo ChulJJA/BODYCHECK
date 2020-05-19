@@ -44,6 +44,7 @@ public:
 	void ErrorCheck(FMOD_RESULT result);
 	void Initialize();
 	void LoadSound();
+	void UnLoad();
 	void SetSoundGroup();
 	void Play(SOUND sound_Num);
 	void Stop(SOUND sound_Num);

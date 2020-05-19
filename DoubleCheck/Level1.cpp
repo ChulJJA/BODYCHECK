@@ -58,9 +58,18 @@ void Level1::Load()
 	object_manager = ObjectManager::GetObjectManager();
 	state_manager = StateManager::GetStateManager();
 	Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
-	
-	//sound.Stop(SOUND::BGM);
-	//sound.Play(SOUND::BGM2);
+	FMOD_BOOL isPlayingBGM;
+	FMOD_BOOL isPlayingBGM2;
+	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM)], &isPlayingBGM);
+	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlayingBGM2);
+	if(isPlayingBGM == true)
+	{
+		sound.Stop(SOUND::BGM);
+	}
+	if(isPlayingBGM2 == false)
+	{
+		sound.Play(SOUND::BGM2);
+	}
 
 	aud = Get_Audience();
 
@@ -143,18 +152,16 @@ void Level1::Load()
 
 void Level1::Update(float dt)
 {
+	FMOD_BOOL isBGMPlaying;
+
+	FMOD_Channel_IsPlaying(sound.channel[1], &isBGMPlaying);
+	//if(isBGMPlaying == false)
+	//{
+	//	sound.Play(SOUND::BGM2);
+	//}
 	referee->Update(dt);
 	Pause();
 }
-
-//void Level1::Pause()
-//{
-//	if(input.Is_Key_Pressed(GLFW_KEY_P))
-//	{
-//		sound.Play(SOUND::Click);
-//		is_pause = true;
-//	}
-//}
 
 void Level1::Pause()
 {
