@@ -151,6 +151,7 @@ void Msg_Func_Collision::Update(float dt)
 	}
 	else if (m_from->Get_Tag() == "player" && m_target->Get_Tag() == "player")
 	{
+	sound.Play(SOUND::Crack);
 		Player_And_Player_Collision();
 		Graphic::GetGraphic()->Get_View().Active_Screen_Shake(10.f);
 		
