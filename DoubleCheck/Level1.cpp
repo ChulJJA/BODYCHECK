@@ -58,9 +58,9 @@ void Level1::Load()
 	object_manager = ObjectManager::GetObjectManager();
 	state_manager = StateManager::GetStateManager();
 	Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
-
-	sound.Stop(SOUND::BGM);
-	sound.Play(SOUND::BGM2);
+	
+	//sound.Stop(SOUND::BGM);
+	//sound.Play(SOUND::BGM2);
 
 	aud = Get_Audience();
 
