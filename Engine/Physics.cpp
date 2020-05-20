@@ -29,7 +29,6 @@ void Physics::Init(Object* obj)
 void Physics::Update(float dt)
 {
 	SetGhostReference(dt);
-	--sound_timer;
 	//MoveObject();
 }
 
@@ -47,11 +46,6 @@ void Physics::KnockBack(Object* object_1, Object* object_2)
 
 		if (object_2_speed >= object_1_speed)
 		{
-			if (sound_timer <= 0)
-			{
-				sound.Play(SOUND::Crack);
-				sound_timer = 10.f;
-			}
 
 			direction_to_go = normalize(object_1_pos - object_2_pos);
 
@@ -63,11 +57,6 @@ void Physics::KnockBack(Object* object_1, Object* object_2)
 		}
 		else if (object_2_speed < object_1_speed)
 		{
-			if(sound_timer <= 0)
-			{
-				sound.Play(SOUND::Crack);
-				sound_timer = 10.f;
-			}
 
 			direction_to_go = normalize(object_2_pos - object_1_pos);
 
@@ -91,7 +80,7 @@ void Physics::KnockBack_Missile(Object* player, Object* missile)
 		const vector2 direction_to_go = normalize(object_1_pos - object_2_pos);
 		const float object_2_speed = VectorToScalar(object_2_velocity);
 		sound.Play(SOUND::Crack);
-		
+
 		player->GetComponentByTemplate<Player>()->SetPlayerVelocity(direction_to_go * object_2_speed);
 		player->GetTransform().AddTranslation(player->GetComponentByTemplate<Player>()->GetPlayerVelocity());
 	}
@@ -102,8 +91,8 @@ void Physics::PushPlayer(Object* player, Object* object)
 	vector2 object_velocity = object->GetComponentByTemplate<Physics>()->GetVelocity();
 
 	Player* info_player = player->GetComponentByTemplate<Player>();
-	
-	if(info_player != nullptr)
+
+	if (info_player != nullptr)
 	{
 		info_player->SetPlayerVelocity(object_velocity);
 	}
@@ -112,7 +101,7 @@ void Physics::PushPlayer(Object* player, Object* object)
 void Physics::SpeedDown(Object* object)
 {
 	Component* info_player = object->GetComponentByTemplate<Player>();
-	if(info_player != nullptr)
+	if (info_player != nullptr)
 	{
 		if (!object->IsDead())
 		{
@@ -142,7 +131,7 @@ void Physics::SetGhostReference(float dt)
 			{
 				m_owner->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1.0f,1.0f,1.0f,1.0f };
 			}
-			
+
 			ghost_timer = 1.0f;
 			is_ghost = false;
 			m_owner->SetNeedCollision(true);

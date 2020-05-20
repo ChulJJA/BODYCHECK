@@ -52,7 +52,7 @@ public:
 	void SetVolume(SOUND channel_Num, float volume);
 	float GetSoundGroupVolume(bool is_bgm);
 	void SetSoundGroupVolume(bool is_bgm, float volume);
-
+	bool isInitialized;
 private:
 	float volume_info[SOUND_NUM] = {};
 };

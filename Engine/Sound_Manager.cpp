@@ -32,7 +32,7 @@ void Sound::Initialize()
 	ErrorCheck(result);
 	result = FMOD_System_Init(f_system, SOUND_NUM, FMOD_INIT_NORMAL, nullptr);
 	ErrorCheck(result);
-
+	isInitialized = true;
 	LoadSound();
 	SetSoundGroup();
 }
@@ -84,6 +84,8 @@ void Sound::LoadSound()
 
 void Sound::UnLoad()
 {
+	result = FMOD_System_Release(f_system);
+	isInitialized = false;
 }
 
 void Sound::SetSoundGroup()
@@ -114,7 +116,10 @@ void Sound::SetSoundGroup()
 
 void Sound::Play(SOUND sound_Num)
 {
+	float volume;
 	result = FMOD_System_PlaySound(f_system, sound[(int)sound_Num], 0, 0, &channel[(int)sound_Num]);
+	FMOD_Channel_GetVolume(channel[(int)sound_Num], &volume);
+	std::cout << "sex: " << volume << std::endl;
 	ErrorCheck(result);
 }
 
