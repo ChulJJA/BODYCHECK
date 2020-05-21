@@ -327,6 +327,27 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	player->Set_Dmg_Text(text);
 	player->SetNeedCollision(true);
 
+	if (name == "first")
+	{
+		Object* aud = ObjectManager::GetObjectManager()->Find_Object_By_Name("audience_green");
+		player->GetComponentByTemplate<Player>()->Set_Audience(aud);
+	}
+	else if (name == "second")
+	{
+		Object* aud = ObjectManager::GetObjectManager()->Find_Object_By_Name("audience_red");
+		player->GetComponentByTemplate<Player>()->Set_Audience(aud);
+	}
+	else if (name == "third")
+	{
+		Object* aud = ObjectManager::GetObjectManager()->Find_Object_By_Name("audience_blue");
+		player->GetComponentByTemplate<Player>()->Set_Audience(aud);
+	}
+	else if (name == "fourth")
+	{
+		Object* aud = ObjectManager::GetObjectManager()->Find_Object_By_Name("audience_normal");
+		player->GetComponentByTemplate<Player>()->Set_Audience(aud);
+	}
+
 	return player;
 }
 

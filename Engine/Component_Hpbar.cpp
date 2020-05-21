@@ -63,31 +63,37 @@ void Hp_Bar::Decrease(float dmg)
 
 			if (hitting_obj != nullptr)
 			{
-				//hitting_obj->GetTransform().GetScale_Reference() += {0.7f, 0.7f};
-				//hitting_obj->Get_Plus_Dmg() += 0.1f;
-				Object* audience = ObjectManager::GetObjectManager()->Find_Object_By_Name("audience");
+				Object* die_obj_audience = hp_owner->GetComponentByTemplate<Player>()->Get_Audience();
 
 				if(hitting_obj->GetName() == "first")
 				{
+					Object* audience = ObjectManager::GetObjectManager()->Find_Object_By_Name("audience_green");
+
 					Message_Manager::Get_Message_Manager()->Save_Message(new Message(
-						audience, nullptr, Message_Kind::Audience_Green_Joy, 3.f));
+						audience, die_obj_audience, Message_Kind::Audience_Green_Joy, 3.f));
 				}
 				else if (hitting_obj->GetName() == "second")
 				{
+					Object* audience = ObjectManager::GetObjectManager()->Find_Object_By_Name("audience_red");
+
 					Message_Manager::Get_Message_Manager()->Save_Message(new Message(
-						audience, nullptr, Message_Kind::Audience_Red_Joy, 3.f));
+						audience, die_obj_audience, Message_Kind::Audience_Red_Joy, 3.f));
 				}
 				else if (hitting_obj->GetName() == "third")
 				{
+					Object* audience = ObjectManager::GetObjectManager()->Find_Object_By_Name("audience_blue");
+
 					Message_Manager::Get_Message_Manager()->Save_Message(new Message(
-						audience, nullptr, Message_Kind::Audience_Blue_Joy, 3.f));
+						audience, die_obj_audience, Message_Kind::Audience_Blue_Joy, 3.f));
 					//Message_Manager::Get_Message_Manager()->Save_Message(new Message(Referee::Get_Referee()->Get_Third_Kill(), 
 						//nullptr, Message_Kind::));
 				}
 				else if (hitting_obj->GetName() == "fourth")
 				{
+					Object* audience = ObjectManager::GetObjectManager()->Find_Object_By_Name("audience_normal");
+
 					Message_Manager::Get_Message_Manager()->Save_Message(new Message(
-						audience, nullptr, Message_Kind::Audience_Normal_Joy, 3.f));
+						audience, die_obj_audience, Message_Kind::Audience_Normal_Joy, 3.f));
 				}
 			}
 			

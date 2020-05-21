@@ -58,7 +58,7 @@ void Level1::Load()
 	);
 
 	current_state = GameState::Game;
-	transition_timer = 5.9f;
+	transition_timer = 4.9f;
 	referee = Referee::Get_Referee();
 	object_manager = ObjectManager::GetObjectManager();
 	state_manager = StateManager::GetStateManager();
@@ -76,7 +76,6 @@ void Level1::Load()
 		sound.Play(SOUND::BGM2);
 	}
 
-	aud = Get_Audience();
 
 	arena = new Object();
 	arena->Set_Name("arena");
@@ -104,6 +103,8 @@ void Level1::Load()
 	ObjectManager::GetObjectManager()->AddObject(arena);
 	ObjectManager::GetObjectManager()->AddObject(fire1);
 	ObjectManager::GetObjectManager()->AddObject(fire2);
+
+	aud = Get_Audience();
 
 	player_first_ui = Make_Set_Ui("first_ui", "ui", "../Sprite/UI/pen_green_ui.png", { -1300, -800 }, { 5.0f,5.0f }, player);
 	player_second_ui = Make_Set_Ui("second_ui", "ui", "../Sprite/UI/pen_red_ui.png", { -500, -800 }, { 5.0f,5.0f }, player_sec);
@@ -154,8 +155,8 @@ void Level1::Update(float dt)
 			int timer_in_int = (int)transition_timer;
 			
 
-			if (((transition_timer > 4.f && transition_timer < 4.4f) ||
-				((transition_timer > 2.f && transition_timer < 2.4f)
+			if (((transition_timer > 1.8f && transition_timer < 2.4f) ||
+				((transition_timer > 3.6f && transition_timer < 4.2f)
 					)) && timer_in_int > 1)
 			{
 				timer_in_int = 6;

@@ -106,8 +106,12 @@ public:
 
 	void Change_Weapon_Sprite(Component* weapon_sprite);
 
+
 	Item_Use_Status Get_Item_Used_Status();
 	void Set_Item_Used_Status(Item_Use_Status status);
+
+	void Set_Audience(Object* obj);
+	Object* Get_Audience();
 	
 private:
     Object* hp_bar = nullptr;
@@ -137,4 +141,6 @@ private:
 	Char_State change_to_state = Char_State::None;
 	Item_Use_Status item_used = Item_Use_Status::None;
 	Object* install_mine;
+
+	Object* aud;
 };

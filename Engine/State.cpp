@@ -162,6 +162,28 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 	player->AddComponent(new Physics(), "physics");
 	player->Set_Current_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Player_Normal));
 	player->GetTransform().SetScale(scale);
+
+	if (name == "first")
+	{
+		Object* aud = ObjectManager::GetObjectManager()->Find_Object_By_Name("audience_green");
+		player->GetComponentByTemplate<Player>()->Set_Audience(aud);
+	}
+	else if (name == "second")
+	{
+		Object* aud = ObjectManager::GetObjectManager()->Find_Object_By_Name("audience_red");
+		player->GetComponentByTemplate<Player>()->Set_Audience(aud);
+	}
+	else if (name == "third")
+	{
+		Object* aud = ObjectManager::GetObjectManager()->Find_Object_By_Name("audience_blue");
+		player->GetComponentByTemplate<Player>()->Set_Audience(aud);
+	}
+	else if (name == "fourth")
+	{
+		Object* aud = ObjectManager::GetObjectManager()->Find_Object_By_Name("audience_normal");
+		player->GetComponentByTemplate<Player>()->Set_Audience(aud);
+	}
+
 	ObjectManager::GetObjectManager()->AddObject(player);
 
 	return player;
