@@ -36,7 +36,7 @@ namespace
 
 void Level1::Load()
 {
-	if(sound.isInitialized == false)
+	if (sound.isInitialized == false)
 	{
 		sound.Initialize();
 	}
@@ -58,6 +58,7 @@ void Level1::Load()
 	);
 
 	current_state = GameState::Game;
+	transition_timer = 3.9f;
 	referee = Referee::Get_Referee();
 	object_manager = ObjectManager::GetObjectManager();
 	state_manager = StateManager::GetStateManager();
@@ -66,11 +67,11 @@ void Level1::Load()
 	FMOD_BOOL isPlayingBGM2;
 	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM)], &isPlayingBGM);
 	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlayingBGM2);
-	if(isPlayingBGM == true)
+	if (isPlayingBGM == true)
 	{
 		sound.Stop(SOUND::BGM);
 	}
-	if(isPlayingBGM2 == false)
+	if (isPlayingBGM2 == false)
 	{
 		sound.Play(SOUND::BGM2);
 	}
@@ -119,33 +120,14 @@ void Level1::Load()
 	player_third->GetComponentByTemplate<Player>()->Set_This_UI_info(player_third_ui);
 	player_forth->GetComponentByTemplate<Player>()->Set_This_UI_info(player_fourth_ui);
 
-	//text = Make_Set_Text("red_text", "text", { 200,0 }, player, { 0,1,0,1 }, { 150,150 }, &font);
-	//text_2 = Make_Set_Text("green_text", "text", { 200,-200 }, player_sec, { 1,0,0,1 }, { 150,150 }, &font);
-	//text_3 = Make_Set_Text("blue_text", "text", { 200,-400 }, player_third, { 0.54,0,1,1 }, { 150,150 }, &font);
-	//text_4 = Make_Set_Text("yellow_text", "text", { 200,-400 }, player_forth, { 0.5,0.5,0.5,1 }, { 150,150 }, &font);
-
-
-	//player->GetComponentByTemplate<Player>()->Set_This_UI_info(player_first_ui);
-	//player_sec->GetComponentByTemplate<Player>()->Set_This_UI_info(player_second_ui);
-	//player_third->GetComponentByTemplate<Player>()->Set_This_UI_info(player_third_ui);
-	//player_forth->GetComponentByTemplate<Player>()->Set_This_UI_info(player_fourth_ui);
-
 	Referee::Get_Referee()->Set_First_Ui(player_first_ui);
 	Referee::Get_Referee()->Set_Second_Ui(player_second_ui);
 	Referee::Get_Referee()->Set_Third_Ui(player_third_ui);
 	Referee::Get_Referee()->Set_Fourth_Ui(player_fourth_ui);
 
-	//Referee::Get_Referee()->Set_First_Text(text);
-	//Referee::Get_Referee()->Set_Second_Text(text_2);
-	//Referee::Get_Referee()->Set_Third_Text(text_3);
-	//Referee::Get_Referee()->Set_Fourth_Text(text_4);
-
-
 	referee->Init();
 
 	Graphic::GetGraphic()->get_need_update_sprite() = true;
-
-
 
 	loading->Set_Done(false);
 	if (loading_thread.joinable())
@@ -163,7 +145,62 @@ void Level1::Update(float dt)
 	//{
 	//	sound.Play(SOUND::BGM2);
 	//}
-	referee->Update(dt);
+	if (dt_refreshed == true)
+	{
+		if (transition_timer > 0.f)
+		{
+			transition_timer -= dt;
+
+			int timer_in_int = (int)transition_timer;
+			Object* timer_obj = nullptr;
+			Object* prev_timer_obj = nullptr;
+			switch (timer_in_int)
+			{
+			case 1:
+				timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer1");
+				prev_timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer2");
+				break;
+			case 2:
+				timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer2");
+				prev_timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer3");
+				break;
+			case 3:
+				timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer3");
+				break;
+			case 4:
+				break;
+			}
+
+			if (prev_timer_obj != nullptr)
+			{
+				prev_timer_obj->Set_Need_To_Update(false);
+				timer_obj->Set_Need_To_Update(true);
+			}
+		}
+		else
+		{
+			referee->Update(dt);
+
+			if (timer_deleted == false)
+			{
+				std::vector<Object*> timers = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("timer");
+
+				int size = timers.size();
+
+				for (int i = 0; i < size; ++i)
+				{
+					timers[i]->SetDeadCondition(true);
+				}
+
+				timer_deleted = true;
+			}
+		}
+	}
+	else
+	{
+		dt_refreshed = true;
+	}
+
 	Pause();
 }
 

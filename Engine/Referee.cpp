@@ -57,6 +57,35 @@ void Referee::Set_Win_State()
 
 }
 
+void Referee::Set_Timer()
+{
+	timer_1 = new Object();
+	timer_2 = new Object();
+	timer_3 = new Object();
+
+	timer_1->Set_Tag("timer");
+	timer_2->Set_Tag("timer");
+	timer_3->Set_Tag("timer");
+	timer_1->Set_Name("timer1");
+	timer_2->Set_Name("timer2");
+	timer_3->Set_Name("timer3");
+
+	vector2 pos{ 0.f, 0.f };
+	timer_1->AddComponent(new Sprite(timer_1, "../Sprite/UI/1.png", pos, false, Sprite_Type::Num_1), "num1", true);
+	timer_1->Set_Need_To_Update(false);
+	timer_2->AddComponent(new Sprite(timer_2, "../Sprite/UI/2.png", pos, false, Sprite_Type::Num_2), "num2", true);
+	timer_2->Set_Need_To_Update(false);
+	timer_3->AddComponent(new Sprite(timer_3, "../Sprite/UI/3.png", pos, false, Sprite_Type::Num_3), "num3", true);
+	timer_3->Set_Need_To_Update(true);
+	timer_1->SetScale(3.f);
+	timer_2->SetScale(3.f);
+	timer_3->SetScale(3.f);
+	
+	ObjectManager::GetObjectManager()->AddObject(timer_1);
+	ObjectManager::GetObjectManager()->AddObject(timer_2);
+	ObjectManager::GetObjectManager()->AddObject(timer_3);
+}
+
 Referee::Referee()
 {
 	state_manager = StateManager::GetStateManager();
@@ -113,6 +142,7 @@ void Referee::Init()
 	SetItem();
 	Set_Win_State();
 	Set_Kill_State();
+	Set_Timer();
 
 }
 

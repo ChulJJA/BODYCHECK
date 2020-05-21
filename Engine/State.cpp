@@ -82,6 +82,7 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 	
 	Object* player;
 	player = new Object();
+	player->SetTranslation(pos);
 	player->Set_Name(name);
 	player->Set_Tag(tag);
 	player->SetNeedCollision(true);
