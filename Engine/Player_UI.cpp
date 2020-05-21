@@ -68,7 +68,7 @@ void PLAYER_UI::Reset()
     const vector2 this_trans = this->GetTransform().GetTranslation();
 	Sprite* info_item_sprite = info_item->GetComponentByTemplate<Sprite>();
 
-	info_item->GetTransform().SetTranslation({ this_trans.x + 400, this_trans.y });
+	info_item->GetTransform().SetTranslation({ this_trans.x + 200, this_trans.y });
 	info_item->Change_Sprite(info_item->Find_Sprite_By_Type(Sprite_Type::None));
     info_item->GetMesh().Get_Is_Moved() = true;
 }

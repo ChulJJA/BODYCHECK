@@ -151,10 +151,10 @@ void Msg_Func_Collision::Update(float dt)
 	}
 	else if (m_from->Get_Tag() == "player" && m_target->Get_Tag() == "player")
 	{
-	sound.Play(SOUND::Crack);
+		sound.Play(SOUND::Crack);
 		Player_And_Player_Collision();
 		Graphic::GetGraphic()->Get_View().Active_Screen_Shake(10.f);
-		
+
 		Player* player_from_info = m_from->GetComponentByTemplate<Player>();
 		Player* player_target_info = m_target->GetComponentByTemplate<Player>();
 
@@ -236,13 +236,13 @@ void Msg_Func_Collision::Update(float dt)
 		{
 			//player_from_info->Set_Stop_Timer(0.0f);
 			player_from_info->Change_To_Normal_State();
-			
+
 		}
 		else if (player_target_info->Get_Char_State_Additional() == Player::Char_State_Additional::Get_mine)
 		{
 			//player_target_info->Set_Stop_Timer(0.0f);
 			player_target_info->Change_To_Normal_State();
-			
+
 		}
 
 	}
@@ -333,53 +333,53 @@ void Msg_Func_Collision::Player_And_Player_Collision()
 		info_player_from->Get_Regeneration_Timer() = 0.f;
 
 
-			if (m_from->GetComponentByTemplate<Player>() != nullptr)
+		if (m_from->GetComponentByTemplate<Player>() != nullptr)
+		{
+			m_target->Set_Hitted_By(m_from);
+		}
+
+		if (m_target->GetComponentByTemplate<Player>() != nullptr)
+		{
+			m_from->Set_Hitted_By(m_target);
+		}
+
+		Object* target_hp_bar = m_target->Get_Belong_Object_By_Tag("hp_bar");
+		Object* from_hp_bar = m_from->Get_Belong_Object_By_Tag("hp_bar");
+
+		if (target_hp_bar != nullptr || from_hp_bar != nullptr)
+		{
+			Hp_Bar* hp_bar_info_target = target_hp_bar->GetComponentByTemplate<Hp_Bar>();
+			Hp_Bar* hp_bar_info_from = from_hp_bar->GetComponentByTemplate<Hp_Bar>();
+
+			if (hp_bar_info_from != nullptr && hp_bar_info_target != nullptr)
 			{
-				m_target->Set_Hitted_By(m_from);
-			}
-
-			if (m_target->GetComponentByTemplate<Player>() != nullptr)
-			{
-				m_from->Set_Hitted_By(m_target);
-			}
-
-			Object* target_hp_bar = m_target->Get_Belong_Object_By_Tag("hp_bar");
-			Object* from_hp_bar = m_from->Get_Belong_Object_By_Tag("hp_bar");
-
-			if (target_hp_bar != nullptr || from_hp_bar != nullptr)
-			{
-				Hp_Bar* hp_bar_info_target = target_hp_bar->GetComponentByTemplate<Hp_Bar>();
-				Hp_Bar* hp_bar_info_from = from_hp_bar->GetComponentByTemplate<Hp_Bar>();
-
-				if (hp_bar_info_from != nullptr && hp_bar_info_target != nullptr)
+				if (info_player_target->Get_Item_Used_Status() == Player::Item_Use_Status::None &&
+					hp_bar_info_target->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
 				{
-					if (info_player_target->Get_Item_Used_Status() == Player::Item_Use_Status::None &&
-						hp_bar_info_target->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
-					{
-						hp_bar_info_target->Decrease(dmg_set.first / 20);
+					hp_bar_info_target->Decrease(dmg_set.first / 20);
 
-						if (info_player_target->Get_Char_State() != Player::Char_State::Reverse_Moving)
-						{
-							m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
-							hp_bar_info_target->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
-							hp_bar_info_target->Set_Timer(1.f);
-						}
+					if (info_player_target->Get_Char_State() != Player::Char_State::Reverse_Moving)
+					{
+						m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
+						hp_bar_info_target->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
+						hp_bar_info_target->Set_Timer(1.f);
 					}
-					if (info_player_from->Get_Item_Used_Status() == Player::Item_Use_Status::None &&
-						hp_bar_info_from->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
-					{
-						hp_bar_info_from->Decrease(dmg_set.second / 20);
+				}
+				if (info_player_from->Get_Item_Used_Status() == Player::Item_Use_Status::None &&
+					hp_bar_info_from->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
+				{
+					hp_bar_info_from->Decrease(dmg_set.second / 20);
 
-						if (info_player_from->Get_Char_State() != Player::Char_State::Reverse_Moving)
-						{
-							m_from->Change_Sprite(m_from->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
-							hp_bar_info_from->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
-							hp_bar_info_from->Set_Timer(1.f);
-						}
+					if (info_player_from->Get_Char_State() != Player::Char_State::Reverse_Moving)
+					{
+						m_from->Change_Sprite(m_from->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
+						hp_bar_info_from->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
+						hp_bar_info_from->Set_Timer(1.f);
 					}
 				}
 			}
-		
+		}
+
 	}
 }
 
