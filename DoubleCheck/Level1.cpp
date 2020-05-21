@@ -58,7 +58,7 @@ void Level1::Load()
 	);
 
 	current_state = GameState::Game;
-	transition_timer = 3.9f;
+	transition_timer = 5.9f;
 	referee = Referee::Get_Referee();
 	object_manager = ObjectManager::GetObjectManager();
 	state_manager = StateManager::GetStateManager();
@@ -152,22 +152,40 @@ void Level1::Update(float dt)
 			transition_timer -= dt;
 
 			int timer_in_int = (int)transition_timer;
+			
+
+			if (((transition_timer > 4.f && transition_timer < 4.4f) ||
+				((transition_timer > 2.f && transition_timer < 2.4f)
+					)) && timer_in_int > 1)
+			{
+				timer_in_int = 6;
+			}
+
 			Object* timer_obj = nullptr;
 			Object* prev_timer_obj = nullptr;
+
 			switch (timer_in_int)
 			{
 			case 1:
 				timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer1");
-				prev_timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer2");
+				prev_timer = timer_obj;
+				prev_timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer_erase");
 				break;
 			case 2:
-				timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer2");
-				prev_timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer3");
-				break;
 			case 3:
-				timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer3");
+				timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer2");
+				prev_timer = timer_obj;
+				prev_timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer_erase");
 				break;
 			case 4:
+			case 5:
+				timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer3");
+				prev_timer = timer_obj;
+				break;
+			case 6:
+				timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer_erase");
+				timer_obj->Set_Need_To_Update(true);
+				prev_timer->Set_Need_To_Update(false);
 				break;
 			}
 

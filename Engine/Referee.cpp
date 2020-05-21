@@ -62,28 +62,38 @@ void Referee::Set_Timer()
 	timer_1 = new Object();
 	timer_2 = new Object();
 	timer_3 = new Object();
+	timer_erase = new Object();
 
 	timer_1->Set_Tag("timer");
 	timer_2->Set_Tag("timer");
 	timer_3->Set_Tag("timer");
+	timer_erase->Set_Tag("timer");
 	timer_1->Set_Name("timer1");
 	timer_2->Set_Name("timer2");
 	timer_3->Set_Name("timer3");
+	timer_erase->Set_Name("timer_erase");
 
 	vector2 pos{ 0.f, 0.f };
-	timer_1->AddComponent(new Sprite(timer_1, "../Sprite/UI/1.png", pos, false, Sprite_Type::Num_1), "num1", true);
+	timer_1->AddComponent(new Sprite(timer_1, "../Sprite/UI/timer1.png", pos, false, Sprite_Type::Num_1), "num1", true);
 	timer_1->Set_Need_To_Update(false);
-	timer_2->AddComponent(new Sprite(timer_2, "../Sprite/UI/2.png", pos, false, Sprite_Type::Num_2), "num2", true);
+	timer_2->AddComponent(new Sprite(timer_2, "../Sprite/UI/timer2.png", pos, false, Sprite_Type::Num_2), "num2", true);
 	timer_2->Set_Need_To_Update(false);
-	timer_3->AddComponent(new Sprite(timer_3, "../Sprite/UI/3.png", pos, false, Sprite_Type::Num_3), "num3", true);
+	timer_3->AddComponent(new Sprite(timer_3, "../Sprite/UI/timer3.png", pos, false, Sprite_Type::Num_3), "num3", true);
 	timer_3->Set_Need_To_Update(true);
-	timer_1->SetScale(3.f);
-	timer_2->SetScale(3.f);
-	timer_3->SetScale(3.f);
+	timer_erase->AddComponent(new Sprite(timer_erase, "../Sprite/UI/timer_erase.png", true, 3, 18, pos, { 100.f,100.f },
+		{ 255,255,255,255 }, Sprite_Type::None), "timer_erase", true);
+	timer_erase->Set_Need_To_Update(false);
+
+	vector2 scale{ 9.f, 7.f };
+	timer_1->SetScale(scale);
+	timer_2->SetScale(scale);
+	timer_3->SetScale(scale);
+	timer_erase->SetScale(scale);
 	
 	ObjectManager::GetObjectManager()->AddObject(timer_1);
 	ObjectManager::GetObjectManager()->AddObject(timer_2);
 	ObjectManager::GetObjectManager()->AddObject(timer_3);
+	ObjectManager::GetObjectManager()->AddObject(timer_erase);
 }
 
 Referee::Referee()
@@ -607,7 +617,7 @@ void Referee::Set_Kill_State()
 	first_kill->Set_Tag("kill");
 	first_kill->AddComponent(new Sprite(first_kill, "../sprite/Player/State/green_kill.png", true, 4, 12, { 0.f, 0.f }, { 100.f, 100.f },
 		{ 255,255,255,255 }), "kill");
-	first_kill->SetScale({ 10.f, 5.f });
+	first_kill->SetScale({ 15.f, 5.f });
 	first_kill->SetTranslation({ 1400.f, 600.f });
 	first_kill->Set_Need_To_Update(false);
 
@@ -616,7 +626,7 @@ void Referee::Set_Kill_State()
 	second_kill->Set_Tag("kill");
 	second_kill->AddComponent(new Sprite(second_kill, "../sprite/Player/State/red_kill.png", true, 4, 12, { 0.f, 0.f }, { 100.f, 100.f },
 		{ 255,255,255,255 }), "kill");
-	second_kill->SetScale({ 10.f, 5.f });
+	second_kill->SetScale({ 15.f, 5.f });
 	second_kill->SetTranslation({ 1400.f, -600.f });
 	second_kill->Set_Need_To_Update(false);
 
@@ -625,7 +635,7 @@ void Referee::Set_Kill_State()
 	third_kill->Set_Tag("kill");
 	third_kill->AddComponent(new Sprite(third_kill, "../sprite/Player/State/blue_kill.png", true, 4, 12, { 0.f, 0.f }, { 100.f, 100.f },
 		{ 255,255,255,255 }), "kill");
-	third_kill->SetScale({ 10.f, 5.f });
+	third_kill->SetScale({ 15.f, 5.f });
 	third_kill->SetTranslation({ -1400.f, 600.f });
 	third_kill->Set_Need_To_Update(false);
 
@@ -634,7 +644,7 @@ void Referee::Set_Kill_State()
 	fourth_kill->Set_Tag("kill");
 	fourth_kill->AddComponent(new Sprite(fourth_kill, "../sprite/Player/State/normal_kill.png", true, 4, 12, { 0.f, 0.f }, { 100.f, 100.f },
 		{ 255,255,255,255 }), "kill");
-	fourth_kill->SetScale({ 10.f, 5.f });
+	fourth_kill->SetScale({ 15.f, 5.f });
 	fourth_kill->SetTranslation({ -1400.f, -600.f });
 	fourth_kill->Set_Need_To_Update(false);
 
