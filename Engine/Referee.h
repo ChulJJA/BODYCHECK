@@ -113,6 +113,7 @@ public:
 	{
         return player_first_life;
 	}
+    void Set_Timer();
 
 private:
     Referee();
@@ -149,7 +150,7 @@ private:
     Object** item_mine;
 
 	Object** missile_saving;
-    float item_respawn_timer = 0.0f;
+    float item_respawn_timer = 3.0f;
 	
     int item_num = 10;
     int item_num_heal = 10;
@@ -185,6 +186,11 @@ private:
     Object* second_kill;
     Object* third_kill;
     Object* fourth_kill;
+
+    Object* timer_1;
+    Object* timer_2;
+    Object* timer_3;
+    Object* timer_erase;
 
     bool win = false;
 	

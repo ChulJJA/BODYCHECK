@@ -38,6 +38,7 @@ public:
     //void Pause();
     void Pause();
     void Clear();
+
 	
 private:
     Object* player;
@@ -45,10 +46,6 @@ private:
     Object* player_third;
     Object* player_forth;
 
- //   Object* text;
-	//Object* text_2;
-	//Object* text_3;
-	//Object* text_4;
     Object* arena;
 
     Object* pause;
@@ -67,4 +64,7 @@ private:
     Object* aud;
 
 	bool showing_editor = true;
+    bool dt_refreshed = false;
+    bool timer_deleted = false;
+    Object* prev_timer = nullptr;
 };

@@ -56,81 +56,86 @@ void Player::Init(Object* obj)
 void Player::Update(float dt)
 {
 	float RightTriggerState = gamepadManager->RightTrigger();
-	if (m_owner->Get_Tag() == "player")
+
+	if (curr_state == Char_State::Prepare)
 	{
-		if (curr_state == Char_State::Prepare)
+		if (prepare_sprite_timer != 0.f)
 		{
-			if (prepare_sprite_timer != 0.f)
+			if (prepare_sprite_timer > 0.f)
 			{
-				if (prepare_sprite_timer > 0.f)
-				{
-					prepare_sprite_timer -= dt;
-				}
-				else
-				{
-					m_owner->Change_Sprite(change_to_sprite);
-					curr_state = Char_State::Prepared;
-				}
+				prepare_sprite_timer -= dt;
+			}
+			else
+			{
+				m_owner->Change_Sprite(change_to_sprite);
+				curr_state = Char_State::Prepared;
 			}
 		}
-		if (item_used == Item_Use_Status::Bulkup)
+	}
+	if (item_used == Item_Use_Status::Bulkup)
+	{
+		m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Bulkup_Used));
+	}
+
+	else if (curr_state == Char_State::Time_Pause)
+	{
+		Func_Time_Pause(dt);
+	}
+	else if (curr_state == Char_State::Reverse_Moving)
+	{
+		Func_Reverse_Moving(dt);
+	}
+	else if (curr_state == Char_State::Mine)
+	{
+		Func_Mine(dt);
+	}
+
+	else if (curr_state_additional == Char_State_Additional::Get_mine)
+	{
+		Func_Mine_Collided(dt);
+	}
+
+
+	vector2& player_pos = m_owner->GetTransform().GetTranslation_Reference();
+
+	if (hp_bar != nullptr)
+	{
+		vector2& hp_pos = hp_bar->GetTransform().GetTranslation_Reference();
+
+		hp_pos.x = player_pos.x;
+		hp_pos.y = player_pos.y - 100;
+	}
+
+
+	if (curr_state != Player::Char_State::Reverse_Moving && curr_state != Player::Char_State::Time_Pause &&
+		curr_state_additional != Char_State_Additional::Chasing /*&& curr_state_additional != Char_State_Additional::Get_mine*/)
+	{
+		if (m_owner->Get_Current_Sprite() != m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Die))
 		{
-			m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Bulkup_Used));
-		}
-
-		else if (curr_state == Char_State::Time_Pause)
-		{
-			Func_Time_Pause(dt);
-		}
-		else if (curr_state == Char_State::Reverse_Moving)
-		{
-			Func_Reverse_Moving(dt);
-		}
-		else if (curr_state == Char_State::Mine)
-		{
-			Func_Mine(dt);
-		}
-
-		else if (curr_state_additional == Char_State_Additional::Get_mine)
-		{
-			Func_Mine_Collided(dt);
-		}
-
-
-		vector2& player_pos = m_owner->GetTransform().GetTranslation_Reference();
-
-		if (hp_bar != nullptr)
-		{
-			vector2& hp_pos = hp_bar->GetTransform().GetTranslation_Reference();
-
-			hp_pos.x = player_pos.x;
-			hp_pos.y = player_pos.y - 100;
-		}
-
-
-		if (curr_state != Player::Char_State::Reverse_Moving && curr_state != Player::Char_State::Time_Pause &&
-			curr_state_additional != Char_State_Additional::Chasing /*&& curr_state_additional != Char_State_Additional::Get_mine*/)
-		{
-			if (m_owner->Get_Current_Sprite() != m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Die))
+			if (curr_state_additional != Char_State_Additional::Get_mine)
 			{
-				if (curr_state_additional != Char_State_Additional::Get_mine)
-				{
 
-					PlayerMovement(0.6f, 0.12f);
-					player_pos += velocity;
-				}
-				else
-				{
-					player_pos += velocity;
-				}
+				PlayerMovement(0.6f, 0.12f);
+				player_pos += velocity;
 			}
-			const float scale_plus = 0.003f;
-			const float scale_minus = 0.01f;
-
-			const float speed_mag = magnitude_squared(velocity);
-			if (speed_mag > 100.f)
+			else
 			{
-				if (speed_mag < 400.f)
+				player_pos += velocity;
+			}
+		}
+		const float scale_plus = 0.003f;
+		const float scale_minus = 0.01f;
+
+		const float speed_mag = magnitude_squared(velocity);
+
+		if (speed_mag > 100.f)
+		{
+			Component* normal_sprite = m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Normal);
+
+
+			if (speed_mag < 400.f)
+			{
+				if (normal_sprite == m_owner->Get_Current_Sprite())
 				{
 					Component* speed2_sprite = m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Speed2);
 					if (speed2_sprite != m_owner->Get_Current_Sprite())
@@ -138,7 +143,12 @@ void Player::Update(float dt)
 						m_owner->Change_Sprite(speed2_sprite);
 					}
 				}
-				else
+			}
+			else
+			{
+				Component* speed2_sprite = m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Speed2);
+
+				if (speed2_sprite == m_owner->Get_Current_Sprite())
 				{
 					Component* speed3_sprite = m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Speed3);
 					if (speed3_sprite != m_owner->Get_Current_Sprite())
@@ -146,58 +156,59 @@ void Player::Update(float dt)
 						m_owner->Change_Sprite(speed3_sprite);
 					}
 				}
-				m_owner->GetScale_Reference().x += scale_plus;
-				m_owner->GetScale_Reference().y += scale_plus;
 			}
-			else
+			m_owner->GetScale_Reference().x += scale_plus;
+			m_owner->GetScale_Reference().y += scale_plus;
+		}
+		else
+		{
+			vector2& scale = m_owner->GetScale_Reference();
+			vector2 og_scale = m_owner->GetTransform().Get_Original_Scale();
+			if (scale.x > og_scale.x)
 			{
-				vector2& scale = m_owner->GetScale_Reference();
-				vector2 og_scale = m_owner->GetTransform().Get_Original_Scale();
-				if (scale.x > og_scale.x)
-				{
-					scale.x -= scale_minus;
-					scale.y -= scale_minus;
-				}
+				scale.x -= scale_minus;
+				scale.y -= scale_minus;
+			}
 
-				if (speed_mag < 20.f)
+			if (speed_mag < 20.f)
+			{
+				if (m_owner->Get_Current_Sprite() == m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Speed2) ||
+					m_owner->Get_Current_Sprite() == m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Speed3))
 				{
-					if (m_owner->Get_Current_Sprite() == m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Speed2) || 
-						m_owner->Get_Current_Sprite() == m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Speed3))
+					Component* normal_sprite = m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Normal);
+					if (normal_sprite != m_owner->Get_Current_Sprite())
 					{
-						Component* normal_sprite = m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Normal);
-						if (normal_sprite != m_owner->Get_Current_Sprite())
-						{
-							m_owner->Change_Sprite(normal_sprite);
-						}
+						m_owner->Change_Sprite(normal_sprite);
 					}
 				}
 			}
-
 		}
-		else if (curr_state == Player::Char_State::Reverse_Moving && curr_state != Player::Char_State::Time_Pause &&
-			curr_state_additional != Char_State_Additional::Chasing/*&&curr_state_additional != Char_State_Additional::Get_mine*/)
-		{
-			if (m_owner->Get_Current_Sprite() != m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Die))
-			{
-				PlayerMovement(-0.12f, -0.6f);
-				player_pos += velocity;
-			}
-			else
-			{
-				player_pos += velocity;
-			}
-		}
-		PlayerDirecting();
 
-		if (input.Is_Key_Triggered(GLFW_KEY_R)
-			|| input.Is_Key_Triggered(GLFW_KEY_SPACE)
-			|| input.Is_Key_Triggered(GLFW_KEY_KP_7)
-			|| RightTriggerState > 0 && (
-				curr_state != Char_State::Reverse_Moving && curr_state != Char_State::Time_Pause))
+	}
+	else if (curr_state == Player::Char_State::Reverse_Moving && curr_state != Player::Char_State::Time_Pause &&
+		curr_state_additional != Char_State_Additional::Chasing/*&&curr_state_additional != Char_State_Additional::Get_mine*/)
+	{
+		if (m_owner->Get_Current_Sprite() != m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Die))
 		{
-			UseItem();
+			PlayerMovement(-0.12f, -0.6f);
+			player_pos += velocity;
+		}
+		else
+		{
+			player_pos += velocity;
 		}
 	}
+	PlayerDirecting();
+
+	if (input.Is_Key_Triggered(GLFW_KEY_R)
+		|| input.Is_Key_Triggered(GLFW_KEY_SPACE)
+		|| input.Is_Key_Triggered(GLFW_KEY_KP_7)
+		|| RightTriggerState > 0 && (
+			curr_state != Char_State::Reverse_Moving && curr_state != Char_State::Time_Pause))
+	{
+		UseItem();
+	}
+
 }
 
 void Player::SetHPBar()
@@ -1314,7 +1325,7 @@ void Player::UseItem()
 		if (RightTriggerState > 0 && belong_item == Item::Item_Kind::Throwing)
 		{
 			Change_Weapon_Sprite(nullptr);
-			m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing)->Set_Need_Update(true);
+			m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing));
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Throwing, 0.f));
 		}
 		if (RightTriggerState > 0 && belong_item == Item::Item_Kind::Magnatic)
@@ -1334,7 +1345,7 @@ void Player::UseItem()
 		}
 		if (RightTriggerState > 0 && belong_item == Item::Item_Kind::Missile)
 		{
-			m_owner->Set_Current_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Missile));
+			m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Missile));
 			Change_Weapon_Sprite(nullptr);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Missile));
 		}

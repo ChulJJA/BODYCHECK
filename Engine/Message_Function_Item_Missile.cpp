@@ -57,6 +57,7 @@ void Msg_Func_Item_Missile::Update(float dt)
 		}
 		else if(info_player->Get_Char_State() == Player::Char_State::None)
 		{
+			info_player->Change_To_Normal_State();
 			msg->Set_Should_Delete(true);
 		}
 	}

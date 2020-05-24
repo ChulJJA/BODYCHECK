@@ -36,6 +36,10 @@ namespace
 
 void Level1::Load()
 {
+	if (sound.isInitialized == false)
+	{
+		sound.Initialize();
+	}
 	Loading_Scene* loading = new Loading_Scene();
 	loading->Load();
 
@@ -54,6 +58,7 @@ void Level1::Load()
 	);
 
 	current_state = GameState::Game;
+	transition_timer = 5.9f;
 	referee = Referee::Get_Referee();
 	object_manager = ObjectManager::GetObjectManager();
 	state_manager = StateManager::GetStateManager();
@@ -62,11 +67,11 @@ void Level1::Load()
 	FMOD_BOOL isPlayingBGM2;
 	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM)], &isPlayingBGM);
 	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlayingBGM2);
-	if(isPlayingBGM == true)
+	if (isPlayingBGM == true)
 	{
 		sound.Stop(SOUND::BGM);
 	}
-	if(isPlayingBGM2 == false)
+	if (isPlayingBGM2 == false)
 	{
 		sound.Play(SOUND::BGM2);
 	}
@@ -127,21 +132,16 @@ void Level1::Load()
 	//player_forth->GetComponentByTemplate<Player>()->Set_This_UI_info(player_fourth_ui);
 
 	//Referee::Get_Referee()->Set_First_Ui(player_first_ui);
+
+	//Referee::Get_Referee()->Set_First_Ui(player_first_ui);
+
 	Referee::Get_Referee()->Set_Second_Ui(player_second_ui);
 	Referee::Get_Referee()->Set_Third_Ui(player_third_ui);
 	//Referee::Get_Referee()->Set_Fourth_Ui(player_fourth_ui);
 
-	//Referee::Get_Referee()->Set_First_Text(text);
-	//Referee::Get_Referee()->Set_Second_Text(text_2);
-	//Referee::Get_Referee()->Set_Third_Text(text_3);
-	//Referee::Get_Referee()->Set_Fourth_Text(text_4);
-
-
 	referee->Init();
 
 	Graphic::GetGraphic()->get_need_update_sprite() = true;
-
-
 
 	loading->Set_Done(false);
 	if (loading_thread.joinable())
@@ -159,7 +159,80 @@ void Level1::Update(float dt)
 	//{
 	//	sound.Play(SOUND::BGM2);
 	//}
-	referee->Update(dt);
+	if (dt_refreshed == true)
+	{
+		if (transition_timer > 0.f)
+		{
+			transition_timer -= dt;
+
+			int timer_in_int = (int)transition_timer;
+			
+
+			if (((transition_timer > 4.f && transition_timer < 4.4f) ||
+				((transition_timer > 2.f && transition_timer < 2.4f)
+					)) && timer_in_int > 1)
+			{
+				timer_in_int = 6;
+			}
+
+			Object* timer_obj = nullptr;
+			Object* prev_timer_obj = nullptr;
+
+			switch (timer_in_int)
+			{
+			case 1:
+				timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer1");
+				prev_timer = timer_obj;
+				prev_timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer_erase");
+				break;
+			case 2:
+			case 3:
+				timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer2");
+				prev_timer = timer_obj;
+				prev_timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer_erase");
+				break;
+			case 4:
+			case 5:
+				timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer3");
+				prev_timer = timer_obj;
+				break;
+			case 6:
+				timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer_erase");
+				timer_obj->Set_Need_To_Update(true);
+				prev_timer->Set_Need_To_Update(false);
+				break;
+			}
+
+			if (prev_timer_obj != nullptr)
+			{
+				prev_timer_obj->Set_Need_To_Update(false);
+				timer_obj->Set_Need_To_Update(true);
+			}
+		}
+		else
+		{
+			referee->Update(dt);
+
+			if (timer_deleted == false)
+			{
+				std::vector<Object*> timers = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("timer");
+
+				int size = timers.size();
+
+				for (int i = 0; i < size; ++i)
+				{
+					timers[i]->SetDeadCondition(true);
+				}
+
+				timer_deleted = true;
+			}
+		}
+	}
+	else
+	{
+		dt_refreshed = true;
+	}
+
 	Pause();
 }
 

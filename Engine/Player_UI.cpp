@@ -22,23 +22,23 @@
 void PLAYER_UI::Initialize()
 {
 	const vector2 this_trans = this->GetTransform().GetTranslation();
-	
+	const vector2 item_trans{ this_trans.x + 200, this_trans.y };
     info_item = new Object();
 	info_item->SetNeedCollision(false);
-	info_item->GetTransform().SetTranslation({ this_trans.x + 200, this_trans.y});
+	info_item->GetTransform().SetTranslation(item_trans);
 	info_item->GetTransform().SetScale({ 2.f, 2.f });
 	info_item->Set_Tag("item_info");
-	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/None.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::None), "none");
-	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/Item.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::Item), "item", false);
-	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/bulkup.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::Item_Bulkup), "bulkup", false);
-	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/dash.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::Item_Dash), "dash", false);
-	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/heal.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::Item_Heal), "heal", false);
-	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/throwing_showing.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::Item_Throw), "throwing", false);
-	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/magnet.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::Item_Magnet), "magnatic", false);
-	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/time_pause.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::Item_Timepause), "time_pause", false);
-	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/reverse_moving.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::Item_Reverse), "reverse_moving", false);
-	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/missile_launcher_showing.png", { this_trans.x + 200, this_trans.y}, false, Sprite_Type::Item_Missile), "missile", false);
-	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/mine.png", { this_trans.x + 200, this_trans.y }, false, Sprite_Type::Item_Mine), "mine", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/None.png", item_trans, false, Sprite_Type::None), "none");
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/Item.png", item_trans, false, Sprite_Type::Item), "item", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/bulkup.png", item_trans, false, Sprite_Type::Item_Bulkup), "bulkup", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/dash.png", item_trans, false, Sprite_Type::Item_Dash), "dash", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/heal.png", item_trans, false, Sprite_Type::Item_Heal), "heal", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/throwing_showing.png", item_trans, false, Sprite_Type::Item_Throw), "throwing", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/magnet.png", item_trans, false, Sprite_Type::Item_Magnet), "magnatic", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/time_pause.png", item_trans, false, Sprite_Type::Item_Timepause), "time_pause", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/reverse_moving.png", item_trans, false, Sprite_Type::Item_Reverse), "reverse_moving", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/missile_launcher_showing.png", item_trans, false, Sprite_Type::Item_Missile), "missile", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/mine.png", item_trans, false, Sprite_Type::Item_Mine), "mine", false);
     info_item->Set_Name(this->GetName() + "info_item");
 	info_item->Set_Current_Sprite(info_item->Find_Sprite_By_Type(Sprite_Type::None));
     ObjectManager::GetObjectManager()->AddObject(info_item);
@@ -68,7 +68,7 @@ void PLAYER_UI::Reset()
     const vector2 this_trans = this->GetTransform().GetTranslation();
 	Sprite* info_item_sprite = info_item->GetComponentByTemplate<Sprite>();
 
-	info_item->GetTransform().SetTranslation({ this_trans.x + 400, this_trans.y });
+	info_item->GetTransform().SetTranslation({ this_trans.x + 200, this_trans.y });
 	info_item->Change_Sprite(info_item->Find_Sprite_By_Type(Sprite_Type::None));
     info_item->GetMesh().Get_Is_Moved() = true;
 }
