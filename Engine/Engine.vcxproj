@@ -223,6 +223,7 @@
     <ClInclude Include="Message_Function_Item_Throwing.h" />
     <ClInclude Include="Message_Function_Item_Time_Pause.h" />
     <ClInclude Include="Message_Function_Respawn.h" />
+    <ClInclude Include="Message_Function_Spawn.h" />
     <ClInclude Include="Message_Function_Wall_Collision.h" />
     <ClInclude Include="Message_Kind.h" />
     <ClInclude Include="Message_Manager.h" />
@@ -293,6 +294,7 @@
     <ClCompile Include="Message_Function_Item_Throwing.cpp" />
     <ClCompile Include="Message_Function_Item_Time_Pause.cpp" />
     <ClCompile Include="Message_Function_Respawn.cpp" />
+    <ClCompile Include="Message_Function_Spawn.cpp" />
     <ClCompile Include="Message_Function_Wall_Collision.cpp" />
     <ClCompile Include="Message_Mananger.cpp" />
     <ClCompile Include="Object.cpp" />

@@ -43,6 +43,7 @@ enum class Sprite_Type
 	
 	
 	Item,
+    Item_Spawn_Effect,
 	Item_Eateffect,
 	Item_Dash,
 	Item_Bulkup,

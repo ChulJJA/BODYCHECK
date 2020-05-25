@@ -16,7 +16,7 @@ void Msg_Func_Audience::Init()
 			kill_tag->Set_Need_To_Update(true);
 			tag_origin_pos = kill_tag->GetTransform().GetTranslation();
 			tag_turning_pos = tag_origin_pos.x + 400.f;
-			tag_turn_to = tag_origin_pos.x + 200.f;
+			tag_turn_to = tag_origin_pos.x + 100.f;
 			back_speed *= -1.f;
 		}
 		else if (msg->Get_Kind() == Message_Kind::Audience_Red_Joy)
@@ -27,7 +27,7 @@ void Msg_Func_Audience::Init()
 			kill_tag->Set_Need_To_Update(true);
 			tag_origin_pos = kill_tag->GetTransform().GetTranslation();
 			tag_turning_pos = tag_origin_pos.x - 400.f;
-			tag_turning_pos = tag_origin_pos.x - 200.f;
+			tag_turning_pos = tag_origin_pos.x - 100.f;
 			speed *= -1.f;
 			is_left = false;
 		}
@@ -39,7 +39,7 @@ void Msg_Func_Audience::Init()
 			kill_tag->Set_Need_To_Update(true);
 			tag_origin_pos = kill_tag->GetTransform().GetTranslation();
 			tag_turning_pos = tag_origin_pos.x + 400.f;
-			tag_turn_to = tag_origin_pos.x + 200.f;
+			tag_turn_to = tag_origin_pos.x + 100.f;
 			back_speed *= -1.f;
 		}
 		else if (msg->Get_Kind() == Message_Kind::Audience_Green_Joy)
@@ -50,7 +50,7 @@ void Msg_Func_Audience::Init()
 			kill_tag->Set_Need_To_Update(true);
 			tag_origin_pos = kill_tag->GetTransform().GetTranslation();
 			tag_turning_pos = tag_origin_pos.x - 400.f;
-			tag_turning_pos = tag_origin_pos.x - 200.f;
+			tag_turning_pos = tag_origin_pos.x - 100.f;
 			speed *= -1.f;
 			is_left = false;
 		}

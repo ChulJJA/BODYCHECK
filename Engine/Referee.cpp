@@ -27,6 +27,7 @@
 #include "UsefulTools.hpp"
 #include "Component_Missile.h"
 #include "Physics.h"
+#include "Message_Manager.h"
 
 
 Referee* Referee::referee = nullptr;
@@ -357,9 +358,14 @@ Object* Referee::Make_Item_Pool(std::string sprite_path, vector2 pos, std::strin
 	Object* item = new Object();
 	//item->AddComponent(new Sprite(item, sprite_path.c_str(), pos, false), "item");
 	std::string eat_effect = "../Sprite/Item/item_eateffect.png";
+	std::string spawn_effect = "../Sprite/Item/item_spawn.png";
+
+	item->AddComponent(new Sprite(item, spawn_effect.c_str(), true, 10, 10, pos, { 200.f,200.f },
+		{ 255,255,255,255 }, Sprite_Type::Item_Spawn_Effect), "item_spawn", true);
+
 
 	item->AddComponent(new Sprite(item, sprite_path.c_str(), true, 6, 12, pos, { 200.f,200.f },
-		{ 255,255,255,255 }, Sprite_Type::Item), "item", true);
+		{ 255,255,255,255 }, Sprite_Type::Item), "item", false);
 
 	item->AddComponent(new Sprite(item, eat_effect.c_str(), true, 3, 12, pos, { 200.f,200.f },
 		{ 255,255,255,255 }, Sprite_Type::Item_Eateffect), "item_eat", false);
@@ -370,7 +376,6 @@ Object* Referee::Make_Item_Pool(std::string sprite_path, vector2 pos, std::strin
 	item->Set_Tag(tag);
 	item->SetTranslation(pos);
 	item->GetComponentByTemplate<Item>()->Set_Kind(kind);
-	item->Set_Current_Sprite(item->Find_Sprite_By_Name("item"));
 	item->SetNeedCollision(true);
 	item->SetScale(1.5f);
 	total_item.push_back(item);
@@ -462,7 +467,9 @@ void Referee::Respawn_Player(Stage_Statement state, float dt)
 void Referee::Respawn_Item(float dt)
 {
 	item_respawn_timer -= dt;
-	const Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 9));
+	//const Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 9));
+	const Item::Item_Kind item = Item::Item_Kind::Bulkup;
+	Object* spawn_obj = nullptr;
 
 	if (item_respawn_timer <= 0.0f && total_item_num > 0)
 	{
@@ -470,7 +477,7 @@ void Referee::Respawn_Item(float dt)
 		{
 			if (item_num_dash > 0)
 			{
-				ObjectManager::GetObjectManager()->AddObject(item_dash[item_num_dash - 1]);
+				spawn_obj = item_dash[item_num_dash - 1];
 				item_num_dash--;
 			}
 		}
@@ -478,7 +485,7 @@ void Referee::Respawn_Item(float dt)
 		{
 			if (item_num_heal > 0)
 			{
-				ObjectManager::GetObjectManager()->AddObject(item_heal[item_num_heal - 1]);
+				spawn_obj = item_heal[item_num_heal - 1];
 				item_num_heal--;
 			}
 		}
@@ -486,7 +493,7 @@ void Referee::Respawn_Item(float dt)
 		{
 			if (item_num_bulk_up > 0)
 			{
-				ObjectManager::GetObjectManager()->AddObject(item_bulk_up[item_num_bulk_up - 1]);
+				spawn_obj = item_bulk_up[item_num_bulk_up - 1];
 				item_num_bulk_up--;
 			}
 
@@ -495,7 +502,7 @@ void Referee::Respawn_Item(float dt)
 		{
 			if (item_num_throwing > 0)
 			{
-				ObjectManager::GetObjectManager()->AddObject(item_throwing[item_num_throwing - 1]);
+				spawn_obj = item_throwing[item_num_throwing - 1];
 				item_num_throwing--;
 			}
 		}
@@ -503,7 +510,7 @@ void Referee::Respawn_Item(float dt)
 		{
 			if (item_num_magnetic > 0)
 			{
-				ObjectManager::GetObjectManager()->AddObject(item_magnetic[item_num_magnetic - 1]);
+				spawn_obj = item_magnetic[item_num_magnetic - 1];
 				item_num_magnetic--;
 			}
 		}
@@ -511,7 +518,7 @@ void Referee::Respawn_Item(float dt)
 		{
 			if (item_num_time_pause > 0)
 			{
-				ObjectManager::GetObjectManager()->AddObject(item_time_pause[item_num_time_pause - 1]);
+				spawn_obj = item_time_pause[item_num_time_pause - 1];
 				item_num_time_pause--;
 			}
 		}
@@ -519,7 +526,7 @@ void Referee::Respawn_Item(float dt)
 		{
 			if (item_num_reverse_moving > 0)
 			{
-				ObjectManager::GetObjectManager()->AddObject(item_reverse_moving[item_num_reverse_moving - 1]);
+				spawn_obj = item_reverse_moving[item_num_reverse_moving - 1];
 				item_num_reverse_moving--;
 			}
 		}
@@ -527,7 +534,7 @@ void Referee::Respawn_Item(float dt)
 		{
 			if (item_num_missile > 0)
 			{
-				ObjectManager::GetObjectManager()->AddObject(item_missile[item_num_missile - 1]);
+				spawn_obj = item_missile[item_num_missile - 1];
 				item_num_missile--;
 			}
 		}
@@ -535,10 +542,12 @@ void Referee::Respawn_Item(float dt)
 		{
 			if (item_num_mine > 0)
 			{
-				ObjectManager::GetObjectManager()->AddObject(item_mine[item_num_mine - 1]);
+				spawn_obj = item_mine[item_num_mine - 1];
 				item_num_mine--;
 			}
 		}
+		ObjectManager::GetObjectManager()->AddObject(spawn_obj);
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(spawn_obj, nullptr, Message_Kind::Spawn_Object, 1.f));
 		total_item_num--;
 		item_respawn_timer = 5.0f;
 	}

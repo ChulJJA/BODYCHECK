@@ -106,10 +106,13 @@ void Level1::Load()
 
 	aud = Get_Audience();
 
-	player_first_ui = Make_Set_Ui("first_ui", "ui", "../Sprite/UI/pen_green_ui.png", { -1300, -800 }, { 5.0f,5.0f }, player);
+	player_first_ui = Make_Set_Ui("first_ui", "ui", "../Sprite/UI/pen_green_ui.png", { -1400, -800 }, { 5.0f,5.0f }, player);
 	player_second_ui = Make_Set_Ui("second_ui", "ui", "../Sprite/UI/pen_red_ui.png", { -500, -800 }, { 5.0f,5.0f }, player_sec);
-	player_third_ui = Make_Set_Ui("third_ui", "ui", "../Sprite/UI/pen_blue_ui.png", { 300, -800 }, { 5.0f,5.0f }, player_third);
-	player_fourth_ui = Make_Set_Ui("fourth_ui", "ui", "../Sprite/UI/pen_normal_ui.png", { 1100, -800 }, { 5.0f,5.0f }, player_forth);
+	player_third_ui = Make_Set_Ui("third_ui", "ui", "../Sprite/UI/pen_blue_ui.png", { 400, -800 }, { 5.0f,5.0f }, player_third);
+	player_fourth_ui = Make_Set_Ui("fourth_ui", "ui", "../Sprite/UI/pen_normal_ui.png", { 1300, -800 }, { 5.0f,5.0f }, player_forth);
+
+	referee->Init();
+
 
 	player = Make_Player("first", "player", "pen_green2", { 400.f, 400.f }, { 2.f, 2.f });
 	player_sec = Make_Player("second", "player", "pen_red2", { 400.f, -400.f }, { 2.f, 2.f });
@@ -126,7 +129,6 @@ void Level1::Load()
 	Referee::Get_Referee()->Set_Third_Ui(player_third_ui);
 	Referee::Get_Referee()->Set_Fourth_Ui(player_fourth_ui);
 
-	referee->Init();
 
 	Graphic::GetGraphic()->get_need_update_sprite() = true;
 

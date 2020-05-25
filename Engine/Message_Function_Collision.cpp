@@ -25,11 +25,23 @@ void Msg_Func_Collision::Update(float dt)
 {
 	if (m_target->Get_Tag() == "item" && m_from->Get_Tag() == "player")
 	{
-		Player_Get_Item(m_from, m_target);
+		Component* target_current_sprite = m_target->Get_Current_Sprite();
+		Component* target_item_sprite = m_target->Find_Sprite_By_Type(Sprite_Type::Item);
+
+		if (target_current_sprite == target_item_sprite)
+		{
+			Player_Get_Item(m_from, m_target);
+		}
 	}
 	else if (m_from->Get_Tag() == "item" && m_target->Get_Tag() == "player")
 	{
-		Player_Get_Item(m_target, m_from);
+		Component* from_current_sprite = m_from->Get_Current_Sprite();
+		Component* from_item_sprite = m_from->Find_Sprite_By_Type(Sprite_Type::Item);
+
+		if (from_current_sprite == from_item_sprite)
+		{
+			Player_Get_Item(m_target, m_from);
+		}
 	}
 	else if (m_target->Get_Tag() == "throwing" && m_from->Get_Tag() == "player")
 	{
