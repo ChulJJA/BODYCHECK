@@ -17,7 +17,7 @@ void Lock::Update(float dt)
 		Control_Input(dt);
 		m_owner->GetTransform().SetTranslation(pos);
 
-		if (input.Is_Key_Triggered(GLFW_KEY_SPACE))
+		if (input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_KP_7))
 		{
 			if (locking_target != nullptr)
 			{
@@ -32,6 +32,7 @@ void Lock::Update(float dt)
 			info_player_locking_obj->Set_Locking(nullptr);
 			m_owner->SetDeadCondition(true);
 		}
+
 	}
 	else
 	{
@@ -81,22 +82,64 @@ void Lock::Set_Locking_Target(Object* obj)
 
 void Lock::Control_Input(float dt)
 {
-	if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
+	/*if (m_owner->GetName() == "first")
+	{*/
+	if (input.Is_Key_Pressed(GLFW_KEY_K) || input.Is_Key_Pressed(GLFW_KEY_KP_6))
 	{
 		pos.x += (dt * speed);
 	}
-	if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
+	if (input.Is_Key_Pressed(GLFW_KEY_H) || input.Is_Key_Pressed(GLFW_KEY_KP_4))
 	{
 		pos.x -= (dt * speed);
 	}
-	if (input.Is_Key_Pressed(GLFW_KEY_UP))
+	if (input.Is_Key_Pressed(GLFW_KEY_U) || input.Is_Key_Pressed(GLFW_KEY_KP_8))
 	{
 		pos.y += (dt * speed);
 	}
-	if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
+	if (input.Is_Key_Pressed(GLFW_KEY_J) || input.Is_Key_Pressed(GLFW_KEY_KP_5))
 	{
 		pos.y -= (dt * speed);
 	}
+	//}
+	/*else if (m_owner->GetName() == "second")
+	{
+		if (input.Is_Key_Pressed(GLFW_KEY_K))
+		{
+			pos.x += (dt * speed);
+		}
+		if (input.Is_Key_Pressed(GLFW_KEY_H))
+		{
+			pos.x -= (dt * speed);
+		}
+		if (input.Is_Key_Pressed(GLFW_KEY_U))
+		{
+			pos.y += (dt * speed);
+		}
+		if (input.Is_Key_Pressed(GLFW_KEY_J))
+		{
+			pos.y -= (dt * speed);
+		}
+	}
+	else if (m_owner->GetName() == "third")
+	{
+		if (input.Is_Key_Pressed(GLFW_KEY_KP_6))
+		{
+			pos.x += (dt * speed);
+		}
+		if (input.Is_Key_Pressed(GLFW_KEY_KP_4))
+		{
+			pos.x -= (dt * speed);
+		}
+		if (input.Is_Key_Pressed(GLFW_KEY_KP_8))
+		{
+			pos.y += (dt * speed);
+		}
+		if (input.Is_Key_Pressed(GLFW_KEY_KP_5))
+		{
+			pos.y -= (dt * speed);
+		}
+	}*/
+
 }
 
 void Lock::Func_Set_Magnatic() const
