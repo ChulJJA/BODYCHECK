@@ -191,6 +191,7 @@ private:
     Object* timer_2;
     Object* timer_3;
     Object* timer_erase;
+    Object* timer_start;
 
     bool win = false;
 	

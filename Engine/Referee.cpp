@@ -64,23 +64,29 @@ void Referee::Set_Timer()
 	timer_2 = new Object();
 	timer_3 = new Object();
 	timer_erase = new Object();
+	timer_start = new Object();
 
 	timer_1->Set_Tag("timer");
 	timer_2->Set_Tag("timer");
 	timer_3->Set_Tag("timer");
 	timer_erase->Set_Tag("timer");
+	timer_start->Set_Tag("timer");
 	timer_1->Set_Name("timer1");
 	timer_2->Set_Name("timer2");
 	timer_3->Set_Name("timer3");
 	timer_erase->Set_Name("timer_erase");
+	timer_start->Set_Name("timer_start");
 
 	vector2 pos{ 0.f, 0.f };
+	timer_start->AddComponent(new Sprite(timer_start, "../Sprite/UI/timer_start.png", pos, false, Sprite_Type::None), "timer_start", true);
+	timer_start->Set_Need_To_Update(false);
 	timer_1->AddComponent(new Sprite(timer_1, "../Sprite/UI/timer1.png", pos, false, Sprite_Type::Num_1), "num1", true);
 	timer_1->Set_Need_To_Update(false);
 	timer_2->AddComponent(new Sprite(timer_2, "../Sprite/UI/timer2.png", pos, false, Sprite_Type::Num_2), "num2", true);
 	timer_2->Set_Need_To_Update(false);
 	timer_3->AddComponent(new Sprite(timer_3, "../Sprite/UI/timer3.png", pos, false, Sprite_Type::Num_3), "num3", true);
 	timer_3->Set_Need_To_Update(true);
+
 	timer_erase->AddComponent(new Sprite(timer_erase, "../Sprite/UI/timer_erase.png", true, 3, 18, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::None), "timer_erase", true);
 	timer_erase->Set_Need_To_Update(false);
@@ -90,11 +96,13 @@ void Referee::Set_Timer()
 	timer_2->SetScale(scale);
 	timer_3->SetScale(scale);
 	timer_erase->SetScale(scale);
+	timer_start->SetScale(scale);
 	
 	ObjectManager::GetObjectManager()->AddObject(timer_1);
 	ObjectManager::GetObjectManager()->AddObject(timer_2);
 	ObjectManager::GetObjectManager()->AddObject(timer_3);
 	ObjectManager::GetObjectManager()->AddObject(timer_erase);
+	ObjectManager::GetObjectManager()->AddObject(timer_start);
 }
 
 Referee::Referee()
