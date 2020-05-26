@@ -176,6 +176,10 @@ void Level1::Update(float dt)
 			{
 				timer_in_int = 6;
 			}
+			else if (transition_timer < 1.f)
+			{
+				timer_in_int = 7;
+			}
 
 			Object* timer_obj = nullptr;
 			Object* prev_timer_obj = nullptr;
@@ -202,6 +206,15 @@ void Level1::Update(float dt)
 				timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer_erase");
 				timer_obj->Set_Need_To_Update(true);
 				prev_timer->Set_Need_To_Update(false);
+				break;
+			case 7:
+				timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer_start");
+				timer_obj->Set_Need_To_Update(true);
+				prev_timer->Set_Need_To_Update(false);
+
+				vector2& scale = timer_obj->GetScale_Reference();
+				scale.x += 0.3f;
+				scale.y += 0.3f;
 				break;
 			}
 
