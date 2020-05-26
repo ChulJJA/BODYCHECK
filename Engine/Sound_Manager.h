@@ -27,6 +27,8 @@ enum class SOUND
 	Die,
 	BulkUp,
 	CountDown,
+	ItemAppear,
+	ItemAppear2,
 	END
 };
 

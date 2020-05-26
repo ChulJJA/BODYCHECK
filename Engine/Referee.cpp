@@ -172,9 +172,7 @@ void Referee::Update(float dt)
 		Respawn_Item(dt);
 	}
 
-
 	Win();
-
 }
 
 void Referee::Delete()
@@ -547,6 +545,7 @@ void Referee::Respawn_Item(float dt)
 			}
 		}
 		ObjectManager::GetObjectManager()->AddObject(spawn_obj);
+		sound.Play(SOUND::ItemAppear);	
 		Message_Manager::Get_Message_Manager()->Save_Message(new Message(spawn_obj, nullptr, Message_Kind::Spawn_Object, 1.f));
 		total_item_num--;
 		item_respawn_timer = 5.0f;

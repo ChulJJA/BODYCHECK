@@ -3,6 +3,7 @@
 #include "Component_Item.h"
 #include "Message.h"
 #include "Component_Sprite.h"
+#include "Engine.hpp"
 
 void Msg_Func_spawn::Init()
 {
@@ -34,6 +35,7 @@ void Msg_Func_spawn::Update(float dt)
 		if (is_item)
 		{
 			Component* find_comp = m_target->Find_Sprite_By_Type(Sprite_Type::Item);
+			sound.Play(SOUND::ItemAppear2);
 			m_target->Change_Sprite(find_comp);
 		}
 		else
@@ -42,5 +44,4 @@ void Msg_Func_spawn::Update(float dt)
 		}
 		msg->Set_Should_Delete(true);
 	}
-
 }

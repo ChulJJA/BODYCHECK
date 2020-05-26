@@ -78,6 +78,12 @@ void Sound::LoadSound()
 	result = FMOD_System_CreateSound(f_system, "Sounds/CountDown.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::CountDown)]);
 	ErrorCheck(result);
 
+	result = FMOD_System_CreateSound(f_system, "Sounds/ItemAppear.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::ItemAppear)]);
+	ErrorCheck(result);
+
+	result = FMOD_System_CreateSound(f_system, "Sounds/ItemAppear2.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::ItemAppear2)]);
+	ErrorCheck(result);
+	
 	result = FMOD_System_CreateSoundGroup(f_system, "BGM", &bgm_group);
 	ErrorCheck(result);
 
