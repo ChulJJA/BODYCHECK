@@ -23,7 +23,7 @@ enum class Message_Kind
 	Audience_Normal_Joy,
 	Item_Mine,
 	Item_Eat,
-
+	Spawn_Object,
 	Delete_Object,
 	
 };

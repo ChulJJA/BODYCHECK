@@ -34,8 +34,8 @@ private:
 	float tag_turn_to;
 	vector2 tag_origin_pos;
 
-	float speed = 1500.f;
-	float back_speed = 1000.f;
+	float speed = 2000.f;
+	float back_speed = 1500.f;
 
 	bool is_left = true;
 	

@@ -1584,3 +1584,13 @@ void Player::Set_Item_Used_Status(Item_Use_Status status)
 {
 	item_used = status;
 }
+
+void Player::Set_Audience(Object* obj)
+{
+	aud = obj;
+}
+
+Object* Player::Get_Audience()
+{
+	return aud;
+}

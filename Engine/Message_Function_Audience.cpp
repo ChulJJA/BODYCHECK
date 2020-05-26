@@ -10,50 +10,52 @@ void Msg_Func_Audience::Init()
 	{
 		if (msg->Get_Kind() == Message_Kind::Audience_Blue_Joy)
 		{
-			m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Audience_Blue_Good));
+			m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Audience_Joy));
 			
 			kill_tag = Referee::Get_Referee()->Get_Third_Kill();
 			kill_tag->Set_Need_To_Update(true);
 			tag_origin_pos = kill_tag->GetTransform().GetTranslation();
-			tag_turning_pos = tag_origin_pos.x + 200.f;
+			tag_turning_pos = tag_origin_pos.x + 400.f;
 			tag_turn_to = tag_origin_pos.x + 100.f;
 			back_speed *= -1.f;
 		}
 		else if (msg->Get_Kind() == Message_Kind::Audience_Red_Joy)
 		{
-			m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Audience_Red_Good));
+			m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Audience_Joy));
 
 			kill_tag = Referee::Get_Referee()->Get_Second_Kill();
 			kill_tag->Set_Need_To_Update(true);
 			tag_origin_pos = kill_tag->GetTransform().GetTranslation();
-			tag_turning_pos = tag_origin_pos.x - 200.f;
+			tag_turning_pos = tag_origin_pos.x - 400.f;
 			tag_turning_pos = tag_origin_pos.x - 100.f;
 			speed *= -1.f;
 			is_left = false;
 		}
 		else if (msg->Get_Kind() == Message_Kind::Audience_Normal_Joy)
 		{
-			m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Audience_Normal_Good));
+			m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Audience_Joy));
 			
 			kill_tag = Referee::Get_Referee()->Get_Fourth_Kill();
 			kill_tag->Set_Need_To_Update(true);
 			tag_origin_pos = kill_tag->GetTransform().GetTranslation();
-			tag_turning_pos = tag_origin_pos.x + 200.f;
+			tag_turning_pos = tag_origin_pos.x + 400.f;
 			tag_turn_to = tag_origin_pos.x + 100.f;
 			back_speed *= -1.f;
 		}
 		else if (msg->Get_Kind() == Message_Kind::Audience_Green_Joy)
 		{
-			m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Audience_Green_Good));
+			m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Audience_Joy));
 
 			kill_tag = Referee::Get_Referee()->Get_First_Kill();
 			kill_tag->Set_Need_To_Update(true);
 			tag_origin_pos = kill_tag->GetTransform().GetTranslation();
-			tag_turning_pos = tag_origin_pos.x - 200.f;
+			tag_turning_pos = tag_origin_pos.x - 400.f;
 			tag_turning_pos = tag_origin_pos.x - 100.f;
 			speed *= -1.f;
 			is_left = false;
 		}
+
+		m_from->Change_Sprite(m_from->Find_Sprite_By_Type(Sprite_Type::Audience_Sad));
 	}
 }
 
@@ -115,6 +117,7 @@ void Msg_Func_Audience::Update(float dt)
 	else
 	{
 		m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Audience_Normal));
+		m_from->Change_Sprite(m_from->Find_Sprite_By_Type(Sprite_Type::Audience_Normal));
 		msg->Set_Should_Delete(true);
 
 		if (kill_tag != nullptr)
