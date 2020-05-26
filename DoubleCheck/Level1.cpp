@@ -148,6 +148,8 @@ void Level1::Load()
 	{
 		loading_thread.join();
 	}
+
+	sound.Play(SOUND::CountDown);
 }
 
 void Level1::Update(float dt)

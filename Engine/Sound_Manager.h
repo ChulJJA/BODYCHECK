@@ -26,6 +26,7 @@ enum class SOUND
 	HP,
 	Die,
 	BulkUp,
+	CountDown,
 	END
 };
 
