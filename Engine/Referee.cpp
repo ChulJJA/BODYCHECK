@@ -97,7 +97,7 @@ void Referee::Set_Timer()
 	timer_3->SetScale(scale);
 	timer_erase->SetScale(scale);
 	timer_start->SetScale(scale);
-	
+
 	ObjectManager::GetObjectManager()->AddObject(timer_1);
 	ObjectManager::GetObjectManager()->AddObject(timer_2);
 	ObjectManager::GetObjectManager()->AddObject(timer_3);
@@ -139,8 +139,10 @@ Referee* Referee::Get_Referee()
 
 void Referee::Init()
 {
+	
+	Clear_Referee();
+
 	stage_statements.clear();
-	missile_saving = new Object * [missile_num];
 	missile_saving = new Object * [missile_num];
 
 	for (int i = 0; i < missile_num; i++)
@@ -185,6 +187,119 @@ void Referee::Update(float dt)
 
 void Referee::Delete()
 {
+}
+
+void Referee::Clear_Referee()
+{
+	if (missile_saving != nullptr)
+	{
+		for (int i = 0; i < missile_num; ++i)
+		{
+			delete missile_saving[i];
+		}
+	}
+
+	if (player_sec_temp != nullptr)
+	{
+		for (int i = 0; i < player_sec_life; ++i)
+		{
+			delete player_sec_temp[i];
+		}
+	}
+	if (player_first_temp != nullptr)
+	{
+		for (int i = 0; i < player_first_life; ++i)
+		{
+			delete player_first_temp[i];
+		}
+	}
+	if (player_third_temp != nullptr)
+	{
+		for (int i = 0; i < player_third_life; ++i)
+		{
+			delete player_third_temp[i];
+		}
+	}
+	if (player_fourth_temp != nullptr)
+	{
+		for (int i = 0; i < player_fourth_life; ++i)
+		{
+			delete player_fourth_temp[i];
+		}
+	}
+	if (item_dash != nullptr)
+	{
+		for (int i = 0; i < item_num_dash; ++i)
+		{
+			delete item_dash[i];
+		}
+	}
+	if (item_heal != nullptr)
+	{
+		for (int i = 0; i < item_num_heal; ++i)
+		{
+			delete item_heal[i];
+		}
+	}
+	if (item_bulk_up != nullptr)
+	{
+		for (int i = 0; i < item_num_bulk_up; ++i)
+		{
+			delete item_bulk_up[i];
+		}
+	}
+	if (item_throwing != nullptr)
+	{
+		for (int i = 0; i < item_num_throwing; ++i)
+		{
+			delete item_throwing[i];
+		}
+	}
+	if (item_magnetic != nullptr)
+	{
+		for (int i = 0; i < item_num_magnetic; ++i)
+		{
+			delete item_magnetic[i];
+		}
+	}
+	if (item_time_pause != nullptr)
+	{
+		for (int i = 0; i < item_num_time_pause; ++i)
+		{
+			delete item_time_pause[i];
+		}
+	}
+	if (item_reverse_moving != nullptr)
+	{
+		for (int i = 0; i < item_num_reverse_moving; ++i)
+		{
+			delete item_reverse_moving[i];
+		}
+	}
+	if (item_missile != nullptr)
+	{
+		for (int i = 0; i < item_num_missile; ++i)
+		{
+			delete item_missile[i];
+		}
+	}
+	if (item_mine != nullptr)
+	{
+		for (int i = 0; i < item_num_mine; ++i)
+		{
+			delete item_mine[i];
+		}
+	}
+
+	if (timer_1 != nullptr)
+	{
+		timer_1 = nullptr;
+		timer_2 = nullptr;
+		timer_3 = nullptr;
+		timer_erase = nullptr;
+		timer_start = nullptr;
+	}
+	
 }
 
 Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::string name, std::string tag, Object* text)
@@ -375,7 +490,7 @@ Object* Referee::Make_Item_Pool(std::string sprite_path, vector2 pos, std::strin
 
 	item->AddComponent(new Sprite(item, eat_effect.c_str(), true, 3, 12, pos, { 200.f,200.f },
 		{ 255,255,255,255 }, Sprite_Type::Item_Eateffect), "item_eat", false);
-	
+
 	item->AddComponent(new Item());
 	item->AddComponent(new Physics());
 	item->Set_Name(name);
@@ -474,7 +589,7 @@ void Referee::Respawn_Item(float dt)
 {
 	item_respawn_timer -= dt;
 	//const Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 9));
-	const Item::Item_Kind item = Item::Item_Kind::Bulkup;
+	const Item::Item_Kind item = Item::Item_Kind::Missile;
 	Object* spawn_obj = nullptr;
 
 	if (item_respawn_timer <= 0.0f && total_item_num > 0)
@@ -552,11 +667,17 @@ void Referee::Respawn_Item(float dt)
 				item_num_mine--;
 			}
 		}
-		ObjectManager::GetObjectManager()->AddObject(spawn_obj);
-		sound.Play(SOUND::ItemAppear);	
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(spawn_obj, nullptr, Message_Kind::Spawn_Object, 1.f));
-		total_item_num--;
+
+		if (spawn_obj != nullptr)
+		{
+
+			ObjectManager::GetObjectManager()->AddObject(spawn_obj);
+			sound.Play(SOUND::ItemAppear);
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(spawn_obj, nullptr, Message_Kind::Spawn_Object, 1.f));
+			total_item_num--;
+		}
 		item_respawn_timer = 5.0f;
+
 	}
 }
 
@@ -597,9 +718,9 @@ void Referee::SetItem()
 	item_reverse_moving = new Object * [item_num]();
 	item_missile = new Object * [item_num]();
 	item_mine = new Object * [item_num]();
-	
+
 	vector2 rand_pos;
-	
+
 	for (int i = 0; i < item_num; i++)
 	{
 		Set_Random_Pos(rand_pos);
@@ -773,12 +894,13 @@ void Referee::Respawn(Stage_Statement statement)
 	case Stage_Statement::PLAYER_SECOND_DIE:
 		if (player_sec_life > 0)
 		{
-			player_sec_temp[player_sec_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar()->GetComponentByTemplate<Sprite>()->Set_Need_Update(true);
-			player_sec_temp[player_sec_life - 1]->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
-			player_sec_temp[player_sec_life - 1]->GetComponentByTemplate<Player>()->Set_This_UI_info(second_ui);
-			player_sec_temp[player_sec_life - 1]->Set_Tag("player");
-			ObjectManager::GetObjectManager()->AddObject(player_sec_temp[player_sec_life - 1]);
-			ObjectManager::GetObjectManager()->AddObject(player_sec_temp[player_sec_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar());
+			Object* player = player_sec_temp[player_sec_life - 1];
+			player->GetComponentByTemplate<Player>()->Get_Hp_Bar()->GetComponentByTemplate<Sprite>()->Set_Need_Update(true);
+			player->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
+			player->GetComponentByTemplate<Player>()->Set_This_UI_info(second_ui);
+			player->Set_Tag("player");
+			ObjectManager::GetObjectManager()->AddObject(player);
+			ObjectManager::GetObjectManager()->AddObject(player->GetComponentByTemplate<Player>()->Get_Hp_Bar());
 			second_ui->Reset();
 		}
 		break;
@@ -799,12 +921,13 @@ void Referee::Respawn(Stage_Statement statement)
 	case Stage_Statement::PLAYER_THIRD_DIE:
 		if (player_third_life > 0)
 		{
-			player_third_temp[player_third_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar()->GetComponentByTemplate<Sprite>()->Set_Need_Update(true);
-			player_third_temp[player_third_life - 1]->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
-			player_third_temp[player_third_life - 1]->GetComponentByTemplate<Player>()->Set_This_UI_info(third_ui);
-			player_third_temp[player_third_life - 1]->Set_Tag("player");
-			ObjectManager::GetObjectManager()->AddObject(player_third_temp[player_third_life - 1]);
-			ObjectManager::GetObjectManager()->AddObject(player_third_temp[player_third_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar());
+			Object* player = player_third_temp[player_third_life - 1];
+			player->GetComponentByTemplate<Player>()->Get_Hp_Bar()->GetComponentByTemplate<Sprite>()->Set_Need_Update(true);
+			player->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
+			player->GetComponentByTemplate<Player>()->Set_This_UI_info(third_ui);
+			player->Set_Tag("player");
+			ObjectManager::GetObjectManager()->AddObject(player);
+			ObjectManager::GetObjectManager()->AddObject(player->GetComponentByTemplate<Player>()->Get_Hp_Bar());
 			third_ui->Reset();
 		}
 		break;

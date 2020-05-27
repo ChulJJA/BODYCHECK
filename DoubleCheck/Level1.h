@@ -46,7 +46,7 @@ private:
     Object* player_third;
     Object* player_forth;
 
-    Object* arena;
+    Object* arena = nullptr;
 
     Object* pause;
     Object* restart_button;

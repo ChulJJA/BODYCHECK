@@ -36,6 +36,7 @@ public:
     void Init();
     void Update(float dt);
     void Delete();
+    void Clear_Referee();
 
 	Object* Make_Player_Pool(std::string sprite_path, vector2 pos, std::string name, std::string tag, Object* text);
 	Object* Make_Item_Pool(std::string sprite_path, vector2 pos, std::string name, std::string tag, Item::Item_Kind kind);
@@ -127,10 +128,10 @@ private:
     float player_third_respawn_timer = 3.0f;
     float player_fourth_respawn_timer = 3.0f;
 
-    Object** player_sec_temp;
-    Object** player_first_temp;
-    Object** player_third_temp;
-    Object** player_fourth_temp;
+    Object** player_sec_temp = nullptr;
+    Object** player_first_temp = nullptr;
+    Object** player_third_temp = nullptr;
+    Object** player_fourth_temp = nullptr;
 
     int player_first_life;
     int player_sec_life;
@@ -139,17 +140,17 @@ private:
 
     int total_life_count;
 
-    Object** item_dash;
-    Object** item_heal;
-    Object** item_bulk_up;
-    Object** item_throwing;
-    Object** item_magnetic;
-	Object** item_time_pause;
-	Object** item_reverse_moving;
-	Object** item_missile;
-    Object** item_mine;
+    Object** item_dash = nullptr;
+    Object** item_heal = nullptr;
+    Object** item_bulk_up = nullptr;
+    Object** item_throwing = nullptr;
+    Object** item_magnetic = nullptr;
+	Object** item_time_pause = nullptr;
+	Object** item_reverse_moving = nullptr;
+	Object** item_missile = nullptr;
+    Object** item_mine = nullptr;
 
-	Object** missile_saving;
+	Object** missile_saving = nullptr;
     float item_respawn_timer = 3.0f;
 	
     int item_num = 10;

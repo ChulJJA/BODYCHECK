@@ -141,6 +141,7 @@ void ObjectManager::Delete()
 
 void ObjectManager::Clear()
 {
+	Object* check1 = objects[0].get();
 	objects.clear();
 	delete_obj.clear();
 }

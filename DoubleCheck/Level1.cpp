@@ -57,6 +57,8 @@ void Level1::Load()
 		}
 	);
 
+	dt_refreshed = false;
+	timer_deleted = false;
 	current_state = GameState::Game;
 	transition_timer = 4.9f;
 	referee = Referee::Get_Referee();
