@@ -57,7 +57,7 @@ void Sound::LoadSound()
 	result = FMOD_System_CreateSound(f_system, "Sounds/BGM2.mp3", FMOD_LOOP_NORMAL, nullptr, &sound[static_cast<int>(SOUND::BGM2)]);
 	ErrorCheck(result);
 
-	result = FMOD_System_CreateSound(f_system, "Sounds/Crack.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::Crack)]);
+	result = FMOD_System_CreateSound(f_system, "Sounds/Crack.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::Crack)]);
 	ErrorCheck(result);
 
 	result = FMOD_System_CreateSound(f_system, "Sounds/Item.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::Item)]);
@@ -82,6 +82,15 @@ void Sound::LoadSound()
 	ErrorCheck(result);
 
 	result = FMOD_System_CreateSound(f_system, "Sounds/ItemAppear2.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::ItemAppear2)]);
+	ErrorCheck(result);
+	
+	result = FMOD_System_CreateSound(f_system, "Sounds/Selected.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::Selected)]);
+	ErrorCheck(result);
+	
+	result = FMOD_System_CreateSound(f_system, "Sounds/Missile.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::Missile)]);
+	ErrorCheck(result);
+
+	result = FMOD_System_CreateSound(f_system, "Sounds/MissileShoot.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::MissileShoot)]);
 	ErrorCheck(result);
 	
 	result = FMOD_System_CreateSoundGroup(f_system, "BGM", &bgm_group);

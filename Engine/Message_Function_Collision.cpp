@@ -51,6 +51,7 @@ void Msg_Func_Collision::Update(float dt)
 		{
 			if (m_target->GetComponentByTemplate<Missile>()->Get_From_Obj() != m_from)
 			{
+
 				m_target->SetDeadCondition(true);
 				Player* player_info_from = m_from->GetComponentByTemplate<Player>();
 				Object* hp_bar = m_from->Get_Belong_Object_By_Tag("hp_bar");
@@ -61,6 +62,8 @@ void Msg_Func_Collision::Update(float dt)
 					if (player_info_from->Get_Item_Used_Status() == Player::Item_Use_Status::None &&
 						info_hp_bar->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
 					{
+						sound.Play(SOUND::Missile);
+
 						info_hp_bar->Decrease(0.5f);
 						m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
 						info_hp_bar->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
@@ -83,6 +86,8 @@ void Msg_Func_Collision::Update(float dt)
 					if (player_info_from->Get_Item_Used_Status() == Player::Item_Use_Status::None &&
 						info_hp_bar->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
 					{
+						sound.Play(SOUND::Missile);
+
 						info_hp_bar->Decrease(0.5f);
 						m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
 						info_hp_bar->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
@@ -104,12 +109,12 @@ void Msg_Func_Collision::Update(float dt)
 				Player* player_info_target = m_target->GetComponentByTemplate<Player>();
 				Object* hp_bar = m_target->Get_Belong_Object_By_Tag("hp_bar");
 				Hp_Bar* info_hp_bar = hp_bar->GetComponentByTemplate<Hp_Bar>();
-
 				if (info_hp_bar != nullptr)
 				{
 					if (player_info_target->Get_Item_Used_Status() == Player::Item_Use_Status::None &&
 						info_hp_bar->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
 					{
+						sound.Play(SOUND::Missile);
 						info_hp_bar->Decrease(0.5f);
 						m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
 						info_hp_bar->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
@@ -132,6 +137,8 @@ void Msg_Func_Collision::Update(float dt)
 					if (player_info_target->Get_Item_Used_Status() == Player::Item_Use_Status::None &&
 						info_hp_bar->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
 					{
+						sound.Play(SOUND::Missile);
+
 						info_hp_bar->Decrease(0.5f);
 						m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
 						info_hp_bar->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);

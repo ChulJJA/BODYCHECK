@@ -137,6 +137,7 @@ void Option::ButtonBehavior()
 	{
 		if (input.Is_Key_Pressed(GLFW_KEY_SPACE))
 		{
+			sound.Play(SOUND::Selected);
 			app->Toggle_Fullscreen();
 			volume_timer = 0;
 		}
@@ -153,7 +154,7 @@ void Option::ButtonBehavior()
 			}
 			SetSoundVolume(0.25, true);
 			music_icon[0]->SetTranslation({ icon_translation.x + 680, icon_translation.y });
-
+			
 			volume_timer = 0;
 		}
 		else if (input.Is_Key_Pressed(GLFW_KEY_LEFT) || LeftThumbStateX < 0)
@@ -207,7 +208,7 @@ void Option::ButtonBehavior()
 		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A))
 		{
 			pointer = static_cast<int>(BUTTON::MUSIC);
-			sound.Play(SOUND::Click);
+			sound.Play(SOUND::Selected);
 			is_next = true;
 			next_level = "Menu";
 			Clear();
@@ -217,8 +218,7 @@ void Option::ButtonBehavior()
 	{
 		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A))
 		{
-			pointer = static_cast<int>(BUTTON::MUSIC);
-			sound.Play(SOUND::Click);
+			sound.Play(SOUND::Selected);
 			state_manager->BackToLevel();
 			Clear();
 		}

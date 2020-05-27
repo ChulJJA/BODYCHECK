@@ -79,7 +79,6 @@ void Physics::KnockBack_Missile(Object* player, Object* missile)
 		const vector2 object_2_velocity = missile->GetComponentByTemplate<Physics>()->GetVelocity();
 		const vector2 direction_to_go = normalize(object_1_pos - object_2_pos);
 		const float object_2_speed = VectorToScalar(object_2_velocity);
-		sound.Play(SOUND::Crack);
 
 		player->GetComponentByTemplate<Player>()->SetPlayerVelocity(direction_to_go * object_2_speed);
 		player->GetTransform().AddTranslation(player->GetComponentByTemplate<Player>()->GetPlayerVelocity());

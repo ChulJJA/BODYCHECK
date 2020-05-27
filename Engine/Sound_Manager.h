@@ -29,6 +29,9 @@ enum class SOUND
 	CountDown,
 	ItemAppear,
 	ItemAppear2,
+	Selected,
+	Missile,
+	MissileShoot,
 	END
 };
 

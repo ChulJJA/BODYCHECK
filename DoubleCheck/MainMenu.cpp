@@ -221,16 +221,17 @@ void MainMenu::ButtonSelector()
 	if((input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A))&& pointer == static_cast<int>(BUTTON::START))
 	{
         pointer = static_cast<int>(BUTTON::START);
-		sound.Play(SOUND::Click);
+		sound.Play(SOUND::Selected);
         StateManager::GetStateManager()->level_state->is_pause = false;
         is_next = true;
         next_level = "Level1";
+        Sleep(500);
         sound.UnLoad();
         Clear();
 	}
     else if ((input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::TUTORIAL))
     {
-        sound.Play(SOUND::Click);
+        sound.Play(SOUND::Selected);
         is_next = true;
             next_level = "Tutorial";
         Clear();
@@ -238,7 +239,7 @@ void MainMenu::ButtonSelector()
     else if ((input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::MUSIC))
     {
         pointer = static_cast<int>(BUTTON::START);
-        sound.Play(SOUND::Click);
+        sound.Play(SOUND::Selected);
         is_next = true;
         next_level = "Option";
         Clear();
@@ -246,7 +247,7 @@ void MainMenu::ButtonSelector()
     else if ((input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::TEST))
     {
         pointer = static_cast<int>(BUTTON::START);
-        sound.Play(SOUND::Click);
+        sound.Play(SOUND::Selected);
         is_next = true;
         next_level = "TestLevel";
         Clear();

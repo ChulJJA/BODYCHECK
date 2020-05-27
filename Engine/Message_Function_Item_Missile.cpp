@@ -7,6 +7,8 @@
 #include "Referee.h"
 #include "Component_Missile.h"
 #include "Component_Sprite.h"
+#include "Sound_Manager.h"
+#include "Engine.hpp"
 
 void Msg_Func_Item_Missile::Init()
 {
@@ -41,6 +43,7 @@ void Msg_Func_Item_Missile::Update(float dt)
 			std::vector<Object*> another_players = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("player");
 			another_players.erase(std::find(another_players.begin(), another_players.end(), m_target));
 			int player_count = another_players.size();
+			sound.Play(SOUND::MissileShoot);
 
 			for (int i = 0; i < player_count; i++)
 			{
