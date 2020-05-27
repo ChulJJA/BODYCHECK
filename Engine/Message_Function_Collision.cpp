@@ -263,9 +263,21 @@ void Msg_Func_Collision::Update(float dt)
 			player_target_info->Change_To_Normal_State();
 
 		}
-
+		//collide_particle = new ParticleGenerator(m_target, 50, "../Sprite/ParticleRed.png", ParticleType::COLLIDE);
+		//particle_timer = new float(0.3f);
 	}
 
+	/*if (m_target != nullptr && collide_particle != nullptr && particle_timer != nullptr)
+	{
+		*particle_timer -= dt;
+		collide_particle->Update(dt, m_target, 6, vector2(50.0f, 50.0f));
+		collide_particle->Draw(m_target);
+	}
+	else if (m_target == nullptr && collide_particle != nullptr && *particle_timer < 0)
+	{
+		delete(collide_particle);
+		delete(particle_timer);
+	}*/
 	msg->Set_Should_Delete(true);
 }
 

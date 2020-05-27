@@ -19,6 +19,7 @@
 #include "Component_Enemy.h"
 #include "Component_Sprite.h"
 #include "Component_Hpbar.h"
+#include "Particle.h"
 #include <GLFW/glfw3.h>
 #include "Player_Ui.h"
 #include "UsefulTools.hpp"
@@ -33,6 +34,7 @@ GLFWgamepadstate state;
 namespace
 {
 	Gamepad* gamepadManager = nullptr;
+	ParticleGenerator* speedParticle = nullptr;
 }
 
 
@@ -49,8 +51,7 @@ void Player::Init(Object* obj)
 	else
 	{
 		SetHPBar();
-	}
-
+	}	
 }
 
 void Player::Update(float dt)
@@ -133,7 +134,7 @@ void Player::Update(float dt)
 			Component* normal_sprite = m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Normal);
 
 
-			if (speed_mag < 400.f)
+			if (speed_mag < 2000.f)
 			{
 				if (normal_sprite == m_owner->Get_Current_Sprite())
 				{
@@ -141,6 +142,11 @@ void Player::Update(float dt)
 					if (speed2_sprite != m_owner->Get_Current_Sprite())
 					{
 						m_owner->Change_Sprite(speed2_sprite);
+						if (speedParticle != nullptr)
+						{
+							delete speedParticle;
+							speedParticle = nullptr;
+						}
 					}
 				}
 			}
@@ -154,11 +160,17 @@ void Player::Update(float dt)
 					if (speed3_sprite != m_owner->Get_Current_Sprite())
 					{
 						m_owner->Change_Sprite(speed3_sprite);
+						speedParticle = new ParticleGenerator(m_owner, 20, "../Sprite/ParticleSpeed.png", ParticleType::DASH);
 					}
 				}
 			}
 			m_owner->GetScale_Reference().x += scale_plus;
 			m_owner->GetScale_Reference().y += scale_plus;
+			if (speedParticle != nullptr && speed_mag > 2000.0f)
+			{
+				speedParticle->Update(dt, m_owner, 1, vector2(-m_owner->GetScale_Reference() / 2.0f));
+				speedParticle->Draw(m_owner);
+			}
 		}
 		else
 		{
