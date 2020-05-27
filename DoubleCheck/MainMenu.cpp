@@ -57,7 +57,7 @@ void MainMenu::Load()
 
     Object* back = new Object();
 
-    back->AddComponent(new Sprite(back, "../Sprite/menu_background.png", true, 2, 8, {0.f, 0.f}, { 100.f,100.f },
+    back->AddComponent(new Sprite(back, "../Sprite/menu_background.png", false, 2, 8, {0.f, 0.f}, { 50.f,50.f },
         { 255,255,255,255 }, Sprite_Type::None), "none", true);
     back->GetTransform().SetScale({ 40.f, 22.f });
     object_manager->AddObject(back);
