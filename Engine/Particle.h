@@ -13,38 +13,6 @@
 #include "Component_Player.h"
 #include "ObjectManager.h"
 
-//class ParticleSystem : public Component
-//{
-//public:
-//	// Constructor
-//	ParticleSystem(Object* obj, unsigned int amount);
-//	//// Update all particles
-//	//void Update(GLfloat dt, Object& object, GLuint newParticles, vector2 offset = vector2(0.0f, 0.0f));
-//	//// Render all particles
-//	//void Draw();
-//	bool Can_Load_To_Texture(Texture& texture, const char* file_path);
-//	void Init(Object* obj) override;
-//	void Update(float dt) override;
-//private:
-//
-//	float random = ((rand() % 100) - 50) / 70.0f;
-//	float lifetime;
-//	Object* particle_handler;
-//	unsigned int particle_amount;
-//	Shader shader;
-//	Vertices shape;
-//	material material;
-//	Texture texture;
-//	Image image;
-//	// Returns the first Particle index that's currently unused e.g. Life <= 0.0f or 0 if no particle is currently inactive
-//	//GLuint firstUnusedParticle();
-//	// Respawns particle
-//	//void respawnParticle(Particle& particle, Object& object, vector2 offset = vector2(0.0f, 0.0f));
-//
-//	float seconds = 0;
-//	int width = 1280, height = 720;
-//};
-
 struct Particle {
 	vector2 position, velocity;
 	Color4f color;
@@ -78,6 +46,8 @@ private:
 	int total_particles;
 	int alive_particles;
 	std::vector<Particle> particles;
+
+	float angle = 0;
 
 	Vertices shape;
 	Shader shader;
