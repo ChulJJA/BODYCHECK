@@ -224,7 +224,8 @@ void MainMenu::ButtonSelector()
 		sound.Play(SOUND::Click);
         StateManager::GetStateManager()->level_state->is_pause = false;
         is_next = true;
-        next_level = "Level1";        
+        next_level = "Level1";
+        sound.UnLoad();
         Clear();
 	}
     else if ((input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::TUTORIAL))

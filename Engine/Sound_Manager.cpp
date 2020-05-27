@@ -93,6 +93,10 @@ void Sound::LoadSound()
 
 void Sound::UnLoad()
 {
+	for(int count = 0; count < static_cast<int>(SOUND::END); ++count)
+	{
+		result = FMOD_Sound_Release(sound[count]);
+	}
 	result = FMOD_System_Release(f_system);
 	isInitialized = false;
 }
@@ -109,26 +113,25 @@ void Sound::SetSoundGroup()
 			result = FMOD_Sound_SetSoundGroup(sound[count], bgm_group);
 			ErrorCheck(result);
 			result = FMOD_Channel_Stop(channel[count]);
+			ErrorCheck(result);
 		}
 		else if (count < static_cast<int>(SOUND::END))
 		{
 			result = FMOD_Sound_SetSoundGroup(sound[count], sfx_group);
 			ErrorCheck(result);
+			result = FMOD_Channel_SetVolume(channel[count], 1);
 		}
 	}
 
-	result = FMOD_SoundGroup_SetVolume(bgm_group, 0.5f);
+	result = FMOD_SoundGroup_SetVolume(bgm_group, 0.25f);
 	ErrorCheck(result);
-	result = FMOD_SoundGroup_SetVolume(sfx_group, 0.5f);
+	result = FMOD_SoundGroup_SetVolume(sfx_group, 1.0f);
 	ErrorCheck(result);
 }
 
 void Sound::Play(SOUND sound_Num)
 {
-	float volume;
 	result = FMOD_System_PlaySound(f_system, sound[(int)sound_Num], 0, 0, &channel[(int)sound_Num]);
-	FMOD_Channel_GetVolume(channel[(int)sound_Num], &volume);
-	std::cout << "sex: " << volume << std::endl;
 	ErrorCheck(result);
 }
 
@@ -140,7 +143,6 @@ void Sound::Stop(SOUND sound_Num)
 
 float Sound::GetVolume(SOUND channel_Num)
 {
-	
 	float volume;
 	result = FMOD_Channel_GetVolume(channel[static_cast<int>(channel_Num)], &volume);
 	ErrorCheck(result);

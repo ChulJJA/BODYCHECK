@@ -66,8 +66,6 @@ void Option::Update(float dt)
 	{
 		ButtonBehavior();
 	}
-	std::cout << music_icon[0]->GetTransform().GetTranslation().x << std::endl;
-	std::cout << music_icon[1]->GetTransform().GetTranslation().x << std::endl;
 }
 
 void Option::Clear()
