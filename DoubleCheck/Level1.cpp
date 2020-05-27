@@ -161,10 +161,7 @@ void Level1::Update(float dt)
 	FMOD_BOOL isBGMPlaying;
 
 	FMOD_Channel_IsPlaying(sound.channel[1], &isBGMPlaying);
-	//if(isBGMPlaying == false)
-	//{
-	//	sound.Play(SOUND::BGM2);
-	//}
+
 	if (dt_refreshed == true)
 	{
 		if (transition_timer > 0.f)
