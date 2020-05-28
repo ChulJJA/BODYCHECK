@@ -25,7 +25,7 @@ void Msg_Func_Item_Missile::Init()
 			info_player->Set_Item_State(Item::Item_Kind::None);
 			info_player->Set_Char_State(Player::Char_State::Prepare);
 			info_player->Set_Prepare_Timer(3.f);
-
+			sound.Play(SOUND::MissilePrepare);
 			info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Use, Ui::Ui_Status_Obj::Item_Missile);
 		}
 		

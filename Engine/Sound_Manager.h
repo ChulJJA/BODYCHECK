@@ -10,7 +10,7 @@
  */
 
 #pragma once
-#define SOUND_NUM 20
+#define SOUND_NUM 30
 
 enum class SOUND
 {
@@ -32,6 +32,7 @@ enum class SOUND
 	Selected,
 	Missile,
 	MissileShoot,
+	MissilePrepare,
 	END
 };
 
@@ -51,6 +52,7 @@ public:
 	void Initialize();
 	void LoadSound();
 	void UnLoad();
+	void Update(float dt);
 	void SetSoundGroup();
 	void Play(SOUND sound_Num);
 	void Stop(SOUND sound_Num);

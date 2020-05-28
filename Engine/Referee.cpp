@@ -589,7 +589,7 @@ void Referee::Respawn_Item(float dt)
 {
 	item_respawn_timer -= dt;
 	//const Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 9));
-	const Item::Item_Kind item = Item::Item_Kind::Dash;
+	const Item::Item_Kind item = Item::Item_Kind::Missile;
 	Object* spawn_obj = nullptr;
 
 	if (item_respawn_timer <= 0.0f && total_item_num > 0)

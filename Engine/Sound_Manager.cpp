@@ -92,12 +92,16 @@ void Sound::LoadSound()
 
 	result = FMOD_System_CreateSound(f_system, "Sounds/MissileShoot.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::MissileShoot)]);
 	ErrorCheck(result);
-	
+
+	result = FMOD_System_CreateSound(f_system, "Sounds/MissilePrepare.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::MissilePrepare)]);
+	ErrorCheck(result);
+
 	result = FMOD_System_CreateSoundGroup(f_system, "BGM", &bgm_group);
 	ErrorCheck(result);
 
 	result = FMOD_System_CreateSoundGroup(f_system, "SFX", &sfx_group);
 	ErrorCheck(result);
+
 }
 
 void Sound::UnLoad()
@@ -108,6 +112,11 @@ void Sound::UnLoad()
 	}
 	result = FMOD_System_Release(f_system);
 	isInitialized = false;
+}
+
+void Sound::Update(float dt)
+{
+	result = FMOD_System_Update(f_system);
 }
 
 void Sound::SetSoundGroup()
