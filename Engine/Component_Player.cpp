@@ -133,7 +133,6 @@ void Player::Update(float dt)
 		{
 			Component* normal_sprite = m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Normal);
 
-
 			if (speed_mag < 2000.f)
 			{
 				if (normal_sprite == m_owner->Get_Current_Sprite())
@@ -160,7 +159,7 @@ void Player::Update(float dt)
 					if (speed3_sprite != m_owner->Get_Current_Sprite())
 					{
 						m_owner->Change_Sprite(speed3_sprite);
-						speedParticle = new ParticleGenerator(m_owner, 20, "../Sprite/ParticleSpeed.png", ParticleType::DASH);
+						speedParticle = new ParticleGenerator(m_owner, 20, "../Sprite/Particle.png", ParticleType::DASH);
 					}
 				}
 			}
@@ -1322,6 +1321,8 @@ void Player::UseItem()
 		if (RightTriggerState > 0 && belong_item == Item::Item_Kind::HP)
 		{
 			Change_Weapon_Sprite(nullptr);
+			Change_To_Normal_State();
+
 			sound.Play(SOUND::HP);
 			Object* hp_bar = m_owner->Get_Belong_Object_By_Tag("hp_bar");
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(hp_bar, m_owner, Message_Kind::Item_Recover));
@@ -1330,6 +1331,8 @@ void Player::UseItem()
 		if (RightTriggerState > 0 && belong_item == Item::Item_Kind::Bulkup)
 		{
 			Change_Weapon_Sprite(nullptr);
+			Change_To_Normal_State();
+
 			sound.Play(SOUND::BulkUp);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 15.f));
 		}
@@ -1337,32 +1340,44 @@ void Player::UseItem()
 		if (RightTriggerState > 0 && belong_item == Item::Item_Kind::Throwing)
 		{
 			Change_Weapon_Sprite(nullptr);
+			Change_To_Normal_State();
+
 			m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing));
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Throwing, 0.f));
 		}
 		if (RightTriggerState > 0 && belong_item == Item::Item_Kind::Magnatic)
 		{
 			Change_Weapon_Sprite(nullptr);
+			Change_To_Normal_State();
+
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Magnetic));
 		}
 		if (RightTriggerState > 0 && belong_item == Item::Item_Kind::Time_Pause)
 		{
 			Change_Weapon_Sprite(nullptr);
+			Change_To_Normal_State();
+
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Timepause));
 		}
 		if (RightTriggerState > 0 && belong_item == Item::Item_Kind::Reverse_Moving)
 		{
 			Change_Weapon_Sprite(nullptr);
+			Change_To_Normal_State();
+
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Reverse));
 		}
 		if (RightTriggerState > 0 && belong_item == Item::Item_Kind::Missile)
 		{
+			Change_To_Normal_State();
 			m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Missile));
 			Change_Weapon_Sprite(nullptr);
+
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Missile));
 		}
 		if (RightTriggerState > 0 && belong_item == Item::Item_Kind::Mine)
 		{
+			Change_To_Normal_State();
+
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Mine));
 		}
 
@@ -1373,12 +1388,16 @@ void Player::UseItem()
 		{
 			Change_Weapon_Sprite(nullptr);
 			sound.Play(SOUND::Dash);
+			Change_To_Normal_State();
+
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Dash));
 		}
 		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::HP)
 		{
 			Change_Weapon_Sprite(nullptr);
 			sound.Play(SOUND::HP);
+			Change_To_Normal_State();
+
 			Object* hp_bar = m_owner->Get_Belong_Object_By_Tag("hp_bar");
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(hp_bar, m_owner, Message_Kind::Item_Recover));
 		}
@@ -1387,38 +1406,53 @@ void Player::UseItem()
 		{
 			Change_Weapon_Sprite(nullptr);
 			sound.Play(SOUND::BulkUp);
+			Change_To_Normal_State();
+
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 5.f));
 		}
 
 		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Throwing)
 		{
 			Change_Weapon_Sprite(nullptr);
+			Change_To_Normal_State();
+
 			m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing)->Set_Need_Update(true);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Throwing, 0.f));
 		}
 		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Magnatic)
 		{
 			Change_Weapon_Sprite(nullptr);
+			Change_To_Normal_State();
+
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Magnetic));
 		}
 		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Time_Pause)
 		{
 			Change_Weapon_Sprite(nullptr);
+			Change_To_Normal_State();
+
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Timepause));
 		}
 		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Reverse_Moving)
 		{
 			Change_Weapon_Sprite(nullptr);
+			Change_To_Normal_State();
+
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Reverse));
 		}
 		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Missile)
 		{
-			m_owner->Set_Current_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Missile));
+			Change_To_Normal_State();
+
+			m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Missile));
 			Change_Weapon_Sprite(nullptr);
+
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Missile));
 		}
 		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Mine)
 		{
+			Change_To_Normal_State();
+
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Mine));
 		}
 	}
@@ -1427,12 +1461,16 @@ void Player::UseItem()
 		if (input.Is_Key_Pressed(GLFW_KEY_KP_7) && belong_item == Item::Item_Kind::Dash)
 		{
 			Change_Weapon_Sprite(nullptr);
+			Change_To_Normal_State();
+
 			sound.Play(SOUND::Dash);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Dash));
 		}
 		if (input.Is_Key_Pressed(GLFW_KEY_KP_7) && belong_item == Item::Item_Kind::HP)
 		{
 			Change_Weapon_Sprite(nullptr);
+			Change_To_Normal_State();
+
 			sound.Play(SOUND::HP);
 			Object* hp_bar = m_owner->Get_Belong_Object_By_Tag("hp_bar");
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(hp_bar, m_owner, Message_Kind::Item_Recover));
@@ -1441,6 +1479,8 @@ void Player::UseItem()
 		if (input.Is_Key_Pressed(GLFW_KEY_KP_7) && belong_item == Item::Item_Kind::Bulkup)
 		{
 			Change_Weapon_Sprite(nullptr);
+			Change_To_Normal_State();
+
 			sound.Play(SOUND::BulkUp);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 5.f));
 		}
@@ -1448,32 +1488,45 @@ void Player::UseItem()
 		if (input.Is_Key_Pressed(GLFW_KEY_KP_7) && belong_item == Item::Item_Kind::Throwing)
 		{
 			Change_Weapon_Sprite(nullptr);
+			Change_To_Normal_State();
+
 			m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing)->Set_Need_Update(true);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Throwing, 0.f));
 		}
 		if (input.Is_Key_Pressed(GLFW_KEY_KP_7) && belong_item == Item::Item_Kind::Magnatic)
 		{
 			Change_Weapon_Sprite(nullptr);
+			Change_To_Normal_State();
+
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Magnetic));
 		}
 		if (input.Is_Key_Pressed(GLFW_KEY_KP_7) && belong_item == Item::Item_Kind::Time_Pause)
 		{
 			Change_Weapon_Sprite(nullptr);
+			Change_To_Normal_State();
+
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Timepause));
 		}
 		if (input.Is_Key_Pressed(GLFW_KEY_KP_7) && belong_item == Item::Item_Kind::Reverse_Moving)
 		{
 			Change_Weapon_Sprite(nullptr);
+			Change_To_Normal_State();
+
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Reverse));
 		}
 		if (input.Is_Key_Pressed(GLFW_KEY_KP_7) && belong_item == Item::Item_Kind::Missile)
 		{
-			m_owner->Set_Current_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Missile));
+			Change_To_Normal_State();
+
+			m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Missile));
 			Change_Weapon_Sprite(nullptr);
+
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Missile));
 		}
 		if (input.Is_Key_Pressed(GLFW_KEY_KP_7) && belong_item == Item::Item_Kind::Mine)
 		{
+			Change_To_Normal_State();
+
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Mine));
 		}
 	}
@@ -1483,12 +1536,16 @@ void Player::UseItem()
 		if (input.Is_Key_Pressed(GLFW_KEY_R) && belong_item == Item::Item_Kind::Dash)
 		{
 			Change_Weapon_Sprite(nullptr);
+			Change_To_Normal_State();
+
 			sound.Play(SOUND::Dash);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Dash));
 		}
 		if (input.Is_Key_Pressed(GLFW_KEY_R) && belong_item == Item::Item_Kind::HP)
 		{
 			Change_Weapon_Sprite(nullptr);
+			Change_To_Normal_State();
+
 			sound.Play(SOUND::HP);
 			Object* hp_bar = m_owner->Get_Belong_Object_By_Tag("hp_bar");
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(hp_bar, m_owner, Message_Kind::Item_Recover));
@@ -1497,6 +1554,8 @@ void Player::UseItem()
 		if (input.Is_Key_Pressed(GLFW_KEY_R) && belong_item == Item::Item_Kind::Bulkup)
 		{
 			Change_Weapon_Sprite(nullptr);
+			Change_To_Normal_State();
+
 			sound.Play(SOUND::BulkUp);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 5.f));
 		}
@@ -1504,32 +1563,45 @@ void Player::UseItem()
 		if (input.Is_Key_Pressed(GLFW_KEY_R) && belong_item == Item::Item_Kind::Throwing)
 		{
 			Change_Weapon_Sprite(nullptr);
+			Change_To_Normal_State();
+
 			m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing)->Set_Need_Update(true);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Throwing, 0.f));
 		}
 		if (input.Is_Key_Pressed(GLFW_KEY_R) && belong_item == Item::Item_Kind::Magnatic)
 		{
 			Change_Weapon_Sprite(nullptr);
+			Change_To_Normal_State();
+
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Magnetic));
 		}
 		if (input.Is_Key_Pressed(GLFW_KEY_R) && belong_item == Item::Item_Kind::Time_Pause)
 		{
 			Change_Weapon_Sprite(nullptr);
+			Change_To_Normal_State();
+
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Timepause));
 		}
 		if (input.Is_Key_Pressed(GLFW_KEY_R) && belong_item == Item::Item_Kind::Reverse_Moving)
 		{
 			Change_Weapon_Sprite(nullptr);
+			Change_To_Normal_State();
+
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Reverse));
 		}
 		if (input.Is_Key_Pressed(GLFW_KEY_R) && belong_item == Item::Item_Kind::Missile)
 		{
-			m_owner->Set_Current_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Missile));
+			Change_To_Normal_State();
+
+			m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Missile));
 			Change_Weapon_Sprite(nullptr);
+
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Missile));
 		}
 		if (input.Is_Key_Pressed(GLFW_KEY_R) && belong_item == Item::Item_Kind::Mine)
 		{
+			Change_To_Normal_State();
+
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Mine));
 		}
 	}

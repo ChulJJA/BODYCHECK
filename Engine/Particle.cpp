@@ -105,7 +105,7 @@ void ParticleGenerator::Draw(Object* obj)
 					material.color4fUniforms["color"] = particle.color;
 
 					matrix3 result = MATRIX3::build_identity();
-					result *= MATRIX3::build_translation({ particle.position.x, particle.position.y }) * MATRIX3::build_rotation(0.0f) * MATRIX3::build_scale({ 1.0f,1.0f });
+					result *= MATRIX3::build_translation({ particle.position.x, particle.position.y }) * MATRIX3::build_rotation(obj->GetTransform().GetRotation()) * MATRIX3::build_scale({ obj->GetScale().x - 1.f, obj->GetScale().y - 1.f});
 					matrix3 mat_ndc = Graphic::GetGraphic()->Get_View().Get_Camera_View().GetCameraToNDCTransform();
 					mat_ndc *= Graphic::GetGraphic()->Get_View().Get_Camera().WorldToCamera();
 					mat_ndc *= result;
@@ -185,9 +185,30 @@ GLuint ParticleGenerator::firstUnusedParticle()
 void ParticleGenerator::respawnParticle(Particle& particle, Object* object, vector2 offset)
 {
 	GLfloat random = ((rand() % 100) - 50) / 10.0f;
-	GLfloat rColor = 0.5 + ((rand() % 100) / 100.0f);
+	//GLfloat rColor = 0.5 + ((rand() % 100) / 100.0f);
+
+	if (red)
+	{
+		green = true;
+		red = false;
+		particle.color = Color4f(1.f, 0.f, 0.f, 1.f);
+	}
+	else if (green)
+	{
+		blue = true;
+		green = false;
+		particle.color = Color4f(0.f, 1.f, 0.f, 1.f);
+	}
+	else if (blue)
+	{
+		blue = false;
+		red = true;
+		particle.color = Color4f(0.f, 0.f, 1.f, 1.f);
+	}
+
+	//particle.color = Color4f(rColor, rColor, rColor, 1.0f);
 	particle.position = object->GetTransform().GetTranslation() + offset;
-	particle.color = Color4f(rColor, rColor, rColor, 1.0f);
+	//particle.color = Color4f(rColor, rColor, rColor, 1.0f);
 	particle.life = 1.0f;
 	particle.velocity = object->GetComponentByTemplate<Player>()->GetPlayerVelocity() * random;
 }
