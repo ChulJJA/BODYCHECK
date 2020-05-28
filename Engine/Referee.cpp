@@ -306,7 +306,7 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 {
 	std::string path_to_player_state = "../Sprite/Player/State/";
 	std::string path_to_player_item_effect = "../Sprite/Player/Item_Effect/";
-	std::string path_to_player_display_item = "../Sprite/Player/Display_Item/";
+	//std::string path_to_player_display_item = "../Sprite/Player/Display_Item/";
 
 	std::string sprite_path_normal = path_to_player_state;
 	std::string sprite_path_lock = path_to_player_state;
@@ -315,6 +315,7 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	std::string sprite_path_paused = path_to_player_state;
 	std::string sprite_path_speed2 = path_to_player_state;
 	std::string sprite_path_speed3 = path_to_player_state;
+	std::string sprite_path_fat = path_to_player_state;
 
 
 	std::string sprite_path_reverse_moving_pen = path_to_player_item_effect;
@@ -329,14 +330,14 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	std::string sprite_path_dash_effect = path_to_player_item_effect;
 	std::string sprite_path_timestop_effect = path_to_player_item_effect;
 
-	std::string sprite_path_missile_launcher = path_to_player_display_item;
-	std::string sprite_path_dash = path_to_player_display_item;
-	std::string sprite_path_bulkup = path_to_player_display_item;
-	std::string sprite_path_throwing = path_to_player_display_item;
-	std::string sprite_path_heal = path_to_player_display_item;
-	std::string sprite_path_magnet = path_to_player_display_item;
-	std::string sprite_path_timestop = path_to_player_display_item;
-	std::string sprite_path_reverse = path_to_player_display_item;
+	//std::string sprite_path_missile_launcher = path_to_player_display_item;
+	//std::string sprite_path_dash = path_to_player_display_item;
+	//std::string sprite_path_bulkup = path_to_player_display_item;
+	//std::string sprite_path_throwing = path_to_player_display_item;
+	//std::string sprite_path_heal = path_to_player_display_item;
+	//std::string sprite_path_magnet = path_to_player_display_item;
+	//std::string sprite_path_timestop = path_to_player_display_item;
+	//std::string sprite_path_reverse = path_to_player_display_item;
 
 
 	{
@@ -347,6 +348,8 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 		sprite_path_paused += sprite_path + "_paused.png";
 		sprite_path_speed2 += sprite_path + "_speed2.png";
 		sprite_path_speed3 += sprite_path + "_speed3.png";
+		sprite_path_fat += "pen_special.png";
+
 	}
 
 	//effect when using item.
@@ -367,14 +370,14 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 
 	//display when get item.
 	{
-		sprite_path_missile_launcher += "missile_launcher_showing.png";
-		sprite_path_dash += sprite_path + "_dash_display.png";
-		sprite_path_bulkup += "bulkup_display.png";
-		sprite_path_throwing += "throwing_display.png";
-		sprite_path_heal += "heal_showing.png";
-		sprite_path_magnet += "magnet_display.png";
-		sprite_path_timestop += "time_stop_display.png";
-		sprite_path_reverse += "reverse_display.png";
+		//sprite_path_missile_launcher += "missile_launcher_showing.png";
+		//sprite_path_dash += sprite_path + "_dash_display.png";
+		//sprite_path_bulkup += "bulkup_display.png";
+		//sprite_path_throwing += "throwing_display.png";
+		//sprite_path_heal += "heal_showing.png";
+		//sprite_path_magnet += "magnet_display.png";
+		//sprite_path_timestop += "time_stop_display.png";
+		//sprite_path_reverse += "reverse_display.png";
 	}
 
 	Object* player = new Object();
@@ -405,19 +408,21 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	player->AddComponent(new Sprite(player, sprite_path_crying.c_str(), true, 2, 4, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Crying), "crying", false);
 
-	player->AddComponent(new Sprite(player, sprite_path_missile_launcher.c_str(), pos, false, Sprite_Type::Missile_Launcher_Showing, { 80.f, 80.f }), "missile_launcher", false);
+	player->AddComponent(new Sprite(player, sprite_path_fat.c_str(), true, 6, 18, pos, { 100.f,100.f },
+		{ 255,255,255,255 }, Sprite_Type::Player_Fat), "fat", false);
+	//player->AddComponent(new Sprite(player, sprite_path_missile_launcher.c_str(), pos, false, Sprite_Type::Missile_Launcher_Showing, { 80.f, 80.f }), "missile_launcher", false);
 
-	player->AddComponent(new Sprite(player, sprite_path_dash.c_str(), true, 4, 8, pos, { 100.f,100.f },
-		{ 255,255,255,255 }, Sprite_Type::Dash_Showing), "dash", false);
+	//player->AddComponent(new Sprite(player, sprite_path_dash.c_str(), true, 4, 8, pos, { 100.f,100.f },
+	//	{ 255,255,255,255 }, Sprite_Type::Dash_Showing), "dash", false);
 
-	player->AddComponent(new Sprite(player, sprite_path_bulkup.c_str(), pos, false, Sprite_Type::Bulkup_Showing, { 100.f, 100.f }), "bulkup", false);
-	player->AddComponent(new Sprite(player, sprite_path_throwing.c_str(), pos, false, Sprite_Type::Throwing_Showing, { 100.f, 100.f }), "throwing", false);
-	player->AddComponent(new Sprite(player, sprite_path_magnet.c_str(), pos, false, Sprite_Type::Magnet_Showing, { 100.f, 100.f }), "magnet", false);
-	player->AddComponent(new Sprite(player, sprite_path_timestop.c_str(), pos, false, Sprite_Type::Timestop_Showing, { 100.f, 100.f }), "time", false);
-	player->AddComponent(new Sprite(player, sprite_path_reverse.c_str(), pos, false, Sprite_Type::Reverse_Showing, { 100.f, 100.f }), "reverse", false);
+	//player->AddComponent(new Sprite(player, sprite_path_bulkup.c_str(), pos, false, Sprite_Type::Bulkup_Showing, { 100.f, 100.f }), "bulkup", false);
+	//player->AddComponent(new Sprite(player, sprite_path_throwing.c_str(), pos, false, Sprite_Type::Throwing_Showing, { 100.f, 100.f }), "throwing", false);
+	//player->AddComponent(new Sprite(player, sprite_path_magnet.c_str(), pos, false, Sprite_Type::Magnet_Showing, { 100.f, 100.f }), "magnet", false);
+	//player->AddComponent(new Sprite(player, sprite_path_timestop.c_str(), pos, false, Sprite_Type::Timestop_Showing, { 100.f, 100.f }), "time", false);
+	//player->AddComponent(new Sprite(player, sprite_path_reverse.c_str(), pos, false, Sprite_Type::Reverse_Showing, { 100.f, 100.f }), "reverse", false);
 	player->AddComponent(new Sprite(player, sprite_path_paused.c_str(), pos, false, Sprite_Type::Player_Paused, { 100.f, 100.f }), "paused", false);
-	player->AddComponent(new Sprite(player, sprite_path_heal.c_str(), true, 4, 8, pos, { 100.f,100.f },
-		{ 255,255,255,255 }, Sprite_Type::Heal_Showing), "heal", false);
+	//player->AddComponent(new Sprite(player, sprite_path_heal.c_str(), true, 4, 8, pos, { 100.f,100.f },
+	//	{ 255,255,255,255 }, Sprite_Type::Heal_Showing), "heal", false);
 
 	player->AddComponent(new Sprite(player, sprite_path_ready_bulkup.c_str(), true, 8, 16, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Effect_Bulkp), "effect_bulkup", false);
@@ -589,7 +594,7 @@ void Referee::Respawn_Item(float dt)
 {
 	item_respawn_timer -= dt;
 	//const Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 9));
-	const Item::Item_Kind item = Item::Item_Kind::Missile;
+	const Item::Item_Kind item = Item::Item_Kind::Throwing;
 	Object* spawn_obj = nullptr;
 
 	if (item_respawn_timer <= 0.0f && total_item_num > 0)

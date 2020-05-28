@@ -133,7 +133,6 @@ void Player::Update(float dt)
 		{
 			Component* normal_sprite = m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Normal);
 
-
 			if (speed_mag < 2000.f)
 			{
 				if (normal_sprite == m_owner->Get_Current_Sprite())
@@ -160,7 +159,7 @@ void Player::Update(float dt)
 					if (speed3_sprite != m_owner->Get_Current_Sprite())
 					{
 						m_owner->Change_Sprite(speed3_sprite);
-						speedParticle = new ParticleGenerator(m_owner, 20, "../Sprite/ParticleSpeed.png", ParticleType::DASH);
+						speedParticle = new ParticleGenerator(m_owner, 20, "../Sprite/Particle.png", ParticleType::DASH);
 					}
 				}
 			}

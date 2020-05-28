@@ -57,5 +57,8 @@ private:
 	matrix3 mat_ndc;
 	ParticleType m_type;
 
+	bool red = true;
+	bool green = false;
+	bool blue = false;
 
 };

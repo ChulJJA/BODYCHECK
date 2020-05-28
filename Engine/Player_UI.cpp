@@ -30,7 +30,8 @@ void PLAYER_UI::Initialize()
 	info_item->Set_Tag("item_info");
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/None.png", item_trans, false, Sprite_Type::None), "none");
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/Item.png", item_trans, false, Sprite_Type::Item), "item", false);
-	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/item_dash.png", true, 3, 3, item_trans, { 100.f, 100.f }, {255,255,255,255}, Sprite_Type::Item_Dash), "dash", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/item_dash.png", item_trans, false, Sprite_Type::Item_Dash, {100.f, 150.f}), "dash", false);
+	//info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/item_dash.png", true, 3, 3, item_trans, { 100.f, 100.f }, {255,255,255,255}, Sprite_Type::Item_Dash), "dash", false);
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/item_heal.png", true, 4, 4, item_trans, { 100.f, 100.f }, { 255,255,255,255 }, Sprite_Type::Item_Heal), "heal", false);
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/item_bulkup.png", true, 8, 8, item_trans, { 100.f, 100.f }, { 255,255,255,255 }, Sprite_Type::Item_Bulkup), "bulkup", false);
 
