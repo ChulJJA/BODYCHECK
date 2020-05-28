@@ -57,9 +57,8 @@ void MainMenu::Load()
 
     Object* back = new Object();
 
-    back->AddComponent(new Sprite(back, "../Sprite/menu_background.png", false, 2, 8, {0.f, 0.f}, { 94.f,52.f },
-        { 255,255,255,255 }, Sprite_Type::None), "none", true);
-    back->GetTransform().SetScale({ 40.f, 22.f });
+    back->AddComponent(new Sprite(back, "../Sprite/menu_background.png", {50.f,20.f }, false));
+    back->GetTransform().SetScale({ 38.f, 21.f });
     object_manager->AddObject(back);
     SetPlayButton();
     SetTutorialButton();
@@ -87,14 +86,14 @@ void MainMenu::SetPlayButton()
 {
     play_button = new Object();
     play_button->Set_Name("play_button");
-    play_button->AddComponent(new Sprite(play_button, "../Sprite/PlayButton.png", { 0, 400 }, false));
+    play_button->AddComponent(new Sprite(play_button, "../Sprite/PlayButton.png", { 0, 100 }, false));
     play_button->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
     play_button->GetTransform().SetScale({ 5, 5});
     ObjectManager::GetObjectManager()->AddObject(play_button);
 
     play_button_hover = new Object();
     play_button_hover->Set_Name("play_button_hover");
-    play_button_hover->AddComponent(new Sprite(play_button_hover, "../Sprite/PlayButtonHover.png", { 0, 400 }, false));
+    play_button_hover->AddComponent(new Sprite(play_button_hover, "../Sprite/PlayButtonHover.png", { 0, 100 }, false));
     play_button_hover->GetTransform().SetScale({ 5, 5 });
     ObjectManager::GetObjectManager()->AddObject(play_button_hover);
 }
@@ -103,13 +102,13 @@ void MainMenu::SetTutorialButton()
 {
     tutorial_button = new Object();
     tutorial_button->Set_Name("tutorial_button");
-    tutorial_button->AddComponent(new Sprite(tutorial_button, "../Sprite/TutorialButton.png", { 0, 150 }, false));
+    tutorial_button->AddComponent(new Sprite(tutorial_button, "../Sprite/TutorialButton.png", { 0, -150 }, false));
     tutorial_button->GetTransform().SetScale({ 5, 5 });
     ObjectManager::GetObjectManager()->AddObject(tutorial_button);
 
     tutorial_button_hover = new Object();
     tutorial_button_hover->Set_Name("tutorial_button_hover");
-    tutorial_button_hover->AddComponent(new Sprite(tutorial_button_hover, "../Sprite/TutorialButtonHover.png", { 0, 150 }, false));
+    tutorial_button_hover->AddComponent(new Sprite(tutorial_button_hover, "../Sprite/TutorialButtonHover.png", { 0, -150 }, false));
     tutorial_button_hover->GetTransform().SetScale({ 5, 5 });
     tutorial_button_hover->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
     ObjectManager::GetObjectManager()->AddObject(tutorial_button_hover);
@@ -119,13 +118,13 @@ void MainMenu::SetMusicButton()
 {
     music_button = new Object();
     music_button->Set_Name("music_button");
-    music_button->AddComponent(new Sprite(music_button, "../Sprite/MusicButton.png", { 0, -100 }, false));
+    music_button->AddComponent(new Sprite(music_button, "../Sprite/MusicButton.png", { 0, -400 }, false));
     music_button->GetTransform().SetScale({ 5, 5 });
     ObjectManager::GetObjectManager()->AddObject(music_button);
 
     music_button_hover = new Object();
     music_button_hover->Set_Name("music_button_hover");
-    music_button_hover->AddComponent(new Sprite(music_button_hover, "../Sprite/MusicButtonHover.png", { 0, -100 }, false));
+    music_button_hover->AddComponent(new Sprite(music_button_hover, "../Sprite/MusicButtonHover.png", { 0, -400 }, false));
     music_button_hover->GetTransform().SetScale({ 5, 5 });
     music_button_hover->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
     ObjectManager::GetObjectManager()->AddObject(music_button_hover);
@@ -135,13 +134,13 @@ void MainMenu::SetTestLevelButton()
 {
     test_button = new Object();
     test_button->Set_Name("test_button");
-    test_button->AddComponent(new Sprite(test_button, "../Sprite/TestButton.png", { 0, -350 }, false));
+    test_button->AddComponent(new Sprite(test_button, "../Sprite/TestButton.png", { 0, -650 }, false));
     test_button->GetTransform().SetScale({ 5, 5 });
     ObjectManager::GetObjectManager()->AddObject(test_button);
 
     test_button_hover = new Object();
     test_button_hover->Set_Name("test_button_hover");
-    test_button_hover->AddComponent(new Sprite(test_button_hover, "../Sprite/TestButtonHover.png", { 0, -350 }, false));
+    test_button_hover->AddComponent(new Sprite(test_button_hover, "../Sprite/TestButtonHover.png", { 0, -650 }, false));
     test_button_hover->GetTransform().SetScale({ 5, 5 });
     test_button_hover->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
     ObjectManager::GetObjectManager()->AddObject(test_button_hover);
