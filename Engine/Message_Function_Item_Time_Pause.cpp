@@ -50,7 +50,7 @@ void Msg_Func_Item_Time_Pause::Update(float dt)
 
 			if (info_player != nullptr)
 			{
-				info_player->Set_Item_State(Item::Item_Kind::None);
+				info_player->Change_To_Normal_State();
 
 				for (auto player : another_players)
 				{
