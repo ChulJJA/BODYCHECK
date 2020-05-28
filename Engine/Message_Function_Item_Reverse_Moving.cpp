@@ -9,6 +9,7 @@
 #include "ObjectManager.h"
 #include "Component_Sprite.h"
 #include "time.h"
+#include "Engine.hpp"
 
 
 void Msg_Func_Item_Reverse_Moving::Init()
@@ -21,8 +22,16 @@ void Msg_Func_Item_Reverse_Moving::Init()
 
 		srand(time(NULL));
 
-		
+		FMOD_BOOL isBGM;
+		FMOD_BOOL isBGMReverse;
+		FMOD_Channel_IsPlaying(sound.channel[1], &isBGM);
+		FMOD_Channel_IsPlaying(sound.channel[26], &isBGMReverse);
+		if (isBGM)
+		{
+			sound.Stop(SOUND::BGM2);
+			sound.Play(SOUND::BGM2Reverse);
 
+		}
 		std::vector<Object*> another_players = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("player");
 		const int random_select_character = rand() % another_players.size();
 		

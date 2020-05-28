@@ -1,5 +1,6 @@
 #pragma once
 #include "Message_Function_Base.h"
+#include <fmod.h>
 class Message;
 
 class Msg_Func_Item_Time_Pause : public Msg_Func_Base
@@ -24,4 +25,5 @@ public:
 private:
 	float timer;
 	Message* msg;
+	FMOD_BOOL isBgm;
 };

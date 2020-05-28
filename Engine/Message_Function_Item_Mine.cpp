@@ -9,6 +9,7 @@
 #include "ObjectManager.h"
 #include "Component_Sprite.h"
 #include "time.h"
+#include "Engine.hpp"
 
 
 void Msg_Func_Item_Mine::Init()
@@ -17,7 +18,7 @@ void Msg_Func_Item_Mine::Init()
 	{
 		Object* obj = msg->Get_Target();
 		Player* info_player = obj->GetComponentByTemplate<Player>();
-
+		sound.Play(SOUND::Mine);
 		if (info_player != nullptr)
 		{
 			PLAYER_UI* info_ui = info_player->Get_Ui();

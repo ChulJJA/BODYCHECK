@@ -90,7 +90,6 @@ void ObjectManager::Update(float dt)
 				{
 					delete_obj.push_back(obj);
 				}
-
 			}
 			for (auto& remove_obj : delete_obj)
 			{
