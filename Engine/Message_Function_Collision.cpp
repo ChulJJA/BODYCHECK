@@ -86,7 +86,7 @@ void Msg_Func_Collision::Update(float dt)
 					if (player_info_from->Get_Item_Used_Status() == Player::Item_Use_Status::None &&
 						info_hp_bar->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
 					{
-						sound.Play(SOUND::Missile);
+						sound.Play(SOUND::ThrowingHit);
 
 						info_hp_bar->Decrease(0.5f);
 						m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
@@ -137,7 +137,7 @@ void Msg_Func_Collision::Update(float dt)
 					if (player_info_target->Get_Item_Used_Status() == Player::Item_Use_Status::None &&
 						info_hp_bar->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
 					{
-						sound.Play(SOUND::Missile);
+						sound.Play(SOUND::ThrowingHit);
 
 						info_hp_bar->Decrease(0.5f);
 						m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
@@ -163,10 +163,14 @@ void Msg_Func_Collision::Update(float dt)
 	else if (m_from->Get_Tag() == "install_mine" && m_target->Get_Tag() == "player")
 	{
 		Player_And_Mine_Collision(m_target, m_from);
+		sound.Play(SOUND::MineBomb);
+
 	}
 	else if (m_target->Get_Tag() == "install_mine" && m_from->Get_Tag() == "player")
 	{
 		Player_And_Mine_Collision(m_from, m_target);
+		sound.Play(SOUND::MineBomb);
+
 	}
 	else if (m_from->Get_Tag() == "player" && m_target->Get_Tag() == "player")
 	{

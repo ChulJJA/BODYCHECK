@@ -10,7 +10,7 @@
  */
 
 #pragma once
-#define SOUND_NUM 30
+#define SOUND_NUM 40
 
 enum class SOUND
 {
@@ -35,6 +35,15 @@ enum class SOUND
 	MissilePrepare,
 	WallCrack,
 	SoundControl,
+	Crowd,
+	Win,
+	Throwing,
+	ThrowingHit,
+	TimePause,
+	BGM2Reverse,
+	Mine,
+	MineBomb,
+	MineAlarm,
 	END
 };
 
@@ -63,6 +72,7 @@ public:
 	float GetSoundGroupVolume(bool is_bgm);
 	void SetSoundGroupVolume(bool is_bgm, float volume);
 	bool isInitialized;
+	float mineAlarm = 60.f;
 private:
 	float volume_info[SOUND_NUM] = {};
 	float SFX_Volume = 1.f;

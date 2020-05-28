@@ -9,6 +9,7 @@
 #include "Message_Function_Item_Time_Pause.h"
 #include "ObjectManager.h"
 #include "Component_Sprite.h"
+#include "Engine.hpp"
 
 
 void Msg_Func_Item_Time_Pause::Init()
@@ -19,11 +20,16 @@ void Msg_Func_Item_Time_Pause::Init()
 		Player* info_player = obj->GetComponentByTemplate<Player>();
 		PLAYER_UI* info_ui = info_player->Get_Ui();
 
-		info_player->Set_Prepare_Timer(3.f);
+		info_player->Set_Prepare_Timer(1.f);
 		info_player->Set_Char_State(Player::Char_State::Prepare);
 
 		obj->Change_Sprite(obj->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Timestop));
-
+		sound.Play(SOUND::TimePause);
+		FMOD_Channel_IsPlaying(sound.channel[1], &isBgm);
+		if(isBgm)
+		{
+			sound.Stop(SOUND::BGM2);
+		}
 		info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Use, Ui::Ui_Status_Obj::Item_Time_Pause);
 
 	}
@@ -54,16 +60,17 @@ void Msg_Func_Item_Time_Pause::Update(float dt)
 					{
 						player->Change_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Player_Paused));
 						get_player->Set_Char_State(Player::Char_State::Time_Pause);
-						get_player->Set_Stop_Timer(5.0f);
+						get_player->Set_Stop_Timer(4.0f);
 					}
 				}
-				info_player->Change_To_Normal_State();
+
 			}
 			msg->Set_Should_Delete(true);
 		}
 		else if (info_player->Get_Char_State() == Player::Char_State::None)
 		{
 			info_player->Change_To_Normal_State();
+
 			msg->Set_Should_Delete(true);
 		}
 	}

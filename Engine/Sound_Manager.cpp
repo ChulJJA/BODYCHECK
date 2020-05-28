@@ -63,7 +63,7 @@ void Sound::LoadSound()
 	result = FMOD_System_CreateSound(f_system, "Sounds/Item.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::Item)]);
 	ErrorCheck(result);
 
-	result = FMOD_System_CreateSound(f_system, "Sounds/Dash.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::Dash)]);
+	result = FMOD_System_CreateSound(f_system, "Sounds/Dash.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::Dash)]);
 	ErrorCheck(result);
 
 	result = FMOD_System_CreateSound(f_system, "Sounds/HP.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::HP)]);
@@ -72,7 +72,7 @@ void Sound::LoadSound()
 	result = FMOD_System_CreateSound(f_system, "Sounds/Die.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::Die)]);
 	ErrorCheck(result);
 
-	result = FMOD_System_CreateSound(f_system, "Sounds/BulkUp.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::BulkUp)]);
+	result = FMOD_System_CreateSound(f_system, "Sounds/BulkUp.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::BulkUp)]);
 	ErrorCheck(result);
 
 	result = FMOD_System_CreateSound(f_system, "Sounds/CountDown.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::CountDown)]);
@@ -101,10 +101,37 @@ void Sound::LoadSound()
 
 	result = FMOD_System_CreateSound(f_system, "Sounds/SoundControl.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::SoundControl)]);
 	ErrorCheck(result);
-	
-	result = FMOD_System_CreateSoundGroup(f_system, "BGM", &bgm_group);
+
+	result = FMOD_System_CreateSound(f_system, "Sounds/Crowd.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::Crowd)]);
 	ErrorCheck(result);
 
+	result = FMOD_System_CreateSound(f_system, "Sounds/Win.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::Win)]);
+	ErrorCheck(result);
+
+	result = FMOD_System_CreateSound(f_system, "Sounds/Throwing.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::Throwing)]);
+	ErrorCheck(result);
+
+	result = FMOD_System_CreateSound(f_system, "Sounds/ThrowingHit.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::ThrowingHit)]);
+	ErrorCheck(result);
+
+	result = FMOD_System_CreateSound(f_system, "Sounds/TimePause.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::TimePause)]);
+	ErrorCheck(result);
+
+	result = FMOD_System_CreateSound(f_system, "Sounds/BGM2Reverse.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::BGM2Reverse)]);
+	ErrorCheck(result);
+
+	result = FMOD_System_CreateSound(f_system, "Sounds/Mine.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::Mine)]);
+	ErrorCheck(result);
+
+	result = FMOD_System_CreateSound(f_system, "Sounds/MineBomb.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::MineBomb)]);
+	ErrorCheck(result);
+
+	result = FMOD_System_CreateSound(f_system, "Sounds/MineAlarm.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::MineAlarm)]);
+	ErrorCheck(result);
+
+	result = FMOD_System_CreateSoundGroup(f_system, "BGM", &bgm_group);
+	ErrorCheck(result);
+	
 	result = FMOD_System_CreateSoundGroup(f_system, "SFX", &sfx_group);
 	ErrorCheck(result);
 }
@@ -122,6 +149,7 @@ void Sound::UnLoad()
 void Sound::Update(float dt)
 {
 	result = FMOD_System_Update(f_system);
+	--mineAlarm;
 }
 
 void Sound::SetSoundGroup()

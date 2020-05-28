@@ -8,6 +8,7 @@
 #include "Physics.h"
 #include "Component_Throwing.h"
 #include "ObjectManager.h"
+#include "Engine.hpp"
 
 void Msg_Func_Item_Throwing::Init()
 {
@@ -23,7 +24,7 @@ void Msg_Func_Item_Throwing::Init()
 			info_player->Set_Item_State(Item::Item_Kind::None);
 			info_player->Set_Char_State(Player::Char_State::Prepare);
 			info_player->Set_Prepare_Timer(0.5f);
-
+			sound.Play(SOUND::Throwing);
 			//info_player->Sprite_After_Preparation(obj->Find_Sprite_By_Type(Sprite_Type::Player_Chasing));
 			//obj->Change_Sprite(obj->Find_Sprite_By_Type(Sprite_Type::Player_Ready));
 			

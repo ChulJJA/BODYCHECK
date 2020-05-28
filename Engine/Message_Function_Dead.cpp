@@ -4,6 +4,7 @@
 #include "Component_Sprite.h"
 #include "Component_Player.h"
 #include "Player_Ui.h"
+#include "Engine.hpp"
 
 void Msg_Func_Dead::Init()
 {

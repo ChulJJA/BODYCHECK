@@ -23,7 +23,7 @@ ParticleGenerator::ParticleGenerator(Object* obj, GLuint amount, const char* tex
 
 	switch (m_type)
 	{
-	case ParticleType::DASH:
+	case ParticleType::SPEEDMODE:
 		square = MESH::create_box(120, { 255,255,255,255 });
 		shape.InitializeWithMeshAndLayout(square, SHADER::particles_layout());
 		break;
@@ -32,7 +32,10 @@ ParticleGenerator::ParticleGenerator(Object* obj, GLuint amount, const char* tex
 		square = MESH::create_box(100, { 255,255,255,255 });
 		shape.InitializeWithMeshAndLayout(square, SHADER::particles_layout());
 		break;
-	case ParticleType::DESTROY:
+	case ParticleType::DASH:
+		square = MESH::create_box(120, { 255,255,255,255 });
+		shape.InitializeWithMeshAndLayout(square, SHADER::particles_layout());
+		break;
 		break;
 	default:
 		break;
@@ -55,7 +58,7 @@ void ParticleGenerator::Update(float dt, Object* object, GLuint newParticles, ve
 
 		switch (m_type)
 		{
-		case ParticleType::DASH:
+		case ParticleType::SPEEDMODE:
 
 			for (GLuint i = 0; i < this->total_particles; ++i)
 			{
@@ -81,7 +84,17 @@ void ParticleGenerator::Update(float dt, Object* object, GLuint newParticles, ve
 				}
 			}
 			break;
-		case ParticleType::DESTROY:
+		case ParticleType::DASH:
+			for (GLuint i = 0; i < this->total_particles; ++i)
+			{
+				Particle& p = this->particles[i];
+				p.life -= dt * 5.0f;
+				if (p.life > 0.0f)
+				{
+					p.position -= (p.velocity * dt);
+					p.color.alpha -= dt * 2.5f;
+				}
+			}
 			break;
 		default:
 			break;
@@ -97,7 +110,7 @@ void ParticleGenerator::Draw(Object* obj)
 		material.shader->Select(*(material.shader));
 		switch (m_type)
 		{
-		case ParticleType::DASH:
+		case ParticleType::SPEEDMODE:
 			for (Particle particle : this->particles)
 			{
 				if (particle.life > 0.0f)
@@ -135,7 +148,24 @@ void ParticleGenerator::Draw(Object* obj)
 				}
 			}
 			break;
-		case ParticleType::DESTROY:
+		case ParticleType::DASH:
+			for (Particle particle : this->particles)
+			{
+				if (particle.life > 0.0f)
+				{
+					material.vectorUniforms["offset"] = particle.position;
+					material.color4fUniforms["color"] = particle.color;
+
+					matrix3 result = MATRIX3::build_identity();
+					result *= MATRIX3::build_translation({ particle.position.x, particle.position.y }) * MATRIX3::build_rotation(obj->GetTransform().GetRotation());
+					matrix3 mat_ndc = Graphic::GetGraphic()->Get_View().Get_Camera_View().GetCameraToNDCTransform();
+					mat_ndc *= Graphic::GetGraphic()->Get_View().Get_Camera().WorldToCamera();
+					mat_ndc *= result;
+					material.matrix3Uniforms["to_ndc"] = mat_ndc;
+					GL::draw(shape, material);
+					GL::end_drawing();
+				}
+			}
 			break;
 		default:
 			break;
@@ -186,7 +216,7 @@ GLuint ParticleGenerator::firstUnusedParticle()
 void ParticleGenerator::respawnParticle(Particle& particle, Object* object, vector2 offset)
 {
 	GLfloat random = ((rand() % 100) - 50) / 10.0f;
-	if (m_type == ParticleType::DASH)
+	if (m_type == ParticleType::SPEEDMODE)
 	{
 		if (red)
 		{
@@ -207,7 +237,7 @@ void ParticleGenerator::respawnParticle(Particle& particle, Object* object, vect
 			particle.color = Color4f(0.f, 0.f, 1.f, 1.f);
 		}
 	}
-	else if (m_type == ParticleType::COLLIDE)
+	else if (m_type == ParticleType::COLLIDE || m_type == ParticleType::DASH)
 	{
 		GLfloat rColor = 0.5 + ((rand() % 100) / 100.0f);
 		particle.color = Color4f(rColor, rColor, rColor, 1.0f);
