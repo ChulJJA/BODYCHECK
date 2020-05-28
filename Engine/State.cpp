@@ -53,8 +53,8 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 		sprite_path_paused += sprite_path + "_paused.png";
 		sprite_path_speed2 += sprite_path + "_speed2.png";
 		sprite_path_speed3 += sprite_path + "_speed3.png";
-		//sprite_path_fat += sprite_path + "_fat.png";
-		sprite_path_fat += "pen_special.png";
+		sprite_path_fat += sprite_path + "_fat.png";
+		//sprite_path_fat += "pen_special.png";
 	}
 
 	//itwem effect
@@ -113,7 +113,7 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 	player->AddComponent(new Sprite(player, sprite_path_crying.c_str(), true, 2, 4, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Crying), "crying", false);
 	
-	player->AddComponent(new Sprite(player, sprite_path_fat.c_str(), true, 6, 18, pos, { 100.f,100.f },
+	player->AddComponent(new Sprite(player, sprite_path_fat.c_str(), true, 3, 9, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Fat), "fat", false);
 
 

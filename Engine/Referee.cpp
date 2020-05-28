@@ -348,7 +348,7 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 		sprite_path_paused += sprite_path + "_paused.png";
 		sprite_path_speed2 += sprite_path + "_speed2.png";
 		sprite_path_speed3 += sprite_path + "_speed3.png";
-		sprite_path_fat += "pen_special.png";
+		sprite_path_fat += sprite_path + "_fat.png";
 
 	}
 
@@ -408,7 +408,7 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	player->AddComponent(new Sprite(player, sprite_path_crying.c_str(), true, 2, 4, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Crying), "crying", false);
 
-	player->AddComponent(new Sprite(player, sprite_path_fat.c_str(), true, 6, 18, pos, { 100.f,100.f },
+	player->AddComponent(new Sprite(player, sprite_path_fat.c_str(), true, 3, 9, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Fat), "fat", false);
 	//player->AddComponent(new Sprite(player, sprite_path_missile_launcher.c_str(), pos, false, Sprite_Type::Missile_Launcher_Showing, { 80.f, 80.f }), "missile_launcher", false);
 
@@ -593,8 +593,8 @@ void Referee::Respawn_Player(Stage_Statement state, float dt)
 void Referee::Respawn_Item(float dt)
 {
 	item_respawn_timer -= dt;
-	//const Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 9));
-	const Item::Item_Kind item = Item::Item_Kind::Throwing;
+	const Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 9));
+	//const Item::Item_Kind item = Item::Item_Kind::Throwing;
 	Object* spawn_obj = nullptr;
 
 	if (item_respawn_timer <= 0.0f && total_item_num > 0)
@@ -636,8 +636,8 @@ void Referee::Respawn_Item(float dt)
 		{
 			if (item_num_magnetic > 0)
 			{
-				spawn_obj = item_magnetic[item_num_magnetic - 1];
-				item_num_magnetic--;
+				//spawn_obj = item_magnetic[item_num_magnetic - 1];
+				//item_num_magnetic--;
 			}
 		}
 		else if (item == Item::Item_Kind::Time_Pause)
@@ -680,8 +680,9 @@ void Referee::Respawn_Item(float dt)
 			sound.Play(SOUND::ItemAppear);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(spawn_obj, nullptr, Message_Kind::Spawn_Object, 1.f));
 			total_item_num--;
+			item_respawn_timer = 5.0f;
+
 		}
-		item_respawn_timer = 5.0f;
 
 	}
 }

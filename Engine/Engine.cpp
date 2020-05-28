@@ -73,7 +73,7 @@ void Engine::Init()
     object_manager = ObjectManager::GetObjectManager();
     state_manager = StateManager::GetStateManager();
     graphic = Graphic::GetGraphic();
-	editor = Editor::Get_Editor();
+	//editor = Editor::Get_Editor();
     gamepadManager = Gamepad::getGamepad();
     sound.Play(SOUND::BGM);
 
@@ -82,7 +82,7 @@ void Engine::Init()
     state_manager->Init();
     graphic->Init();
     msg_manager->Init();
-	editor->Init();
+	//editor->Init();
 
     state_manager->AddState("Logo", new Logo);
     state_manager->AddState("Menu", new MainMenu);
@@ -102,7 +102,7 @@ void Engine::Update()
     m_dt = game_timer.GetElapsedSeconds();
     game_timer.Reset();
 
-	if (input.Is_Key_Pressed(GLFW_KEY_V))
+	/*if (input.Is_Key_Pressed(GLFW_KEY_V))
 	{
 		editor->Update(m_dt);
 		if (showing_editor == false)
@@ -115,7 +115,7 @@ void Engine::Update()
 	{
 		showing_editor = false;
 		editor->Set_Visible(false);
-	}
+	}*/
 	
     app_->Update(m_dt);
     graphic->Update(m_dt);

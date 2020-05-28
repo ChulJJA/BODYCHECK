@@ -21,7 +21,7 @@ Object* Get_Audience()
 	aud_normal->Set_Name("audience_normal");
 	aud_normal->Set_Tag("audience");
 
-	vector2 pos = { -1200.f,950.f };
+	vector2 pos = { -1200.f,900.f };
 
 	aud_red->AddComponent(new Sprite(aud_red, "../Sprite/Player/Audience/aud_red_normal.png", true, 4, 12, pos, { 100.f,100.f },
 		{ 255, 255, 255, 255 }, Sprite_Type::Audience_Normal), "aud_red", true);
