@@ -132,9 +132,9 @@ void Sound::SetSoundGroup()
 		}
 	}
 
-	result = FMOD_SoundGroup_SetVolume(bgm_group, 0.25f);
+	result = FMOD_SoundGroup_SetVolume(bgm_group, BGM_Volume);
 	ErrorCheck(result);
-	result = FMOD_SoundGroup_SetVolume(sfx_group, 1.0f);
+	result = FMOD_SoundGroup_SetVolume(sfx_group, SFX_Volume);
 	ErrorCheck(result);
 }
 
@@ -190,11 +190,13 @@ void Sound::SetSoundGroupVolume(bool is_bgm, float volume)
 	if(is_bgm == true)
 	{
 		result = FMOD_SoundGroup_SetVolume(bgm_group, volume);
+		BGM_Volume = volume;
 		ErrorCheck(result);
 	}
 	else
 	{
 		result = FMOD_SoundGroup_SetVolume(sfx_group, volume);
+		SFX_Volume = volume;
 		ErrorCheck(result);
 	}
 }

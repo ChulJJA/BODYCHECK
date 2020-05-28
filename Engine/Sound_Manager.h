@@ -61,4 +61,6 @@ public:
 	bool isInitialized;
 private:
 	float volume_info[SOUND_NUM] = {};
+	float SFX_Volume = 1.f;
+	float BGM_Volume = 0.25f;
 };
