@@ -3,6 +3,7 @@
 #include "Message_Function_Base.h"
 #include "Physics.h"
 #include "View.h"
+#include "Particle.h"
 
 
 class Msg_Func_Collision : public Msg_Func_Base
@@ -30,5 +31,10 @@ public:
 	void Player_And_Mine_Collision(Object* player, Object* mine);
 
 private:
+	float timer = 0.5f;
+
 	Physics physics;
+
+	ParticleGenerator* collide_particle;
+	float* particle_timer = 0;
 };

@@ -101,9 +101,8 @@ void Message_Func::Functioning(float dt)
 
 		function->Init();
 	}
-	
 	function->Update(dt);
-	
+
 	if (msg_->Get_Should_Delete() == true)
 	{
 		delete function;

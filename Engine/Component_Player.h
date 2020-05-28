@@ -17,7 +17,6 @@
 #include "Gamepad.hpp"
 
 class PLAYER_UI;
-
 class Player : public Component
 {
 public:
@@ -112,7 +111,7 @@ public:
 
 	void Set_Audience(Object* obj);
 	Object* Get_Audience();
-	
+
 private:
     Object* hp_bar = nullptr;
     Item::Item_Kind belong_item = Item::Item_Kind::None;
@@ -143,4 +142,6 @@ private:
 	Object* install_mine;
 
 	Object* aud;
+
+	//ParticleGenerator* speedParticle = nullptr;
 };

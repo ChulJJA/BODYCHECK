@@ -124,10 +124,7 @@ void Application::Update(float dt)
             Toggle_Fullscreen();
         }
     }
-    if (input.Is_Key_Triggered(GLFW_KEY_F))
-    {
-        Toggle_Fullscreen();
-    }
+    
 
     if (input.Is_Key_Triggered(GLFW_KEY_K))
     {

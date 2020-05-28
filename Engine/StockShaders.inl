@@ -166,7 +166,7 @@ void main()
 {
 	vec4 texel = texture(texture_to_sample, Texcoords);
     vec4 new_color = ParticleColor * texel;
-    if(new_color.a <= 0.1)
+    if(new_color.a <= 0)
         discard;
     output_color = new_color;
 }  
