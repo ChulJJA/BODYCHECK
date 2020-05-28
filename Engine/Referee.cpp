@@ -37,24 +37,20 @@ Application* app = nullptr;
 void Referee::Set_Win_State()
 {
 	first_win = new Object();
-	first_win->AddComponent(new Sprite(first_win, "../Sprite/pen_green2_win.png", false, 2, 8, { 0.f,0.f }, { 100.f,100.f },
-		{ 255,255,255,255 }, Sprite_Type::None), "win", true);
-	first_win->GetTransform().SetScale({ 32.f, 22.f });
+	first_win->AddComponent(new Sprite(first_win, "../Sprite/pen_green2_win.png", { 0.f,0.f }, false, Sprite_Type::None), "win", true);
+	first_win->GetTransform().SetScale({ 40.f, 21.f });
 
 	second_win = new Object();
-	second_win->AddComponent(new Sprite(second_win, "../Sprite/pen_red2_win.png", false, 2, 8, { 0.f,0.f }, { 100.f,100.f },
-		{ 255,255,255,255 }, Sprite_Type::None), "win", true);
-	second_win->GetTransform().SetScale({ 32.f, 22.f });
+	second_win->AddComponent(new Sprite(second_win, "../Sprite/pen_red2_win.png", { 0.f,0.f }, false, Sprite_Type::None), "win", true);
+	second_win->GetTransform().SetScale({ 40.f, 21.f });
 
 	third_win = new Object();
-	third_win->AddComponent(new Sprite(third_win, "../Sprite/pen_blue2_win.png", false, 2, 8, { 0.f,0.f }, { 100.f,100.f },
-		{ 255,255,255,255 }, Sprite_Type::None), "win", true);
-	third_win->GetTransform().SetScale({ 32.f, 22.f });
+	third_win->AddComponent(new Sprite(third_win, "../Sprite/pen_blue2_win.png", { 0.f,0.f }, false, Sprite_Type::None), "win", true);
+	third_win->GetTransform().SetScale({ 40.f, 21.f });
 
 	fourth_win = new Object();
-	fourth_win->AddComponent(new Sprite(fourth_win, "../Sprite/pen_normal2_win.png", false, 2, 8, { 0.f,0.f }, { 100.f,100.f },
-		{ 255,255,255,255 }, Sprite_Type::None), "win", true);
-	fourth_win->GetTransform().SetScale({ 32.f, 22.f });
+	fourth_win->AddComponent(new Sprite(fourth_win, "../Sprite/pen_normal2_win.png", { 0.f,0.f }, false, Sprite_Type::None), "win", true);
+	fourth_win->GetTransform().SetScale({ 40.f, 21.f });
 
 }
 
