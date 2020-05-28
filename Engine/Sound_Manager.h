@@ -33,6 +33,7 @@ enum class SOUND
 	Missile,
 	MissileShoot,
 	MissilePrepare,
+	WallCrack,
 	END
 };
 

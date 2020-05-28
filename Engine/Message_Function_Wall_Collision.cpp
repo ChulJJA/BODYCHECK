@@ -4,6 +4,7 @@
 #include "Physics.h"
 #include "Component_Text.h"
 #include "Message.h"
+#include "Engine.hpp"
 
 void Msg_Func_Wall_Collision::Init()
 {
@@ -25,7 +26,7 @@ void Msg_Func_Wall_Collision::Update(float dt)
 
 				damage_to_target -= m_target->Get_Plus_Dmg();
 				
-
+				sound.Play(SOUND::WallCrack);
 				target_hp_bar->GetComponentByTemplate<Hp_Bar>()->Decrease(damage_to_target / 200);
 
 			}
