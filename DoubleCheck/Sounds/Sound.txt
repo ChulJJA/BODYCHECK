@@ -5,3 +5,5 @@ CountDown->https://freesound.org/people/steel2008/sounds/231277/
 ItemAppear->https://freesound.org/people/Ranner/sounds/487454/
 ItemAppear2->https://freesound.org/people/Greencouch/sounds/124900/
 https://freesound.org/people/CS279/sounds/200469/
+Crowd->https://freesound.org/people/wangzhuokun/sounds/442583/
+Win->https://freesound.org/people/Kastenfrosch/sounds/162458/

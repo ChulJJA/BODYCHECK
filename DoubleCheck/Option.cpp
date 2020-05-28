@@ -148,7 +148,6 @@ void Option::ButtonBehavior()
 		{
 			const vector2 icon_translation = music_icon[0]->GetTransform().GetTranslation();
 			volume = sound.GetSoundGroupVolume(true);
-			sound.Play(SOUND::SoundControl);
 			if (volume >= 1)
 			{
 				return;
@@ -162,7 +161,6 @@ void Option::ButtonBehavior()
 		{
 			vector2 icon_translation = music_icon[0]->GetTransform().GetTranslation();
 			volume = sound.GetSoundGroupVolume(true);
-			sound.Play(SOUND::SoundControl);
 
 			if (volume <= 0)
 			{
@@ -181,6 +179,7 @@ void Option::ButtonBehavior()
 		{
 			vector2 icon_translation = music_icon[1]->GetTransform().GetTranslation();
 			volume = sound.GetSoundGroupVolume(false);
+			sound.Play(SOUND::SoundControl);
 
 			if (volume >= 1)
 			{
@@ -196,6 +195,7 @@ void Option::ButtonBehavior()
 		{
 			vector2 icon_translation = music_icon[1]->GetTransform().GetTranslation();
 			volume = sound.GetSoundGroupVolume(false);
+			sound.Play(SOUND::SoundControl);
 
 			if (volume <= 0)
 			{

@@ -35,6 +35,8 @@ enum class SOUND
 	MissilePrepare,
 	WallCrack,
 	SoundControl,
+	Crowd,
+	Win,
 	END
 };
 

@@ -101,6 +101,12 @@ void Sound::LoadSound()
 
 	result = FMOD_System_CreateSound(f_system, "Sounds/SoundControl.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::SoundControl)]);
 	ErrorCheck(result);
+
+	result = FMOD_System_CreateSound(f_system, "Sounds/Crowd.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::Crowd)]);
+	ErrorCheck(result);
+
+	result = FMOD_System_CreateSound(f_system, "Sounds/Win.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::Win)]);
+	ErrorCheck(result);
 	
 	result = FMOD_System_CreateSoundGroup(f_system, "BGM", &bgm_group);
 	ErrorCheck(result);

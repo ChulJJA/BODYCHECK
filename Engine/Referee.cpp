@@ -589,7 +589,7 @@ void Referee::Respawn_Item(float dt)
 {
 	item_respawn_timer -= dt;
 	//const Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 9));
-	const Item::Item_Kind item = Item::Item_Kind::Missile;
+	const Item::Item_Kind item = Item::Item_Kind::Dash;
 	Object* spawn_obj = nullptr;
 
 	if (item_respawn_timer <= 0.0f && total_item_num > 0)
@@ -821,15 +821,17 @@ void Referee::Win()
 			ObjectManager::GetObjectManager()->AddObject(fourth_win);
 			win = true;
 		}*/
-		if (/*player_first_life == -1 &&*/ player_sec_life == -1 /*&& player_fourth_life == -1*/)
+		if (/*player_first_life == -1 &&*/ player_sec_life == 1 /*&& player_fourth_life == -1*/)
 		{
 			ObjectManager::GetObjectManager()->AddObject(third_win);
 			win = true;
+			sound.Play(SOUND::Win);
 		}
-		if (/*player_first_life == -1 &&*/ player_third_life == -1/* && player_fourth_life == -1*/)
+		if (/*player_first_life == -1 &&*/ player_third_life == 1/* && player_fourth_life == -1*/)
 		{
 			ObjectManager::GetObjectManager()->AddObject(second_win);
 			win = true;
+			sound.Play(SOUND::Win);
 		}
 		/*if (player_sec_life == -1 && player_third_life == -1 && player_fourth_life == -1)
 		{
