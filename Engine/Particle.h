@@ -34,7 +34,7 @@ public:
 	// Constructor
 	ParticleGenerator(Object* object, GLuint amount, const char* texture_path, ParticleType type);
 	// Update all particles
-	void Update(GLfloat dt, Object* object, GLuint newParticles, vector2 offset = vector2(0.0f, 0.0f));
+	void Update(float dt, Object* object, GLuint newParticles, vector2 offset = vector2(0.0f, 0.0f));
 	// Render all particles
 	void Draw(Object* object);
 	bool Can_Load_To_Texture(Texture& texture, const char* file_path);
@@ -47,6 +47,7 @@ private:
 	int alive_particles;
 	std::vector<Particle> particles;
 
+	GLuint lastUsedParticle = 0;
 	float angle = 0;
 
 	Vertices shape;
@@ -57,5 +58,8 @@ private:
 	matrix3 mat_ndc;
 	ParticleType m_type;
 
+	bool red = true;
+	bool green = false;
+	bool blue = false;
 
 };

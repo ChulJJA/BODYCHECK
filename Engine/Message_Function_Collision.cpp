@@ -178,6 +178,8 @@ void Msg_Func_Collision::Update(float dt)
 		Player_And_Player_Collision();
 		Graphic::GetGraphic()->Get_View().Active_Screen_Shake(10.f);
 
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_target, nullptr, Message_Kind::Particle_Collision, .5f));
+
 		Player* player_from_info = m_from->GetComponentByTemplate<Player>();
 		Player* player_target_info = m_target->GetComponentByTemplate<Player>();
 
@@ -263,25 +265,10 @@ void Msg_Func_Collision::Update(float dt)
 		}
 		else if (player_target_info->Get_Char_State_Additional() == Player::Char_State_Additional::Get_mine)
 		{
-			//player_target_info->Set_Stop_Timer(0.0f);
 			player_target_info->Change_To_Normal_State();
 
 		}
-		//collide_particle = new ParticleGenerator(m_target, 50, "../Sprite/ParticleRed.png", ParticleType::COLLIDE);
-		//particle_timer = new float(0.3f);
 	}
-
-	/*if (m_target != nullptr && collide_particle != nullptr && particle_timer != nullptr)
-	{
-		*particle_timer -= dt;
-		collide_particle->Update(dt, m_target, 6, vector2(50.0f, 50.0f));
-		collide_particle->Draw(m_target);
-	}
-	else if (m_target == nullptr && collide_particle != nullptr && *particle_timer < 0)
-	{
-		delete(collide_particle);
-		delete(particle_timer);
-	}*/
 	msg->Set_Should_Delete(true);
 }
 
@@ -295,64 +282,72 @@ void Msg_Func_Collision::Player_Get_Item(Object* player, Object* item)
 	PLAYER_UI* ui_info = player_info->Get_Ui();
 	const Item::Item_Kind item_kind = item->GetComponentByTemplate<Item>()->Get_Kind();
 
-	if (item_kind == Item::Item_Kind::Dash)
+	if (player_info->Get_Char_State() == Player::Char_State::None)
 	{
-		//player->Change_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Dash_Showing));
-		player_info->Set_Item_State(Item::Item_Kind::Dash);
-		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Dash);
-	}
-	else if (item_kind == Item::Item_Kind::HP)
-	{
-		player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Heal_Showing));
-		player_info->Set_Item_State(Item::Item_Kind::HP);
-		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Hp);
-	}
-	else if (item_kind == Item::Item_Kind::Bulkup)
-	{
-		player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Bulkup_Showing));
-		player_info->Set_Item_State(Item::Item_Kind::Bulkup);
-		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Bulkup);
-	}
-	else if (item_kind == Item::Item_Kind::Throwing)
-	{
-		player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Throwing_Showing));
-		player_info->Set_Item_State(Item::Item_Kind::Throwing);
-		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Throwing);
+
+		if (item_kind == Item::Item_Kind::Dash)
+		{
+			//player->Change_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Dash_Showing));
+			player_info->Set_Item_State(Item::Item_Kind::Dash);
+			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Dash);
+		}
+		else if (item_kind == Item::Item_Kind::HP)
+		{
+
+			//player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Heal_Showing));
+			player_info->Set_Item_State(Item::Item_Kind::HP);
+			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Hp);
+		}
+		else if (item_kind == Item::Item_Kind::Bulkup)
+		{
+			//player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Bulkup_Showing));
+			player_info->Set_Item_State(Item::Item_Kind::Bulkup);
+			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Bulkup);
+		}
+		else if (item_kind == Item::Item_Kind::Throwing)
+		{
+			//player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Throwing_Showing));
+			player_info->Set_Item_State(Item::Item_Kind::Throwing);
+			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Throwing);
+		}
+
+		else if (item_kind == Item::Item_Kind::Magnatic)
+		{
+			//player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Magnet_Showing));
+			player_info->Set_Item_State(Item::Item_Kind::Magnatic);
+			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Magnatic);
+		}
+
+		else if (item_kind == Item::Item_Kind::Time_Pause)
+		{
+			//player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Timestop_Showing));
+			player_info->Set_Item_State(Item::Item_Kind::Time_Pause);
+			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Time_Pause);
+		}
+
+		else if (item_kind == Item::Item_Kind::Reverse_Moving)
+		{
+			//player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Reverse_Showing));
+			player_info->Set_Item_State(Item::Item_Kind::Reverse_Moving);
+			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Reverse_Moving);
+		}
+
+		else if (item_kind == Item::Item_Kind::Missile)
+		{
+			//player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Missile_Launcher_Showing));
+			player_info->Set_Item_State(Item::Item_Kind::Missile);
+			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Missile);
+		}
+		else if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Mine)
+		{
+			//player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Item_Mine));
+			player_info->Set_Item_State(Item::Item_Kind::Mine);
+			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Mine);
+		}
+
+		player->Change_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Player_Fat));
 	}
 
-	else if (item_kind == Item::Item_Kind::Magnatic)
-	{
-		player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Magnet_Showing));
-		player_info->Set_Item_State(Item::Item_Kind::Magnatic);
-		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Magnatic);
-	}
-
-	else if (item_kind == Item::Item_Kind::Time_Pause)
-	{
-		player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Timestop_Showing));
-		player_info->Set_Item_State(Item::Item_Kind::Time_Pause);
-		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Time_Pause);
-	}
-
-	else if (item_kind == Item::Item_Kind::Reverse_Moving)
-	{
-		player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Reverse_Showing));
-		player_info->Set_Item_State(Item::Item_Kind::Reverse_Moving);
-		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Reverse_Moving);
-	}
-
-	else if (item_kind == Item::Item_Kind::Missile)
-	{
-		player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Missile_Launcher_Showing));
-		player_info->Set_Item_State(Item::Item_Kind::Missile);
-		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Missile);
-	}
-	else if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Mine)
-	{
-		player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Item_Mine));
-		player_info->Set_Item_State(Item::Item_Kind::Mine);
-		ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Mine);
-	}
 }
 
 void Msg_Func_Collision::Player_And_Player_Collision()

@@ -40,6 +40,7 @@ enum class Sprite_Type
 	Player_Die,
     Player_Aiming,
 	Player_Paused,
+    Player_Fat,
 	
 	
 	Item,

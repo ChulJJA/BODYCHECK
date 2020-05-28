@@ -45,7 +45,7 @@ void Msg_Func_Item_Throwing::Update(float dt)
 			Object* throwing = new Object();
 			throwing->Set_Name("throwing");
 			throwing->Set_Tag("throwing");
-			throwing->AddComponent(new Sprite(throwing, "../Sprite/Player/State/pen_green.png", m_target->GetTransform().GetTranslation()));
+			throwing->AddComponent(new Sprite(throwing, "../Sprite/Item/bullet.png", m_target->GetTransform().GetTranslation()));
 			throwing->AddComponent(new Physics());
 			throwing->AddComponent(new Throwing);
 			throwing->GetComponentByTemplate<Throwing>()->Set_Timer(3.f);
