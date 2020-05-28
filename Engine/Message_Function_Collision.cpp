@@ -174,6 +174,8 @@ void Msg_Func_Collision::Update(float dt)
 		Player_And_Player_Collision();
 		Graphic::GetGraphic()->Get_View().Active_Screen_Shake(10.f);
 
+		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_target, nullptr, Message_Kind::Particle_Collision, 0.5f));
+
 		Player* player_from_info = m_from->GetComponentByTemplate<Player>();
 		Player* player_target_info = m_target->GetComponentByTemplate<Player>();
 
@@ -259,25 +261,10 @@ void Msg_Func_Collision::Update(float dt)
 		}
 		else if (player_target_info->Get_Char_State_Additional() == Player::Char_State_Additional::Get_mine)
 		{
-			//player_target_info->Set_Stop_Timer(0.0f);
 			player_target_info->Change_To_Normal_State();
 
 		}
-		//collide_particle = new ParticleGenerator(m_target, 50, "../Sprite/ParticleRed.png", ParticleType::COLLIDE);
-		//particle_timer = new float(0.3f);
 	}
-
-	/*if (m_target != nullptr && collide_particle != nullptr && particle_timer != nullptr)
-	{
-		*particle_timer -= dt;
-		collide_particle->Update(dt, m_target, 6, vector2(50.0f, 50.0f));
-		collide_particle->Draw(m_target);
-	}
-	else if (m_target == nullptr && collide_particle != nullptr && *particle_timer < 0)
-	{
-		delete(collide_particle);
-		delete(particle_timer);
-	}*/
 	msg->Set_Should_Delete(true);
 }
 

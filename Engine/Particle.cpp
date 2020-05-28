@@ -72,15 +72,10 @@ void ParticleGenerator::Update(float dt, Object* object, GLuint newParticles, ve
 			for (GLuint i = 0; i < this->total_particles; ++i)
 			{
 				Particle& p = this->particles[i];
-				p.life -= dt;
+				p.life -= dt * 4.0f;
 				if (p.life > 0.0f)
 				{
-					if (angle > 360)
-					{
-						angle = 0;
-					}
-					p.position -= rotate_by(DegreeToRadian(angle), p.velocity * dt);
-					angle += 10;
+					p.position -= (p.velocity * dt);
 					p.color.alpha -= dt * 2.5f;
 				}
 			}
@@ -106,7 +101,6 @@ void ParticleGenerator::Draw(Object* obj)
 			{
 				if (particle.life > 0.0f)
 				{
-
 					material.vectorUniforms["offset"] = particle.position;
 					material.color4fUniforms["color"] = particle.color;
 
@@ -169,8 +163,6 @@ void ParticleGenerator::SetProjectionMatrix(Object* obj)
 	material.matrix3Uniforms["to_ndc"] = mat_ndc;
 }
 
-
-GLuint lastUsedParticle = 0;
 GLuint ParticleGenerator::firstUnusedParticle()
 {
 	for (GLuint i = lastUsedParticle; i < this->total_particles; ++i) {
@@ -186,7 +178,7 @@ GLuint ParticleGenerator::firstUnusedParticle()
 		}
 	}
 	lastUsedParticle = 0;
-	printf("No dead particles\n");
+	//printf("No dead particles\n");
 	return 0;
 }
 
@@ -194,8 +186,8 @@ void ParticleGenerator::respawnParticle(Particle& particle, Object* object, vect
 {
 	GLfloat random = ((rand() % 100) - 50) / 10.0f;
 	GLfloat rColor = 0.5 + ((rand() % 100) / 100.0f);
-	particle.position = object->GetTransform().GetTranslation() + vector2(random) + offset;
+	particle.position = object->GetTransform().GetTranslation() + offset;
 	particle.color = Color4f(rColor, rColor, rColor, 1.0f);
 	particle.life = 1.0f;
-	particle.velocity = object->GetComponentByTemplate<Player>()->GetPlayerVelocity() * 0.5f;
+	particle.velocity = object->GetComponentByTemplate<Player>()->GetPlayerVelocity() * random;
 }
