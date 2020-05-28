@@ -57,7 +57,7 @@ void MainMenu::Load()
 
     Object* back = new Object();
 
-    back->AddComponent(new Sprite(back, "../Sprite/menu_background.png", false, 2, 8, {0.f, 0.f}, { 50.f,50.f },
+    back->AddComponent(new Sprite(back, "../Sprite/menu_background.png", false, 2, 8, {0.f, 0.f}, { 94.f,52.f },
         { 255,255,255,255 }, Sprite_Type::None), "none", true);
     back->GetTransform().SetScale({ 40.f, 22.f });
     object_manager->AddObject(back);
@@ -225,7 +225,7 @@ void MainMenu::ButtonSelector()
         StateManager::GetStateManager()->level_state->is_pause = false;
         is_next = true;
         next_level = "Level1";
-        Sleep(500);
+        Sleep(800);
         sound.UnLoad();
         Clear();
 	}
