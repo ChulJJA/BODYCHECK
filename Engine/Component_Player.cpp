@@ -141,11 +141,11 @@ void Player::Update(float dt)
 					if (speed2_sprite != m_owner->Get_Current_Sprite())
 					{
 						m_owner->Change_Sprite(speed2_sprite);
-						if (speedParticle != nullptr)
+						/*if (speedParticle != nullptr)
 						{
 							delete speedParticle;
 							speedParticle = nullptr;
-						}
+						}*/
 					}
 				}
 			}
@@ -159,17 +159,17 @@ void Player::Update(float dt)
 					if (speed3_sprite != m_owner->Get_Current_Sprite())
 					{
 						m_owner->Change_Sprite(speed3_sprite);
-						speedParticle = new ParticleGenerator(m_owner, 20, "../Sprite/Particle.png", ParticleType::DASH);
+						//speedParticle = new ParticleGenerator(m_owner, 20, "../Sprite/Particle.png", ParticleType::DASH);
 					}
 				}
 			}
 			m_owner->GetScale_Reference().x += scale_plus;
 			m_owner->GetScale_Reference().y += scale_plus;
-			if (speedParticle != nullptr && speed_mag > 2000.0f)
+			/*if (speedParticle != nullptr && speed_mag > 2000.0f)
 			{
 				speedParticle->Update(dt, m_owner, 1, vector2(-m_owner->GetScale_Reference() / 2.0f));
 				speedParticle->Draw(m_owner);
-			}
+			}*/
 		}
 		else
 		{
@@ -208,6 +208,21 @@ void Player::Update(float dt)
 		{
 			player_pos += velocity;
 		}
+	}
+	const float speed_magn = magnitude_squared(velocity);
+	if (speed_magn > 2000.f && speedParticle == nullptr)
+	{
+		speedParticle = new ParticleGenerator(m_owner, 20, "../Sprite/Particle.png", ParticleType::DASH);
+	}
+	else if (speed_magn > 100.f && speed_magn < 2000.f && speedParticle != nullptr)
+	{
+		delete speedParticle;
+		speedParticle = nullptr;
+	}
+	if (speedParticle != nullptr && m_owner != nullptr && speed_magn > 2000.f)
+	{
+		speedParticle->Update(dt, m_owner, 1, vector2(-m_owner->GetScale_Reference() / 2.0f));
+		speedParticle->Draw(m_owner);
 	}
 	PlayerDirecting();
 
