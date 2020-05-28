@@ -592,6 +592,7 @@ void Referee::Respawn_Item(float dt)
 	//const Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 9));
 	const Item::Item_Kind item = Item::Item_Kind::HP;
 	//const Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 9));
+
 	Object* spawn_obj = nullptr;
 
 	if (item_respawn_timer <= 0.0f && total_item_num > 0)
@@ -880,8 +881,8 @@ Object* Referee::Return_New_Missile()
 	missile->Set_Name("missile");
 	missile->Set_Tag("throwing");
 	missile->SetNeedCollision(true);
-	missile->AddComponent(new Sprite(missile, "../sprite/Item/missiles.png", true, 3, 8, { 0.f,0.f },
-		{ 100.f,100.f }, { 255,255,255,255 }), "missile");
+	missile->AddComponent(new Sprite(missile, "../sprite/Item/missile.png", true, 2, 8, { 0.f,0.f },
+		{ 200.f,200.f }, { 255,255,255,255 }), "missile");
 	missile->AddComponent(new Physics);
 	missile->AddComponent(new Missile);
 	missile->Set_Current_Sprite(missile->Find_Sprite_By_Name("missile"));

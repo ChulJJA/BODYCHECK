@@ -43,7 +43,7 @@ public:
     void Clear();
 
 private:
-    Object* Arena;
+    Object* Arena = nullptr;
 
     Object* Player_First;
     Object* Player_Second;
@@ -76,4 +76,7 @@ private:
 
     BitmapFont      font{};
     bool showing_editor = true;
+    bool dt_refreshed = false;
+    bool timer_deleted = false;
+    Object* prev_timer = nullptr;
 };
