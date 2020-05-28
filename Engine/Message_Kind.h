@@ -25,5 +25,7 @@ enum class Message_Kind
 	Item_Eat,
 	Spawn_Object,
 	Delete_Object,
+
+	Particle_Collision,
 	
 };
