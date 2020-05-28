@@ -40,6 +40,7 @@ void Throwing::Set_Angle(float angle)
 	{
 		sin(angle_in_radian) * -30, cos(angle_in_radian) * 30
 	});
+	m_owner->SetRotation(angle);
 }
 
 void Throwing::Set_Throwing_Obj(Object* obj)

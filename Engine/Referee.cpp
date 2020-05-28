@@ -589,8 +589,8 @@ void Referee::Respawn_Player(Stage_Statement state, float dt)
 void Referee::Respawn_Item(float dt)
 {
 	item_respawn_timer -= dt;
-	const Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 9));
-	//const Item::Item_Kind item = Item::Item_Kind::Throwing;
+	//const Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 9));
+	const Item::Item_Kind item = Item::Item_Kind::HP;
 	//const Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 9));
 	Object* spawn_obj = nullptr;
 
