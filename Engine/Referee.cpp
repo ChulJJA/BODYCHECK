@@ -160,7 +160,6 @@ void Referee::Init()
 	Set_Win_State();
 	Set_Kill_State();
 	Set_Timer();
-
 }
 
 void Referee::Update(float dt)
@@ -825,13 +824,13 @@ void Referee::Win()
 			ObjectManager::GetObjectManager()->AddObject(fourth_win);
 			win = true;
 		}*/
-		if (/*player_first_life == -1 &&*/ player_sec_life == 1 /*&& player_fourth_life == -1*/)
+		if (/*player_first_life == -1 &&*/ player_sec_life == -1 /*&& player_fourth_life == -1*/)
 		{
 			ObjectManager::GetObjectManager()->AddObject(third_win);
 			win = true;
 			sound.Play(SOUND::Win);
 		}
-		if (/*player_first_life == -1 &&*/ player_third_life == 1/* && player_fourth_life == -1*/)
+		if (/*player_first_life == -1 &&*/ player_third_life == -1/* && player_fourth_life == -1*/)
 		{
 			ObjectManager::GetObjectManager()->AddObject(second_win);
 			win = true;

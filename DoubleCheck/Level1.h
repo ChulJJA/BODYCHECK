@@ -30,11 +30,8 @@ public:
 
     virtual void Load();
     virtual void Update(float dt);
-    virtual void UnLoad()
-    {
-        next_level = {};
-        is_next = false;
-    }
+    virtual void UnLoad();
+
     //void Pause();
     void Pause();
     void Clear();

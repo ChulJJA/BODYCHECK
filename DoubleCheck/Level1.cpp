@@ -252,6 +252,14 @@ void Level1::Update(float dt)
 	Pause();
 }
 
+void Level1::UnLoad()
+{
+	next_level = {};
+	is_next = false;
+	delete referee;
+	delete object_manager;
+}
+
 void Level1::Pause()
 {
 	if (input.Is_Key_Pressed(GLFW_KEY_P))
