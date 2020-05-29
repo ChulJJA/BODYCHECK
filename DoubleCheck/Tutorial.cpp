@@ -44,6 +44,10 @@ namespace
 
 void Tutorial::Load()
 {
+	if (sound.isInitialized == false)
+	{
+		sound.Initialize();
+	}
 	Loading_Scene* loading = new Loading_Scene();
 	loading->Load();
 
@@ -63,56 +67,162 @@ void Tutorial::Load()
 	);
 
 	{
+		dt_refreshed = false;
+		timer_deleted = false;
+		transition_timer = 4.9f;
 		current_state = GameState::Tutorial;
 		referee = Referee::Get_Referee();
 		object_manager = ObjectManager::GetObjectManager();
 		state_manager = StateManager::GetStateManager();
 		Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
-
-		sound.Stop(SOUND::BGM);
-		sound.Play(SOUND::BGM2);
+		FMOD_BOOL isPlayingBGM;
+		FMOD_BOOL isPlayingBGM2;
+		FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM)], &isPlayingBGM);
+		FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlayingBGM2);
+		if (isPlayingBGM == true)
+		{
+			sound.Stop(SOUND::BGM);
+		}
+		if (isPlayingBGM2 == false)
+		{
+			sound.Play(SOUND::BGM2);
+		}
+		//sound.Stop(SOUND::BGM);
+		//sound.Play(SOUND::BGM2);
 
 		SetArena();
-		//SetStaffAndExplanation();
-		Player_First_UI = Make_Set_Ui("first_ui", "ui", "../Sprite/UI/pen_green_ui.png", { -1300, -800 }, { 5.0f,5.0f }, Player_First);
-		Player_Second_UI = Make_Set_Ui("second_ui", "ui", "../Sprite/UI/pen_red_ui.png", { -500, -800 }, { 5.0f,5.0f }, Player_Second);
-		Player_Third_UI = Make_Set_Ui("third_ui", "ui", "../Sprite/UI/pen_blue_ui.png", { 300, -800 }, { 5.0f,5.0f }, Player_Third);
-		Player_Fourth_UI = Make_Set_Ui("fourth_ui", "ui", "../Sprite/UI/pen_normal_ui.png", { 1100, -800 }, { 5.0f,5.0f }, Player_Fourth);
-
-		Player_First = Make_Player("first", "player", "pen_green2", { 400.f, 400.f }, { 2.f, 2.f });
-		Player_Second = Make_Player("second", "player", "pen_red2", { 400.f, -400.f }, { 2.f, 2.f });
-		Player_Third = Make_Player("third", "player", "pen_blue2", { -400.f, 400.f }, { 2.f, 2.f });
-		Player_Fourth = Make_Player("fourth", "player", "pen_normal2", { -400.f, -400.f }, { 2.f, 2.f });
-
-		Player_First->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_First_UI);
-		Player_Second->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Second_UI);
-		Player_Third->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Third_UI);
-		Player_Fourth->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Fourth_UI);
-
-		
-
-		Referee::Get_Referee()->Set_First_Ui(Player_First_UI);
-		Referee::Get_Referee()->Set_Second_Ui(Player_Second_UI);
-		Referee::Get_Referee()->Set_Third_Ui(Player_Third_UI);
-		Referee::Get_Referee()->Set_Fourth_Ui(Player_Fourth_UI);
-
-
 
 		referee->Init();
-		Graphic::GetGraphic()->get_need_update_sprite() = true;
-	}
+		//SetStaffAndExplanation();
+		//Player_First_UI = Make_Set_Ui("first_ui", "ui", "../Sprite/UI/pen_green_ui.png", { -1300, -800 }, { 5.0f,5.0f }, Player_First);
+		Player_Second_UI = Make_Set_Ui("second_ui", "ui", "../Sprite/UI/pen_red_ui.png", { -500, -800 }, { 5.0f,5.0f }, Player_Second);
+		Player_Third_UI = Make_Set_Ui("third_ui", "ui", "../Sprite/UI/pen_blue_ui.png", { 300, -800 }, { 5.0f,5.0f }, Player_Third);
+		//Player_Fourth_UI = Make_Set_Ui("fourth_ui", "ui", "../Sprite/UI/pen_normal_ui.png", { 1100, -800 }, { 5.0f,5.0f }, Player_Fourth);
 
-	loading->Set_Done(false);
-	if (loading_thread.joinable())
-	{
-		loading_thread.join();
+		//Player_First = Make_Player("first", "player", "pen_green2", { 400.f, 400.f }, { 2.f, 2.f });
+		Player_Second = Make_Player("second", "player", "pen_red2", { 400.f, -400.f }, { 2.f, 2.f });
+		Player_Third = Make_Player("third", "player", "pen_blue2", { -400.f, 400.f }, { 2.f, 2.f });
+		//Player_Fourth = Make_Player("fourth", "player", "pen_normal2", { -400.f, -400.f }, { 2.f, 2.f });
+
+		//Player_First->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_First_UI);
+		Player_Second->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Second_UI);
+		Player_Third->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Third_UI);
+		//Player_Fourth->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Fourth_UI);
+
+
+
+		//Referee::Get_Referee()->Set_First_Ui(Player_First_UI);
+		Referee::Get_Referee()->Set_Second_Ui(Player_Second_UI);
+		Referee::Get_Referee()->Set_Third_Ui(Player_Third_UI);
+		//Referee::Get_Referee()->Set_Fourth_Ui(Player_Fourth_UI);
+
+
+
+
+		Graphic::GetGraphic()->get_need_update_sprite() = true;
+
+
+		loading->Set_Done(false);
+		if (loading_thread.joinable())
+		{
+			loading_thread.join();
+		}
+
+		sound.Play(SOUND::CountDown);
 	}
 }
 
 void Tutorial::Update(float dt)
 {
-	referee->Update(dt);
+	FMOD_BOOL isBGMPlaying;
+
+	FMOD_Channel_IsPlaying(sound.channel[1], &isBGMPlaying);
+	if (dt_refreshed == true)
+	{
+		if (transition_timer > 0.f)
+		{
+			transition_timer -= dt;
+			int timer_int = static_cast<int>(transition_timer);
+
+			if (((transition_timer > 1.8f && transition_timer < 2.4f) ||
+				((transition_timer > 3.6f && transition_timer < 4.2f)))
+				&& timer_int > 1)
+			{
+				timer_int = 6;
+			}
+			else if (transition_timer < 1.f)
+			{
+				timer_int = 7;
+			}
+
+			Object* timer_obj = nullptr;
+			Object* prev_timer_obj = nullptr;
+
+			switch (timer_int)
+			{
+			case 1:
+				timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer1");
+				prev_timer = timer_obj;
+				prev_timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer_erase");
+			case 2:
+			case 3:
+				timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer2");
+				prev_timer = timer_obj;
+				prev_timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer_erase");
+				break;
+			case 4:
+			case 5:
+				timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer3");
+				prev_timer = timer_obj;
+				break;
+			case 6:
+				timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer_erase");
+				timer_obj->Set_Need_To_Update(true);
+				prev_timer->Set_Need_To_Update(false);
+				break;
+			case 7:
+				timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer_start");
+				timer_obj->Set_Need_To_Update(true);
+				prev_timer->Set_Need_To_Update(false);
+
+				vector2& scale = timer_obj->GetScale_Reference();
+				scale.x += 0.3f;
+				scale.y += 0.3f;
+				break;
+			}
+
+			if (prev_timer_obj != nullptr)
+			{
+				prev_timer_obj->Set_Need_To_Update(false);
+				timer_obj->Set_Need_To_Update(true);
+			}
+		}
+		else
+		{
+			referee->Update(dt);
+
+			if (timer_deleted == false)
+			{
+				std::vector<Object*> timers = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("timer");
+				int size = timers.size();
+
+				for (int i = 0; i < size; i++)
+				{
+					timers.at(i)->SetDeadCondition(true);
+				}
+
+				timer_deleted = true;
+			}
+		}
+	}
+	else
+	{
+		dt_refreshed = true;
+	}
+
 	//EventCheck();
+
+	Pause();
 }
 
 

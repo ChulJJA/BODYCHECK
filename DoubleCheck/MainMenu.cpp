@@ -247,8 +247,10 @@ void MainMenu::ButtonSelector()
     {
         pointer = static_cast<int>(BUTTON::START);
         sound.Play(SOUND::Selected);
-        is_next = true;
-        next_level = "TestLevel";
+        //is_next = true;
+        //next_level = "TestLevel";
         Clear();
+        exit(0);
+
     }
 }
