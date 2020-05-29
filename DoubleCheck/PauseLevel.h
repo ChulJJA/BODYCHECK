@@ -48,8 +48,10 @@ public:
     void SetBackButton();
     void ButtonSelector();
     void ButtonBehavior();
+    void Background();
 
 private:
+    Object* background;
     Object* restartButton;
     Object* restartButtonHover;
     Object* mainMenuButton;

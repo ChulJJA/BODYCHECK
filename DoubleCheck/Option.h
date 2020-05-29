@@ -45,6 +45,7 @@ public:
         next_level = {};
     }
 
+    void SetBackground();
     void SetMusicIcon();
     void SetMusicVolumeBox();
     void SetMuteButton();
@@ -55,8 +56,9 @@ public:
     void ButtonSelector();
     void SetSoundVolume(float value, bool isBGM = true);
 private:
+    Object* background;
     Object* music_icon[2];
-    Object* volume_box[2];
+    Object* volume_box[4];
     Object* volume_box_hover[2];
     Object* mute_button[2];
     Object* unmute_button[2];

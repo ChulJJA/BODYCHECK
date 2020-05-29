@@ -22,12 +22,14 @@ void PauseLevel::Load()
 	Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 	Graphic::GetGraphic()->get_need_update_sprite() = true;
 
+	Background();
 	SetRestartButton();
 	SetMainMenuButton();
 	SetOptionButton();
 	SetQuitButton();
 	SetBackButton();
 	
+
 	pointer = 0;
 	buttonTimer = 0;
 }
@@ -55,30 +57,40 @@ void PauseLevel::Clear()
 	quitButtonHover->SetDeadCondition(true);
 	backButton->SetDeadCondition(true);
 	backButtonHover->SetDeadCondition(true);
+	background->SetDeadCondition(true);
+}
+
+void PauseLevel::Background()
+{
+	background = new Object();
+	background->AddComponent(new Sprite(background, "../Sprite/PauseBackground.png", { 95.f,100.f }, false));
+	background->GetTransform().SetScale({ 40.f, 22.f });
+	//background->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1, 1,1, 0 };
+	ObjectManager::GetObjectManager()->AddObject(background);
 }
 
 void PauseLevel::SetRestartButton()
 {
 	restartButton = new Object();
-	restartButton->AddComponent(new Sprite(restartButton, "../Sprite/RestartButton.png", { 0, 600 }, false));
-	restartButton->GetTransform().SetScale({ 5, 5 });
+	restartButton->AddComponent(new Sprite(restartButton, "../Sprite/RestartButton.png", { 30, 400 }, false));
+	restartButton->GetTransform().SetScale({ 15, 10 });
 	restartButton->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1, 1,1, 0 };
 	ObjectManager::GetObjectManager()->AddObject(restartButton);
 	restartButtonHover = new Object();
-	restartButtonHover->AddComponent(new Sprite(restartButtonHover, "../Sprite/RestartButtonHover.png", { 0, 600 }, false));
-	restartButtonHover->GetTransform().SetScale({ 5, 5 });
+	restartButtonHover->AddComponent(new Sprite(restartButtonHover, "../Sprite/RestartButtonHover.png", { 30, 400 }, false));
+	restartButtonHover->GetTransform().SetScale({ 15, 10 });
 	ObjectManager::GetObjectManager()->AddObject(restartButtonHover);
 }
 
 void PauseLevel::SetMainMenuButton()
 {
 	mainMenuButton = new Object();
-	mainMenuButton->AddComponent(new Sprite(mainMenuButton, "../Sprite/MainMenuButton.png", { 0, 300 }, false));
-	mainMenuButton->GetTransform().SetScale({ 5, 5 });
+	mainMenuButton->AddComponent(new Sprite(mainMenuButton, "../Sprite/MainMenuButton.png", { 20, 100 }, false));
+	mainMenuButton->GetTransform().SetScale({ 15, 10 });
 	ObjectManager::GetObjectManager()->AddObject(mainMenuButton);
 	mainMenuButtonHover = new Object();
-	mainMenuButtonHover->AddComponent(new Sprite(mainMenuButtonHover, "../Sprite/MainMenuButtonHover.png", { 0, 300 }, false));
-	mainMenuButtonHover->GetTransform().SetScale({ 5, 5 });
+	mainMenuButtonHover->AddComponent(new Sprite(mainMenuButtonHover, "../Sprite/MainMenuButtonHover.png", { 20, 100 }, false));
+	mainMenuButtonHover->GetTransform().SetScale({ 15, 10 });
 	mainMenuButtonHover->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1, 1,1, 0 };
 	ObjectManager::GetObjectManager()->AddObject(mainMenuButtonHover);
 }
@@ -86,12 +98,12 @@ void PauseLevel::SetMainMenuButton()
 void PauseLevel::SetOptionButton()
 {
 	optionButton = new Object();
-	optionButton->AddComponent(new Sprite(optionButton, "../Sprite/MusicButton.png", { 0, 0 }, false));
-	optionButton->GetTransform().SetScale({ 5, 5 });
+	optionButton->AddComponent(new Sprite(optionButton, "../Sprite/MusicButton.png", { -10, -200 }, false));
+	optionButton->GetTransform().SetScale({ 15, 10 });
 	ObjectManager::GetObjectManager()->AddObject(optionButton);
 	optionButtonHover = new Object();
-	optionButtonHover->AddComponent(new Sprite(optionButtonHover, "../Sprite/MusicButtonHover.png", { 0, 0 }, false));
-	optionButtonHover->GetTransform().SetScale({ 5, 5 });
+	optionButtonHover->AddComponent(new Sprite(optionButtonHover, "../Sprite/MusicButtonHover.png", { -10, -200 }, false));
+	optionButtonHover->GetTransform().SetScale({ 15, 10 });
 	optionButtonHover->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1, 1,1, 0 };
 	ObjectManager::GetObjectManager()->AddObject(optionButtonHover);
 }
@@ -99,12 +111,12 @@ void PauseLevel::SetOptionButton()
 void PauseLevel::SetQuitButton()
 {
 	quitButton = new Object();
-	quitButton->AddComponent(new Sprite(quitButton, "../Sprite/QuitButton.png", { 0, -300 }, false));
-	quitButton->GetTransform().SetScale({ 5, 5 });
+	quitButton->AddComponent(new Sprite(quitButton, "../Sprite/QuitButton.png", { 60, -500 }, false));
+	quitButton->GetTransform().SetScale({ 15, 10 });
 	ObjectManager::GetObjectManager()->AddObject(quitButton);
 	quitButtonHover = new Object();
-	quitButtonHover->AddComponent(new Sprite(quitButtonHover, "../Sprite/QuitButtonHover.png", { 0, -300 }, false));
-	quitButtonHover->GetTransform().SetScale({ 5, 5 });
+	quitButtonHover->AddComponent(new Sprite(quitButtonHover, "../Sprite/QuitButtonHover.png", { 60, -500 }, false));
+	quitButtonHover->GetTransform().SetScale({ 15, 10 });
 	quitButtonHover->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1, 1,1, 0 };
 	ObjectManager::GetObjectManager()->AddObject(quitButtonHover);
 }
@@ -112,12 +124,12 @@ void PauseLevel::SetQuitButton()
 void PauseLevel::SetBackButton()
 {
 	backButton = new Object();
-	backButton->AddComponent(new Sprite(backButton, "../Sprite/BackButton.png", { 0, -600 }, false));
-	backButton->GetTransform().SetScale({ 5, 5 });
+	backButton->AddComponent(new Sprite(backButton, "../Sprite/BackButton.png", { 80, -800 }, false));
+	backButton->GetTransform().SetScale({ 15, 10 });
 	ObjectManager::GetObjectManager()->AddObject(backButton);
 	backButtonHover = new Object();
-	backButtonHover->AddComponent(new Sprite(backButtonHover, "../Sprite/BackButtonHover.png", { 0, -600 }, false));
-	backButtonHover->GetTransform().SetScale({ 5, 5 });
+	backButtonHover->AddComponent(new Sprite(backButtonHover, "../Sprite/BackButtonHover.png", { 80, -800 }, false));
+	backButtonHover->GetTransform().SetScale({ 15, 10 });
 	backButtonHover->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1, 1,1, 0 };
 	ObjectManager::GetObjectManager()->AddObject(backButtonHover);
 }
