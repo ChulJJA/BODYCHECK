@@ -21,18 +21,18 @@ void Msg_Func_Item_Dash::Init()
 		info_player->Set_Item_Used_Status(Player::Item_Use_Status::Dash);
 		info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Use, Ui::Ui_Status_Obj::Item_Dash);
 
-		dash_particle = new ParticleGenerator(obj, 20, "../Sprite/ParticleDash.png", ParticleType::DASH);
+		//dash_particle = new ParticleGenerator(obj, 20, "../Sprite/ParticleDash.png", ParticleType::DASH);
 	}
 }
 
 void Msg_Func_Item_Dash::Update(float dt)
 {
 	timer -= dt;
-	if (m_target != nullptr)
+	/*if (m_target != nullptr)
 	{
 		dash_particle->Update(dt, m_target, 1, vector2(0, -50.0f));
 		dash_particle->Draw(m_target);
-	}
+	}*/
 	if(timer < 0)
 	{
 		delete(dash_particle);

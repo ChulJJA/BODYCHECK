@@ -212,7 +212,7 @@ void Player::Update(float dt)
 	const float speed_magn = magnitude_squared(velocity);
 	if (speed_magn > 2000.f && speedParticle == nullptr)
 	{
-		speedParticle = new ParticleGenerator(m_owner, 20, "../Sprite/Particle.png", ParticleType::DASH);
+		speedParticle = new ParticleGenerator(m_owner, 20, "../Sprite/Particle.png", ParticleType::SPEEDMODE);
 	}
 	else if (speed_magn > 100.f && speed_magn < 2000.f && speedParticle != nullptr)
 	{
