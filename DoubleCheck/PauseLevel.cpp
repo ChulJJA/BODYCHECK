@@ -224,11 +224,14 @@ void PauseLevel::ButtonBehavior()
 	{
 		FMOD_BOOL isPlaying;
 		FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlaying);
+		sound.Play(SOUND::Selected);
+		Sleep(800);
 		if (isPlaying == true)
 		{
 			sound.Stop(SOUND::BGM2);
 			sound.UnLoad();
 		}
+
 		object_manager->Clear();
 		is_next = true;
 		next_level = "Level1";
@@ -239,6 +242,8 @@ void PauseLevel::ButtonBehavior()
 	{
 		is_next = true;
 		next_level = "Menu";
+		sound.Play(SOUND::Selected);
+		Sleep(800);
 		FMOD_BOOL isPlaying;
 		FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlaying);
 		if(isPlaying == true)
@@ -252,14 +257,18 @@ void PauseLevel::ButtonBehavior()
 	{
 		is_next = true;
 		next_level = "Option";
+		sound.Play(SOUND::Selected);
 		Clear();
 	}
 	else if(pointer == static_cast<int>(BUTTON::QUIT) && input.Is_Key_Pressed(GLFW_KEY_SPACE))
 	{
+		sound.Play(SOUND::Selected);
+		Sleep(800);
 		exit(0);
 	}
 	else if(pointer == static_cast<int>(BUTTON::BACK) && input.Is_Key_Pressed(GLFW_KEY_SPACE))
 	{
+		sound.Play(SOUND::Selected);
 		state_manager->BackToLevel();
 		Clear();
 	}
