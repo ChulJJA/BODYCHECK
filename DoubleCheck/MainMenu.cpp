@@ -118,13 +118,13 @@ void MainMenu::SetMusicButton()
 {
     music_button = new Object();
     music_button->Set_Name("music_button");
-    music_button->AddComponent(new Sprite(music_button, "../Sprite/MusicButton.png", { 0, -400 }, false));
+    music_button->AddComponent(new Sprite(music_button, "../Sprite/MusicButton_.png", { 0, -400 }, false));
     music_button->GetTransform().SetScale({ 5, 5 });
     ObjectManager::GetObjectManager()->AddObject(music_button);
 
     music_button_hover = new Object();
     music_button_hover->Set_Name("music_button_hover");
-    music_button_hover->AddComponent(new Sprite(music_button_hover, "../Sprite/MusicButtonHover.png", { 0, -400 }, false));
+    music_button_hover->AddComponent(new Sprite(music_button_hover, "../Sprite/MusicButtonHover_.png", { 0, -400 }, false));
     music_button_hover->GetTransform().SetScale({ 5, 5 });
     music_button_hover->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
     ObjectManager::GetObjectManager()->AddObject(music_button_hover);
@@ -247,8 +247,10 @@ void MainMenu::ButtonSelector()
     {
         pointer = static_cast<int>(BUTTON::START);
         sound.Play(SOUND::Selected);
-        is_next = true;
-        next_level = "TestLevel";
+        //is_next = true;
+        //next_level = "TestLevel";
         Clear();
+        exit(0);
+
     }
 }
