@@ -4,6 +4,7 @@
 #include "Message.h"
 #include "Component_Sprite.h"
 #include "Engine.hpp"
+#include "ObjectManager.h"
 
 void Msg_Func_spawn::Init()
 {
@@ -28,7 +29,10 @@ void Msg_Func_spawn::Update(float dt)
 {
 	if (timer > 0.f)
 	{
-		timer -= dt;
+		if(dt < 0.5f)
+		{
+			timer -= dt;
+		}
 	}
 	else
 	{
@@ -40,7 +44,18 @@ void Msg_Func_spawn::Update(float dt)
 		}
 		else
 		{
+			Player* info_player = m_target->GetComponentByTemplate<Player>();
+			info_player->Set_Need_Update(true);
 
+			info_player->Get_Hp_Bar()->GetComponentByTemplate<Sprite>()->Set_Need_Update(true);
+			info_player->Set_Item_State(Item::Item_Kind::None);
+			m_target->Set_Tag("player");
+			ObjectManager::GetObjectManager()->AddObject(info_player->Get_Hp_Bar());
+
+
+			m_target->SetNeedCollision(true);
+			m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Normal));
+			m_target->SetScale(2.f);
 		}
 		msg->Set_Should_Delete(true);
 	}

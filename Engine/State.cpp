@@ -22,6 +22,8 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 	std::string sprite_path_speed2 = path_to_player_state;
 	std::string sprite_path_speed3 = path_to_player_state;
 	std::string sprite_path_fat = path_to_player_state;
+	std::string sprite_path_spawn = path_to_player_state;
+
 	
 	std::string sprite_path_reverse_moving_pen = path_to_player_item_effect;
 	std::string sprite_path_ready = path_to_player_item_effect;
@@ -54,6 +56,8 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 		sprite_path_speed2 += sprite_path + "_speed2.png";
 		sprite_path_speed3 += sprite_path + "_speed3.png";
 		sprite_path_fat += sprite_path + "_fat.png";
+		sprite_path_spawn += sprite_path + "_spawn.png";
+
 		//sprite_path_fat += "pen_special.png";
 	}
 
@@ -93,8 +97,12 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 	player->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
 
 
+
+	player->AddComponent(new Sprite(player, sprite_path_spawn.c_str(), true, 37, 9.25, pos, { 100.f,100.f },
+		{ 255,255,255,255 }, Sprite_Type::Player_Spawn), "spawn", true);
+	
 	player->AddComponent(new Sprite(player, sprite_path_normal.c_str(), true, 3, 6, pos, { 100.f,100.f },
-		{ 255,255,255,255 }, Sprite_Type::Player_Normal), "normal", true);
+		{ 255,255,255,255 }, Sprite_Type::Player_Normal), "normal", false);
 
 	player->AddComponent(new Sprite(player, sprite_path_speed2.c_str(), true, 3, 24, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Speed2), "speed2", false);
@@ -166,7 +174,7 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 		{ 255, 255, 255, 255 }, Sprite_Type::Player_Effect_Dash), "effect_dash", false);
 	
 	player->AddComponent(new Physics(), "physics");
-	player->Set_Current_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Player_Normal));
+	player->Set_Current_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Player_Spawn));
 	player->GetTransform().SetScale(scale);
 
 	if (name == "first")

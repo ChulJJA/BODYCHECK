@@ -255,7 +255,7 @@ void Player::SetHPBar()
 
 	if (m_owner->Get_Tag() != "save" && m_owner->Get_Tag() != "throwing")
 	{
-		ObjectManager::GetObjectManager()->AddObject(hp_bar);
+		//ObjectManager::GetObjectManager()->AddObject(hp_bar);
 	}
 }
 
