@@ -14,6 +14,8 @@
 #include "CameraView.hpp"
 #include <vector>
 
+class Object;
+
 class View
 {
 public:
@@ -64,5 +66,10 @@ public:
 	{
         return force;
 	}
+    void Win_Zoom(float dt);
+    Object* win_player = nullptr;
+    bool is_ended = false;
     void Active_Screen_Shake(float force, int how_many = 1);
+
+    float setting_zoom = 0.35f;
 };

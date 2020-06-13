@@ -144,7 +144,8 @@ void Level1::Load()
 	Referee::Get_Referee()->Set_Second_Ui(player_second_ui);
 	Referee::Get_Referee()->Set_Third_Ui(player_third_ui);
 	//Referee::Get_Referee()->Set_Fourth_Ui(player_fourth_ui);
-
+	Referee::Get_Referee()->Set_Curr_Sec_Player(player_sec);
+	Referee::Get_Referee()->Set_Curr_Third_Player(player_third);
 	
 
 	Graphic::GetGraphic()->get_need_update_sprite() = true;

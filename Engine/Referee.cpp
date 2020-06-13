@@ -29,7 +29,6 @@
 #include "Physics.h"
 #include "Message_Manager.h"
 
-
 Referee* Referee::referee = nullptr;
 StateManager* state_manager = nullptr;
 Application* app = nullptr;
@@ -177,7 +176,7 @@ void Referee::Update(float dt)
 		Respawn_Item(dt);
 	}
 
-	Win();
+	Win(dt);
 }
 
 void Referee::Delete()
@@ -324,6 +323,7 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	std::string sprite_path_magnet_chasing = path_to_player_item_effect;
 	std::string sprite_path_dash_effect = path_to_player_item_effect;
 	std::string sprite_path_timestop_effect = path_to_player_item_effect;
+	std::string sprite_path_dance = path_to_player_state;
 
 	
 
@@ -347,6 +347,7 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 		sprite_path_speed3 += sprite_path + "_speed3.png";
 		sprite_path_fat += sprite_path + "_fat.png";
 		sprite_path_spawn += sprite_path + "_spawn.png";
+		sprite_path_dance += sprite_path + "_dance.png";
 	}
 
 	//effect when using item.
@@ -411,19 +412,7 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 
 	player->AddComponent(new Sprite(player, sprite_path_fat.c_str(), true, 3, 9, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Fat), "fat", false);
-	//player->AddComponent(new Sprite(player, sprite_path_missile_launcher.c_str(), pos, false, Sprite_Type::Missile_Launcher_Showing, { 80.f, 80.f }), "missile_launcher", false);
-
-	//player->AddComponent(new Sprite(player, sprite_path_dash.c_str(), true, 4, 8, pos, { 100.f,100.f },
-	//	{ 255,255,255,255 }, Sprite_Type::Dash_Showing), "dash", false);
-
-	//player->AddComponent(new Sprite(player, sprite_path_bulkup.c_str(), pos, false, Sprite_Type::Bulkup_Showing, { 100.f, 100.f }), "bulkup", false);
-	//player->AddComponent(new Sprite(player, sprite_path_throwing.c_str(), pos, false, Sprite_Type::Throwing_Showing, { 100.f, 100.f }), "throwing", false);
-	//player->AddComponent(new Sprite(player, sprite_path_magnet.c_str(), pos, false, Sprite_Type::Magnet_Showing, { 100.f, 100.f }), "magnet", false);
-	//player->AddComponent(new Sprite(player, sprite_path_timestop.c_str(), pos, false, Sprite_Type::Timestop_Showing, { 100.f, 100.f }), "time", false);
-	//player->AddComponent(new Sprite(player, sprite_path_reverse.c_str(), pos, false, Sprite_Type::Reverse_Showing, { 100.f, 100.f }), "reverse", false);
 	player->AddComponent(new Sprite(player, sprite_path_paused.c_str(), pos, false, Sprite_Type::Player_Paused, { 100.f, 100.f }), "paused", false);
-	//player->AddComponent(new Sprite(player, sprite_path_heal.c_str(), true, 4, 8, pos, { 100.f,100.f },
-	//	{ 255,255,255,255 }, Sprite_Type::Heal_Showing), "heal", false);
 
 	player->AddComponent(new Sprite(player, sprite_path_ready_bulkup.c_str(), true, 8, 16, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Effect_Bulkp), "effect_bulkup", false);
@@ -447,6 +436,9 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 
 	player->AddComponent(new Sprite(player, sprite_path_dash_effect.c_str(), true, 4, 8, pos, { 100.f,100.f },
 		{ 255, 255, 255, 255 }, Sprite_Type::Player_Effect_Dash), "effect_dash", false);
+
+	player->AddComponent(new Sprite(player, sprite_path_dance.c_str(), true, 15, 7, pos, { 100.f,100.f },
+		{ 255,255,255,255 }, Sprite_Type::Player_Dance), "dance", false);
 
 	player->AddComponent(new Physics(true), "physics");
 
@@ -821,7 +813,7 @@ void Referee::Set_Kill_State()
 	ObjectManager::GetObjectManager()->AddObject(fourth_kill);
 }
 
-void Referee::Win()
+void Referee::Win(float dt)
 {
 	if (win == false)
 	{/*
@@ -832,21 +824,64 @@ void Referee::Win()
 		}*/
 		if (/*player_first_life == -1 &&*/ player_sec_life == -1 /*&& player_fourth_life == -1*/)
 		{
-			ObjectManager::GetObjectManager()->AddObject(third_win);
 			win = true;
 			sound.Play(SOUND::Win);
+			player_dance_time = 5.f;
+			curr_third_player->Change_Sprite(curr_third_player->Find_Sprite_By_Type(Sprite_Type::Player_Dance));
+			win_player = curr_third_player;
+
+			win_player->GetComponentByTemplate<Player>()->Set_Need_Update(false);
+			win_player->SetNeedCollision(false);
+
+			Graphic::GetGraphic()->Get_View().is_ended = true;
 		}
 		if (/*player_first_life == -1 &&*/ player_third_life == -1/* && player_fourth_life == -1*/)
 		{
-			ObjectManager::GetObjectManager()->AddObject(second_win);
 			win = true;
 			sound.Play(SOUND::Win);
+			player_dance_time = 5.f;
+			curr_sec_player->Change_Sprite(curr_sec_player->Find_Sprite_By_Type(Sprite_Type::Player_Dance));
+			win_player = curr_sec_player;
+
+			win_player->GetComponentByTemplate<Player>()->Set_Need_Update(false);
+			win_player->SetNeedCollision(false);
+
+			Graphic::GetGraphic()->Get_View().is_ended = true;
+
 		}
 		/*if (player_sec_life == -1 && player_third_life == -1 && player_fourth_life == -1)
 		{
 			ObjectManager::GetObjectManager()->AddObject(first_win);
 			win = true;
 		}*/
+	}
+	else
+	{
+		if (player_dance_time > 0.f)
+		{
+			player_dance_time -= dt;
+
+			//if (win_player->GetScale().x != 4.f)
+			//{
+			//	win_player->GetScale_Reference().x = 4.f;
+			//	win_player->GetScale_Reference().y = 4.f;
+			//}
+		}
+		else
+		{
+			if (player_third_life == -1)
+			{
+				ObjectManager::GetObjectManager()->AddObject(second_win);
+			}
+			if (player_sec_life == -1)
+			{
+				ObjectManager::GetObjectManager()->AddObject(third_win);
+			}
+
+			Graphic::GetGraphic()->Get_View().Get_Camera().SetCenter(vector2{ 0.f, 0.f });
+			Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
+			win_player = nullptr;
+		}
 	}
 }
 
@@ -909,6 +944,7 @@ void Referee::Respawn(Stage_Statement statement)
 			player->GetComponentByTemplate<Player>()->Set_This_UI_info(second_ui);
 			second_ui->Reset();
 			ObjectManager::GetObjectManager()->AddObject(player);
+			curr_sec_player = player;
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(player, nullptr, Message_Kind::Spawn_Object, 4.1f));
 		}
 		break;
@@ -930,6 +966,7 @@ void Referee::Respawn(Stage_Statement statement)
 			Object* player = player_third_temp[player_third_life - 1];
 			player->GetComponentByTemplate<Player>()->Set_This_UI_info(third_ui);
 			third_ui->Reset();
+			curr_third_player = player;
 			ObjectManager::GetObjectManager()->AddObject(player);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(player, nullptr, Message_Kind::Spawn_Object, 4.1f));
 		}
