@@ -56,10 +56,8 @@ void Player::Init(Object* obj)
 
 void Player::Update(float dt)
 {
-	m_owner->SetScale(2.f);
 	float RightTriggerState = gamepadManager->RightTrigger();
-	std::cout << "player sclae x :" << m_owner->GetScale().x << std::endl;
-	std::cout << "player sclae y :" << m_owner->GetScale().y << std::endl;
+
 	if (curr_state == Char_State::Prepare)
 	{
 		if (prepare_sprite_timer != 0.f)
@@ -165,8 +163,8 @@ void Player::Update(float dt)
 					}
 				}
 			}
-			//m_owner->GetScale_Reference().x += scale_plus;
-			//m_owner->GetScale_Reference().y += scale_plus;
+			m_owner->GetScale_Reference().x += scale_plus;
+			m_owner->GetScale_Reference().y += scale_plus;
 			/*if (speedParticle != nullptr && speed_mag > 2000.0f)
 			{
 				speedParticle->Update(dt, m_owner, 1, vector2(-m_owner->GetScale_Reference() / 2.0f));
@@ -175,13 +173,13 @@ void Player::Update(float dt)
 		}
 		else
 		{
-			/*vector2& scale = m_owner->GetScale_Reference();
+			vector2& scale = m_owner->GetScale_Reference();
 			vector2 og_scale = m_owner->GetTransform().Get_Original_Scale();
 			if (scale.x > og_scale.x)
 			{
 				scale.x -= scale_minus;
 				scale.y -= scale_minus;
-			}*/
+			}
 
 			if (speed_mag < 20.f)
 			{
@@ -257,7 +255,7 @@ void Player::SetHPBar()
 
 	if (m_owner->Get_Tag() != "save" && m_owner->Get_Tag() != "throwing")
 	{
-		//ObjectManager::GetObjectManager()->AddObject(hp_bar);
+		ObjectManager::GetObjectManager()->AddObject(hp_bar);
 	}
 }
 
