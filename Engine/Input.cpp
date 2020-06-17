@@ -86,7 +86,7 @@ void Input::Triggered_Reset()
 
 void Input::Set_Keyboard_Input(int key, int action)
 {
-    assert(key > -1 && key < GLFW_KEY_LAST);
+    //assert(key > -1 && key < GLFW_KEY_LAST);
 
     switch (action)
     {

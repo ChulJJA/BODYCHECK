@@ -45,7 +45,7 @@ public:
     void SetPlayerTemp();
     void SetItem();
     void Set_Kill_State();
-    void Win();
+    void Win(float dt);
     Object* Get_Third_Kill();
     Object* Get_First_Kill();
     Object* Get_Second_Kill();
@@ -108,12 +108,27 @@ public:
     {
         fourth_text = ui;
     }
+    void Set_Curr_Sec_Player(Object* player)
+    {
+        curr_sec_player = player;
+    }
+    void Set_Curr_Third_Player(Object* player)
+    {
+        curr_third_player = player;
+    }
+
     void Set_Win_State();
 
 	int Get_Player_Life()
 	{
         return player_first_life;
 	}
+
+    Object* Get_Win_Player()
+    {
+        return win_player;
+    }
+
     void Set_Timer();
 
 private:
@@ -193,8 +208,13 @@ private:
     Object* timer_3;
     Object* timer_erase;
     Object* timer_start;
+    
+    Object* curr_third_player;
+    Object* curr_sec_player;
+    Object* win_player = nullptr;
 
     bool win = false;
+    float player_dance_time = 0.f;
 	
 	std::vector<Object*> total_item;
 };

@@ -29,7 +29,6 @@
 #include "Physics.h"
 #include "Message_Manager.h"
 
-
 Referee* Referee::referee = nullptr;
 StateManager* state_manager = nullptr;
 Application* app = nullptr;
@@ -160,7 +159,6 @@ void Referee::Init()
 	Set_Win_State();
 	Set_Kill_State();
 	Set_Timer();
-
 }
 
 void Referee::Update(float dt)
@@ -178,7 +176,7 @@ void Referee::Update(float dt)
 		Respawn_Item(dt);
 	}
 
-	Win();
+	Win(dt);
 }
 
 void Referee::Delete()
@@ -312,7 +310,7 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	std::string sprite_path_speed2 = path_to_player_state;
 	std::string sprite_path_speed3 = path_to_player_state;
 	std::string sprite_path_fat = path_to_player_state;
-
+	std::string sprite_path_spawn = path_to_player_state;
 
 	std::string sprite_path_reverse_moving_pen = path_to_player_item_effect;
 	std::string sprite_path_ready = path_to_player_item_effect;
@@ -325,6 +323,9 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	std::string sprite_path_magnet_chasing = path_to_player_item_effect;
 	std::string sprite_path_dash_effect = path_to_player_item_effect;
 	std::string sprite_path_timestop_effect = path_to_player_item_effect;
+	std::string sprite_path_dance = path_to_player_state;
+
+	
 
 	//std::string sprite_path_missile_launcher = path_to_player_display_item;
 	//std::string sprite_path_dash = path_to_player_display_item;
@@ -345,7 +346,8 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 		sprite_path_speed2 += sprite_path + "_speed2.png";
 		sprite_path_speed3 += sprite_path + "_speed3.png";
 		sprite_path_fat += sprite_path + "_fat.png";
-
+		sprite_path_spawn += sprite_path + "_spawn.png";
+		sprite_path_dance += sprite_path + "_dance.png";
 	}
 
 	//effect when using item.
@@ -379,11 +381,15 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	Object* player = new Object();
 	player->Set_Name(name);
 	player->Set_Tag(tag);
-	player->AddComponent(new Player(false), "player");
+	player->SetTranslation(pos);
+	player->AddComponent(new Player(false), "player", false);
 
-
+	
 	player->AddComponent(new Sprite(player, sprite_path_normal.c_str(), true, 3, 6, pos, { 100.f,100.f },
-		{ 255,255,255,255 }, Sprite_Type::Player_Normal), "normal", true);
+		{ 255,255,255,255 }, Sprite_Type::Player_Normal), "normal", false);
+
+	player->AddComponent(new Sprite(player, sprite_path_spawn.c_str(), true, 37, 9.25, pos, { 100.f,100.f },
+		{ 255,255,255,255 }, Sprite_Type::Player_Spawn), "spawn", true);
 
 	player->AddComponent(new Sprite(player, sprite_path_speed2.c_str(), true, 3, 24, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Speed2), "speed2", false);
@@ -406,19 +412,7 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 
 	player->AddComponent(new Sprite(player, sprite_path_fat.c_str(), true, 3, 9, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Fat), "fat", false);
-	//player->AddComponent(new Sprite(player, sprite_path_missile_launcher.c_str(), pos, false, Sprite_Type::Missile_Launcher_Showing, { 80.f, 80.f }), "missile_launcher", false);
-
-	//player->AddComponent(new Sprite(player, sprite_path_dash.c_str(), true, 4, 8, pos, { 100.f,100.f },
-	//	{ 255,255,255,255 }, Sprite_Type::Dash_Showing), "dash", false);
-
-	//player->AddComponent(new Sprite(player, sprite_path_bulkup.c_str(), pos, false, Sprite_Type::Bulkup_Showing, { 100.f, 100.f }), "bulkup", false);
-	//player->AddComponent(new Sprite(player, sprite_path_throwing.c_str(), pos, false, Sprite_Type::Throwing_Showing, { 100.f, 100.f }), "throwing", false);
-	//player->AddComponent(new Sprite(player, sprite_path_magnet.c_str(), pos, false, Sprite_Type::Magnet_Showing, { 100.f, 100.f }), "magnet", false);
-	//player->AddComponent(new Sprite(player, sprite_path_timestop.c_str(), pos, false, Sprite_Type::Timestop_Showing, { 100.f, 100.f }), "time", false);
-	//player->AddComponent(new Sprite(player, sprite_path_reverse.c_str(), pos, false, Sprite_Type::Reverse_Showing, { 100.f, 100.f }), "reverse", false);
 	player->AddComponent(new Sprite(player, sprite_path_paused.c_str(), pos, false, Sprite_Type::Player_Paused, { 100.f, 100.f }), "paused", false);
-	//player->AddComponent(new Sprite(player, sprite_path_heal.c_str(), true, 4, 8, pos, { 100.f,100.f },
-	//	{ 255,255,255,255 }, Sprite_Type::Heal_Showing), "heal", false);
 
 	player->AddComponent(new Sprite(player, sprite_path_ready_bulkup.c_str(), true, 8, 16, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Effect_Bulkp), "effect_bulkup", false);
@@ -443,12 +437,15 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	player->AddComponent(new Sprite(player, sprite_path_dash_effect.c_str(), true, 4, 8, pos, { 100.f,100.f },
 		{ 255, 255, 255, 255 }, Sprite_Type::Player_Effect_Dash), "effect_dash", false);
 
+	player->AddComponent(new Sprite(player, sprite_path_dance.c_str(), true, 15, 7, pos, { 100.f,100.f },
+		{ 255,255,255,255 }, Sprite_Type::Player_Dance), "dance", false);
+
 	player->AddComponent(new Physics(true), "physics");
 
-	player->Set_Current_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Player_Normal));
-	player->SetScale({ 2.f,2.f });
+	player->Set_Current_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Player_Spawn));
+	player->SetScale({ 4.f,4.f });
 	player->Set_Dmg_Text(text);
-	player->SetNeedCollision(true);
+	player->SetNeedCollision(false);
 
 	if (name == "first")
 	{
@@ -816,7 +813,7 @@ void Referee::Set_Kill_State()
 	ObjectManager::GetObjectManager()->AddObject(fourth_kill);
 }
 
-void Referee::Win()
+void Referee::Win(float dt)
 {
 	if (win == false)
 	{/*
@@ -825,23 +822,66 @@ void Referee::Win()
 			ObjectManager::GetObjectManager()->AddObject(fourth_win);
 			win = true;
 		}*/
-		if (/*player_first_life == -1 &&*/ player_sec_life == 1 /*&& player_fourth_life == -1*/)
+		if (/*player_first_life == -1 &&*/ player_sec_life == -1 /*&& player_fourth_life == -1*/)
 		{
-			ObjectManager::GetObjectManager()->AddObject(third_win);
 			win = true;
 			sound.Play(SOUND::Win);
+			player_dance_time = 5.f;
+			curr_third_player->Change_Sprite(curr_third_player->Find_Sprite_By_Type(Sprite_Type::Player_Dance));
+			win_player = curr_third_player;
+
+			win_player->GetComponentByTemplate<Player>()->Set_Need_Update(false);
+			win_player->SetNeedCollision(false);
+
+			Graphic::GetGraphic()->Get_View().is_ended = true;
 		}
-		if (/*player_first_life == -1 &&*/ player_third_life == 1/* && player_fourth_life == -1*/)
+		if (/*player_first_life == -1 &&*/ player_third_life == -1/* && player_fourth_life == -1*/)
 		{
-			ObjectManager::GetObjectManager()->AddObject(second_win);
 			win = true;
 			sound.Play(SOUND::Win);
+			player_dance_time = 5.f;
+			curr_sec_player->Change_Sprite(curr_sec_player->Find_Sprite_By_Type(Sprite_Type::Player_Dance));
+			win_player = curr_sec_player;
+
+			win_player->GetComponentByTemplate<Player>()->Set_Need_Update(false);
+			win_player->SetNeedCollision(false);
+
+			Graphic::GetGraphic()->Get_View().is_ended = true;
+
 		}
 		/*if (player_sec_life == -1 && player_third_life == -1 && player_fourth_life == -1)
 		{
 			ObjectManager::GetObjectManager()->AddObject(first_win);
 			win = true;
 		}*/
+	}
+	else
+	{
+		if (player_dance_time > 0.f)
+		{
+			player_dance_time -= dt;
+
+			//if (win_player->GetScale().x != 4.f)
+			//{
+			//	win_player->GetScale_Reference().x = 4.f;
+			//	win_player->GetScale_Reference().y = 4.f;
+			//}
+		}
+		else
+		{
+			if (player_third_life == -1)
+			{
+				ObjectManager::GetObjectManager()->AddObject(second_win);
+			}
+			if (player_sec_life == -1)
+			{
+				ObjectManager::GetObjectManager()->AddObject(third_win);
+			}
+
+			Graphic::GetGraphic()->Get_View().Get_Camera().SetCenter(vector2{ 0.f, 0.f });
+			Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
+			win_player = nullptr;
+		}
 	}
 }
 
@@ -901,26 +941,22 @@ void Referee::Respawn(Stage_Statement statement)
 		if (player_sec_life > 0)
 		{
 			Object* player = player_sec_temp[player_sec_life - 1];
-			player->GetComponentByTemplate<Player>()->Get_Hp_Bar()->GetComponentByTemplate<Sprite>()->Set_Need_Update(true);
-			player->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
 			player->GetComponentByTemplate<Player>()->Set_This_UI_info(second_ui);
-			player->Set_Tag("player");
-			ObjectManager::GetObjectManager()->AddObject(player);
-			ObjectManager::GetObjectManager()->AddObject(player->GetComponentByTemplate<Player>()->Get_Hp_Bar());
 			second_ui->Reset();
+			ObjectManager::GetObjectManager()->AddObject(player);
+			curr_sec_player = player;
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(player, nullptr, Message_Kind::Spawn_Object, 4.1f));
 		}
 		break;
 
 	case Stage_Statement::PLAYER_FIRST_DIE:
 		if (player_first_life > 0)
 		{
-			player_first_temp[player_first_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar()->GetComponentByTemplate<Sprite>()->Set_Need_Update(true);
-			player_first_temp[player_first_life - 1]->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
-			player_first_temp[player_first_life - 1]->GetComponentByTemplate<Player>()->Set_This_UI_info(first_ui);
-			player_first_temp[player_first_life - 1]->Set_Tag("player");
-			ObjectManager::GetObjectManager()->AddObject(player_first_temp[player_first_life - 1]);
-			ObjectManager::GetObjectManager()->AddObject(player_first_temp[player_first_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar());
+			Object* player = player_first_temp[player_first_life - 1];
+			player->GetComponentByTemplate<Player>()->Set_This_UI_info(first_ui);
+			ObjectManager::GetObjectManager()->AddObject(player);
 			first_ui->Reset();
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(player, nullptr, Message_Kind::Spawn_Object, 4.1f));
 		}
 		break;
 
@@ -928,26 +964,22 @@ void Referee::Respawn(Stage_Statement statement)
 		if (player_third_life > 0)
 		{
 			Object* player = player_third_temp[player_third_life - 1];
-			player->GetComponentByTemplate<Player>()->Get_Hp_Bar()->GetComponentByTemplate<Sprite>()->Set_Need_Update(true);
-			player->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
 			player->GetComponentByTemplate<Player>()->Set_This_UI_info(third_ui);
-			player->Set_Tag("player");
-			ObjectManager::GetObjectManager()->AddObject(player);
-			ObjectManager::GetObjectManager()->AddObject(player->GetComponentByTemplate<Player>()->Get_Hp_Bar());
 			third_ui->Reset();
+			curr_third_player = player;
+			ObjectManager::GetObjectManager()->AddObject(player);
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(player, nullptr, Message_Kind::Spawn_Object, 4.1f));
 		}
 		break;
 
 	case Stage_Statement::PLAYER_FOURTH_DIE:
 		if (player_fourth_life > 0)
 		{
-			player_fourth_temp[player_fourth_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar()->GetComponentByTemplate<Sprite>()->Set_Need_Update(true);
-			player_fourth_temp[player_fourth_life - 1]->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
-			player_fourth_temp[player_fourth_life - 1]->GetComponentByTemplate<Player>()->Set_This_UI_info(fourth_ui);
-			player_fourth_temp[player_fourth_life - 1]->Set_Tag("player");
-			ObjectManager::GetObjectManager()->AddObject(player_fourth_temp[player_fourth_life - 1]);
-			ObjectManager::GetObjectManager()->AddObject(player_fourth_temp[player_fourth_life - 1]->GetComponentByTemplate<Player>()->Get_Hp_Bar());
+			Object* player = player_fourth_temp[player_fourth_life - 1];
+			player->GetComponentByTemplate<Player>()->Set_This_UI_info(fourth_ui);
+			ObjectManager::GetObjectManager()->AddObject(player);
 			fourth_ui->Reset();
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(player, nullptr, Message_Kind::Spawn_Object, 4.1f));
 		}
 		break;
 	}

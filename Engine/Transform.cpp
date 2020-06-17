@@ -104,8 +104,8 @@ void Transform::SetScale(const float& new_scale) noexcept
     scale.x = new_scale;
     scale.y = new_scale;
 
-    original_scale.x = new_scale;
-    original_scale.y = new_scale;
+    //original_scale.x = new_scale;
+    //original_scale.y = new_scale;
 }
 
 void Transform::SetScale(const vector2& new_scale) noexcept
@@ -114,8 +114,8 @@ void Transform::SetScale(const vector2& new_scale) noexcept
     scale.y = new_scale.y;
 
 
-    original_scale.x = new_scale.x;
-    original_scale.y = new_scale.y;
+    //original_scale.x = new_scale.x;
+    //original_scale.y = new_scale.y;
 }
 
 float Transform::GetRotation() const noexcept

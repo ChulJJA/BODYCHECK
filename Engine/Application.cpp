@@ -53,7 +53,7 @@ void Application::Init()
     glfwWindowHint(GLFW_DEPTH_BITS, 24);
     glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
 
-    window = glfwCreateWindow(1280, 720, "sangministhebest", nullptr, nullptr);
+    window = glfwCreateWindow(1280, 720, "BodyCheck", nullptr, nullptr);
 
     glfwMakeContextCurrent(window);
 
@@ -149,7 +149,7 @@ void Application::Update(float dt)
     if (save_dt >= 1.0f)
     {
         std::stringstream title;
-        title << "DoubleCheck" << " " << " [" << FPS_frame << " FPS]";
+        title << "BodyCheck" << " " << " [" << FPS_frame << " FPS]";
         glfwSetWindowTitle(window, title.str().c_str());
         FPS_frame = 0;
         save_dt = 0;
