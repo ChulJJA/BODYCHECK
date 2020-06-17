@@ -17,6 +17,10 @@ void Object::Change_Sprite(Component* sprite)
 {
 	if (sprite != nullptr)
 	{
+		if (current_showing_sprite != sprite)
+		{
+			last_sprite = current_showing_sprite;
+		}
 		current_showing_sprite->Set_Need_Update(false);
 		sprite->Set_Need_Update(true);
 		current_showing_sprite = sprite;

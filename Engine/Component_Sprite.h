@@ -57,6 +57,7 @@ enum class Sprite_Type
 	Item_Reverse,
 	Item_Missile,
     Item_Mine,
+    Item_Click,
 
 	Missile_Launcher_Showing,
     Dash_Showing,
@@ -81,6 +82,8 @@ enum class Sprite_Type
     Num_3,
     Num_4,
     Num_5,
+    Item_Space,
+    Item_Num,
 };
 
 
@@ -139,4 +142,5 @@ private:
     float spriteWidth = 0;
     bool animated_init = true;
 	Sprite_Type sprite_type;
+
 };

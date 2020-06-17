@@ -268,11 +268,16 @@ public:
         
     }
 	void Change_Sprite(Component* sprite);
+    Component* Get_Last_Sprite()
+    {
+        return last_sprite;
+    }
 
 	Component* Get_Current_Sprite();
 	void Set_Current_Sprite(Component* sprite);
 	
     char name_buf[64];
+    Component* last_sprite = nullptr;
 
 public:
     void SetDeadCondition(bool condition) { is_dead = condition; }
@@ -298,7 +303,7 @@ public:
 
     Object* Get_Belong_Object_By_Name(std::string name);
     Object* Get_Belong_Object_By_Tag(std::string tag);
-
+    
     bool GetNeedCollision();
     void SetNeedCollision(bool collision);
 };

@@ -16,7 +16,7 @@ void Ui::Update(float dt)
 		{
 			Change_Item_Ui();
 		}
-		else if(status_info_base == Ui_Status_Base::Life)
+		if(status_info_base == Ui_Status_Base::Life)
 		{
 			Change_Life_Ui();
 		}
@@ -31,10 +31,12 @@ void Ui::Update(float dt)
 void Ui::Change_Item_Ui()
 {
 	Object* item_ui = ui_info->Get_Item_Info();
+	Object* item_type = ui_info->Get_Info_Item_Type();
 
 	if (status_info_verb == Ui_Status_Verb::Use)
 	{
 		item_ui->Change_Sprite(item_ui->Find_Sprite_By_Type(Sprite_Type::None));
+		item_type->Change_Sprite(item_type->Find_Sprite_By_Type(Sprite_Type::None));
 	}
 	
 	else if (status_info_verb == Ui_Status_Verb::Get)
@@ -79,6 +81,7 @@ void Ui::Change_Item_Ui()
 		{
 			item_ui->Change_Sprite(item_ui->Find_Sprite_By_Type(Sprite_Type::None));
 		}
+		item_type->Change_Sprite(item_type->Find_Sprite_By_Type(Sprite_Type::Item_Click));
 	}
 
 	

@@ -56,10 +56,7 @@ void Player::Init(Object* obj)
 
 void Player::Update(float dt)
 {
-	m_owner->SetScale(2.f);
 	float RightTriggerState = gamepadManager->RightTrigger();
-	std::cout << "player sclae x :" << m_owner->GetScale().x << std::endl;
-	std::cout << "player sclae y :" << m_owner->GetScale().y << std::endl;
 	if (curr_state == Char_State::Prepare)
 	{
 		if (prepare_sprite_timer != 0.f)
@@ -165,8 +162,14 @@ void Player::Update(float dt)
 					}
 				}
 			}
-			//m_owner->GetScale_Reference().x += scale_plus;
-			//m_owner->GetScale_Reference().y += scale_plus;
+
+			vector2& scale = m_owner->GetScale_Reference();
+			if (scale.x < 4.f && scale.y < 4.f)
+			{
+				scale.x += scale_plus;
+				scale.y += scale_plus;
+			}
+			
 			/*if (speedParticle != nullptr && speed_mag > 2000.0f)
 			{
 				speedParticle->Update(dt, m_owner, 1, vector2(-m_owner->GetScale_Reference() / 2.0f));
@@ -175,13 +178,13 @@ void Player::Update(float dt)
 		}
 		else
 		{
-			/*vector2& scale = m_owner->GetScale_Reference();
+			vector2& scale = m_owner->GetScale_Reference();
 			vector2 og_scale = m_owner->GetTransform().Get_Original_Scale();
 			if (scale.x > og_scale.x)
 			{
 				scale.x -= scale_minus;
 				scale.y -= scale_minus;
-			}*/
+			}
 
 			if (speed_mag < 20.f)
 			{
@@ -403,6 +406,8 @@ void Player::Func_Mine_Collided(float dt)
 void Player::Set_This_UI_info(PLAYER_UI* ui)
 {
 	this_ui = ui;
+
+
 }
 
 PLAYER_UI* Player::Get_Ui() const
@@ -1650,7 +1655,18 @@ void Player::Change_To_Normal_State()
 {
 	curr_state = Char_State::None;
 	curr_state_additional = Char_State_Additional::None;
-	m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Normal));
+	//last_sprite = m_owner->Get_Current_Sprite();
+	Component* chubby = m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Fat);
+	Component* normal_sprite = m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Normal);
+
+	if (belong_item == Item::Item_Kind::None)
+	{
+		m_owner->Change_Sprite(normal_sprite);
+	}
+	else
+	{
+		m_owner->Change_Sprite(chubby);
+	}
 }
 
 void Player::Set_Prepare_Timer(float timer)
@@ -1690,6 +1706,26 @@ void Player::Change_Weapon_Sprite(Component* weapon_sprite)
 			weapon_state = nullptr;
 		}
 	}
+}
+
+void Player::Check_Current_Sprite_Status(float dt)
+{
+	Component* normal = m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Normal);
+	Component* speed2 = m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Speed2);
+	Component* speed3 = m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Speed3);
+	Component* chubby = m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Fat);
+	Component* curr = m_owner->Get_Current_Sprite();
+
+	if (curr != normal && curr != speed2 && curr != speed3 && curr != chubby)
+	{
+		sprite_check_timer += dt;
+
+		if (sprite_check_timer < 5.f)
+		{
+
+		}
+	}
+
 }
 
 Player::Item_Use_Status Player::Get_Item_Used_Status()

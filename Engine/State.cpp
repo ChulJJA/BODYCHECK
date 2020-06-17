@@ -201,6 +201,7 @@ PLAYER_UI* State::Make_Set_Ui(std::string name, std::string tag, std::string spr
 {
 	PLAYER_UI* player_ui;
 	player_ui = new PLAYER_UI();
+	player_ui->Set_Name(name);
 	player_ui->SetNeedCollision(false);
 	player_ui->GetTransform().GetScale_Reference() = scale;
 	player_ui->Set_Name(name);

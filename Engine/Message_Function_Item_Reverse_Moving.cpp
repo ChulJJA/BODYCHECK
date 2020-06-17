@@ -33,7 +33,7 @@ void Msg_Func_Item_Reverse_Moving::Init()
 
 		}
 		std::vector<Object*> another_players = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("player");
-		const int random_select_character = rand() % another_players.size();
+		const int random_select_character = rand() % (another_players.size() - 1);
 		
 		another_players.erase(std::find(another_players.begin(), another_players.end(), obj));
 
@@ -48,6 +48,7 @@ void Msg_Func_Item_Reverse_Moving::Init()
 
 				another_players[random_select_character]->Change_Sprite(another_players[random_select_character]->Find_Sprite_By_Type(Sprite_Type::Player_Reverse_Moving));
 			}
+			info_player->Change_To_Normal_State();
 
 			info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Use, Ui::Ui_Status_Obj::Item_Reverse_Moving);
 		}

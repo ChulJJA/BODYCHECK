@@ -23,12 +23,36 @@ void PLAYER_UI::Initialize()
 {
 	const vector2 this_trans = this->GetTransform().GetTranslation();
 	const vector2 item_trans{ this_trans.x + 300, this_trans.y };
-    info_item = new Object();
+	info_item = new Object();
 	info_item->SetNeedCollision(false);
 	info_item->GetTransform().SetTranslation(item_trans);
 	info_item->GetTransform().SetScale({ 3.f, 3.f });
 	info_item->Set_Tag("item_info");
+
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/None.png", item_trans, false, Sprite_Type::None), "none");
+
+	info_item_type = new Object();
+	info_item_type->SetNeedCollision(false);
+	info_item_type->GetTransform().SetTranslation(vector2{ item_trans.x, item_trans.y + 150 });
+	info_item_type->GetTransform().SetScale({ 2.f, 1.f });
+	info_item_type->Set_Tag("item_info_type");
+	vector2 info_item_type_trans = info_item_type->GetTransform().GetTranslation();
+
+	if (player_name == "second_ui")
+	{
+		info_item_type->AddComponent(new Sprite(info_item_type, "../Sprite/Item/space.png", info_item_type_trans, false, Sprite_Type::None), "none", true);
+
+		info_item_type->AddComponent(new Sprite(info_item_type, "../Sprite/Item/space_click.png", true, 2, 2, info_item_type_trans, { 100.f,100.f },
+			{ 255,255,255,255 }, Sprite_Type::Item_Click), "none", false);
+
+	}
+	else if (player_name == "third_ui")
+	{
+		info_item_type->AddComponent(new Sprite(info_item_type, "../Sprite/Item/num7.png", info_item_type_trans, false, Sprite_Type::None), "none");
+		info_item_type->AddComponent(new Sprite(info_item_type, "../Sprite/Item/num7_click.png", true, 2, 2, info_item_type_trans, { 100.f,100.f },
+			{ 255,255,255,255 }, Sprite_Type::Item_Click), "none", false);
+	}
+
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/Item.png", item_trans, false, Sprite_Type::Item), "item", false);
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/item_dash.png", item_trans, false, Sprite_Type::Item_Dash), "dash", false);
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/item_heal.png", item_trans, false, Sprite_Type::Item_Heal), "heal", false);
@@ -43,6 +67,8 @@ void PLAYER_UI::Initialize()
     info_item->Set_Name(this->GetName() + "info_item");
 	info_item->Set_Current_Sprite(info_item->Find_Sprite_By_Type(Sprite_Type::None));
     ObjectManager::GetObjectManager()->AddObject(info_item);
+	ObjectManager::GetObjectManager()->AddObject(info_item_type);
+
 
     num_life = new Object();
 	vector2 life_trans = { this_trans.x - 300, this_trans.y - 50 };
@@ -69,8 +95,9 @@ void PLAYER_UI::Reset()
     const vector2 this_trans = this->GetTransform().GetTranslation();
 	Sprite* info_item_sprite = info_item->GetComponentByTemplate<Sprite>();
 
-	info_item->GetTransform().SetTranslation({ this_trans.x + 200, this_trans.y });
+	info_item->GetTransform().SetTranslation({ this_trans.x + 300, this_trans.y });
 	info_item->Change_Sprite(info_item->Find_Sprite_By_Type(Sprite_Type::None));
+	info_item_type->Change_Sprite(info_item_type->Find_Sprite_By_Type(Sprite_Type::None));
     info_item->GetMesh().Get_Is_Moved() = true;
 }
 

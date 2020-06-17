@@ -37,6 +37,15 @@ public:
     }
     void Reset();
 	void Change_Ui_Info(Ui::Ui_Status_Base base, Ui::Ui_Status_Verb verb, Ui::Ui_Status_Obj obj);
+
+    void Set_Name(std::string name)
+    {
+        player_name = name;
+    }
+    Object* Get_Info_Item_Type()
+    {
+        return info_item_type;
+    }
 	
 private:
     void Set_Life_Ui();
@@ -44,6 +53,9 @@ private:
 	
     //Object* info_hp_bar = nullptr;
     Object* info_item = nullptr;
+    Object* info_item_type = nullptr;
     Object* num_life = nullptr;
     BitmapFont* font = nullptr;
+
+    std::string player_name;
 };

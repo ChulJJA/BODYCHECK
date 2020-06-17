@@ -35,6 +35,9 @@ void Msg_Func_Item_Dash::Update(float dt)
 	}*/
 	if(timer < 0)
 	{
+		Object* obj = msg->Get_Target();
+		Player* info_player = obj->GetComponentByTemplate<Player>();
+		info_player->Change_To_Normal_State();
 		delete(dash_particle);
 		physics.SpeedDown(m_target);
 		msg->Set_Should_Delete(true);
