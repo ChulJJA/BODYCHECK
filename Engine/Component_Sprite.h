@@ -84,6 +84,10 @@ enum class Sprite_Type
     Num_5,
     Item_Space,
     Item_Num,
+
+    Player_Selected,
+    Button,
+    Button_Hover,
 };
 
 

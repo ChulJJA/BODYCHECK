@@ -43,6 +43,7 @@ void Msg_Func_Collision::Update(float dt)
 			Player_Get_Item(m_target, m_from);
 		}
 	}
+
 	else if (m_target->Get_Tag() == "throwing" && m_from->Get_Tag() == "player")
 	{
 		physics.KnockBack_Missile(m_from, m_target);
@@ -376,7 +377,7 @@ void Msg_Func_Collision::Player_And_Player_Collision()
 		Object* target_hp_bar = m_target->Get_Belong_Object_By_Tag("hp_bar");
 		Object* from_hp_bar = m_from->Get_Belong_Object_By_Tag("hp_bar");
 
-		if (target_hp_bar != nullptr || from_hp_bar != nullptr)
+		if (target_hp_bar != nullptr && from_hp_bar != nullptr)
 		{
 			Hp_Bar* hp_bar_info_target = target_hp_bar->GetComponentByTemplate<Hp_Bar>();
 			Hp_Bar* hp_bar_info_from = from_hp_bar->GetComponentByTemplate<Hp_Bar>();
@@ -408,6 +409,10 @@ void Msg_Func_Collision::Player_And_Player_Collision()
 					}
 				}
 			}
+		}
+		else
+		{
+
 		}
 
 	}

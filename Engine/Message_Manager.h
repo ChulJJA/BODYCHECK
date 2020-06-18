@@ -34,4 +34,8 @@ public:
     {
         return msg_log;
     }
+    std::vector<Message*>& Get_Messages()
+    {
+        return messages;
+    }
 };

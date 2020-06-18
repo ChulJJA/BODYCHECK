@@ -7,7 +7,7 @@
 #include "Level1.h"
 #include "Sound_Manager.h"
 #include "Engine.hpp"
-
+#include "Message_Manager.h"
 namespace
 {
 	ObjectManager* object_manager = nullptr;
@@ -58,6 +58,9 @@ void PauseLevel::Clear()
 	backButton->SetDeadCondition(true);
 	backButtonHover->SetDeadCondition(true);
 	background->SetDeadCondition(true);
+
+	Message_Manager::Get_Message_Manager()->Get_Messages().clear();
+	ObjectManager::GetObjectManager()->Get_Objects().clear();
 }
 
 void PauseLevel::Background()
