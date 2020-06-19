@@ -267,7 +267,7 @@ void Level1::UnLoad()
 
 void Level1::Pause()
 {
-	if (input.Is_Key_Pressed(GLFW_KEY_P))
+	if (input.Is_Key_Pressed(GLFW_KEY_ESCAPE))
 	{
 		sound.Play(SOUND::Click);
 		is_pause = true;

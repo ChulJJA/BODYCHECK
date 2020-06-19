@@ -56,10 +56,8 @@ void Player::Init(Object* obj)
 
 void Player::Update(float dt)
 {
-	m_owner->SetScale(2.f);
 	float RightTriggerState = gamepadManager->RightTrigger();
-	std::cout << "player sclae x :" << m_owner->GetScale().x << std::endl;
-	std::cout << "player sclae y :" << m_owner->GetScale().y << std::endl;
+
 	if (curr_state == Char_State::Prepare)
 	{
 		if (prepare_sprite_timer != 0.f)
