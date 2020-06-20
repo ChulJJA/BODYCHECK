@@ -131,6 +131,9 @@ void Sound::LoadSound()
 
 	result = FMOD_System_CreateSound(f_system, "Sounds/FingerSnap.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::FingerSnap)]);
 	ErrorCheck(result);
+
+	result = FMOD_System_CreateSound(f_system, "Sounds/DemonLaugh.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::DemonLaugh)]);
+	ErrorCheck(result);
 	
 	result = FMOD_System_CreateSoundGroup(f_system, "BGM", &bgm_group);
 	ErrorCheck(result);
