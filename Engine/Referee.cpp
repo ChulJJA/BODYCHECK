@@ -186,7 +186,8 @@ Referee* Referee::Get_Referee()
 
 void Referee::Init()
 {
-	
+	Clear_Referee();
+	Reset_Variables();
 
 	state_manager = StateManager::GetStateManager();
 	if (state_manager->GetCurrentState()->GetStateInfo() == GameState::Game)
@@ -209,8 +210,7 @@ void Referee::Init()
 	}
 
 
-	Clear_Referee();
-	Reset_Variables();
+
 
 	stage_statements.clear();
 	missile_saving = new Object * [missile_num];

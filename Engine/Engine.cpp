@@ -102,20 +102,20 @@ void Engine::Update()
     m_dt = game_timer.GetElapsedSeconds();
     game_timer.Reset();
 
-	/*if (input.Is_Key_Pressed(GLFW_KEY_V))
-	{
-		editor->Update(m_dt);
-		if (showing_editor == false)
-		{
-			editor->Set_Visible(true);
-		}
-		showing_editor = true;
-	}
-	else if (input.Is_Key_Released(GLFW_KEY_V))
-	{
-		showing_editor = false;
-		editor->Set_Visible(false);
-	}*/
+	//if (input.Is_Key_Pressed(GLFW_KEY_V))
+	//{
+	//	editor->Update(m_dt);
+	//	if (showing_editor == false)
+	//	{
+	//		editor->Set_Visible(true);
+	//	}
+	//	showing_editor = true;
+	//}
+	//else if (input.Is_Key_Released(GLFW_KEY_V))
+	//{
+	//	showing_editor = false;
+	//	editor->Set_Visible(false);
+	//}
 	
     app_->Update(m_dt);
     graphic->Update(m_dt);

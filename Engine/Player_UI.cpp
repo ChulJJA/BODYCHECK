@@ -114,6 +114,42 @@ void PLAYER_UI::Change_Ui_Info(Ui::Ui_Status_Base base, Ui::Ui_Status_Verb verb,
 	}
 }
 
+void PLAYER_UI::Change_Ui_Info(Ui::Ui_Status_Base base, Ui::Ui_Status_Verb verb, Item::Item_Kind item_kind)
+{
+	Ui* info_ui = GetComponentByTemplate<Ui>();
+	info_ui->Set_Status_Base(base);
+	info_ui->Set_Status_Verb(verb);
+	GetMesh().Get_Is_Moved() = true;
+
+	switch (item_kind)
+	{
+	case Item::Item_Kind::Dash:
+		info_ui->Set_Status_Obj(Ui::Ui_Status_Obj::Item_Dash);
+		break;
+	case Item::Item_Kind::HP:
+		info_ui->Set_Status_Obj(Ui::Ui_Status_Obj::Item_Hp);
+		break;
+	case Item::Item_Kind::Mine:
+		info_ui->Set_Status_Obj(Ui::Ui_Status_Obj::Item_Mine);
+		break;
+	case Item::Item_Kind::Missile:
+		info_ui->Set_Status_Obj(Ui::Ui_Status_Obj::Item_Missile);
+		break;
+	case Item::Item_Kind::Reverse_Moving:
+		info_ui->Set_Status_Obj(Ui::Ui_Status_Obj::Item_Reverse_Moving);
+		break;
+	case Item::Item_Kind::Throwing:
+		info_ui->Set_Status_Obj(Ui::Ui_Status_Obj::Item_Throwing);
+		break;
+	case Item::Item_Kind::Time_Pause:
+		info_ui->Set_Status_Obj(Ui::Ui_Status_Obj::Item_Time_Pause);
+		break;
+	case Item::Item_Kind::Bulkup:
+		info_ui->Set_Status_Obj(Ui::Ui_Status_Obj::Item_Bulkup);
+		break;
+	}
+}
+
 void PLAYER_UI::Set_Life_Ui()
 {
 	const int life_count = Referee::Get_Referee()->Get_Player_Life();
