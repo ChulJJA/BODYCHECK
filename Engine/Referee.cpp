@@ -933,12 +933,10 @@ void Referee::Win(float dt)
 		{
 			if (player_third_life == -1 && win_player != nullptr)
 			{
-				std::cout << "ssibal" << std::endl;
 				ObjectManager::GetObjectManager()->AddObject(second_win);
 			}
 			if (player_sec_life == -1 && win_player != nullptr)
 			{
-				std::cout << "ssibal" << std::endl;
 				ObjectManager::GetObjectManager()->AddObject(third_win);
 			}
 
