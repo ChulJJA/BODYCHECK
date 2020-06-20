@@ -333,7 +333,7 @@ void Player::Func_Time_Pause(float dt)
 	}
 }
 
-void Player::Func_Reverse_Moving(float dt) const
+void Player::Func_Reverse_Moving(float dt)
 {
 	FMOD_BOOL isBGM;
 	FMOD_BOOL isBGMReverse;
@@ -346,19 +346,21 @@ void Player::Func_Reverse_Moving(float dt) const
 	std::vector<Object*> another_players = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("player");
 
 	another_players.erase(std::find(another_players.begin(), another_players.end(), m_owner));
-
-	for (auto find_player : another_players)
+	if (stop_timer > 0.0f)
 	{
-		Player* get_player = find_player->GetComponentByTemplate<Player>();
+		stop_timer -= dt;
+	}
+	else
+	{
+		Change_To_Normal_State();
+		FMOD_BOOL isBgm;
+		FMOD_Channel_IsPlaying(sound.channel[1], &isBgm);
 
-		if (get_player->Get_Char_State() == Player::Char_State::Reverse_Moving)
+		if (!isBgm)
 		{
-			if (find_player->IsDead() == true)
-			{
-				get_player->Get_Char_State() == Player::Char_State::None;
-			}
-
+			sound.Play(SOUND::BGM2);
 		}
+		curr_state = Char_State::None;
 	}
 }
 

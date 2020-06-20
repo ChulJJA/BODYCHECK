@@ -49,7 +49,7 @@ void Msg_Func_Item_Reverse_Moving::Init()
 		if (info_player != nullptr && info_ui != nullptr)
 		{
 			info_player->Set_Item_State(Item::Item_Kind::None);
-
+			info_player->Change_To_Normal_State();
 			if (info_player->Get_Char_State() == Player::Char_State::None)
 			{
 				//Player* get_player = another_players[random_select_character]->GetComponentByTemplate<Player>();
@@ -59,11 +59,9 @@ void Msg_Func_Item_Reverse_Moving::Init()
 					Player* get_player = player->GetComponentByTemplate<Player>();
 					get_player->Set_Char_State(Player::Char_State::Reverse_Moving);
 					player->Change_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Player_Reverse_Moving));
+					get_player->Set_Stop_Timer(3.0f);
 					//another_players[random_select_character]->Change_Sprite(another_players[random_select_character]->Find_Sprite_By_Type(Sprite_Type::Player_Reverse_Moving));
 				}
-				
-
-				
 			}
 			info_player->Change_To_Normal_State();
 
