@@ -30,7 +30,6 @@ void Msg_Func_Item_Reverse_Moving::Init()
 		//{
 		//	sound.Stop(SOUND::BGM2);
 		//	sound.Play(SOUND::BGM2Reverse);
-
 		//}
 		std::vector<Object*> another_players = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("player");
 
