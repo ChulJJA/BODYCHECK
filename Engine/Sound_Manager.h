@@ -44,6 +44,7 @@ enum class SOUND
 	Mine,
 	MineBomb,
 	MineAlarm,
+	FingerSnap,
 	END
 };
 

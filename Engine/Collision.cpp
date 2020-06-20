@@ -185,7 +185,10 @@ void ArenaAndObjectCollision(Object* object)
 	const double min_y = object_translation.y - (40.0 * object_scale.y);
 
 	Player* object_player = object->GetComponentByTemplate<Player>();
-
+	if(object_translation.x < -1650 || object_translation.x > 1650 || object_translation.y < -850 || object_translation.y > 630)
+	{
+		object->SetTranslation({ 0,0 });
+	}
 	if (object_player != nullptr)
 	{
 		if (x_max_point - max_x < 0)
