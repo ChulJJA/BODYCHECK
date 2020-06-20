@@ -239,10 +239,6 @@ void Player::Update(float dt)
 	{
 		UseItem();
 	}
-	if(m_owner->GetName() == "second")
-	{
-		std::cout << m_owner->GetTransform().GetTranslation().x << ",    " << m_owner->GetTransform().GetTranslation().y << "\n";
-	}
 
 }
 
