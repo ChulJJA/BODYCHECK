@@ -178,8 +178,12 @@ void Msg_Func_Collision::Update(float dt)
 		sound.Play(SOUND::Crack);
 		Player_And_Player_Collision();
 		Graphic::GetGraphic()->Get_View().Active_Screen_Shake(10.f);
-
-		Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_target, nullptr, Message_Kind::Particle_Collision, .5f));
+		const float speed_mag1 = magnitude_squared(m_from->GetComponentByTemplate<Player>()->GetPlayerVelocity());
+		const float speed_mag2 = magnitude_squared(m_target->GetComponentByTemplate<Player>()->GetPlayerVelocity());
+		if(speed_mag1 + speed_mag2 > 300.0f)
+		{
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_target, nullptr, Message_Kind::Particle_Collision, .5f));
+		}		
 
 		Player* player_from_info = m_from->GetComponentByTemplate<Player>();
 		Player* player_target_info = m_target->GetComponentByTemplate<Player>();

@@ -57,6 +57,7 @@ void Player::Init(Object* obj)
 void Player::Update(float dt)
 {
 	float RightTriggerState = gamepadManager->RightTrigger();
+
 	if (curr_state == Char_State::Prepare)
 	{
 		if (prepare_sprite_timer != 0.f)
@@ -229,7 +230,6 @@ void Player::Update(float dt)
 		speedParticle->Update(dt, m_owner, 1, vector2(-m_owner->GetScale_Reference() / 2.0f));
 		speedParticle->Draw(m_owner);
 	}
-	PlayerDirecting();
 
 	if (input.Is_Key_Triggered(GLFW_KEY_R)
 		|| input.Is_Key_Triggered(GLFW_KEY_SPACE)
@@ -667,6 +667,8 @@ void Player::PlayerMovement(float max_velocity, float min_velocity)
 				{
 					velocity += {-min_velocity, max_velocity};
 				}
+				direction.x -= 0.07f;
+				direction.y += 0.07f;
 			}
 			else if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_D))
 			{
@@ -686,6 +688,8 @@ void Player::PlayerMovement(float max_velocity, float min_velocity)
 				{
 					velocity += {max_velocity, max_velocity};
 				}
+				direction.x += 0.07f;
+				direction.y += 0.07f;
 			}
 			else
 			{
@@ -701,6 +705,7 @@ void Player::PlayerMovement(float max_velocity, float min_velocity)
 				{
 					velocity += {0.00, max_velocity};
 				}
+				direction.y += 0.1f;
 			}
 		}
 		else if (input.Is_Key_Pressed(GLFW_KEY_A))
@@ -723,6 +728,8 @@ void Player::PlayerMovement(float max_velocity, float min_velocity)
 				{
 					velocity += {-min_velocity, -min_velocity};
 				}
+				direction.x -= 0.07f;
+				direction.y -= 0.07f;
 			}
 			else
 			{
@@ -738,6 +745,7 @@ void Player::PlayerMovement(float max_velocity, float min_velocity)
 				{
 					velocity.y -= velocity.y / 100;
 				}
+				direction.x -= 0.1f;
 			}
 		}
 		else if (input.Is_Key_Pressed(GLFW_KEY_S))
@@ -760,6 +768,8 @@ void Player::PlayerMovement(float max_velocity, float min_velocity)
 				{
 					velocity += {max_velocity, -min_velocity};
 				}
+				direction.x += 0.07f;
+				direction.y -= 0.07f;
 			}
 			else
 			{
@@ -775,6 +785,7 @@ void Player::PlayerMovement(float max_velocity, float min_velocity)
 				{
 					velocity.y += -min_velocity;
 				}
+				direction.y -= 0.1f;
 			}
 		}
 		else if (input.Is_Key_Pressed(GLFW_KEY_D))
@@ -791,11 +802,19 @@ void Player::PlayerMovement(float max_velocity, float min_velocity)
 			{
 				velocity.y -= velocity.y / 100;
 			}
+			direction.x += 0.1f;
 		}
 		else
 		{
 			velocity += {-velocity.x / 100, -velocity.y / 100};
 		}
+		float angle = RadianToDegree(angle_between({ 0,1 }, direction));
+		if (direction.x >= 0)
+		{
+			angle *= -1;
+		}
+		m_owner->SetRotation(angle);
+		direction = normalize(direction);
 
 	}
 	else if (m_owner->GetName() == "third")
@@ -820,6 +839,8 @@ void Player::PlayerMovement(float max_velocity, float min_velocity)
 				{
 					velocity += {-min_velocity, max_velocity};
 				}
+				direction.x -= 0.07f;
+				direction.y += 0.07f;
 			}
 			else if (input.Is_Key_Pressed(GLFW_KEY_UP) && input.Is_Key_Pressed(GLFW_KEY_RIGHT))
 			{
@@ -839,6 +860,8 @@ void Player::PlayerMovement(float max_velocity, float min_velocity)
 				{
 					velocity += {max_velocity, max_velocity};
 				}
+				direction.x += 0.07f;
+				direction.y += 0.07f;
 			}
 			else
 			{
@@ -854,6 +877,7 @@ void Player::PlayerMovement(float max_velocity, float min_velocity)
 				{
 					velocity += {0.00, max_velocity};
 				}
+				direction.y += 0.1f;
 			}
 		}
 		else if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
@@ -876,6 +900,8 @@ void Player::PlayerMovement(float max_velocity, float min_velocity)
 				{
 					velocity += {-min_velocity, -min_velocity};
 				}
+				direction.x -= 0.07f;
+				direction.y -= 0.07f;
 			}
 			else
 			{
@@ -891,6 +917,7 @@ void Player::PlayerMovement(float max_velocity, float min_velocity)
 				{
 					velocity.y -= velocity.y / 100;
 				}
+				direction.x -= 0.1f;
 			}
 		}
 		else if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
@@ -913,6 +940,8 @@ void Player::PlayerMovement(float max_velocity, float min_velocity)
 				{
 					velocity += {max_velocity, -min_velocity};
 				}
+				direction.x += 0.07f;
+				direction.y -= 0.07f;
 			}
 			else
 			{
@@ -928,6 +957,7 @@ void Player::PlayerMovement(float max_velocity, float min_velocity)
 				{
 					velocity.y += -min_velocity;
 				}
+				direction.y -= 0.1f;
 			}
 		}
 		else if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
@@ -944,11 +974,19 @@ void Player::PlayerMovement(float max_velocity, float min_velocity)
 			{
 				velocity.y -= velocity.y / 100;
 			}
+			direction.x += 0.1f;
 		}
 		else
 		{
 			velocity += {-velocity.x / 100, -velocity.y / 100};
 		}
+		float angle = RadianToDegree(angle_between({ 0,1 }, direction));
+		if (direction.x >= 0)
+		{
+			angle *= -1;
+		}
+		m_owner->SetRotation(angle);
+		direction = normalize(direction);
 	}
 	else if (m_owner->GetName() == "fourth")
 	{
@@ -1114,229 +1152,6 @@ void Player::SetPlayerVelocity(vector2 current_velocity)
 vector2 Player::GetPlayerVelocity()
 {
 	return velocity;
-}
-
-void Player::PlayerDirecting()
-{
-
-	float RightThumbStateX = gamepadManager->RightStick_X();
-	float RightThumbStateY = gamepadManager->RightStick_Y();
-
-	if (m_owner->Get_Name() == "first")
-	{
-		if (RightThumbStateX > 0)
-		{
-			if (RightThumbStateY > 0)
-			{
-				direction.x += 0.03f;
-				direction.y += 0.03f;
-			}
-			else if (RightThumbStateY < 0)
-			{
-				direction.x += 0.03f;
-				direction.y -= 0.03f;
-			}
-			else
-			{
-				direction.x += 0.045f;
-			}
-		}
-		else if (RightThumbStateX < 0)
-		{
-			if (RightThumbStateY > 0)
-			{
-				direction.x -= 0.03f;
-				direction.y += 0.03f;
-			}
-			else if (RightThumbStateY < 0)
-			{
-				direction.x -= 0.03f;
-				direction.y -= 0.03f;
-			}
-			else
-			{
-				direction.x -= 0.045f;
-			}
-		}
-		else if (RightThumbStateY < 0)
-		{
-			direction.y -= 0.045f;
-		}
-		else if (RightThumbStateY > 0)
-		{
-			direction.y += 0.045f;
-		}
-
-		float angle = RadianToDegree(angle_between({ 0,1 }, direction));
-		if (direction.x >= 0)
-		{
-			angle *= -1;
-		}
-		m_owner->SetRotation(angle);
-		direction = normalize(direction);
-
-	}
-	else if (m_owner->Get_Name() == "second")
-	{
-		if (input.Is_Key_Pressed(GLFW_KEY_K))
-		{
-			if (input.Is_Key_Pressed(GLFW_KEY_P))
-			{
-				direction.x += 0.03f;
-				direction.y += 0.03f;
-			}
-			else if (input.Is_Key_Pressed(GLFW_KEY_U))
-			{
-				direction.x += 0.03f;
-				direction.y -= 0.03f;
-			}
-			else
-			{
-				direction.x += 0.045f;
-			}
-		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_H))
-		{
-			if (input.Is_Key_Pressed(GLFW_KEY_U))
-			{
-				direction.x -= 0.03f;
-				direction.y += 0.03f;
-			}
-			else if (input.Is_Key_Pressed(GLFW_KEY_J))
-			{
-				direction.x -= 0.03f;
-				direction.y -= 0.03f;
-			}
-			else
-			{
-				direction.x -= 0.045f;
-			}
-		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_J))
-		{
-			direction.y -= 0.045f;
-		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_U))
-		{
-			direction.y += 0.045f;
-		}
-
-		float angle = RadianToDegree(angle_between({ 0,1 }, direction));
-		if (direction.x >= 0)
-		{
-			angle *= -1;
-		}
-		m_owner->SetRotation(angle);
-		direction = normalize(direction);
-	}
-	else if (m_owner->Get_Name() == "third")
-	{
-		if (input.Is_Key_Pressed(GLFW_KEY_KP_6))
-		{
-			if (input.Is_Key_Pressed(GLFW_KEY_KP_8))
-			{
-				direction.x += 0.03f;
-				direction.y += 0.03f;
-			}
-			else if (input.Is_Key_Pressed(GLFW_KEY_KP_5))
-			{
-				direction.x += 0.03f;
-				direction.y -= 0.03f;
-			}
-			else
-			{
-				direction.x += 0.045f;
-			}
-		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_KP_4))
-		{
-			if (input.Is_Key_Pressed(GLFW_KEY_KP_8))
-			{
-				direction.x -= 0.03f;
-				direction.y += 0.03f;
-			}
-			else if (input.Is_Key_Pressed(GLFW_KEY_KP_5))
-			{
-				direction.x -= 0.03f;
-				direction.y -= 0.03f;
-			}
-			else
-			{
-				direction.x -= 0.045f;
-			}
-		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_KP_5))
-		{
-			direction.y -= 0.045f;
-		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_KP_8))
-		{
-			direction.y += 0.045f;
-		}
-
-		float angle = RadianToDegree(angle_between({ 0,1 }, direction));
-		if (direction.x >= 0)
-		{
-			angle *= -1;
-		}
-		m_owner->SetRotation(angle);
-		direction = normalize(direction);
-	}
-	else if (m_owner->Get_Name() == "fourth")
-	{
-		if (input.Is_Key_Pressed(GLFW_KEY_H))
-		{
-			if (input.Is_Key_Pressed(GLFW_KEY_T))
-			{
-				direction.x += 0.03f;
-				direction.y += 0.03f;
-			}
-			else if (input.Is_Key_Pressed(GLFW_KEY_G))
-			{
-				direction.x += 0.03f;
-				direction.y -= 0.03f;
-			}
-			else
-			{
-				direction.x += 0.045f;
-			}
-		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_F))
-		{
-			if (input.Is_Key_Pressed(GLFW_KEY_T))
-			{
-				direction.x -= 0.03f;
-				direction.y += 0.03f;
-			}
-			else if (input.Is_Key_Pressed(GLFW_KEY_G))
-			{
-				direction.x -= 0.03f;
-				direction.y -= 0.03f;
-			}
-			else
-			{
-				direction.x -= 0.045f;
-			}
-		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_G))
-		{
-			direction.y -= 0.045f;
-		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_T))
-		{
-			direction.y += 0.045f;
-		}
-
-		float angle = RadianToDegree(angle_between({ 0,1 }, direction));
-		if (direction.x >= 0)
-		{
-			angle *= -1;
-		}
-		m_owner->SetRotation(angle);
-		direction = normalize(direction);
-	}
-
-
 }
 
 vector2 Player::GetPlayerDirection()

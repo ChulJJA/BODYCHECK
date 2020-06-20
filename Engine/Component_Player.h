@@ -93,7 +93,6 @@ public:
 	void PlayerMovement(float max_velocity, float min_velocity);
 	void SetPlayerVelocity(vector2 current_velocity);
 	vector2 GetPlayerVelocity();
-	void PlayerDirecting();
 	vector2 GetPlayerDirection();
 	void UseItem();
 	void Set_Missile_Timer(float timer);
