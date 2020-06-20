@@ -32,7 +32,7 @@ public:
     virtual void Update(float dt);
     virtual void UnLoad();
 
-    //void Pause();
+
     void Pause();
     void Clear();
 

@@ -128,8 +128,18 @@ public:
     {
         return win_player;
     }
+    void Incre_Curr_Item_Field_Num()
+    {
+        curr_field_num++;
+    }
+    void Decre_Curr_Item_Field_Num()
+    {
+        curr_field_num--;
+    }
 
     void Set_Timer();
+    void Reset_Variables();
+    void Reset_Item_Variables();
 
 private:
     Referee();
@@ -168,7 +178,7 @@ private:
 	Object** missile_saving = nullptr;
     float item_respawn_timer = 3.0f;
 	
-    int item_num = 10;
+    int item_num = 1;
     int item_num_heal = 10;
     int item_num_dash = 10;
     int item_num_bulk_up = 10;
@@ -179,7 +189,7 @@ private:
 	int item_num_missile = 10;
 	int missile_num = 50;
     int item_num_mine = 10;
-
+    int curr_field_num = 0;
     int total_item_num = 30;
 	int missile_count = 0;
 

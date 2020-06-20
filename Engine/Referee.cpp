@@ -104,6 +104,52 @@ void Referee::Set_Timer()
 	ObjectManager::GetObjectManager()->AddObject(timer_start);
 }
 
+void Referee::Reset_Variables()
+{
+	player_second_respawn_timer = 3.0f;
+	player_first_respawn_timer = 3.0f;
+	player_third_respawn_timer = 3.0f;
+	player_fourth_respawn_timer = 3.0f;
+	player_sec_temp = nullptr;
+	player_first_temp = nullptr;
+	player_third_temp = nullptr;
+	player_fourth_temp = nullptr;
+	missile_saving = nullptr;
+	item_respawn_timer = 3.0f;
+	missile_num = 50;
+	missile_count = 0;
+	win_player = nullptr;
+	win = false;
+	player_dance_time = 0.f;
+
+	Reset_Item_Variables();
+}
+
+void Referee::Reset_Item_Variables()
+{
+	item_dash = nullptr;
+	item_heal = nullptr;
+	item_bulk_up = nullptr;
+	item_throwing = nullptr;
+	item_magnetic = nullptr;
+	item_time_pause = nullptr;
+	item_reverse_moving = nullptr;
+	item_missile = nullptr;
+	item_mine = nullptr;
+	item_num = 1;
+	item_num_heal = item_num;
+	item_num_dash = item_num;
+	item_num_bulk_up = item_num;
+	item_num_throwing = item_num;
+	item_num_magnetic = item_num;
+	item_num_time_pause = item_num;
+	item_num_reverse_moving = item_num;
+	item_num_missile = item_num;
+	item_num_mine = item_num;
+	total_item_num = item_num * 8;
+	curr_field_num = 0;
+}
+
 Referee::Referee()
 {
 
@@ -140,41 +186,8 @@ Referee* Referee::Get_Referee()
 
 void Referee::Init()
 {
-	player_second_respawn_timer = 3.0f;
-	player_first_respawn_timer = 3.0f;
-	player_third_respawn_timer = 3.0f;
-	player_fourth_respawn_timer = 3.0f;
-	player_sec_temp = nullptr;
-	player_first_temp = nullptr;
-	player_third_temp = nullptr;
-	player_fourth_temp = nullptr;
-	item_dash = nullptr;
-	item_heal = nullptr;
-	item_bulk_up = nullptr;
-	item_throwing = nullptr;
-	item_magnetic = nullptr;
-	item_time_pause = nullptr;
-	item_reverse_moving = nullptr;
-	item_missile = nullptr;
-	item_mine = nullptr;
-	missile_saving = nullptr;
-	item_respawn_timer = 3.0f;
-	item_num = 10;
-	item_num_heal = 10;
-	item_num_dash = 10;
-	item_num_bulk_up = 10;
-	item_num_throwing = 10;
-	item_num_magnetic = 10;
-	item_num_time_pause = 10;
-	item_num_reverse_moving = 10;
-	item_num_missile = 10;
-	missile_num = 50;
-	item_num_mine = 10;
-	total_item_num = 30;
-	missile_count = 0;
-	win_player = nullptr;
-	win = false;
-	player_dance_time = 0.f;
+	Clear_Referee();
+	Reset_Variables();
 
 	state_manager = StateManager::GetStateManager();
 	if (state_manager->GetCurrentState()->GetStateInfo() == GameState::Game)
@@ -197,7 +210,7 @@ void Referee::Init()
 	}
 
 
-	Clear_Referee();
+
 
 	stage_statements.clear();
 	missile_saving = new Object * [missile_num];
@@ -239,6 +252,12 @@ void Referee::Update(float dt)
 	}
 
 	Win(dt);
+
+	if (total_item_num <= 0)
+	{
+		Reset_Item_Variables();
+		SetItem();
+	}
 }
 
 void Referee::Delete()
@@ -654,7 +673,7 @@ void Referee::Respawn_Item(float dt)
 
 	Object* spawn_obj = nullptr;
 
-	if (item_respawn_timer <= 0.0f && total_item_num > 0)
+	if (item_respawn_timer <= 0.0f && total_item_num > 0 && curr_field_num <= 3)
 	{
 		if (item == Item::Item_Kind::Dash)
 		{
@@ -664,39 +683,31 @@ void Referee::Respawn_Item(float dt)
 				item_num_dash--;
 			}
 		}
-		//else if (item == Item::Item_Kind::HP)
-		//{
-		//	if (item_num_heal > 0)
-		//	{
-		//		spawn_obj = item_heal[item_num_heal - 1];
-		//		item_num_heal--;
-		//	}
-		//}
-		//else if (item == Item::Item_Kind::Bulkup)
-		//{
-		//	if (item_num_bulk_up > 0)
-		//	{
-		//		spawn_obj = item_bulk_up[item_num_bulk_up - 1];
-		//		item_num_bulk_up--;
-		//	}
+		else if (item == Item::Item_Kind::HP)
+		{
+			if (item_num_heal > 0)
+			{
+				spawn_obj = item_heal[item_num_heal - 1];
+				item_num_heal--;
+			}
+		}
+		else if (item == Item::Item_Kind::Bulkup)
+		{
+			if (item_num_bulk_up > 0)
+			{
+				spawn_obj = item_bulk_up[item_num_bulk_up - 1];
+				item_num_bulk_up--;
+			}
 
-		//}
-		//else if (item == Item::Item_Kind::Throwing)
-		//{
-		//	if (item_num_throwing > 0)
-		//	{
-		//		spawn_obj = item_throwing[item_num_throwing - 1];
-		//		item_num_throwing--;
-		//	}
-		//}
-		//else if (item == Item::Item_Kind::Magnatic)
-		//{
-		//	if (item_num_magnetic > 0)
-		//	{
-		//		//spawn_obj = item_magnetic[item_num_magnetic - 1];
-		//		//item_num_magnetic--;
-		//	}
-		//}
+		}
+		else if (item == Item::Item_Kind::Throwing)
+		{
+			if (item_num_throwing > 0)
+			{
+				spawn_obj = item_throwing[item_num_throwing - 1];
+				item_num_throwing--;
+			}
+		}
 		else if (item == Item::Item_Kind::Time_Pause)
 		{
 			if (item_num_time_pause > 0)
@@ -713,32 +724,31 @@ void Referee::Respawn_Item(float dt)
 				item_num_reverse_moving--;
 			}
 		}
-		//else if (item == Item::Item_Kind::Missile)
-		//{
-		//	if (item_num_missile > 0)
-		//	{
-		//		spawn_obj = item_missile[item_num_missile - 1];
-		//		item_num_missile--;
-		//	}
-		//}
-		//else if (item == Item::Item_Kind::Mine)
-		//{
-		//	if (item_num_mine > 0)
-		//	{
-		//		spawn_obj = item_mine[item_num_mine - 1];
-		//		item_num_mine--;
-		//	}
-		//}
+		else if (item == Item::Item_Kind::Missile)
+		{
+			if (item_num_missile > 0)
+			{
+				spawn_obj = item_missile[item_num_missile - 1];
+				item_num_missile--;
+			}
+		}
+		else if (item == Item::Item_Kind::Mine)
+		{
+			if (item_num_mine > 0)
+			{
+				spawn_obj = item_mine[item_num_mine - 1];
+				item_num_mine--;
+			}
+		}
 
 		if (spawn_obj != nullptr)
 		{
-
 			ObjectManager::GetObjectManager()->AddObject(spawn_obj);
 			sound.Play(SOUND::ItemAppear);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(spawn_obj, nullptr, Message_Kind::Spawn_Object, 1.f));
 			total_item_num--;
 			item_respawn_timer = 5.0f;
-
+			curr_field_num++;
 		}
 
 	}
@@ -933,12 +943,10 @@ void Referee::Win(float dt)
 		{
 			if (player_third_life == -1 && win_player != nullptr)
 			{
-				std::cout << "ssibal" << std::endl;
 				ObjectManager::GetObjectManager()->AddObject(second_win);
 			}
 			if (player_sec_life == -1 && win_player != nullptr)
 			{
-				std::cout << "ssibal" << std::endl;
 				ObjectManager::GetObjectManager()->AddObject(third_win);
 			}
 

@@ -27,6 +27,7 @@ void Msg_Func_Collision::Update(float dt)
 	{
 		Component* target_current_sprite = m_target->Get_Current_Sprite();
 		Component* target_item_sprite = m_target->Find_Sprite_By_Type(Sprite_Type::Item);
+		Referee::Get_Referee()->Decre_Curr_Item_Field_Num();
 
 		if (target_current_sprite == target_item_sprite)
 		{
@@ -37,6 +38,7 @@ void Msg_Func_Collision::Update(float dt)
 	{
 		Component* from_current_sprite = m_from->Get_Current_Sprite();
 		Component* from_item_sprite = m_from->Find_Sprite_By_Type(Sprite_Type::Item);
+		Referee::Get_Referee()->Decre_Curr_Item_Field_Num();
 
 		if (from_current_sprite == from_item_sprite)
 		{
@@ -260,8 +262,11 @@ void Msg_Func_Collision::Update(float dt)
 
 			if (!isBgm)
 			{
+				sound.Stop(SOUND::ClockTicking);
 				sound.Play(SOUND::BGM2);
-			}			player_from_info->Change_To_Normal_State();
+
+			}
+			player_from_info->Change_To_Normal_State();
 
 		}
 		else if (player_target_info->Get_Char_State() == Player::Char_State::Time_Pause)
@@ -271,8 +276,10 @@ void Msg_Func_Collision::Update(float dt)
 
 			if (!isBgm)
 			{
+				sound.Stop(SOUND::ClockTicking);
 				sound.Play(SOUND::BGM2);
 			}
+
 			player_target_info->Change_To_Normal_State();
 		}
 
