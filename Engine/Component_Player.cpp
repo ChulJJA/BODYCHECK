@@ -380,7 +380,7 @@ void Player::Func_Mine(float dt)
 		//install_mine->DeleteComponent(install_mine->GetComponentByTemplate<Hp_Bar>());
 		install_mine->SetScale(2.f);
 		install_mine->SetNeedCollision(true);
-		//hp_bar->SetDeadCondition(true);
+		Change_To_Normal_State();
 		ObjectManager::GetObjectManager()->AddObject(install_mine);
 	}
 

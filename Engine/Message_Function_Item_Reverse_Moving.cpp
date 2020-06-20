@@ -53,10 +53,18 @@ void Msg_Func_Item_Reverse_Moving::Init()
 
 			if (info_player->Get_Char_State() == Player::Char_State::None)
 			{
-				Player* get_player = another_players[random_select_character]->GetComponentByTemplate<Player>();
-				get_player->Set_Char_State(Player::Char_State::Reverse_Moving);
+				//Player* get_player = another_players[random_select_character]->GetComponentByTemplate<Player>();
+				//another_players.GetComponentByTemplate();
+				for (auto player : another_players)
+				{
+					Player* get_player = player->GetComponentByTemplate<Player>();
+					get_player->Set_Char_State(Player::Char_State::Reverse_Moving);
+					player->Change_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Player_Reverse_Moving));
+					//another_players[random_select_character]->Change_Sprite(another_players[random_select_character]->Find_Sprite_By_Type(Sprite_Type::Player_Reverse_Moving));
+				}
+				
 
-				another_players[random_select_character]->Change_Sprite(another_players[random_select_character]->Find_Sprite_By_Type(Sprite_Type::Player_Reverse_Moving));
+				
 			}
 			info_player->Change_To_Normal_State();
 
