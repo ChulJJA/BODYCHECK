@@ -85,7 +85,7 @@ public:
 	Object* Get_Locking_Result() const;
 	float Get_Mine_Timer();
 	void Func_Time_Pause(float dt);
-	void Func_Reverse_Moving(float dt) const;
+	void Func_Reverse_Moving(float dt);
 
 	void Func_Mine(float dt);
 	void Func_Mine_Collided(float dt);
