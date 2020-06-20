@@ -74,7 +74,7 @@ private:
     Object* option_button;
     Object* option_button_hover;
 
-    BitmapFont      font{};
+    //BitmapFont      font{};
     bool showing_editor = true;
     bool dt_refreshed = false;
     bool timer_deleted = false;
