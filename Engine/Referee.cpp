@@ -664,39 +664,39 @@ void Referee::Respawn_Item(float dt)
 				item_num_dash--;
 			}
 		}
-		else if (item == Item::Item_Kind::HP)
-		{
-			if (item_num_heal > 0)
-			{
-				spawn_obj = item_heal[item_num_heal - 1];
-				item_num_heal--;
-			}
-		}
-		else if (item == Item::Item_Kind::Bulkup)
-		{
-			if (item_num_bulk_up > 0)
-			{
-				spawn_obj = item_bulk_up[item_num_bulk_up - 1];
-				item_num_bulk_up--;
-			}
+		//else if (item == Item::Item_Kind::HP)
+		//{
+		//	if (item_num_heal > 0)
+		//	{
+		//		spawn_obj = item_heal[item_num_heal - 1];
+		//		item_num_heal--;
+		//	}
+		//}
+		//else if (item == Item::Item_Kind::Bulkup)
+		//{
+		//	if (item_num_bulk_up > 0)
+		//	{
+		//		spawn_obj = item_bulk_up[item_num_bulk_up - 1];
+		//		item_num_bulk_up--;
+		//	}
 
-		}
-		else if (item == Item::Item_Kind::Throwing)
-		{
-			if (item_num_throwing > 0)
-			{
-				spawn_obj = item_throwing[item_num_throwing - 1];
-				item_num_throwing--;
-			}
-		}
-		else if (item == Item::Item_Kind::Magnatic)
-		{
-			if (item_num_magnetic > 0)
-			{
-				//spawn_obj = item_magnetic[item_num_magnetic - 1];
-				//item_num_magnetic--;
-			}
-		}
+		//}
+		//else if (item == Item::Item_Kind::Throwing)
+		//{
+		//	if (item_num_throwing > 0)
+		//	{
+		//		spawn_obj = item_throwing[item_num_throwing - 1];
+		//		item_num_throwing--;
+		//	}
+		//}
+		//else if (item == Item::Item_Kind::Magnatic)
+		//{
+		//	if (item_num_magnetic > 0)
+		//	{
+		//		//spawn_obj = item_magnetic[item_num_magnetic - 1];
+		//		//item_num_magnetic--;
+		//	}
+		//}
 		else if (item == Item::Item_Kind::Time_Pause)
 		{
 			if (item_num_time_pause > 0)
@@ -713,22 +713,22 @@ void Referee::Respawn_Item(float dt)
 				item_num_reverse_moving--;
 			}
 		}
-		else if (item == Item::Item_Kind::Missile)
-		{
-			if (item_num_missile > 0)
-			{
-				spawn_obj = item_missile[item_num_missile - 1];
-				item_num_missile--;
-			}
-		}
-		else if (item == Item::Item_Kind::Mine)
-		{
-			if (item_num_mine > 0)
-			{
-				spawn_obj = item_mine[item_num_mine - 1];
-				item_num_mine--;
-			}
-		}
+		//else if (item == Item::Item_Kind::Missile)
+		//{
+		//	if (item_num_missile > 0)
+		//	{
+		//		spawn_obj = item_missile[item_num_missile - 1];
+		//		item_num_missile--;
+		//	}
+		//}
+		//else if (item == Item::Item_Kind::Mine)
+		//{
+		//	if (item_num_mine > 0)
+		//	{
+		//		spawn_obj = item_mine[item_num_mine - 1];
+		//		item_num_mine--;
+		//	}
+		//}
 
 		if (spawn_obj != nullptr)
 		{
