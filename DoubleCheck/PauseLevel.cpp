@@ -59,8 +59,12 @@ void PauseLevel::Clear()
 	backButtonHover->SetDeadCondition(true);
 	background->SetDeadCondition(true);
 
-	Message_Manager::Get_Message_Manager()->Get_Messages().clear();
-	ObjectManager::GetObjectManager()->Get_Objects().clear();
+	if(pointer == static_cast<int>(BUTTON::RESTART) || pointer == static_cast<int>(BUTTON::MAINMENU))
+	{
+		Message_Manager::Get_Message_Manager()->Get_Messages().clear();
+		ObjectManager::GetObjectManager()->Get_Objects().clear();
+	}
+
 }
 
 void PauseLevel::Background()
@@ -234,18 +238,19 @@ void PauseLevel::ButtonSelector()
 
 void PauseLevel::ButtonBehavior()
 {
+	const float currentBGM_Volume = sound.GetSoundGroupVolume(true);
 	if(pointer == static_cast<int>(BUTTON::RESTART) && input.Is_Key_Pressed(GLFW_KEY_SPACE))
 	{
 		FMOD_BOOL isPlaying;
 		FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlaying);
 		sound.Play(SOUND::Selected);
+		sound.SetSoundGroupVolume(true, currentBGM_Volume * 3);
 		Sleep(800);
 		if (isPlaying == true)
 		{
 			sound.Stop(SOUND::BGM2);
 			sound.UnLoad();
 		}
-
 		object_manager->Clear();
 		is_next = true;
 		next_level = "Level1";
@@ -282,6 +287,7 @@ void PauseLevel::ButtonBehavior()
 	}
 	else if(pointer == static_cast<int>(BUTTON::BACK) && input.Is_Key_Pressed(GLFW_KEY_SPACE))
 	{
+		sound.SetSoundGroupVolume(true, currentBGM_Volume * 3);
 		sound.Play(SOUND::Selected);
 		state_manager->BackToLevel();
 		Clear();
