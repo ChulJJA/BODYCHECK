@@ -262,8 +262,11 @@ void Msg_Func_Collision::Update(float dt)
 
 			if (!isBgm)
 			{
+				sound.Stop(SOUND::ClockTicking);
 				sound.Play(SOUND::BGM2);
-			}			player_from_info->Change_To_Normal_State();
+
+			}
+			player_from_info->Change_To_Normal_State();
 
 		}
 		else if (player_target_info->Get_Char_State() == Player::Char_State::Time_Pause)
@@ -273,8 +276,10 @@ void Msg_Func_Collision::Update(float dt)
 
 			if (!isBgm)
 			{
+				sound.Stop(SOUND::ClockTicking);
 				sound.Play(SOUND::BGM2);
 			}
+
 			player_target_info->Change_To_Normal_State();
 		}
 

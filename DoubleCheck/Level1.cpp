@@ -317,7 +317,6 @@ void Level1::Pause()
 void Level1::Clear()
 {
 	Message_Manager::Get_Message_Manager()->Get_Messages().clear();
-	//object_manager->Clear();
 	ObjectManager::GetObjectManager()->Get_Objects().clear();
 
 	if (editor != nullptr)
