@@ -71,4 +71,7 @@ private:
 
     vector2 player_sec_pos{ -800.f, 0.f };
     vector2 player_third_pos{ 800.f, 0.f };
+
+    Object* pointer1;
+    Object* pointer2;
 };

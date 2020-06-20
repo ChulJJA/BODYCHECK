@@ -196,7 +196,23 @@ void MainMenu::SetPlayButton()
 	play_button->AddComponent(new Physics());
 	play_button->SetNeedCollision(true);
 	ObjectManager::GetObjectManager()->AddObject(play_button);
+	
+	pointer1 = new Object();
+	pointer1->Set_Name("pointer1");
+	pointer1->Set_Tag("pointer");
+	pointer1->AddComponent(new Sprite(pointer1, "../Sprite/Player/State/pen_blue2_dance.png", true, 15, 7, { -250,100 }, { 100.f,100.f },
+		{ 255,255,255,255 }, Sprite_Type::Player_Dance), "dance", true);
+	pointer1->GetTransform().SetScale({ 2, 2 });
+	ObjectManager::GetObjectManager()->AddObject(pointer1);
 
+	pointer2 = new Object();
+	pointer2->Set_Name("pointer2");
+	pointer2->Set_Tag("pointer");
+	pointer2->AddComponent(new Sprite(pointer2, "../Sprite/Player/State/pen_blue2_dance.png", true, 15, 7, { 350,100 }, { 100.f,100.f },
+		{ 255,255,255,255 }, Sprite_Type::Player_Dance), "dance", true);
+	pointer2->GetTransform().SetScale({ 2, 2 });
+	ObjectManager::GetObjectManager()->AddObject(pointer2);
+	
 	//play_button_hover = new Object();
 	//play_button_hover->Set_Name("play_button_hover");
 	//play_button_hover->Set_Tag("button");
@@ -303,12 +319,16 @@ void MainMenu::ButtonSelector()
 			sound.Play(SOUND::Click);
 			//ObjectHover(play_button, play_button_hover);
 			play_button->Change_Sprite(play_button->Find_Sprite_By_Type(Sprite_Type::Button_Hover));
+			pointer1->SetTranslation({ -250,100 });
+			pointer2->SetTranslation({ 350,100 });
 		}
 		else if (pointer == static_cast<int>(BUTTON::TUTORIAL))
 		{
 			sound.Play(SOUND::Click);
 			play_button->Change_Sprite(play_button->Find_Sprite_By_Type(Sprite_Type::Button));
 			tutorial_button->Change_Sprite(tutorial_button->Find_Sprite_By_Type(Sprite_Type::Button_Hover));
+			pointer1->SetTranslation({ -250,-150 });
+			pointer2->SetTranslation({ 350,-150 });
 			//ObjectHover(tutorial_button, tutorial_button_hover);
 			//ObjectHover(play_button_hover, play_button);
 		}
@@ -319,6 +339,8 @@ void MainMenu::ButtonSelector()
 			//ObjectHover(tutorial_button_hover, tutorial_button);
 			tutorial_button->Change_Sprite(tutorial_button->Find_Sprite_By_Type(Sprite_Type::Button));
 			music_button->Change_Sprite(music_button->Find_Sprite_By_Type(Sprite_Type::Button_Hover));
+			pointer1->SetTranslation({ -250,-400 });
+			pointer2->SetTranslation({ 350,-400 });
 		}
 		else if (pointer == static_cast<int>(BUTTON::TEST))
 		{
@@ -328,6 +350,8 @@ void MainMenu::ButtonSelector()
 
 			music_button->Change_Sprite(music_button->Find_Sprite_By_Type(Sprite_Type::Button));
 			test_button->Change_Sprite(test_button->Find_Sprite_By_Type(Sprite_Type::Button_Hover));
+			pointer1->SetTranslation({ -250,-650 });
+			pointer2->SetTranslation({ 350,-650 });
 		}
 		else if (pointer > 3)
 		{
@@ -344,7 +368,8 @@ void MainMenu::ButtonSelector()
 			sound.Play(SOUND::Click);
 			tutorial_button->Change_Sprite(tutorial_button->Find_Sprite_By_Type(Sprite_Type::Button));
 			play_button->Change_Sprite(play_button->Find_Sprite_By_Type(Sprite_Type::Button_Hover));
-
+			pointer1->SetTranslation({ -250,100 });
+			pointer2->SetTranslation({ 350,100 });
 			//ObjectHover(play_button, play_button_hover);
 			//ObjectHover(tutorial_button_hover, tutorial_button);
 		}
@@ -356,6 +381,8 @@ void MainMenu::ButtonSelector()
 
 			music_button->Change_Sprite(music_button->Find_Sprite_By_Type(Sprite_Type::Button));
 			tutorial_button->Change_Sprite(tutorial_button->Find_Sprite_By_Type(Sprite_Type::Button_Hover));
+			pointer1->SetTranslation({ -250,-150 });
+			pointer2->SetTranslation({ 350,-150 });
 		}
 		else if (pointer == static_cast<int>(BUTTON::MUSIC))
 		{
@@ -365,12 +392,16 @@ void MainMenu::ButtonSelector()
 
 			test_button->Change_Sprite(test_button->Find_Sprite_By_Type(Sprite_Type::Button));
 			music_button->Change_Sprite(music_button->Find_Sprite_By_Type(Sprite_Type::Button_Hover));
+			pointer1->SetTranslation({ -250,-400 });
+			pointer2->SetTranslation({ 350,-400 });
 		}
 		else if (pointer == static_cast<int>(BUTTON::TEST))
 		{
 			sound.Play(SOUND::Click);
 			/*ObjectHover(test_button, test_button_hover);*/
 			test_button->Change_Sprite(test_button->Find_Sprite_By_Type(Sprite_Type::Button_Hover));
+			pointer1->SetTranslation({ -250,-650 });
+			pointer2->SetTranslation({ 350,-650 });
 		}
 		else if (pointer < 0)
 		{
