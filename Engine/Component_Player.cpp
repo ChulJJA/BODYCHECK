@@ -323,6 +323,7 @@ void Player::Func_Time_Pause(float dt)
 
 		if (!isBgm)
 		{
+			sound.Stop(SOUND::ClockTicking);
 			sound.Play(SOUND::BGM2);
 		}
 		curr_state = Char_State::None;

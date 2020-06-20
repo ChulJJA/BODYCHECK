@@ -46,6 +46,7 @@ enum class SOUND
 	MineAlarm,
 	FingerSnap,
 	DemonLaugh,
+	ClockTicking,
 	END
 };
 
