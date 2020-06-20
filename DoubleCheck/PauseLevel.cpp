@@ -59,8 +59,8 @@ void PauseLevel::Clear()
 	backButtonHover->SetDeadCondition(true);
 	background->SetDeadCondition(true);
 
-	Message_Manager::Get_Message_Manager()->Get_Messages().clear();
-	ObjectManager::GetObjectManager()->Get_Objects().clear();
+	//Message_Manager::Get_Message_Manager()->Get_Messages().clear();
+	//ObjectManager::GetObjectManager()->Get_Objects().clear();
 }
 
 void PauseLevel::Background()
