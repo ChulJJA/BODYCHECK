@@ -189,8 +189,8 @@ void MainMenu::SetPlayButton()
 	play_button->Set_Name("play_button");
 	play_button->Set_Tag("button");
 	play_button->AddComponent(new Component_Button());
-	play_button->AddComponent(new Sprite(play_button, "../Sprite/PlayButton.png", { 0, 100 }, false, Sprite_Type::Button), "button", true);
-	play_button->AddComponent(new Sprite(play_button, "../Sprite/PlayButtonHover.png", { 0, 100 }, false, Sprite_Type::Button_Hover),"hover", false);
+	play_button->AddComponent(new Sprite(play_button, "../Sprite/PlayButton.png", { 50, 100 }, false, Sprite_Type::Button), "button", true);
+	play_button->AddComponent(new Sprite(play_button, "../Sprite/PlayButtonHover.png", { 50, 100 }, false, Sprite_Type::Button_Hover),"hover", false);
 	//play_button->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
 	play_button->GetTransform().SetScale({ 5, 5 });
 	play_button->AddComponent(new Physics());
@@ -214,8 +214,8 @@ void MainMenu::SetTutorialButton()
 	tutorial_button->Set_Name("tutorial_button");
 	tutorial_button->Set_Tag("button");
 	tutorial_button->AddComponent(new Component_Button());
-	tutorial_button->AddComponent(new Sprite(tutorial_button, "../Sprite/TutorialButton.png", { 0, -150 }, false, Sprite_Type::Button), "button", true);
-	tutorial_button->AddComponent(new Sprite(tutorial_button, "../Sprite/TutorialButtonHover.png", { 0, -150 }, false, Sprite_Type::Button_Hover), "hover", false);
+	tutorial_button->AddComponent(new Sprite(tutorial_button, "../Sprite/TutorialButton.png", { 50, -150 }, false, Sprite_Type::Button), "button", true);
+	tutorial_button->AddComponent(new Sprite(tutorial_button, "../Sprite/TutorialButtonHover.png", { 50, -150 }, false, Sprite_Type::Button_Hover), "hover", false);
 	tutorial_button->GetTransform().SetScale({ 5, 5 });
 	tutorial_button->SetNeedCollision(true);
 	tutorial_button->AddComponent(new Physics());
@@ -241,8 +241,8 @@ void MainMenu::SetMusicButton()
 	music_button->Set_Name("music_button");
 	music_button->Set_Tag("button");
 	music_button->AddComponent(new Component_Button());
-	music_button->AddComponent(new Sprite(music_button, "../Sprite/MusicButton_.png", { 0, -400 }, false, Sprite_Type::Button), "button", true);
-	music_button->AddComponent(new Sprite(music_button, "../Sprite/MusicButtonHover_.png", { 0, -400 }, false, Sprite_Type::Button_Hover), "hover", false);
+	music_button->AddComponent(new Sprite(music_button, "../Sprite/MusicButton_.png", { 50, -400 }, false, Sprite_Type::Button), "button", true);
+	music_button->AddComponent(new Sprite(music_button, "../Sprite/MusicButtonHover_.png", { 50, -400 }, false, Sprite_Type::Button_Hover), "hover", false);
 	music_button->GetTransform().SetScale({ 5, 5 });
 	music_button->SetNeedCollision(true);
 	music_button->AddComponent(new Physics());
@@ -269,8 +269,8 @@ void MainMenu::SetTestLevelButton()
 	test_button->Set_Tag("button");
 	test_button->AddComponent(new Component_Button());
 
-	test_button->AddComponent(new Sprite(test_button, "../Sprite/TestButton.png", { 0, -650 }, false, Sprite_Type::Button), "button", true);
-	test_button->AddComponent(new Sprite(test_button, "../Sprite/TestButtonHover.png", { 0, -650 }, false, Sprite_Type::Button_Hover), "button", false);
+	test_button->AddComponent(new Sprite(test_button, "../Sprite/TestButton.png", { 50, -650 }, false, Sprite_Type::Button), "button", true);
+	test_button->AddComponent(new Sprite(test_button, "../Sprite/TestButtonHover.png", { 50, -650 }, false, Sprite_Type::Button_Hover), "button", false);
 	test_button->GetTransform().SetScale({ 5, 5 });
 	test_button->SetNeedCollision(true);
 	test_button->AddComponent(new Physics());
