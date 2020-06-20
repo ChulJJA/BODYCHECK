@@ -68,7 +68,7 @@ public:
         return next_level;
     }
 
-	Object* Make_Player(std::string name, std::string tag, std::string sprite_path, vector2 pos, vector2 scale);
+	Object* Make_Player(std::string name, std::string tag, std::string sprite_path, vector2 pos, vector2 scale, bool is_main_menu = false);
 	PLAYER_UI* Make_Set_Ui(std::string name, std::string tag, std::string sprite_path, vector2 pos, vector2 scale, Object* player);
 	Object* Make_Set_Text(std::string name, std::string tag, vector2 pos, Object* player, Color4f color, vector2 size, BitmapFont* font);
     bool is_pause = false;

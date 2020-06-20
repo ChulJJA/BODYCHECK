@@ -22,7 +22,7 @@ void Msg_Func_Item_Time_Pause::Init()
 
 		info_player->Set_Prepare_Timer(1.f);
 		info_player->Set_Char_State(Player::Char_State::Prepare);
-
+		info_player->Set_Item_State(Item::Item_Kind::None);
 		obj->Change_Sprite(obj->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Timestop));
 		sound.Play(SOUND::TimePause);
 		FMOD_Channel_IsPlaying(sound.channel[1], &isBgm);

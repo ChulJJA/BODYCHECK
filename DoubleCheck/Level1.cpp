@@ -58,8 +58,12 @@ void Level1::Load()
 		}
 	);
 
+	showing_editor = true;
 	dt_refreshed = false;
 	timer_deleted = false;
+	prev_timer = nullptr;
+	arena = nullptr;
+
 	current_state = GameState::Game;
 	transition_timer = 4.9f;
 	referee = Referee::Get_Referee();
@@ -281,5 +285,7 @@ void Level1::Pause()
 
 void Level1::Clear()
 {
-	object_manager->Clear();
+	Message_Manager::Get_Message_Manager()->Get_Messages().clear();
+	//object_manager->Clear();
+	ObjectManager::GetObjectManager()->Get_Objects().clear();
 }

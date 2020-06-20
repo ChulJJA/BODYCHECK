@@ -47,6 +47,7 @@ public:
     void SetMusicButton();
     void SetTestLevelButton();
     void ButtonSelector();
+    void Set_Player_Button();
 	
 private:
     int pointer;
@@ -60,4 +61,14 @@ private:
     Object* music_button_hover;
     Object* test_button;
     Object* test_button_hover;
+
+    Object* player_1_button;
+    Object* player_2_button;
+    bool p_1_selected = false;
+    bool p_2_selected = false;
+    Object* player_sec;
+    Object* player_third;
+
+    vector2 player_sec_pos{ -800.f, 0.f };
+    vector2 player_third_pos{ 800.f, 0.f };
 };

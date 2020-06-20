@@ -54,12 +54,14 @@ void Msg_Func_Item_Throwing::Update(float dt)
 			throwing->SetScale(5.f);
 			throwing->SetNeedCollision(true);
 			ObjectManager::GetObjectManager()->AddObject(throwing);
+			info_player->Change_To_Normal_State();
 
 			m_target->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing)->Set_Need_Update(false);
 			msg->Set_Should_Delete(true);
 		}
 		else if(info_player->Get_Char_State() == Player::Char_State::None)
 		{
+			info_player->Change_To_Normal_State();
 			m_target->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing)->Set_Need_Update(false);
 			msg->Set_Should_Delete(true);
 		}

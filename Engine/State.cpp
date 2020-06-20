@@ -8,7 +8,7 @@
 #include "Component_Text.h"
 
 
-Object* State::Make_Player(std::string name, std::string tag, std::string sprite_path, vector2 pos, vector2 scale)
+Object* State::Make_Player(std::string name, std::string tag, std::string sprite_path, vector2 pos, vector2 scale, bool is_main_menu)
 {
 	std::string path_to_player_state = "../Sprite/Player/State/";
 	std::string path_to_player_item_effect = "../Sprite/Player/Item_Effect/";
@@ -99,10 +99,10 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 	player->GetComponentByTemplate<Player>()->Set_Item_State(Item::Item_Kind::None);
 
 	player->AddComponent(new Sprite(player, sprite_path_spawn.c_str(), true, 37, 9.25, pos, { 100.f,100.f },
-		{ 255,255,255,255 }, Sprite_Type::Player_Spawn), "spawn", true);
+		{ 255,255,255,255 }, Sprite_Type::Player_Spawn), "spawn", !is_main_menu);
 	
 	player->AddComponent(new Sprite(player, sprite_path_normal.c_str(), true, 3, 6, pos, { 100.f,100.f },
-		{ 255,255,255,255 }, Sprite_Type::Player_Normal), "normal", false);
+		{ 255,255,255,255 }, Sprite_Type::Player_Normal), "normal", is_main_menu);
 
 	player->AddComponent(new Sprite(player, sprite_path_speed2.c_str(), true, 3, 24, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Speed2), "speed2", false);
@@ -167,7 +167,16 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 		{ 255, 255, 255, 255 }, Sprite_Type::Player_Effect_Dash), "effect_dash", false);
 	
 	player->AddComponent(new Physics(), "physics");
-	player->Set_Current_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Player_Spawn));
+
+	if (!is_main_menu)
+	{
+		player->Set_Current_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Player_Spawn));
+	}
+	else
+	{
+		player->Set_Current_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Player_Normal));
+	}
+
 	player->GetTransform().SetScale(scale);
 
 	if (name == "first")
@@ -201,6 +210,7 @@ PLAYER_UI* State::Make_Set_Ui(std::string name, std::string tag, std::string spr
 {
 	PLAYER_UI* player_ui;
 	player_ui = new PLAYER_UI();
+	player_ui->Set_Name(name);
 	player_ui->SetNeedCollision(false);
 	player_ui->GetTransform().GetScale_Reference() = scale;
 	player_ui->Set_Name(name);
