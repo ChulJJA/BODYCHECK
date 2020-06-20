@@ -156,10 +156,7 @@ void Application::Update(float dt)
     }
     FPS_frame++;
     
-    if (input.Is_Key_Triggered(GLFW_KEY_ESCAPE))
-    {
-        exit(0);
-    }
+
     if (input.Is_Mouse_Double_Clicked(GLFW_MOUSE_BUTTON_LEFT))
     {
         std::cout << "aaa" << std::endl;

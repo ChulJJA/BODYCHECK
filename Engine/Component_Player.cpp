@@ -57,6 +57,7 @@ void Player::Init(Object* obj)
 void Player::Update(float dt)
 {
 	float RightTriggerState = gamepadManager->RightTrigger();
+
 	if (curr_state == Char_State::Prepare)
 	{
 		if (prepare_sprite_timer != 0.f)
