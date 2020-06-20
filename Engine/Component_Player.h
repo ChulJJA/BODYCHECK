@@ -105,7 +105,7 @@ public:
 
 	void Change_Weapon_Sprite(Component* weapon_sprite);
 
-
+	void Check_Current_Sprite_Status(float dt);
 	Item_Use_Status Get_Item_Used_Status();
 	void Set_Item_Used_Status(Item_Use_Status status);
 
@@ -142,6 +142,8 @@ private:
 	Object* install_mine;
 
 	Object* aud;
+	Component* last_sprite;
+	float sprite_check_timer = 0.f;
 
 	//ParticleGenerator* speedParticle = nullptr;
 };

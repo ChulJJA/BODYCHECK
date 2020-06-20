@@ -11,6 +11,7 @@
 #include "Component_Missile.h"
 #include "Object.h"
 #include "Component_Sprite.h"
+#include "Component_Button.h"
 
 bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 {
@@ -32,7 +33,7 @@ bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 
 	if (distance < obj_a_radius + obj_b_radius)
 	{
-		
+
 		/* Player vs Item throwing */
 		if (object_a_name == "throwing")
 		{
@@ -54,16 +55,16 @@ bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 		else if (object_a_name == "missile")
 		{
 
-				physics.PushPlayer(object_b, object_a);
-				Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
-			
+			physics.PushPlayer(object_b, object_a);
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
+
 		}
 		else if (object_b_name == "missile")
 		{
-			
-				physics.PushPlayer(object_a, object_b);
-				Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
-			
+
+			physics.PushPlayer(object_a, object_b);
+			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
+
 		}
 		/* Player vs Item Lock */
 		else if (object_a_tag == "lock")
@@ -100,7 +101,16 @@ bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 		{
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(object_a, object_b, Message_Kind::Collision));
 		}
-
+		else if (object_a_tag == "button" && object_b_tag == "player")
+		{
+			Component_Button* button_info = object_a->GetComponentByTemplate<Component_Button>();
+			button_info->Collided(object_b);
+		}
+		else if (object_b_tag == "button" && object_a_tag == "player")
+		{
+			Component_Button* button_info = object_b->GetComponentByTemplate<Component_Button>();
+			button_info->Collided(object_a);
+		}
 
 		else
 		{
@@ -116,13 +126,25 @@ bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 	{
 		Collision_Off_Lock_And_Player(object_a, object_b);
 	}
+
+	else if ((object_a_tag == "button" && object_b_tag == "player"))
+	{
+		Component_Button* button_info = object_a->GetComponentByTemplate<Component_Button>();
+		button_info->Collided_Off(object_b);
+	}
+	else if ((object_b_tag == "button" && object_a_tag == "player"))
+	{
+		Component_Button* button_info = object_b->GetComponentByTemplate<Component_Button>();
+		button_info->Collided_Off(object_a);
+	}
+
 	else if (object_a_tag == "install_mine" && object_b_tag == "player")
 	{
-		if(obj_a_radius + obj_b_radius + 200 > distance)
+		if (obj_a_radius + obj_b_radius + 200 > distance)
 		{
 			FMOD_BOOL isPlaying;
 			FMOD_Channel_IsPlaying(sound.channel[29], &isPlaying);
-			if(sound.mineAlarm <= 0)
+			if (sound.mineAlarm <= 0)
 			{
 				sound.Play(SOUND::MineAlarm);
 				sound.mineAlarm = 60.f;
@@ -255,17 +277,17 @@ bool DeleteUnlessPlayer(Object* object)
 
 	if (object_throwing != nullptr || object_lock != nullptr)
 	{
-		if(object_lock != nullptr)
+		if (object_lock != nullptr)
 		{
 			Object* locking_obj = object_lock->Get_Locking_Obj();
 			Object* locking_target = object_lock->Get_Locking_Target();
 
-			if(locking_obj != nullptr)
+			if (locking_obj != nullptr)
 			{
 				locking_obj->Change_Sprite(locking_obj->Find_Sprite_By_Type(Sprite_Type::Player_Normal));
 			}
 
-			if(locking_target != nullptr)
+			if (locking_target != nullptr)
 			{
 				locking_target->Change_Sprite(locking_target->Find_Sprite_By_Type(Sprite_Type::Player_Normal));
 			}

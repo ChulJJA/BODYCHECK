@@ -41,6 +41,11 @@ public:
     {
         return objects;
     }
+    std::vector<std::shared_ptr<Object>>& Get_Objects()
+    {
+        return objects;
+    }
+
 
 	void Instancing_Update(float dt);
     void ObjectCollision();

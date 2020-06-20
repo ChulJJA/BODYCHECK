@@ -84,7 +84,7 @@ void Application::Init()
     glfwSetScrollCallback(window, scroll_callback);
 
     glfwSwapInterval(true);
-
+ //   glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     object1.LoadFromPNG("../sprite/HP.png");
     object2.LoadFromPNG("../sprite/HP.png");
     object3.LoadFromPNG("../sprite/HP.png");

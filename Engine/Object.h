@@ -237,6 +237,14 @@ public:
     {
         return m_id;
     }
+    void Increment_Collision_Num()
+    {
+        collision_count++;
+    }
+    void Decrement_Collision_Num()
+    {
+        collision_count--;
+    }
     vector2 GetScale() const
     {
         return m_transform.GetScale();
@@ -258,6 +266,10 @@ public:
     {
         return this->this_obj_owner;
     }
+    int Get_Collision_Count()
+    {
+        return collision_count;
+    }
     void Set_This_Obj_Owner(Object* owner)
     {
     	if(owner != nullptr)
@@ -268,11 +280,17 @@ public:
         
     }
 	void Change_Sprite(Component* sprite);
+    Component* Get_Last_Sprite()
+    {
+        return last_sprite;
+    }
 
 	Component* Get_Current_Sprite();
 	void Set_Current_Sprite(Component* sprite);
 	
     char name_buf[64];
+    Component* last_sprite = nullptr;
+    int collision_count = 0;
 
 public:
     void SetDeadCondition(bool condition) { is_dead = condition; }
@@ -298,7 +316,7 @@ public:
 
     Object* Get_Belong_Object_By_Name(std::string name);
     Object* Get_Belong_Object_By_Tag(std::string tag);
-
+    
     bool GetNeedCollision();
     void SetNeedCollision(bool collision);
 };
