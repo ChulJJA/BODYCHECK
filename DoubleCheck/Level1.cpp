@@ -167,7 +167,10 @@ void Level1::Update(float dt)
 	FMOD_BOOL isBGMPlaying;
 
 	FMOD_Channel_IsPlaying(sound.channel[1], &isBGMPlaying);
-
+	if(!isBGMPlaying)
+	{
+		sound.Play(SOUND::BGM2);
+	}
 	if (dt_refreshed == true)
 	{
 		if (transition_timer > 0.f)
@@ -274,6 +277,8 @@ void Level1::Pause()
 	if (input.Is_Key_Pressed(GLFW_KEY_ESCAPE))
 	{
 		sound.Play(SOUND::Click);
+		const float currentBGM_Volume = sound.GetSoundGroupVolume(true);
+		sound.SetSoundGroupVolume(true, currentBGM_Volume / 3);
 		is_pause = true;
 	}
 }
