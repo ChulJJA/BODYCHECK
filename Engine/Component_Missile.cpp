@@ -26,7 +26,7 @@ void Missile::Update(float dt)
 		Rotating_Toward_Target(pos);
 		Homing(target_dir, pos);
 		
-		missile_particle->Update(dt, m_owner, 1, vector2(.0f, .0f));
+		missile_particle->Update(dt, m_owner, 1, vector2(-250.0f, .0f));
 		missile_particle->Draw(m_owner);
 	}
 	else

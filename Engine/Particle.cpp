@@ -42,6 +42,10 @@ ParticleGenerator::ParticleGenerator(Object* obj, GLuint amount, const char* tex
 		square = MESH::create_box(120, { 255,255,255,255 });
 		shape.InitializeWithMeshAndLayout(square, SHADER::particles_layout());
 		break;
+	case ParticleType::WIN:
+		square = MESH::create_box(120, { 255,255,255,255 });
+		shape.InitializeWithMeshAndLayout(square, SHADER::particles_layout());
+		break;
 	default:
 		break;
 	}
@@ -108,6 +112,19 @@ void ParticleGenerator::Update(float dt, Object* object, GLuint newParticles, ve
 				if (p.life > 0.0f)
 				{
 					p.position -= (p.velocity * dt);
+					p.color.alpha -= dt;
+				}
+			}
+		case ParticleType::WIN:
+			for (GLuint i = 0; i < this->total_particles; ++i)
+			{
+				Particle& p = this->particles[i];
+				p.life -= dt * 2.0f;
+				if (p.life > 0.0f)
+				{
+					p.position -= object->GetTransform().GetTranslation();
+					p.position = rotate_by(15, p.position);
+					p.position += object->GetTransform().GetTranslation();
 					p.color.alpha -= dt;
 				}
 			}
@@ -187,6 +204,26 @@ void ParticleGenerator::Draw(Object* obj)
 				}
 			}
 		case ParticleType::MISSILE:
+			for (Particle particle : this->particles)
+			{
+				if (particle.life > 0.0f)
+				{
+					material.vectorUniforms["offset"] = particle.position;
+					material.color4fUniforms["color"] = particle.color;
+					
+					matrix3 result = MATRIX3::build_identity();
+					result *= MATRIX3::build_translation({ particle.position.x, particle.position.y }) *
+						MATRIX3::build_rotation(obj->GetTransform().GetRotation()) *
+						MATRIX3::build_scale({ obj->GetScale().x - 0.5f, obj->GetScale().y - 0.5f });
+					matrix3 mat_ndc = Graphic::GetGraphic()->Get_View().Get_Camera_View().GetCameraToNDCTransform();
+					mat_ndc *= Graphic::GetGraphic()->Get_View().Get_Camera().WorldToCamera();
+					mat_ndc *= result;
+					material.matrix3Uniforms["to_ndc"] = mat_ndc;
+					GL::draw(shape, material);
+					GL::end_drawing();
+				}
+			}
+		case ParticleType::WIN:
 			for (Particle particle : this->particles)
 			{
 				if (particle.life > 0.0f)
@@ -293,10 +330,16 @@ void ParticleGenerator::respawnParticle(Particle& particle, Object* object, vect
 	{
 		GLfloat rColor = 0.5 + ((rand() % 100) / 100.0f);
 		particle.color = Color4f(rColor, rColor, rColor, 1.0f);
-
 		particle.position = object->GetTransform().GetTranslation() + offset;
 		particle.life = 1.0f;
-		particle.velocity = object->GetComponentByTemplate<Physics>()->GetVelocity() + vector2(0, random);
+		particle.velocity = object->GetComponentByTemplate<Physics>()->GetVelocity() * 2 + vector2(0, random);
 	}
-
+	else if (m_type == ParticleType::WIN)
+	{
+		GLfloat rColor = 0.5 + ((rand() % 100) / 100.0f);
+		particle.color = Color4f(rColor, rColor, rColor, 1.0f);
+		particle.position = object->GetTransform().GetTranslation() + offset;
+		particle.life = 1.0f;
+		particle.velocity = object->GetComponentByTemplate<Player>()->GetPlayerDirection() * 2 + vector2(0, random);
+	}
 }
