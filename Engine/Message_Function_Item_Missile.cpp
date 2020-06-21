@@ -27,8 +27,7 @@ void Msg_Func_Item_Missile::Init()
 			info_player->Set_Prepare_Timer(3.f);
 			sound.Play(SOUND::MissilePrepare);
 			info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Use, Ui::Ui_Status_Obj::Item_Missile);
-		}
-		
+		}		
 	}
 }
 
@@ -52,6 +51,7 @@ void Msg_Func_Item_Missile::Update(float dt)
 				missiles->GetTransform().SetTranslation(m_target->GetTransform().GetTranslation());
 				missiles->GetComponentByTemplate<Missile>()->Set_Target(another_players[i]);
 				missiles->GetComponentByTemplate<Missile>()->Set_From_Obj(m_target);
+				
 				ObjectManager::GetObjectManager()->AddObject(missiles);
 			}
 			

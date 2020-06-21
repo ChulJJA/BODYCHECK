@@ -26,6 +26,7 @@ enum class ParticleType
 	DASH,
 	COLLIDE,
 	SPEEDMODE,
+	MISSILE,
 };
 
 class ParticleGenerator

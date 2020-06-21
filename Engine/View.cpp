@@ -24,7 +24,7 @@ void View::Init()
 
 void View::Update(float dt)
 {
-	if (input.Mouse_Wheel_Scroll() < 0)
+	/*if (input.Mouse_Wheel_Scroll() < 0)
 	{
 		camera_view.AddZoom(-0.05f);
 		input.Set_Mouse_Wheel(0.0, 0.0);
@@ -35,7 +35,7 @@ void View::Update(float dt)
 		camera_view.AddZoom(0.05f);
 		input.Set_Mouse_Wheel(0.0, 0.0);
 		Graphic::GetGraphic()->get_need_update_sprite() = true;
-	}
+	}*/
 
 	if (status != Shake_Status::None)
 	{

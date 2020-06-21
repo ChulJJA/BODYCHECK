@@ -1,4 +1,6 @@
 #include "Particle.h"
+
+#include "Component_Missile.h"
 #include "StockShaders.hpp"
 #include "UsefulTools.hpp"
 #include "Graphic.h"
@@ -36,6 +38,9 @@ ParticleGenerator::ParticleGenerator(Object* obj, GLuint amount, const char* tex
 		square = MESH::create_box(120, { 255,255,255,255 });
 		shape.InitializeWithMeshAndLayout(square, SHADER::particles_layout());
 		break;
+	case ParticleType::MISSILE:
+		square = MESH::create_box(120, { 255,255,255,255 });
+		shape.InitializeWithMeshAndLayout(square, SHADER::particles_layout());
 		break;
 	default:
 		break;
@@ -48,7 +53,7 @@ ParticleGenerator::ParticleGenerator(Object* obj, GLuint amount, const char* tex
 
 void ParticleGenerator::Update(float dt, Object* object, GLuint newParticles, vector2 offset)
 {
-	if (object->GetComponentByTemplate<Player>() != nullptr) 
+	if (object->GetComponentByTemplate<Player>() != nullptr || object->GetComponentByTemplate<Missile>() != nullptr)
 	{
 		for (GLuint i = 0; i < newParticles; ++i)
 		{
@@ -95,6 +100,17 @@ void ParticleGenerator::Update(float dt, Object* object, GLuint newParticles, ve
 					p.color.alpha -= dt * 2.5f;
 				}
 			}
+		case ParticleType::MISSILE:
+			for (GLuint i = 0; i < this->total_particles; ++i)
+			{
+				Particle& p = this->particles[i];
+				p.life -= dt;
+				if (p.life > 0.0f)
+				{
+					p.position -= (p.velocity * dt);
+					p.color.alpha -= dt;
+				}
+			}
 			break;
 		default:
 			break;
@@ -104,7 +120,7 @@ void ParticleGenerator::Update(float dt, Object* object, GLuint newParticles, ve
 
 void ParticleGenerator::Draw(Object* obj)
 {
-	if (obj->GetComponentByTemplate<Player>() != nullptr)
+	if (obj->GetComponentByTemplate<Player>() != nullptr || obj->GetComponentByTemplate<Missile>() != nullptr)
 	{
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 		material.shader->Select(*(material.shader));
@@ -119,7 +135,9 @@ void ParticleGenerator::Draw(Object* obj)
 					material.color4fUniforms["color"] = particle.color;
 
 					matrix3 result = MATRIX3::build_identity();
-					result *= MATRIX3::build_translation({ particle.position.x, particle.position.y }) * MATRIX3::build_rotation(obj->GetTransform().GetRotation()) * MATRIX3::build_scale({ obj->GetScale().x - 1.f, obj->GetScale().y - 1.f });
+					result *= MATRIX3::build_translation({ particle.position.x, particle.position.y }) *
+						MATRIX3::build_rotation(obj->GetTransform().GetRotation()) *
+						MATRIX3::build_scale({ obj->GetScale().x , obj->GetScale().y });
 					matrix3 mat_ndc = Graphic::GetGraphic()->Get_View().Get_Camera_View().GetCameraToNDCTransform();
 					mat_ndc *= Graphic::GetGraphic()->Get_View().Get_Camera().WorldToCamera();
 					mat_ndc *= result;
@@ -157,7 +175,29 @@ void ParticleGenerator::Draw(Object* obj)
 					material.color4fUniforms["color"] = particle.color;
 
 					matrix3 result = MATRIX3::build_identity();
-					result *= MATRIX3::build_translation({ particle.position.x, particle.position.y }) * MATRIX3::build_rotation(obj->GetTransform().GetRotation());
+					result *= MATRIX3::build_translation({ particle.position.x, particle.position.y }) *
+						MATRIX3::build_rotation(obj->GetTransform().GetRotation()) *
+						MATRIX3::build_scale({ obj->GetScale().x - 1.f, obj->GetScale().y - 1.f });
+					matrix3 mat_ndc = Graphic::GetGraphic()->Get_View().Get_Camera_View().GetCameraToNDCTransform();
+					mat_ndc *= Graphic::GetGraphic()->Get_View().Get_Camera().WorldToCamera();
+					mat_ndc *= result;
+					material.matrix3Uniforms["to_ndc"] = mat_ndc;
+					GL::draw(shape, material);
+					GL::end_drawing();
+				}
+			}
+		case ParticleType::MISSILE:
+			for (Particle particle : this->particles)
+			{
+				if (particle.life > 0.0f)
+				{
+					material.vectorUniforms["offset"] = particle.position;
+					material.color4fUniforms["color"] = particle.color;
+
+					matrix3 result = MATRIX3::build_identity();
+					result *= MATRIX3::build_translation({ particle.position.x, particle.position.y }) *
+						MATRIX3::build_rotation(obj->GetTransform().GetRotation()) *
+						MATRIX3::build_scale({ obj->GetScale().x - 0.5f, obj->GetScale().y - 0.5f });
 					matrix3 mat_ndc = Graphic::GetGraphic()->Get_View().Get_Camera_View().GetCameraToNDCTransform();
 					mat_ndc *= Graphic::GetGraphic()->Get_View().Get_Camera().WorldToCamera();
 					mat_ndc *= result;
@@ -209,7 +249,6 @@ GLuint ParticleGenerator::firstUnusedParticle()
 		}
 	}
 	lastUsedParticle = 0;
-	//printf("No dead particles\n");
 	return 0;
 }
 
@@ -236,14 +275,28 @@ void ParticleGenerator::respawnParticle(Particle& particle, Object* object, vect
 			red = true;
 			particle.color = Color4f(0.f, 0.f, 1.f, 1.f);
 		}
+
+		particle.position = object->GetTransform().GetTranslation() + offset;
+		particle.life = 1.0f;
+		particle.velocity = object->GetComponentByTemplate<Player>()->GetPlayerVelocity() + vector2(random);
 	}
 	else if (m_type == ParticleType::COLLIDE || m_type == ParticleType::DASH)
 	{
 		GLfloat rColor = 0.5 + ((rand() % 100) / 100.0f);
 		particle.color = Color4f(rColor, rColor, rColor, 1.0f);
+
+		particle.position = object->GetTransform().GetTranslation() + offset;
+		particle.life = 1.0f;
+		particle.velocity = object->GetComponentByTemplate<Player>()->GetPlayerVelocity() + vector2(random);
+	}
+	else if (m_type == ParticleType::MISSILE)
+	{
+		GLfloat rColor = 0.5 + ((rand() % 100) / 100.0f);
+		particle.color = Color4f(rColor, rColor, rColor, 1.0f);
+
+		particle.position = object->GetTransform().GetTranslation() + offset;
+		particle.life = 1.0f;
+		particle.velocity = object->GetComponentByTemplate<Physics>()->GetVelocity() + vector2(0, random);
 	}
 
-	particle.position = object->GetTransform().GetTranslation() + offset;
-	particle.life = 1.0f;
-	particle.velocity = object->GetComponentByTemplate<Player>()->GetPlayerVelocity() + vector2(random);
 }

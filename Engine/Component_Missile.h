@@ -2,6 +2,7 @@
 #include "Component.hpp"
 #include "vector2.hpp"
 #include "angles.hpp"
+#include "Particle.h"
 
 class Physics;
 
@@ -34,5 +35,7 @@ private:
 	matrix3 plus_rotation = MATRIX3::build_rotation(to_radians(20));
 
 	vector2 obj_pos;
-	Physics* physics;
+	Physics* physics;	
+
+	ParticleGenerator* missile_particle;
 };

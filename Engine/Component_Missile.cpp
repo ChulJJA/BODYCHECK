@@ -7,6 +7,7 @@ void Missile::Init(Object* obj)
 {
 	m_owner = obj;
 	physics = m_owner->GetComponentByTemplate<Physics>();
+	missile_particle = new ParticleGenerator(m_owner, 50, "../Sprite/ParticleCollision.png", ParticleType::MISSILE);
 }
 
 void Missile::Update(float dt)
@@ -24,14 +25,19 @@ void Missile::Update(float dt)
 
 		Rotating_Toward_Target(pos);
 		Homing(target_dir, pos);
+		
+		missile_particle->Update(dt, m_owner, 1, vector2(.0f, .0f));
+		missile_particle->Draw(m_owner);
 	}
 	else
 	{
+		delete missile_particle;
 		m_owner->SetDeadCondition(true);
 	}
 
 	if(target->IsDead() == true)
 	{
+		delete missile_particle;
 		m_owner->SetDeadCondition(true);
 	}
 }
