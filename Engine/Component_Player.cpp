@@ -231,9 +231,9 @@ void Player::Update(float dt)
 		speedParticle->Draw(m_owner);
 	}
 
-	if (input.Is_Key_Triggered(GLFW_KEY_R)
-		|| input.Is_Key_Triggered(GLFW_KEY_SPACE)
-		|| input.Is_Key_Triggered(GLFW_KEY_KP_7)
+	if (
+		input.Is_Key_Triggered(GLFW_KEY_SPACE)
+		|| input.Is_Key_Triggered(GLFW_KEY_RIGHT_SHIFT)
 		|| RightTriggerState > 0 && (
 			curr_state != Char_State::Reverse_Moving && curr_state != Char_State::Time_Pause))
 	{
@@ -323,7 +323,6 @@ void Player::Func_Time_Pause(float dt)
 
 		if (!isBgm)
 		{
-			sound.Stop(SOUND::ClockTicking);
 			sound.Play(SOUND::BGM2);
 		}
 		curr_state = Char_State::None;
@@ -1315,7 +1314,7 @@ void Player::UseItem()
 	}
 	else if (m_owner->Get_Name() == "third")
 	{
-		if (input.Is_Key_Pressed(GLFW_KEY_KP_7) && belong_item == Item::Item_Kind::Dash)
+		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT) && belong_item == Item::Item_Kind::Dash)
 		{
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
@@ -1323,7 +1322,7 @@ void Player::UseItem()
 			sound.Play(SOUND::Dash);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Dash));
 		}
-		if (input.Is_Key_Pressed(GLFW_KEY_KP_7) && belong_item == Item::Item_Kind::HP)
+		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT) && belong_item == Item::Item_Kind::HP)
 		{
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
@@ -1333,7 +1332,7 @@ void Player::UseItem()
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(hp_bar, m_owner, Message_Kind::Item_Recover));
 		}
 
-		if (input.Is_Key_Pressed(GLFW_KEY_KP_7) && belong_item == Item::Item_Kind::Bulkup)
+		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT) && belong_item == Item::Item_Kind::Bulkup)
 		{
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
@@ -1342,7 +1341,7 @@ void Player::UseItem()
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 5.f));
 		}
 
-		if (input.Is_Key_Pressed(GLFW_KEY_KP_7) && belong_item == Item::Item_Kind::Throwing)
+		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT) && belong_item == Item::Item_Kind::Throwing)
 		{
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
@@ -1350,28 +1349,28 @@ void Player::UseItem()
 			m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing)->Set_Need_Update(true);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Throwing, 0.f));
 		}
-		if (input.Is_Key_Pressed(GLFW_KEY_KP_7) && belong_item == Item::Item_Kind::Magnatic)
+		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT) && belong_item == Item::Item_Kind::Magnatic)
 		{
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Magnetic));
 		}
-		if (input.Is_Key_Pressed(GLFW_KEY_KP_7) && belong_item == Item::Item_Kind::Time_Pause)
+		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT) && belong_item == Item::Item_Kind::Time_Pause)
 		{
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Timepause));
 		}
-		if (input.Is_Key_Pressed(GLFW_KEY_KP_7) && belong_item == Item::Item_Kind::Reverse_Moving)
+		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT) && belong_item == Item::Item_Kind::Reverse_Moving)
 		{
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Reverse));
 		}
-		if (input.Is_Key_Pressed(GLFW_KEY_KP_7) && belong_item == Item::Item_Kind::Missile)
+		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT) && belong_item == Item::Item_Kind::Missile)
 		{
 			Change_To_Normal_State();
 
@@ -1380,14 +1379,14 @@ void Player::UseItem()
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Missile));
 		}
-		if (input.Is_Key_Pressed(GLFW_KEY_KP_7) && belong_item == Item::Item_Kind::Mine)
+		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT) && belong_item == Item::Item_Kind::Mine)
 		{
 			Change_To_Normal_State();
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Mine));
 		}
 	}
-	else if (m_owner->Get_Name() == "fourth")
+	/*else if (m_owner->Get_Name() == "fourth")
 	{
 
 		if (input.Is_Key_Pressed(GLFW_KEY_R) && belong_item == Item::Item_Kind::Dash)
@@ -1461,7 +1460,7 @@ void Player::UseItem()
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Mine));
 		}
-	}
+	}*/
 
 }
 

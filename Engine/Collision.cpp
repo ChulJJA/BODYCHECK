@@ -12,7 +12,7 @@
 #include "Object.h"
 #include "Component_Sprite.h"
 #include "Component_Button.h"
-
+#include "Player_Ui.h"
 bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 {
 	if (object_a->GetComponentByTemplate<Physics>()->GetGhostReference() == true || object_b->GetComponentByTemplate<Physics>()->GetGhostReference() == true)
@@ -111,6 +111,34 @@ bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 			Component_Button* button_info = object_b->GetComponentByTemplate<Component_Button>();
 			button_info->Collided(object_a);
 		}
+		else if (object_a_tag == "display" && object_b_tag == "player")
+		{
+			bool check_visible = object_a->Get_Need_To_Update();
+
+			if (check_visible)
+			{
+				Player* player_info = object_b->GetComponentByTemplate<Player>();
+				PLAYER_UI* ui_info = player_info->Get_Ui();
+				const Item::Item_Kind item_kind = object_a->GetComponentByTemplate<Item>()->Get_Kind();
+				player_info->Set_Item_State(item_kind);
+				ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, item_kind);
+				object_b->Change_Sprite(object_b->Find_Sprite_By_Type(Sprite_Type::Player_Fat));
+			}
+		}
+		else if (object_b_tag == "display" && object_a_tag == "player")
+		{
+			bool check_visible = object_b->Get_Need_To_Update();
+
+			if (check_visible)
+			{
+				Player* player_info = object_a->GetComponentByTemplate<Player>();
+				PLAYER_UI* ui_info = player_info->Get_Ui();
+				const Item::Item_Kind item_kind = object_b->GetComponentByTemplate<Item>()->Get_Kind();
+				player_info->Set_Item_State(item_kind);
+				ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, item_kind);
+				object_a->Change_Sprite(object_a->Find_Sprite_By_Type(Sprite_Type::Player_Fat));
+			}
+		}
 
 		else
 		{
@@ -185,7 +213,7 @@ void ArenaAndObjectCollision(Object* object)
 	const double min_y = object_translation.y - (40.0 * object_scale.y);
 
 	Player* object_player = object->GetComponentByTemplate<Player>();
-	if(object_translation.x < -1650 || object_translation.x > 1650 || object_translation.y < -850 || object_translation.y > 630)
+	if(object->Get_Tag() == "player" && (object_translation.x < -1650 || object_translation.x > 1650 || object_translation.y < -850 || object_translation.y > 630))
 	{
 		object->SetTranslation({ 0,0 });
 	}

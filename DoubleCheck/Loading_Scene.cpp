@@ -47,7 +47,7 @@ void Loading_Scene::Update(float dt)
 	if (state_manager->GetCurrentState()->GetStateInfo() == GameState::Game)
 	{
 		
-		image->AddComponent(new Sprite(image, "../sprite/loading.png", true, 13, 4, { 0.f, 0.f },
+		image->AddComponent(new Sprite(image, "../sprite/loading.png", true, 7, 4, { 0.f, 0.f },
 			{ 200.f, 200.f }, { 255,255,255,255 }));
 		image->SetScale(vector2{ 19.f , 12.f});
 
