@@ -362,7 +362,7 @@ void Player::Func_Reverse_Moving(float dt)
 
 void Player::Func_Mine(float dt)
 {
-	if (input.Is_Key_Pressed(GLFW_KEY_SPACE))
+	if (input.Is_Key_Released(GLFW_KEY_SPACE) || input.Is_Key_Released(GLFW_KEY_RIGHT_SHIFT))
 	{
 		srand(time(NULL));
 		float random_position_x = rand() % 3000 - 1500;
