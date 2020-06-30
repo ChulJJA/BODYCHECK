@@ -14,6 +14,7 @@
 #include "Object.h"
 #include "BitmapFont.hpp"
 #include "Component_Ui.h"
+#include "Component_Item.h"
 
 class PLAYER_UI : public Object
 {
@@ -37,6 +38,8 @@ public:
     }
     void Reset();
 	void Change_Ui_Info(Ui::Ui_Status_Base base, Ui::Ui_Status_Verb verb, Ui::Ui_Status_Obj obj);
+    void Change_Ui_Info(Ui::Ui_Status_Base base, Ui::Ui_Status_Verb verb, Item::Item_Kind item_kind);
+
 
     void Set_Name(std::string name)
     {

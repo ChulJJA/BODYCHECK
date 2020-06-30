@@ -55,6 +55,7 @@ void Referee::Set_Win_State()
 	fourth_win->AddComponent(new Sprite(fourth_win, "../Sprite/pen_normal2_win.png", { 0.f,0.f }, false, Sprite_Type::None), "win", true);
 	fourth_win->GetTransform().SetScale({ 40.f, 21.f });
 
+	
 }
 
 void Referee::Set_Timer()
@@ -186,7 +187,8 @@ Referee* Referee::Get_Referee()
 
 void Referee::Init()
 {
-	
+	Clear_Referee();
+	Reset_Variables();
 
 	state_manager = StateManager::GetStateManager();
 	if (state_manager->GetCurrentState()->GetStateInfo() == GameState::Game)
@@ -209,8 +211,7 @@ void Referee::Init()
 	}
 
 
-	Clear_Referee();
-	Reset_Variables();
+
 
 	stage_statements.clear();
 	missile_saving = new Object * [missile_num];
@@ -906,6 +907,7 @@ void Referee::Win(float dt)
 			win_player->SetNeedCollision(false);
 
 			Graphic::GetGraphic()->Get_View().is_ended = true;
+			win_particle = new ParticleGenerator(win_player, 50, "../Sprite/ParticleWin.png", ParticleType::WIN);
 		}
 		if (/*player_first_life == -1 &&*/ player_third_life == -1/* && player_fourth_life == -1*/)
 		{
@@ -919,6 +921,7 @@ void Referee::Win(float dt)
 			win_player->SetNeedCollision(false);
 
 			Graphic::GetGraphic()->Get_View().is_ended = true;
+			win_particle = new ParticleGenerator(win_player, 50, "../Sprite/ParticleWin.png", ParticleType::WIN);
 
 		}
 		/*if (player_sec_life == -1 && player_third_life == -1 && player_fourth_life == -1)
@@ -932,7 +935,8 @@ void Referee::Win(float dt)
 		if (player_dance_time > 0.f)
 		{
 			player_dance_time -= dt;
-
+			win_particle->Update(dt, win_player, 1, vector2(-500.0f, .0f));
+			win_particle->Draw(win_player);
 			//if (win_player->GetScale().x != 4.f)
 			//{
 			//	win_player->GetScale_Reference().x = 4.f;

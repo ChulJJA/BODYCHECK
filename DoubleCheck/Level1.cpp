@@ -26,6 +26,7 @@
 #include "Message_Manager.h"
 #include "Option.h"
 #include "StateManager.h"
+#include "Editor.h"
 using namespace std;
 
 namespace
@@ -33,6 +34,7 @@ namespace
 	Referee* referee = nullptr;
 	ObjectManager* object_manager = nullptr;
 	StateManager* state_manager = nullptr;
+	Editor* editor = nullptr;
 }
 
 void Level1::Load()
@@ -63,6 +65,7 @@ void Level1::Load()
 	timer_deleted = false;
 	prev_timer = nullptr;
 	arena = nullptr;
+	editor = nullptr;
 
 	current_state = GameState::Game;
 	transition_timer = 4.9f;
@@ -121,8 +124,8 @@ void Level1::Load()
 	//player_fourth_ui = Make_Set_Ui("fourth_ui", "ui", "../Sprite/UI/pen_normal_ui.png", { 1100, -800 }, { 5.0f,5.0f }, player_forth);
 
 	//player = Make_Player("first", "player", "pen_green2", { 400.f, 400.f }, { 2.f, 2.f });
-	player_sec = Make_Player("second", "player", "pen_red2", {-800.f, 0.f}/*{ 400.f, -400.f }*/, { 4.f, 4.f });
-	player_third = Make_Player("third", "player", "pen_blue2", {800.f, 0.f}/*{ -400.f, 400.f }*/, { 4.f, 4.f });
+	player_sec = Make_Player("second", "player", "pen_red2", { -800.f, 0.f }/*{ 400.f, -400.f }*/, { 4.f, 4.f });
+	player_third = Make_Player("third", "player", "pen_blue2", { 800.f, 0.f }/*{ -400.f, 400.f }*/, { 4.f, 4.f });
 	//player_forth = Make_Player("fourth", "player", "pen_normal2", { -400.f, -400.f }, { 2.f, 2.f });
 
 	//player->GetComponentByTemplate<Player>()->Set_This_UI_info(player_first_ui);
@@ -149,7 +152,7 @@ void Level1::Load()
 	//Referee::Get_Referee()->Set_Fourth_Ui(player_fourth_ui);
 	Referee::Get_Referee()->Set_Curr_Sec_Player(player_sec);
 	Referee::Get_Referee()->Set_Curr_Third_Player(player_third);
-	
+
 
 	Graphic::GetGraphic()->get_need_update_sprite() = true;
 
@@ -178,7 +181,7 @@ void Level1::Update(float dt)
 			transition_timer -= dt;
 
 			int timer_in_int = (int)transition_timer;
-			
+
 
 			if (((transition_timer > 1.8f && transition_timer < 2.4f) ||
 				((transition_timer > 3.6f && transition_timer < 4.2f)
@@ -261,6 +264,34 @@ void Level1::Update(float dt)
 		dt_refreshed = true;
 	}
 
+	if (input.Is_Key_Pressed(GLFW_KEY_V))
+	{
+		if (editor == nullptr)
+		{
+			editor = new Editor();
+			editor->Init();
+		}
+
+		if (editor != nullptr)
+		{
+			editor->Update(dt);
+			if (showing_editor == false)
+			{
+				editor->Set_Visible(true);
+			}
+			showing_editor = true;
+		}
+	}
+	else if (input.Is_Key_Released(GLFW_KEY_V))
+	{
+		if (editor != nullptr && showing_editor)
+		{
+			std::cout << "why" << std::endl;
+			showing_editor = false;
+			editor->Set_Visible(false);
+		}
+	}
+
 	Pause();
 }
 
@@ -287,4 +318,9 @@ void Level1::Clear()
 {
 	Message_Manager::Get_Message_Manager()->Get_Messages().clear();
 	ObjectManager::GetObjectManager()->Get_Objects().clear();
+
+	if (editor != nullptr)
+	{
+		editor = nullptr;
+	}
 }
