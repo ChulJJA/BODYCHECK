@@ -233,7 +233,7 @@ void Player::Update(float dt)
 
 	if (input.Is_Key_Triggered(GLFW_KEY_R)
 		|| input.Is_Key_Triggered(GLFW_KEY_SPACE)
-		|| input.Is_Key_Triggered(GLFW_KEY_KP_7)
+		|| input.Is_Key_Triggered(GLFW_KEY_RIGHT_SHIFT)
 		|| RightTriggerState > 0 && (
 			curr_state != Char_State::Reverse_Moving && curr_state != Char_State::Time_Pause))
 	{
