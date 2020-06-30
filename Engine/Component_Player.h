@@ -111,6 +111,8 @@ public:
 	void Set_Audience(Object* obj);
 	Object* Get_Audience();
 
+	void PadControll(float max_velocity, float min_velocity, Gamepad* numController);
+
 private:
     Object* hp_bar = nullptr;
     Item::Item_Kind belong_item = Item::Item_Kind::None;

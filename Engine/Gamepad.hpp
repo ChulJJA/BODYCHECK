@@ -38,6 +38,7 @@ class Gamepad
 {
 public:
 	static Gamepad* getGamepad();
+	static Gamepad* getGamepadSecond();
 
 	Gamepad();
 	Gamepad(int controllerNumber);
@@ -71,6 +72,7 @@ public:
 
 private:
 	static Gamepad* gamepadManager;
+	static Gamepad* gamepadManagerSec;
 	XINPUT_STATE m_State;
 	int m_GamepadID;
 
