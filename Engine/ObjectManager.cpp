@@ -1,14 +1,13 @@
 /*
  * Author		:Sangmin Kim
  * File			:ObjectManager.cpp
- * Term			:2019 Fall
- * Class		:GAM200
- * Project		:GAM200 Project
- * Date			:2019/12/11
- * Description	:cpp file for object manager. which update all objects in container.
- * copyright   All content ?2019 DigiPen (USA) Corporation, all rights reserved
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Source file for Object Manager
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
  */
-
 #include "ObjectManager.h"
 #include <functional>
 #include "StateManager.h"
