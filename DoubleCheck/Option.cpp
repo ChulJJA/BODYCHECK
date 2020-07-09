@@ -157,6 +157,7 @@ void Option::ButtonBehavior()
 	float volume;
 	State* lev_state;
 	float LeftThumbStateX = gamepadManager->LeftStick_X();
+	bool LeftStickInDeadZone = gamepadManager->LStick_InDeadzone();
 
 	if (pointer == static_cast<int>(BUTTON::FULLSCREEN))
 	{
@@ -169,7 +170,7 @@ void Option::ButtonBehavior()
 	}
 	else if (pointer == static_cast<int>(BUTTON::SFX))
 	{
-		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT) || LeftThumbStateX > 0)
+		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT) || (LeftStickInDeadZone == false && LeftThumbStateX > 0.5f))
 		{
 			const vector2 icon_translation = music_icon[0]->GetTransform().GetTranslation();
 			volume = sound.GetSoundGroupVolume(true);
@@ -182,7 +183,7 @@ void Option::ButtonBehavior()
 
 			volume_timer = 0;
 		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_LEFT) || LeftThumbStateX < 0)
+		else if (input.Is_Key_Pressed(GLFW_KEY_LEFT) || (LeftStickInDeadZone == false && LeftThumbStateX < -0.5f))
 		{
 			vector2 icon_translation = music_icon[0]->GetTransform().GetTranslation();
 			volume = sound.GetSoundGroupVolume(true);
@@ -200,7 +201,7 @@ void Option::ButtonBehavior()
 	}
 	else if (pointer == static_cast<int>(BUTTON::MUSIC))
 	{
-		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT) || LeftThumbStateX > 0)
+		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT) || (LeftStickInDeadZone == false && LeftThumbStateX > 0.5f))
 		{
 			vector2 icon_translation = music_icon[1]->GetTransform().GetTranslation();
 			volume = sound.GetSoundGroupVolume(false);
@@ -216,7 +217,7 @@ void Option::ButtonBehavior()
 
 			volume_timer = 0;
 		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_LEFT) || LeftThumbStateX < 0)
+		else if (input.Is_Key_Pressed(GLFW_KEY_LEFT) || (LeftStickInDeadZone == false && LeftThumbStateX < -0.5f))
 		{
 			vector2 icon_translation = music_icon[1]->GetTransform().GetTranslation();
 			volume = sound.GetSoundGroupVolume(false);
@@ -333,8 +334,9 @@ void Option::SetBackButton()
 void Option::ButtonSelector()
 {
 	float LeftThumbStateY = gamepadManager->LeftStick_Y();
+	bool LeftStickInDeadZone = gamepadManager->LStick_InDeadzone();
 
-	if ((input.Is_Key_Pressed(GLFW_KEY_DOWN) || LeftThumbStateY < 0) && pointer <= static_cast<int>(BUTTON::BACK))
+	if ((input.Is_Key_Pressed(GLFW_KEY_DOWN) || (LeftStickInDeadZone == false && LeftThumbStateY < -0.5f)) && pointer <= static_cast<int>(BUTTON::BACK))
 	{
 		pointer++;
 		if (pointer == static_cast<int>(BUTTON::FULLSCREEN))
@@ -368,7 +370,7 @@ void Option::ButtonSelector()
 
 		button_timer = 0;
 	}
-	else if ((input.Is_Key_Pressed(GLFW_KEY_UP) || LeftThumbStateY > 0) && pointer >= static_cast<int>(BUTTON::SFX))
+	else if ((input.Is_Key_Pressed(GLFW_KEY_UP) || (LeftStickInDeadZone == false && LeftThumbStateY > 0.5f)) && pointer >= static_cast<int>(BUTTON::SFX))
 	{
 		pointer--;
 

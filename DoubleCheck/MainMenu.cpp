@@ -309,8 +309,9 @@ void MainMenu::SetTestLevelButton()
 void MainMenu::ButtonSelector()
 {
 	float LeftThumbStateY = gamepadManager->LeftStick_Y();
+	bool LeftStickInDeadZone = gamepadManager->LStick_InDeadzone();
 
-	if ((input.Is_Key_Pressed(GLFW_KEY_DOWN) || (LeftThumbStateY < 0)) && pointer <= static_cast<int>(BUTTON::TEST))
+	if ((input.Is_Key_Pressed(GLFW_KEY_DOWN) || (LeftStickInDeadZone == false && LeftThumbStateY < 0)) && pointer <= static_cast<int>(BUTTON::TEST))
 	{
 		pointer++;
 
@@ -359,7 +360,7 @@ void MainMenu::ButtonSelector()
 		}
 		button_timer = 0;
 	}
-	else if ((input.Is_Key_Pressed(GLFW_KEY_UP) || LeftThumbStateY > 0) && pointer >= static_cast<int>(BUTTON::START))
+	else if ((input.Is_Key_Pressed(GLFW_KEY_UP) || (LeftStickInDeadZone == false && LeftThumbStateY > 0)) && pointer >= static_cast<int>(BUTTON::START))
 	{
 		pointer--;
 

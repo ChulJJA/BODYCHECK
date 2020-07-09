@@ -1591,10 +1591,11 @@ void Player::PadControll(float max_velocity, float min_velocity, Gamepad* numCon
 {
 	float LeftThumbStateX = numController->LeftStick_X();
 	float LeftThumbStateY = numController->LeftStick_Y();
+	bool LeftStickInDeadZone = numController->LStick_InDeadzone();
 
-	if (LeftThumbStateY > 0)
+	if (LeftStickInDeadZone == false && LeftThumbStateY > 0)
 	{
-		if (LeftThumbStateY > 0 && LeftThumbStateX < 0)
+		if (LeftStickInDeadZone == false && LeftThumbStateY > 0 && LeftThumbStateX < 0)
 		{
 			if (velocity.x >= 0 && velocity.y >= 0)
 			{
@@ -1615,7 +1616,7 @@ void Player::PadControll(float max_velocity, float min_velocity, Gamepad* numCon
 			direction.x -= 0.07f;
 			direction.y += 0.07f;
 		}
-		else if (LeftThumbStateY > 0 && LeftThumbStateX > 0)
+		else if (LeftStickInDeadZone == false && LeftThumbStateY > 0 && LeftThumbStateX > 0)
 		{
 			if (velocity.x >= 0 && velocity.y >= 0)
 			{
@@ -1653,9 +1654,9 @@ void Player::PadControll(float max_velocity, float min_velocity, Gamepad* numCon
 			direction.y += 0.1f;
 		}
 	}
-	else if (LeftThumbStateX < 0)
+	else if (LeftStickInDeadZone == false && LeftThumbStateX < 0)
 	{
-		if (LeftThumbStateX < 0 && LeftThumbStateY < 0)
+		if (LeftStickInDeadZone == false && LeftThumbStateX < 0 && LeftThumbStateY < 0)
 		{
 			if (velocity.x >= 0 && velocity.y >= 0)
 			{
@@ -1695,9 +1696,9 @@ void Player::PadControll(float max_velocity, float min_velocity, Gamepad* numCon
 			direction.x -= 0.1f;
 		}
 	}
-	else if (LeftThumbStateY < 0)
+	else if (LeftStickInDeadZone == false && LeftThumbStateY < 0)
 	{
-		if (LeftThumbStateY < 0 && LeftThumbStateX > 0)
+		if (LeftStickInDeadZone == false && LeftThumbStateY < 0 && LeftThumbStateX > 0)
 		{
 			if (velocity.x >= 0 && velocity.y >= 0)
 			{
@@ -1736,7 +1737,7 @@ void Player::PadControll(float max_velocity, float min_velocity, Gamepad* numCon
 			direction.y -= 0.1f;
 		}
 	}
-	else if (LeftThumbStateX > 0)
+	else if (LeftStickInDeadZone == false && LeftThumbStateX > 0)
 	{
 		if (velocity.x >= 0)
 		{

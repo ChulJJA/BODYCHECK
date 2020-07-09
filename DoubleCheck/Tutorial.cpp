@@ -52,7 +52,7 @@ void Tutorial::Load()
 	loading->Load();
 
 	HDC hdc = wglGetCurrentDC();//GetDC(glfwGetWin32Window(Application::Get_Application()->Get_Window()));
-	HGLRC main_context = wglGetCurrentContext();
+	const HGLRC main_context = wglGetCurrentContext();
 	HGLRC loading_context = wglCreateContext(hdc);
 	wglShareLists(main_context, loading_context);
 
@@ -69,6 +69,8 @@ void Tutorial::Load()
 	{
 		dt_refreshed = false;
 		timer_deleted = false;
+
+		prev_timer = nullptr;
 		transition_timer = 4.9f;
 		current_state = GameState::Tutorial;
 		referee = Referee::Get_Referee();
@@ -87,17 +89,15 @@ void Tutorial::Load()
 		{
 			sound.Play(SOUND::BGM2);
 		}
-		//sound.Stop(SOUND::BGM);
-		//sound.Play(SOUND::BGM2);
+
 
 		SetArena();
 
 		referee->Init();
-		//SetStaffAndExplanation();
-		//Player_First_UI = Make_Set_Ui("first_ui", "ui", "../Sprite/UI/pen_green_ui.png", { -1300, -800 }, { 5.0f,5.0f }, Player_First);
+	
 		Player_Second_UI = Make_Set_Ui("second_ui", "ui", "../Sprite/UI/pen_red_ui.png", { -500, -800 }, { 5.0f,5.0f }, Player_Second);
 		Player_Third_UI = Make_Set_Ui("third_ui", "ui", "../Sprite/UI/pen_blue_ui.png", { 300, -800 }, { 5.0f,5.0f }, Player_Third);
-		//Player_Fourth_UI = Make_Set_Ui("fourth_ui", "ui", "../Sprite/UI/pen_normal_ui.png", { 1100, -800 }, { 5.0f,5.0f }, Player_Fourth);
+
 
 		//Player_First = Make_Player("first", "player", "pen_green2", { 400.f, 400.f }, { 2.f, 2.f });
 		Player_Second = Make_Player("second", "player", "pen_red2", { 400.f, -400.f }, { 2.f, 2.f });
