@@ -51,6 +51,8 @@ void MainMenu::Load()
 	}
 	p_1_selected = false;
 	p_2_selected = false;
+	r_u_sure = false;
+	r_u_sure_come = false;
 
 	state_manager = StateManager::GetStateManager();
 	object_manager = ObjectManager::GetObjectManager();
@@ -63,7 +65,6 @@ void MainMenu::Load()
 	button_timer = 0;
 
 	Object* back = new Object();
-
 	back->AddComponent(new Sprite(back, "../Sprite/menu_background.png", { 50.f,20.f }, false));
 	back->GetTransform().SetScale({ 38.f, 21.f });
 	object_manager->AddObject(back);
@@ -71,7 +72,15 @@ void MainMenu::Load()
 	SetTutorialButton();
 	SetMusicButton();
 	SetTestLevelButton();
-	Set_Player_Button();
+
+	make_sure_dialogue = new Object();
+	make_sure_dialogue->AddComponent(new Sprite(make_sure_dialogue, "../Sprite/rusure_yes.png", { 0.f, 0.f }, false, Sprite_Type::R_U_SURE_YES), "rusureyes", false);
+	make_sure_dialogue->AddComponent(new Sprite(make_sure_dialogue, "../Sprite/rusure_no.png", { 0.f, 0.f }, false, Sprite_Type::R_U_SURE_NO), "rusureno", false);
+	make_sure_dialogue->GetTransform().SetScale({ 10.f, 6.f });
+	make_sure_dialogue->Set_Need_To_Update(false);
+	object_manager->AddObject(make_sure_dialogue);
+
+	//Set_Player_Button();
 }
 
 void MainMenu::Update(float dt)
@@ -83,97 +92,6 @@ void MainMenu::Update(float dt)
 	{
 		ButtonSelector();
 	}
-
-	if (input.Is_Key_Triggered(GLFW_KEY_1))
-	{
-		if (p_1_selected)
-		{
-			player_sec->SetNeedCollision(false);
-			player_sec->Set_Need_To_Update(false);
-			p_1_selected = false;
-			player_1_button->Change_Sprite(player_1_button->Find_Sprite_By_Type(Sprite_Type::None));
-
-			/*play_button->GetComponentByTemplate<Component_Button>()->Decrement_Max_Player_Num();
-			play_button_hover->GetComponentByTemplate<Component_Button>()->Decrement_Max_Player_Num();
-			tutorial_button->GetComponentByTemplate<Component_Button>()->Decrement_Max_Player_Num();
-			tutorial_button_hover->GetComponentByTemplate<Component_Button>()->Decrement_Max_Player_Num();
-			music_button->GetComponentByTemplate<Component_Button>()->Decrement_Max_Player_Num();
-			music_button_hover->GetComponentByTemplate<Component_Button>()->Decrement_Max_Player_Num();
-			test_button->GetComponentByTemplate<Component_Button>()->Decrement_Max_Player_Num();
-			test_button_hover->GetComponentByTemplate<Component_Button>()->Decrement_Max_Player_Num();*/
-		}
-		else
-		{
-			player_sec->SetTranslation(player_sec_pos);
-			player_sec->SetNeedCollision(true);
-			player_sec->Set_Need_To_Update(true);
-			p_1_selected = true;
-			player_1_button->Change_Sprite(player_1_button->Find_Sprite_By_Type(Sprite_Type::Player_Selected));
-			Graphic::GetGraphic()->Get_View().Active_Screen_Shake(10.f, 3);
-
-
-			/*play_button->GetComponentByTemplate<Component_Button>()->Increment_Max_Player_Num();
-			play_button_hover->GetComponentByTemplate<Component_Button>()->Increment_Max_Player_Num();
-			tutorial_button->GetComponentByTemplate<Component_Button>()->Increment_Max_Player_Num();
-			tutorial_button_hover->GetComponentByTemplate<Component_Button>()->Increment_Max_Player_Num();
-			music_button->GetComponentByTemplate<Component_Button>()->Increment_Max_Player_Num();
-			music_button_hover->GetComponentByTemplate<Component_Button>()->Increment_Max_Player_Num();
-			test_button->GetComponentByTemplate<Component_Button>()->Increment_Max_Player_Num();
-			test_button_hover->GetComponentByTemplate<Component_Button>()->Increment_Max_Player_Num();*/
-		}
-	}
-	if (input.Is_Key_Triggered(GLFW_KEY_2))
-	{
-		if (p_2_selected)
-		{
-			player_third->Set_Need_To_Update(false);
-			p_2_selected = false;
-			player_third->SetNeedCollision(false);
-			player_2_button->Change_Sprite(player_2_button->Find_Sprite_By_Type(Sprite_Type::None));
-
-			/* play_button->GetComponentByTemplate<Component_Button>()->Decrement_Max_Player_Num();
-			 play_button_hover->GetComponentByTemplate<Component_Button>()->Decrement_Max_Player_Num();
-			 tutorial_button->GetComponentByTemplate<Component_Button>()->Decrement_Max_Player_Num();
-			 tutorial_button_hover->GetComponentByTemplate<Component_Button>()->Decrement_Max_Player_Num();
-			 music_button->GetComponentByTemplate<Component_Button>()->Decrement_Max_Player_Num();
-			 music_button_hover->GetComponentByTemplate<Component_Button>()->Decrement_Max_Player_Num();
-			 test_button->GetComponentByTemplate<Component_Button>()->Decrement_Max_Player_Num();
-			 test_button_hover->GetComponentByTemplate<Component_Button>()->Decrement_Max_Player_Num();*/
-		}
-		else
-		{
-			player_third->SetNeedCollision(true);
-			player_third->SetTranslation(player_third_pos);
-			player_third->Set_Need_To_Update(true);
-			p_2_selected = true;
-			player_2_button->Change_Sprite(player_2_button->Find_Sprite_By_Type(Sprite_Type::Player_Selected));
-			Graphic::GetGraphic()->Get_View().Active_Screen_Shake(10.f, 3);
-
-			/*play_button->GetComponentByTemplate<Component_Button>()->Increment_Max_Player_Num();
-			play_button_hover->GetComponentByTemplate<Component_Button>()->Increment_Max_Player_Num();
-			tutorial_button->GetComponentByTemplate<Component_Button>()->Increment_Max_Player_Num();
-			tutorial_button_hover->GetComponentByTemplate<Component_Button>()->Increment_Max_Player_Num();
-			music_button->GetComponentByTemplate<Component_Button>()->Increment_Max_Player_Num();
-			music_button_hover->GetComponentByTemplate<Component_Button>()->Increment_Max_Player_Num();
-			test_button->GetComponentByTemplate<Component_Button>()->Increment_Max_Player_Num();
-			test_button_hover->GetComponentByTemplate<Component_Button>()->Increment_Max_Player_Num();*/
-		}
-	}
-
-	//std::cout << "max : " << play_button->GetComponentByTemplate<Component_Button>()->Get_Max_Player_Num() << std::endl;
-	//std::cout << "curr : " << play_button->GetComponentByTemplate<Component_Button>()->Get_Curr_Player_Num() << std::endl;
-
-	/*if (play_button->GetComponentByTemplate<Component_Button>()->Selected())
-	{
-		pointer = static_cast<int>(BUTTON::START);
-		sound.Play(SOUND::Selected);
-		StateManager::GetStateManager()->level_state->is_pause = false;
-		is_next = true;
-		next_level = "Level1";
-		Sleep(800);
-		sound.UnLoad();
-		Clear();
-	}*/
 }
 
 void MainMenu::Clear()
@@ -190,13 +108,13 @@ void MainMenu::SetPlayButton()
 	play_button->Set_Tag("button");
 	play_button->AddComponent(new Component_Button());
 	play_button->AddComponent(new Sprite(play_button, "../Sprite/PlayButton.png", { 50, 100 }, false, Sprite_Type::Button), "button", true);
-	play_button->AddComponent(new Sprite(play_button, "../Sprite/PlayButtonHover.png", { 50, 100 }, false, Sprite_Type::Button_Hover),"hover", false);
+	play_button->AddComponent(new Sprite(play_button, "../Sprite/PlayButtonHover.png", { 50, 100 }, false, Sprite_Type::Button_Hover), "hover", false);
 	//play_button->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
 	play_button->GetTransform().SetScale({ 5, 5 });
 	play_button->AddComponent(new Physics());
 	play_button->SetNeedCollision(true);
 	ObjectManager::GetObjectManager()->AddObject(play_button);
-	
+
 	pointer1 = new Object();
 	pointer1->Set_Name("pointer1");
 	pointer1->Set_Tag("pointer");
@@ -212,16 +130,8 @@ void MainMenu::SetPlayButton()
 		{ 255,255,255,255 }, Sprite_Type::Player_Dance), "dance", true);
 	pointer2->GetTransform().SetScale({ 2, 2 });
 	ObjectManager::GetObjectManager()->AddObject(pointer2);
-	
-	//play_button_hover = new Object();
-	//play_button_hover->Set_Name("play_button_hover");
-	//play_button_hover->Set_Tag("button");
-	//play_button_hover->AddComponent(new Component_Button());
-	//play_button_hover->AddComponent(new Sprite(play_button_hover, "../Sprite/PlayButtonHover.png", { 0, 100 }, false));
-	//play_button_hover->GetTransform().SetScale({ 5, 5 });
-	//play_button_hover->SetNeedCollision(true);
-	//play_button_hover->AddComponent(new Physics());
-	//ObjectManager::GetObjectManager()->AddObject(play_button_hover);
+
+
 }
 
 void MainMenu::SetTutorialButton()
@@ -238,17 +148,6 @@ void MainMenu::SetTutorialButton()
 
 	ObjectManager::GetObjectManager()->AddObject(tutorial_button);
 
-	/*tutorial_button_hover = new Object();
-	tutorial_button_hover->Set_Name("tutorial_button_hover");
-	tutorial_button_hover->Set_Tag("button");
-	tutorial_button_hover->AddComponent(new Component_Button());
-	tutorial_button_hover->AddComponent(new Sprite(tutorial_button_hover, "../Sprite/TutorialButtonHover.png", { 0, -150 }, false));
-	tutorial_button_hover->GetTransform().SetScale({ 5, 5 });
-	tutorial_button_hover->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
-	tutorial_button_hover->SetNeedCollision(true);
-	tutorial_button_hover->AddComponent(new Physics());
-
-	ObjectManager::GetObjectManager()->AddObject(tutorial_button_hover);*/
 }
 
 void MainMenu::SetMusicButton()
@@ -265,17 +164,6 @@ void MainMenu::SetMusicButton()
 
 	ObjectManager::GetObjectManager()->AddObject(music_button);
 
-	/*music_button_hover = new Object();
-	music_button_hover->Set_Name("music_button_hover");
-	music_button_hover->Set_Tag("button");
-	music_button_hover->AddComponent(new Component_Button());
-	music_button_hover->AddComponent(new Sprite(music_button_hover, "../Sprite/MusicButtonHover_.png", { 0, -400 }, false));
-	music_button_hover->GetTransform().SetScale({ 5, 5 });
-	music_button_hover->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
-	music_button_hover->SetNeedCollision(true);
-	music_button_hover->AddComponent(new Physics());
-
-	ObjectManager::GetObjectManager()->AddObject(music_button_hover);*/
 }
 
 void MainMenu::SetTestLevelButton()
@@ -293,158 +181,201 @@ void MainMenu::SetTestLevelButton()
 
 	ObjectManager::GetObjectManager()->AddObject(test_button);
 
-	/*test_button_hover = new Object();
-	test_button_hover->Set_Name("test_button_hover");
-	test_button_hover->Set_Tag("button");
-	test_button_hover->AddComponent(new Component_Button());
-	test_button_hover->AddComponent(new Sprite(test_button_hover, "../Sprite/TestButtonHover.png", { 0, -650 }, false));
-	test_button_hover->GetTransform().SetScale({ 5, 5 });
-	test_button_hover->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
-	test_button_hover->SetNeedCollision(true);
-	test_button_hover->AddComponent(new Physics());
-
-	ObjectManager::GetObjectManager()->AddObject(test_button_hover);*/
 }
 
 void MainMenu::ButtonSelector()
 {
 	float LeftThumbStateY = gamepadManager->LeftStick_Y();
 
-	if ((input.Is_Key_Pressed(GLFW_KEY_DOWN) || (LeftThumbStateY < 0)) && pointer <= static_cast<int>(BUTTON::TEST))
+	if (r_u_sure_come)
 	{
-		pointer++;
+		Component* r_u_sure_current_sprite = make_sure_dialogue->Get_Current_Sprite();
+		Component* r_u_sure_yes_sprite = make_sure_dialogue->Find_Sprite_By_Type(Sprite_Type::R_U_SURE_YES);
+		Component* r_u_sure_no_sprite = make_sure_dialogue->Find_Sprite_By_Type(Sprite_Type::R_U_SURE_NO);
 
-		if (pointer == static_cast<int>(BUTTON::START))
+		if (make_sure_dialogue->Get_Need_To_Update() == false)
 		{
-			sound.Play(SOUND::Click);
-			//ObjectHover(play_button, play_button_hover);
-			play_button->Change_Sprite(play_button->Find_Sprite_By_Type(Sprite_Type::Button_Hover));
-			pointer1->SetTranslation({ -250,100 });
-			pointer2->SetTranslation({ 350,100 });
+			make_sure_dialogue->Change_Sprite(make_sure_dialogue->Find_Sprite_By_Type(Sprite_Type::R_U_SURE_YES));
+			make_sure_dialogue->Set_Need_To_Update(true);
 		}
-		else if (pointer == static_cast<int>(BUTTON::TUTORIAL))
-		{
-			sound.Play(SOUND::Click);
-			play_button->Change_Sprite(play_button->Find_Sprite_By_Type(Sprite_Type::Button));
-			tutorial_button->Change_Sprite(tutorial_button->Find_Sprite_By_Type(Sprite_Type::Button_Hover));
-			pointer1->SetTranslation({ -250,-150 });
-			pointer2->SetTranslation({ 350,-150 });
-			//ObjectHover(tutorial_button, tutorial_button_hover);
-			//ObjectHover(play_button_hover, play_button);
-		}
-		else if (pointer == static_cast<int>(BUTTON::MUSIC))
-		{
-			sound.Play(SOUND::Click);
-			//ObjectHover(music_button, music_button_hover);
-			//ObjectHover(tutorial_button_hover, tutorial_button);
-			tutorial_button->Change_Sprite(tutorial_button->Find_Sprite_By_Type(Sprite_Type::Button));
-			music_button->Change_Sprite(music_button->Find_Sprite_By_Type(Sprite_Type::Button_Hover));
-			pointer1->SetTranslation({ -250,-400 });
-			pointer2->SetTranslation({ 350,-400 });
-		}
-		else if (pointer == static_cast<int>(BUTTON::TEST))
-		{
-			sound.Play(SOUND::Click);
-			//ObjectHover(test_button, test_button_hover);
-			//ObjectHover(music_button_hover, music_button);
 
-			music_button->Change_Sprite(music_button->Find_Sprite_By_Type(Sprite_Type::Button));
-			test_button->Change_Sprite(test_button->Find_Sprite_By_Type(Sprite_Type::Button_Hover));
-			pointer1->SetTranslation({ -250,-650 });
-			pointer2->SetTranslation({ 350,-650 });
-		}
-		else if (pointer > 3)
+		if (r_u_sure_current_sprite != nullptr && r_u_sure_yes_sprite != nullptr && r_u_sure_no_sprite != nullptr)
 		{
-			pointer = 3;
+			if (input.Is_Key_Triggered(GLFW_KEY_RIGHT))
+			{
+				if (r_u_sure_current_sprite == r_u_sure_yes_sprite)
+				{
+					make_sure_dialogue->Change_Sprite(r_u_sure_no_sprite);
+				}
+			}
+			else if (input.Is_Key_Triggered(GLFW_KEY_LEFT))
+			{
+				if (r_u_sure_current_sprite == r_u_sure_no_sprite)
+				{
+					make_sure_dialogue->Change_Sprite(r_u_sure_yes_sprite);
+				}
+			}
+
+			if (input.Is_Key_Triggered(GLFW_KEY_SPACE) && r_u_sure_current_sprite == r_u_sure_yes_sprite)
+			{
+				r_u_sure_come = false;
+				r_u_sure = true;
+			}
+			else if (input.Is_Key_Triggered(GLFW_KEY_SPACE) && r_u_sure_current_sprite == r_u_sure_no_sprite)
+			{
+				r_u_sure_come = false;
+				make_sure_dialogue->Set_Need_To_Update(false);
+			}
 		}
-		button_timer = 0;
 	}
-	else if ((input.Is_Key_Pressed(GLFW_KEY_UP) || LeftThumbStateY > 0) && pointer >= static_cast<int>(BUTTON::START))
+	else
 	{
-		pointer--;
 
-		if (pointer == static_cast<int>(BUTTON::START))
+		if ((input.Is_Key_Pressed(GLFW_KEY_DOWN) || (LeftThumbStateY < 0)) && pointer <= static_cast<int>(BUTTON::TEST))
 		{
-			sound.Play(SOUND::Click);
-			tutorial_button->Change_Sprite(tutorial_button->Find_Sprite_By_Type(Sprite_Type::Button));
-			play_button->Change_Sprite(play_button->Find_Sprite_By_Type(Sprite_Type::Button_Hover));
-			pointer1->SetTranslation({ -250,100 });
-			pointer2->SetTranslation({ 350,100 });
-			//ObjectHover(play_button, play_button_hover);
-			//ObjectHover(tutorial_button_hover, tutorial_button);
-		}
-		else if (pointer == static_cast<int>(BUTTON::TUTORIAL))
-		{
-			sound.Play(SOUND::Click);
-			//ObjectHover(tutorial_button, tutorial_button_hover);
-			//ObjectHover(music_button_hover, music_button);
+			pointer++;
 
-			music_button->Change_Sprite(music_button->Find_Sprite_By_Type(Sprite_Type::Button));
-			tutorial_button->Change_Sprite(tutorial_button->Find_Sprite_By_Type(Sprite_Type::Button_Hover));
-			pointer1->SetTranslation({ -250,-150 });
-			pointer2->SetTranslation({ 350,-150 });
-		}
-		else if (pointer == static_cast<int>(BUTTON::MUSIC))
-		{
-			sound.Play(SOUND::Click);
-			//ObjectHover(music_button, music_button_hover);
-			//ObjectHover(test_button_hover, test_button);
+			if (pointer == static_cast<int>(BUTTON::START))
+			{
+				sound.Play(SOUND::Click);
+				//ObjectHover(play_button, play_button_hover);
+				play_button->Change_Sprite(play_button->Find_Sprite_By_Type(Sprite_Type::Button_Hover));
+				pointer1->SetTranslation({ -250,100 });
+				pointer2->SetTranslation({ 350,100 });
+			}
+			else if (pointer == static_cast<int>(BUTTON::TUTORIAL))
+			{
+				sound.Play(SOUND::Click);
+				play_button->Change_Sprite(play_button->Find_Sprite_By_Type(Sprite_Type::Button));
+				tutorial_button->Change_Sprite(tutorial_button->Find_Sprite_By_Type(Sprite_Type::Button_Hover));
+				pointer1->SetTranslation({ -250,-150 });
+				pointer2->SetTranslation({ 350,-150 });
+				//ObjectHover(tutorial_button, tutorial_button_hover);
+				//ObjectHover(play_button_hover, play_button);
+			}
+			else if (pointer == static_cast<int>(BUTTON::MUSIC))
+			{
+				sound.Play(SOUND::Click);
+				//ObjectHover(music_button, music_button_hover);
+				//ObjectHover(tutorial_button_hover, tutorial_button);
+				tutorial_button->Change_Sprite(tutorial_button->Find_Sprite_By_Type(Sprite_Type::Button));
+				music_button->Change_Sprite(music_button->Find_Sprite_By_Type(Sprite_Type::Button_Hover));
+				pointer1->SetTranslation({ -250,-400 });
+				pointer2->SetTranslation({ 350,-400 });
+			}
+			else if (pointer == static_cast<int>(BUTTON::TEST))
+			{
+				sound.Play(SOUND::Click);
+				//ObjectHover(test_button, test_button_hover);
+				//ObjectHover(music_button_hover, music_button);
 
-			test_button->Change_Sprite(test_button->Find_Sprite_By_Type(Sprite_Type::Button));
-			music_button->Change_Sprite(music_button->Find_Sprite_By_Type(Sprite_Type::Button_Hover));
-			pointer1->SetTranslation({ -250,-400 });
-			pointer2->SetTranslation({ 350,-400 });
+				music_button->Change_Sprite(music_button->Find_Sprite_By_Type(Sprite_Type::Button));
+				test_button->Change_Sprite(test_button->Find_Sprite_By_Type(Sprite_Type::Button_Hover));
+				pointer1->SetTranslation({ -250,-650 });
+				pointer2->SetTranslation({ 350,-650 });
+			}
+			else if (pointer > 3)
+			{
+				pointer = 3;
+			}
+			button_timer = 0;
 		}
-		else if (pointer == static_cast<int>(BUTTON::TEST))
+		else if ((input.Is_Key_Pressed(GLFW_KEY_UP) || LeftThumbStateY > 0) && pointer >= static_cast<int>(BUTTON::START))
 		{
-			sound.Play(SOUND::Click);
-			/*ObjectHover(test_button, test_button_hover);*/
-			test_button->Change_Sprite(test_button->Find_Sprite_By_Type(Sprite_Type::Button_Hover));
-			pointer1->SetTranslation({ -250,-650 });
-			pointer2->SetTranslation({ 350,-650 });
+			pointer--;
+
+			if (pointer == static_cast<int>(BUTTON::START))
+			{
+				sound.Play(SOUND::Click);
+				tutorial_button->Change_Sprite(tutorial_button->Find_Sprite_By_Type(Sprite_Type::Button));
+				play_button->Change_Sprite(play_button->Find_Sprite_By_Type(Sprite_Type::Button_Hover));
+				pointer1->SetTranslation({ -250,100 });
+				pointer2->SetTranslation({ 350,100 });
+				//ObjectHover(play_button, play_button_hover);
+				//ObjectHover(tutorial_button_hover, tutorial_button);
+			}
+			else if (pointer == static_cast<int>(BUTTON::TUTORIAL))
+			{
+				sound.Play(SOUND::Click);
+				//ObjectHover(tutorial_button, tutorial_button_hover);
+				//ObjectHover(music_button_hover, music_button);
+
+				music_button->Change_Sprite(music_button->Find_Sprite_By_Type(Sprite_Type::Button));
+				tutorial_button->Change_Sprite(tutorial_button->Find_Sprite_By_Type(Sprite_Type::Button_Hover));
+				pointer1->SetTranslation({ -250,-150 });
+				pointer2->SetTranslation({ 350,-150 });
+			}
+			else if (pointer == static_cast<int>(BUTTON::MUSIC))
+			{
+				sound.Play(SOUND::Click);
+				//ObjectHover(music_button, music_button_hover);
+				//ObjectHover(test_button_hover, test_button);
+
+				test_button->Change_Sprite(test_button->Find_Sprite_By_Type(Sprite_Type::Button));
+				music_button->Change_Sprite(music_button->Find_Sprite_By_Type(Sprite_Type::Button_Hover));
+				pointer1->SetTranslation({ -250,-400 });
+				pointer2->SetTranslation({ 350,-400 });
+			}
+			else if (pointer == static_cast<int>(BUTTON::TEST))
+			{
+				sound.Play(SOUND::Click);
+				/*ObjectHover(test_button, test_button_hover);*/
+				test_button->Change_Sprite(test_button->Find_Sprite_By_Type(Sprite_Type::Button_Hover));
+				pointer1->SetTranslation({ -250,-650 });
+				pointer2->SetTranslation({ 350,-650 });
+			}
+			else if (pointer < 0)
+			{
+				pointer = 0;
+			}
+			button_timer = 0;
 		}
-		else if (pointer < 0)
+
+		if ((input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::START))
 		{
-			pointer = 0;
+			pointer = static_cast<int>(BUTTON::START);
+			sound.Play(SOUND::Selected);
+			StateManager::GetStateManager()->level_state->is_pause = false;
+			is_next = true;
+			next_level = "Level1";
+			Sleep(800);
+			sound.UnLoad();
+			Clear();
 		}
-		button_timer = 0;
-	}
-
-	if ((input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::START))
-	{
-		pointer = static_cast<int>(BUTTON::START);
-		sound.Play(SOUND::Selected);
-		StateManager::GetStateManager()->level_state->is_pause = false;
-		is_next = true;
-		next_level = "Level1";
-		Sleep(800);
-		sound.UnLoad();
-		Clear();
-	}
-	else if ((input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::TUTORIAL))
-	{
-		sound.Play(SOUND::Selected);
-		is_next = true;
-		next_level = "Tutorial";
-		Clear();
-	}
-	else if ((input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::MUSIC))
-	{
-		pointer = static_cast<int>(BUTTON::START);
-		sound.Play(SOUND::Selected);
-		is_next = true;
-		next_level = "Option";
-		Clear();
-	}
-	else if ((input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::TEST))
-	{
-		pointer = static_cast<int>(BUTTON::START);
-		sound.Play(SOUND::Selected);
-		//is_next = true;
-		//next_level = "TestLevel";
-		Clear();
-		exit(0);
-
+		else if ((input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::TUTORIAL))
+		{
+			sound.Play(SOUND::Selected);
+			is_next = true;
+			next_level = "Tutorial";
+			Clear();
+		}
+		else if ((input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::MUSIC))
+		{
+			pointer = static_cast<int>(BUTTON::START);
+			sound.Play(SOUND::Selected);
+			is_next = true;
+			next_level = "Option";
+			Clear();
+		}
+		else if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::TEST))
+		{
+			if (r_u_sure == true)
+			{
+				pointer = static_cast<int>(BUTTON::START);
+				sound.Play(SOUND::Selected);
+				Clear();
+				exit(0);
+			}
+			else
+			{
+				r_u_sure_come = true;
+			}
+		}
+		if (r_u_sure == true)
+		{
+			Clear();
+			exit(0);
+		}
 	}
 }
 

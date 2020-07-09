@@ -88,6 +88,8 @@ enum class Sprite_Type
     Player_Selected,
     Button,
     Button_Hover,
+    R_U_SURE_YES,
+    R_U_SURE_NO,
 };
 
 
