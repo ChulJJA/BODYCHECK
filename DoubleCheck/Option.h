@@ -1,13 +1,12 @@
-#pragma once
 /*
  * Author		:Chulseung Lee
- * File			:SoundOption.h
- * Term			:2020 Winter
+ * File			:Option.h
+ * Term			:2020 Spring
  * Class		:GAM250
  * Project		:GAM250 Project
- * Date			:2020/02/11
- * Description	:Header file of SoundOption.cpp
- * copyright   All content ?2019 DigiPen (USA) Corporation, all rights reserved
+ * Date			:2020/07/09
+ * Description	:Header file for Option
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
  */
 
 #pragma once

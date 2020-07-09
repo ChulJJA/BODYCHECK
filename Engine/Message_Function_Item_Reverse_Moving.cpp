@@ -51,7 +51,7 @@ void Msg_Func_Item_Reverse_Moving::Init()
 					Player* get_player = player->GetComponentByTemplate<Player>();
 					get_player->Set_Char_State(Player::Char_State::Reverse_Moving);
 					player->Change_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Player_Reverse_Moving));
-					get_player->Set_Stop_Timer(3.0f);
+					get_player->Set_Stop_Timer(3.f);
 					//another_players[random_select_character]->Change_Sprite(another_players[random_select_character]->Find_Sprite_By_Type(Sprite_Type::Player_Reverse_Moving));
 				}
 			}

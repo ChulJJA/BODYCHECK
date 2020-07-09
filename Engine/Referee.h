@@ -14,6 +14,7 @@
 #include "Object.h"
 #include "vector"
 #include "Component_Item.h"
+#include "Particle.h"
 
 class PLAYER_UI;
 
@@ -227,4 +228,6 @@ private:
     float player_dance_time = 0.f;
 	
 	std::vector<Object*> total_item;
+
+    ParticleGenerator* win_particle;
 };

@@ -34,6 +34,7 @@ GLFWgamepadstate state;
 namespace
 {
 	Gamepad* gamepadManager = nullptr;
+	Gamepad* gamepadManagerSec = nullptr;
 	ParticleGenerator* speedParticle = nullptr;
 }
 
@@ -41,6 +42,7 @@ namespace
 void Player::Init(Object* obj)
 {
 	gamepadManager = Gamepad::getGamepad();
+	gamepadManagerSec = Gamepad::getGamepadSecond();
 
 	m_owner = obj;
 	m_owner->Get_Component_Info_Reference().component_info_player = true;
@@ -56,7 +58,8 @@ void Player::Init(Object* obj)
 
 void Player::Update(float dt)
 {
-	float RightTriggerState = gamepadManager->RightTrigger();
+	float FirstRightTrigger = gamepadManager->RightTrigger();
+	float SecondRightTrigger = gamepadManagerSec->RightTrigger();
 	
 	if (curr_state == Char_State::Prepare)
 	{
@@ -170,7 +173,7 @@ void Player::Update(float dt)
 				scale.x += scale_plus;
 				scale.y += scale_plus;
 			}
-			
+
 			/*if (speedParticle != nullptr && speed_mag > 2000.0f)
 			{
 				speedParticle->Update(dt, m_owner, 1, vector2(-m_owner->GetScale_Reference() / 2.0f));
@@ -234,7 +237,8 @@ void Player::Update(float dt)
 	if (
 		input.Is_Key_Triggered(GLFW_KEY_SPACE)
 		|| input.Is_Key_Triggered(GLFW_KEY_RIGHT_SHIFT)
-		|| RightTriggerState > 0 && (
+		|| FirstRightTrigger > 0
+		|| SecondRightTrigger > 0 && (
 			curr_state != Char_State::Reverse_Moving && curr_state != Char_State::Time_Pause))
 	{
 		UseItem();
@@ -362,7 +366,10 @@ void Player::Func_Reverse_Moving(float dt)
 
 void Player::Func_Mine(float dt)
 {
-	if (input.Is_Key_Pressed(GLFW_KEY_SPACE))
+	float FirstRightTrigger = gamepadManager->RightTrigger();
+	float SecondRightTrigger = gamepadManagerSec->RightTrigger();
+	if (input.Is_Key_Released(GLFW_KEY_SPACE) || input.Is_Key_Released(GLFW_KEY_RIGHT_SHIFT)
+		|| FirstRightTrigger > 0 || SecondRightTrigger > 0)
 	{
 		srand(time(NULL));
 		float random_position_x = rand() % 3000 - 1500;
@@ -491,7 +498,7 @@ float Player::Get_Mine_Timer()
 
 void Player::PlayerMovement(float max_velocity, float min_velocity)
 {
-	float LeftThumbStateX = gamepadManager->LeftStick_X();
+	/*float LeftThumbStateX = gamepadManager->LeftStick_X();
 	float LeftThumbStateY = gamepadManager->LeftStick_Y();
 
 
@@ -647,350 +654,364 @@ void Player::PlayerMovement(float max_velocity, float min_velocity)
 			velocity += {-velocity.x / 100, -velocity.y / 100};
 		}
 	}
-	else if (m_owner->Get_Name() == "second")
+	else*/ if (m_owner->Get_Name() == "second")
 	{
-		if (input.Is_Key_Pressed(GLFW_KEY_W))
+		if (gamepadManager->Connected() == false)
 		{
-			if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_A))
+			if (input.Is_Key_Pressed(GLFW_KEY_W))
 			{
-				if (velocity.x >= 0 && velocity.y >= 0)
+				if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_A))
 				{
-					velocity += {-max_velocity, min_velocity};
+					if (velocity.x >= 0 && velocity.y >= 0)
+					{
+						velocity += {-max_velocity, min_velocity};
+					}
+					else if (velocity.x >= 0 && velocity.y < 0)
+					{
+						velocity += {-max_velocity, max_velocity};
+					}
+					else if (velocity.x < 0 && velocity.y >= 0)
+					{
+						velocity += {-min_velocity, min_velocity};
+					}
+					else if (velocity.x < 0 && velocity.y < 0)
+					{
+						velocity += {-min_velocity, max_velocity};
+					}
+					direction.x -= 0.07f;
+					direction.y += 0.07f;
 				}
-				else if (velocity.x >= 0 && velocity.y < 0)
+				else if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_D))
 				{
-					velocity += {-max_velocity, max_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y >= 0)
-				{
-					velocity += {-min_velocity, min_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y < 0)
-				{
-					velocity += {-min_velocity, max_velocity};
-				}
-				direction.x -= 0.07f;
-				direction.y += 0.07f;
-			}
-			else if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_D))
-			{
-				if (velocity.x >= 0 && velocity.y >= 0)
-				{
-					velocity += {min_velocity, min_velocity};
-				}
-				else if (velocity.x >= 0 && velocity.y < 0)
-				{
-					velocity += {min_velocity, max_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y >= 0)
-				{
-					velocity += {max_velocity, min_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y < 0)
-				{
-					velocity += {max_velocity, max_velocity};
-				}
-				direction.x += 0.07f;
-				direction.y += 0.07f;
-			}
-			else
-			{
-				if (abs(velocity.x) >= 0)
-				{
-					velocity.x -= velocity.x / 100;
-				}
-				if (velocity.y >= 0)
-				{
-					velocity += {0.00, min_velocity};
-				}
-				else if (velocity.y < 0)
-				{
-					velocity += {0.00, max_velocity};
-				}
-				direction.y += 0.1f;
-			}
-		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_A))
-		{
-			if (input.Is_Key_Pressed(GLFW_KEY_A) && input.Is_Key_Pressed(GLFW_KEY_S))
-			{
-				if (velocity.x >= 0 && velocity.y >= 0)
-				{
-					velocity += {-max_velocity, -max_velocity};
-				}
-				else if (velocity.x >= 0 && velocity.y < 0)
-				{
-					velocity += {-max_velocity, -min_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y >= 0)
-				{
-					velocity += {-min_velocity, -max_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y < 0)
-				{
-					velocity += {-min_velocity, -min_velocity};
-				}
-				direction.x -= 0.07f;
-				direction.y -= 0.07f;
-			}
-			else
-			{
-				if (velocity.x >= 0)
-				{
-					velocity.x += -max_velocity;
+					if (velocity.x >= 0 && velocity.y >= 0)
+					{
+						velocity += {min_velocity, min_velocity};
+					}
+					else if (velocity.x >= 0 && velocity.y < 0)
+					{
+						velocity += {min_velocity, max_velocity};
+					}
+					else if (velocity.x < 0 && velocity.y >= 0)
+					{
+						velocity += {max_velocity, min_velocity};
+					}
+					else if (velocity.x < 0 && velocity.y < 0)
+					{
+						velocity += {max_velocity, max_velocity};
+					}
+					direction.x += 0.07f;
+					direction.y += 0.07f;
 				}
 				else
 				{
-					velocity.x += -min_velocity;
+					if (abs(velocity.x) >= 0)
+					{
+						velocity.x -= velocity.x / 100;
+					}
+					if (velocity.y >= 0)
+					{
+						velocity += {0.00, min_velocity};
+					}
+					else if (velocity.y < 0)
+					{
+						velocity += {0.00, max_velocity};
+					}
+					direction.y += 0.1f;
+				}
+			}
+			else if (input.Is_Key_Pressed(GLFW_KEY_A))
+			{
+				if (input.Is_Key_Pressed(GLFW_KEY_A) && input.Is_Key_Pressed(GLFW_KEY_S))
+				{
+					if (velocity.x >= 0 && velocity.y >= 0)
+					{
+						velocity += {-max_velocity, -max_velocity};
+					}
+					else if (velocity.x >= 0 && velocity.y < 0)
+					{
+						velocity += {-max_velocity, -min_velocity};
+					}
+					else if (velocity.x < 0 && velocity.y >= 0)
+					{
+						velocity += {-min_velocity, -max_velocity};
+					}
+					else if (velocity.x < 0 && velocity.y < 0)
+					{
+						velocity += {-min_velocity, -min_velocity};
+					}
+					direction.x -= 0.07f;
+					direction.y -= 0.07f;
+				}
+				else
+				{
+					if (velocity.x >= 0)
+					{
+						velocity.x += -max_velocity;
+					}
+					else
+					{
+						velocity.x += -min_velocity;
+					}
+					if (abs(velocity.y) >= 0)
+					{
+						velocity.y -= velocity.y / 100;
+					}
+					direction.x -= 0.1f;
+				}
+			}
+			else if (input.Is_Key_Pressed(GLFW_KEY_S))
+			{
+				if (input.Is_Key_Pressed(GLFW_KEY_S) && input.Is_Key_Pressed(GLFW_KEY_D))
+				{
+					if (velocity.x >= 0 && velocity.y >= 0)
+					{
+						velocity += {min_velocity, -max_velocity};
+					}
+					else if (velocity.x >= 0 && velocity.y < 0)
+					{
+						velocity += {min_velocity, -min_velocity};
+					}
+					else if (velocity.x < 0 && velocity.y >= 0)
+					{
+						velocity += {max_velocity, -max_velocity};
+					}
+					else if (velocity.x < 0 && velocity.y < 0)
+					{
+						velocity += {max_velocity, -min_velocity};
+					}
+					direction.x += 0.07f;
+					direction.y -= 0.07f;
+				}
+				else
+				{
+					if (abs(velocity.x) >= 0)
+					{
+						velocity.x -= velocity.x / 100;
+					}
+					if (velocity.y >= 0)
+					{
+						velocity.y += -max_velocity;
+					}
+					else
+					{
+						velocity.y += -min_velocity;
+					}
+					direction.y -= 0.1f;
+				}
+			}
+			else if (input.Is_Key_Pressed(GLFW_KEY_D))
+			{
+				if (velocity.x >= 0)
+				{
+					velocity.x += min_velocity;
+				}
+				else
+				{
+					velocity.x += max_velocity;
 				}
 				if (abs(velocity.y) >= 0)
 				{
 					velocity.y -= velocity.y / 100;
 				}
-				direction.x -= 0.1f;
-			}
-		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_S))
-		{
-			if (input.Is_Key_Pressed(GLFW_KEY_S) && input.Is_Key_Pressed(GLFW_KEY_D))
-			{
-				if (velocity.x >= 0 && velocity.y >= 0)
-				{
-					velocity += {min_velocity, -max_velocity};
-				}
-				else if (velocity.x >= 0 && velocity.y < 0)
-				{
-					velocity += {min_velocity, -min_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y >= 0)
-				{
-					velocity += {max_velocity, -max_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y < 0)
-				{
-					velocity += {max_velocity, -min_velocity};
-				}
-				direction.x += 0.07f;
-				direction.y -= 0.07f;
+				direction.x += 0.1f;
 			}
 			else
 			{
-				if (abs(velocity.x) >= 0)
-				{
-					velocity.x -= velocity.x / 100;
-				}
-				if (velocity.y >= 0)
-				{
-					velocity.y += -max_velocity;
-				}
-				else
-				{
-					velocity.y += -min_velocity;
-				}
-				direction.y -= 0.1f;
+				velocity += {-velocity.x / 100, -velocity.y / 100};
 			}
-		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_D))
-		{
-			if (velocity.x >= 0)
+			float angle = RadianToDegree(angle_between({ 0,1 }, direction));
+			if (direction.x >= 0)
 			{
-				velocity.x += min_velocity;
+				angle *= -1;
 			}
-			else
-			{
-				velocity.x += max_velocity;
-			}
-			if (abs(velocity.y) >= 0)
-			{
-				velocity.y -= velocity.y / 100;
-			}
-			direction.x += 0.1f;
+			m_owner->SetRotation(angle);
+			direction = normalize(direction);
 		}
 		else
 		{
-			velocity += {-velocity.x / 100, -velocity.y / 100};
+			PadControll(max_velocity, min_velocity, gamepadManager);
 		}
-		float angle = RadianToDegree(angle_between({ 0,1 }, direction));
-		if (direction.x >= 0)
-		{
-			angle *= -1;
-		}
-		m_owner->SetRotation(angle);
-		direction = normalize(direction);
 
 	}
 	else if (m_owner->GetName() == "third")
 	{
-		if (input.Is_Key_Pressed(GLFW_KEY_UP))
+		if (gamepadManagerSec->Connected() == false)
 		{
-			if (input.Is_Key_Pressed(GLFW_KEY_UP) && input.Is_Key_Pressed(GLFW_KEY_LEFT))
+			if (input.Is_Key_Pressed(GLFW_KEY_UP))
 			{
-				if (velocity.x >= 0 && velocity.y >= 0)
+				if (input.Is_Key_Pressed(GLFW_KEY_UP) && input.Is_Key_Pressed(GLFW_KEY_LEFT))
 				{
-					velocity += {-max_velocity, min_velocity};
+					if (velocity.x >= 0 && velocity.y >= 0)
+					{
+						velocity += {-max_velocity, min_velocity};
+					}
+					else if (velocity.x >= 0 && velocity.y < 0)
+					{
+						velocity += {-max_velocity, max_velocity};
+					}
+					else if (velocity.x < 0 && velocity.y >= 0)
+					{
+						velocity += {-min_velocity, min_velocity};
+					}
+					else if (velocity.x < 0 && velocity.y < 0)
+					{
+						velocity += {-min_velocity, max_velocity};
+					}
+					direction.x -= 0.07f;
+					direction.y += 0.07f;
 				}
-				else if (velocity.x >= 0 && velocity.y < 0)
+				else if (input.Is_Key_Pressed(GLFW_KEY_UP) && input.Is_Key_Pressed(GLFW_KEY_RIGHT))
 				{
-					velocity += {-max_velocity, max_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y >= 0)
-				{
-					velocity += {-min_velocity, min_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y < 0)
-				{
-					velocity += {-min_velocity, max_velocity};
-				}
-				direction.x -= 0.07f;
-				direction.y += 0.07f;
-			}
-			else if (input.Is_Key_Pressed(GLFW_KEY_UP) && input.Is_Key_Pressed(GLFW_KEY_RIGHT))
-			{
-				if (velocity.x >= 0 && velocity.y >= 0)
-				{
-					velocity += {min_velocity, min_velocity};
-				}
-				else if (velocity.x >= 0 && velocity.y < 0)
-				{
-					velocity += {min_velocity, max_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y >= 0)
-				{
-					velocity += {max_velocity, min_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y < 0)
-				{
-					velocity += {max_velocity, max_velocity};
-				}
-				direction.x += 0.07f;
-				direction.y += 0.07f;
-			}
-			else
-			{
-				if (abs(velocity.x) >= 0)
-				{
-					velocity.x -= velocity.x / 100;
-				}
-				if (velocity.y >= 0)
-				{
-					velocity += {0.00, min_velocity};
-				}
-				else if (velocity.y < 0)
-				{
-					velocity += {0.00, max_velocity};
-				}
-				direction.y += 0.1f;
-			}
-		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
-		{
-			if (input.Is_Key_Pressed(GLFW_KEY_LEFT) && input.Is_Key_Pressed(GLFW_KEY_DOWN))
-			{
-				if (velocity.x >= 0 && velocity.y >= 0)
-				{
-					velocity += {-max_velocity, -max_velocity};
-				}
-				else if (velocity.x >= 0 && velocity.y < 0)
-				{
-					velocity += {-max_velocity, -min_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y >= 0)
-				{
-					velocity += {-min_velocity, -max_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y < 0)
-				{
-					velocity += {-min_velocity, -min_velocity};
-				}
-				direction.x -= 0.07f;
-				direction.y -= 0.07f;
-			}
-			else
-			{
-				if (velocity.x >= 0)
-				{
-					velocity.x += -max_velocity;
+					if (velocity.x >= 0 && velocity.y >= 0)
+					{
+						velocity += {min_velocity, min_velocity};
+					}
+					else if (velocity.x >= 0 && velocity.y < 0)
+					{
+						velocity += {min_velocity, max_velocity};
+					}
+					else if (velocity.x < 0 && velocity.y >= 0)
+					{
+						velocity += {max_velocity, min_velocity};
+					}
+					else if (velocity.x < 0 && velocity.y < 0)
+					{
+						velocity += {max_velocity, max_velocity};
+					}
+					direction.x += 0.07f;
+					direction.y += 0.07f;
 				}
 				else
 				{
-					velocity.x += -min_velocity;
+					if (abs(velocity.x) >= 0)
+					{
+						velocity.x -= velocity.x / 100;
+					}
+					if (velocity.y >= 0)
+					{
+						velocity += {0.00, min_velocity};
+					}
+					else if (velocity.y < 0)
+					{
+						velocity += {0.00, max_velocity};
+					}
+					direction.y += 0.1f;
+				}
+			}
+			else if (input.Is_Key_Pressed(GLFW_KEY_LEFT))
+			{
+				if (input.Is_Key_Pressed(GLFW_KEY_LEFT) && input.Is_Key_Pressed(GLFW_KEY_DOWN))
+				{
+					if (velocity.x >= 0 && velocity.y >= 0)
+					{
+						velocity += {-max_velocity, -max_velocity};
+					}
+					else if (velocity.x >= 0 && velocity.y < 0)
+					{
+						velocity += {-max_velocity, -min_velocity};
+					}
+					else if (velocity.x < 0 && velocity.y >= 0)
+					{
+						velocity += {-min_velocity, -max_velocity};
+					}
+					else if (velocity.x < 0 && velocity.y < 0)
+					{
+						velocity += {-min_velocity, -min_velocity};
+					}
+					direction.x -= 0.07f;
+					direction.y -= 0.07f;
+				}
+				else
+				{
+					if (velocity.x >= 0)
+					{
+						velocity.x += -max_velocity;
+					}
+					else
+					{
+						velocity.x += -min_velocity;
+					}
+					if (abs(velocity.y) >= 0)
+					{
+						velocity.y -= velocity.y / 100;
+					}
+					direction.x -= 0.1f;
+				}
+			}
+			else if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
+			{
+				if (input.Is_Key_Pressed(GLFW_KEY_DOWN) && input.Is_Key_Pressed(GLFW_KEY_RIGHT))
+				{
+					if (velocity.x >= 0 && velocity.y >= 0)
+					{
+						velocity += {min_velocity, -max_velocity};
+					}
+					else if (velocity.x >= 0 && velocity.y < 0)
+					{
+						velocity += {min_velocity, -min_velocity};
+					}
+					else if (velocity.x < 0 && velocity.y >= 0)
+					{
+						velocity += {max_velocity, -max_velocity};
+					}
+					else if (velocity.x < 0 && velocity.y < 0)
+					{
+						velocity += {max_velocity, -min_velocity};
+					}
+					direction.x += 0.07f;
+					direction.y -= 0.07f;
+				}
+				else
+				{
+					if (abs(velocity.x) >= 0)
+					{
+						velocity.x -= velocity.x / 100;
+					}
+					if (velocity.y >= 0)
+					{
+						velocity.y += -max_velocity;
+					}
+					else
+					{
+						velocity.y += -min_velocity;
+					}
+					direction.y -= 0.1f;
+				}
+			}
+			else if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
+			{
+				if (velocity.x >= 0)
+				{
+					velocity.x += min_velocity;
+				}
+				else
+				{
+					velocity.x += max_velocity;
 				}
 				if (abs(velocity.y) >= 0)
 				{
 					velocity.y -= velocity.y / 100;
 				}
-				direction.x -= 0.1f;
-			}
-		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_DOWN))
-		{
-			if (input.Is_Key_Pressed(GLFW_KEY_DOWN) && input.Is_Key_Pressed(GLFW_KEY_RIGHT))
-			{
-				if (velocity.x >= 0 && velocity.y >= 0)
-				{
-					velocity += {min_velocity, -max_velocity};
-				}
-				else if (velocity.x >= 0 && velocity.y < 0)
-				{
-					velocity += {min_velocity, -min_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y >= 0)
-				{
-					velocity += {max_velocity, -max_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y < 0)
-				{
-					velocity += {max_velocity, -min_velocity};
-				}
-				direction.x += 0.07f;
-				direction.y -= 0.07f;
+				direction.x += 0.1f;
 			}
 			else
 			{
-				if (abs(velocity.x) >= 0)
-				{
-					velocity.x -= velocity.x / 100;
-				}
-				if (velocity.y >= 0)
-				{
-					velocity.y += -max_velocity;
-				}
-				else
-				{
-					velocity.y += -min_velocity;
-				}
-				direction.y -= 0.1f;
+				velocity += {-velocity.x / 100, -velocity.y / 100};
 			}
-		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_RIGHT))
-		{
-			if (velocity.x >= 0)
+			float angle = RadianToDegree(angle_between({ 0,1 }, direction));
+			if (direction.x >= 0)
 			{
-				velocity.x += min_velocity;
+				angle *= -1;
 			}
-			else
-			{
-				velocity.x += max_velocity;
-			}
-			if (abs(velocity.y) >= 0)
-			{
-				velocity.y -= velocity.y / 100;
-			}
-			direction.x += 0.1f;
+			m_owner->SetRotation(angle);
+			direction = normalize(direction);
 		}
 		else
 		{
-			velocity += {-velocity.x / 100, -velocity.y / 100};
+			PadControll(max_velocity, min_velocity, gamepadManager);
 		}
-		float angle = RadianToDegree(angle_between({ 0,1 }, direction));
-		if (direction.x >= 0)
-		{
-			angle *= -1;
-		}
-		m_owner->SetRotation(angle);
-		direction = normalize(direction);
 	}
-	else if (m_owner->GetName() == "fourth")
+	/*else if (m_owner->GetName() == "fourth")
 	{
 
 		if (input.Is_Key_Pressed(GLFW_KEY_W))
@@ -1143,7 +1164,7 @@ void Player::PlayerMovement(float max_velocity, float min_velocity)
 			velocity += {-velocity.x / 100, -velocity.y / 100};
 		}
 
-	}
+	}*/
 }
 
 void Player::SetPlayerVelocity(vector2 current_velocity)
@@ -1163,9 +1184,10 @@ vector2 Player::GetPlayerDirection()
 
 void Player::UseItem()
 {
-	float RightTriggerState = gamepadManager->RightTrigger();
+	float FirstRightTrigger = gamepadManager->RightTrigger();
+	float SecondRightTrigger = gamepadManagerSec->RightTrigger();
 
-	if (m_owner->Get_Name() == "first")
+	/*if (m_owner->Get_Name() == "first")
 	{
 		if (RightTriggerState > 0 && belong_item == Item::Item_Kind::Dash)
 		{
@@ -1238,9 +1260,9 @@ void Player::UseItem()
 		}
 
 	}
-	else if (m_owner->Get_Name() == "second")
+	else*/ if (m_owner->Get_Name() == "second")
 	{
-		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Dash)
+		if ((FirstRightTrigger > 0 || input.Is_Key_Pressed(GLFW_KEY_SPACE)) && belong_item == Item::Item_Kind::Dash)
 		{
 			Change_Weapon_Sprite(nullptr);
 			sound.Play(SOUND::Dash);
@@ -1248,7 +1270,7 @@ void Player::UseItem()
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Dash));
 		}
-		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::HP)
+		if ((FirstRightTrigger > 0 || input.Is_Key_Pressed(GLFW_KEY_SPACE)) && belong_item == Item::Item_Kind::HP)
 		{
 			Change_Weapon_Sprite(nullptr);
 			sound.Play(SOUND::HP);
@@ -1258,7 +1280,7 @@ void Player::UseItem()
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(hp_bar, m_owner, Message_Kind::Item_Recover));
 		}
 
-		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Bulkup)
+		if ((FirstRightTrigger > 0 || input.Is_Key_Pressed(GLFW_KEY_SPACE)) && belong_item == Item::Item_Kind::Bulkup)
 		{
 			Change_Weapon_Sprite(nullptr);
 			sound.Play(SOUND::BulkUp);
@@ -1267,7 +1289,7 @@ void Player::UseItem()
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 5.f));
 		}
 
-		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Throwing)
+		if ((FirstRightTrigger > 0 || input.Is_Key_Pressed(GLFW_KEY_SPACE)) && belong_item == Item::Item_Kind::Throwing)
 		{
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
@@ -1275,28 +1297,28 @@ void Player::UseItem()
 			m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing)->Set_Need_Update(true);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Throwing, 0.f));
 		}
-		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Magnatic)
+		if ((FirstRightTrigger > 0 || input.Is_Key_Pressed(GLFW_KEY_SPACE)) && belong_item == Item::Item_Kind::Magnatic)
 		{
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Magnetic));
 		}
-		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Time_Pause)
+		if ((FirstRightTrigger > 0 || input.Is_Key_Pressed(GLFW_KEY_SPACE)) && belong_item == Item::Item_Kind::Time_Pause)
 		{
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Timepause));
 		}
-		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Reverse_Moving)
+		if ((FirstRightTrigger > 0 || input.Is_Key_Pressed(GLFW_KEY_SPACE)) && belong_item == Item::Item_Kind::Reverse_Moving)
 		{
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Reverse));
 		}
-		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Missile)
+		if ((FirstRightTrigger > 0 || input.Is_Key_Pressed(GLFW_KEY_SPACE)) && belong_item == Item::Item_Kind::Missile)
 		{
 			Change_To_Normal_State();
 
@@ -1305,7 +1327,7 @@ void Player::UseItem()
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Missile));
 		}
-		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) && belong_item == Item::Item_Kind::Mine)
+		if ((FirstRightTrigger > 0 || input.Is_Key_Pressed(GLFW_KEY_SPACE)) && belong_item == Item::Item_Kind::Mine)
 		{
 			Change_To_Normal_State();
 
@@ -1314,15 +1336,14 @@ void Player::UseItem()
 	}
 	else if (m_owner->Get_Name() == "third")
 	{
-		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT) && belong_item == Item::Item_Kind::Dash)
+		if ((SecondRightTrigger > 0 || input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT)) && belong_item == Item::Item_Kind::Dash)
 		{
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
-
 			sound.Play(SOUND::Dash);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Dash));
 		}
-		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT) && belong_item == Item::Item_Kind::HP)
+		if ((SecondRightTrigger > 0 || input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT)) && belong_item == Item::Item_Kind::HP)
 		{
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
@@ -1332,7 +1353,7 @@ void Player::UseItem()
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(hp_bar, m_owner, Message_Kind::Item_Recover));
 		}
 
-		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT) && belong_item == Item::Item_Kind::Bulkup)
+		if ((SecondRightTrigger > 0 || input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT)) && belong_item == Item::Item_Kind::Bulkup)
 		{
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
@@ -1341,7 +1362,7 @@ void Player::UseItem()
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 5.f));
 		}
 
-		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT) && belong_item == Item::Item_Kind::Throwing)
+		if ((SecondRightTrigger > 0 || input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT)) && belong_item == Item::Item_Kind::Throwing)
 		{
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
@@ -1349,28 +1370,28 @@ void Player::UseItem()
 			m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing)->Set_Need_Update(true);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Throwing, 0.f));
 		}
-		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT) && belong_item == Item::Item_Kind::Magnatic)
+		if ((SecondRightTrigger > 0 || input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT)) && belong_item == Item::Item_Kind::Magnatic)
 		{
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Magnetic));
 		}
-		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT) && belong_item == Item::Item_Kind::Time_Pause)
+		if ((SecondRightTrigger > 0 || input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT)) && belong_item == Item::Item_Kind::Time_Pause)
 		{
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Timepause));
 		}
-		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT) && belong_item == Item::Item_Kind::Reverse_Moving)
+		if ((SecondRightTrigger > 0 || input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT)) && belong_item == Item::Item_Kind::Reverse_Moving)
 		{
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Reverse));
 		}
-		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT) && belong_item == Item::Item_Kind::Missile)
+		if ((SecondRightTrigger > 0 || input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT)) && belong_item == Item::Item_Kind::Missile)
 		{
 			Change_To_Normal_State();
 
@@ -1379,7 +1400,7 @@ void Player::UseItem()
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Missile));
 		}
-		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT) && belong_item == Item::Item_Kind::Mine)
+		if ((SecondRightTrigger > 0 || input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT)) && belong_item == Item::Item_Kind::Mine)
 		{
 			Change_To_Normal_State();
 
@@ -1564,4 +1585,182 @@ void Player::Set_Audience(Object* obj)
 Object* Player::Get_Audience()
 {
 	return aud;
+}
+
+void Player::PadControll(float max_velocity, float min_velocity, Gamepad* numController)
+{
+	float LeftThumbStateX = numController->LeftStick_X();
+	float LeftThumbStateY = numController->LeftStick_Y();
+
+	if (LeftThumbStateY > 0)
+	{
+		if (LeftThumbStateY > 0 && LeftThumbStateX < 0)
+		{
+			if (velocity.x >= 0 && velocity.y >= 0)
+			{
+				velocity += {-max_velocity, min_velocity};
+			}
+			else if (velocity.x >= 0 && velocity.y < 0)
+			{
+				velocity += {-max_velocity, max_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y >= 0)
+			{
+				velocity += {-min_velocity, min_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y < 0)
+			{
+				velocity += {-min_velocity, max_velocity};
+			}
+			direction.x -= 0.07f;
+			direction.y += 0.07f;
+		}
+		else if (LeftThumbStateY > 0 && LeftThumbStateX > 0)
+		{
+			if (velocity.x >= 0 && velocity.y >= 0)
+			{
+				velocity += {min_velocity, min_velocity};
+			}
+			else if (velocity.x >= 0 && velocity.y < 0)
+			{
+				velocity += {min_velocity, max_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y >= 0)
+			{
+				velocity += {max_velocity, min_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y < 0)
+			{
+				velocity += {max_velocity, max_velocity};
+			}
+			direction.x += 0.07f;
+			direction.y += 0.07f;
+		}
+		else
+		{
+			if (abs(velocity.x) >= 0)
+			{
+				velocity.x -= velocity.x / 100;
+			}
+			if (velocity.y >= 0)
+			{
+				velocity += {0.00, min_velocity};
+			}
+			else if (velocity.y < 0)
+			{
+				velocity += {0.00, max_velocity};
+			}
+			direction.y += 0.1f;
+		}
+	}
+	else if (LeftThumbStateX < 0)
+	{
+		if (LeftThumbStateX < 0 && LeftThumbStateY < 0)
+		{
+			if (velocity.x >= 0 && velocity.y >= 0)
+			{
+				velocity += {-max_velocity, -max_velocity};
+			}
+			else if (velocity.x >= 0 && velocity.y < 0)
+			{
+				velocity += {-max_velocity, -min_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y >= 0)
+			{
+				velocity += {-min_velocity, -max_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y < 0)
+			{
+				velocity += {-min_velocity, -min_velocity};
+			}
+
+			direction.x -= 0.07f;
+			direction.y -= 0.07f;
+		}
+		else
+		{
+			if (velocity.x >= 0)
+			{
+				velocity.x += -max_velocity;
+			}
+			else
+			{
+				velocity.x += -min_velocity;
+			}
+			if (abs(velocity.y) >= 0)
+			{
+				velocity.y -= velocity.y / 100;
+			}
+			
+			direction.x -= 0.1f;
+		}
+	}
+	else if (LeftThumbStateY < 0)
+	{
+		if (LeftThumbStateY < 0 && LeftThumbStateX > 0)
+		{
+			if (velocity.x >= 0 && velocity.y >= 0)
+			{
+				velocity += {min_velocity, -max_velocity};
+			}
+			else if (velocity.x >= 0 && velocity.y < 0)
+			{
+				velocity += {min_velocity, -min_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y >= 0)
+			{
+				velocity += {max_velocity, -max_velocity};
+			}
+			else if (velocity.x < 0 && velocity.y < 0)
+			{
+				velocity += {max_velocity, -min_velocity};
+			}
+
+			direction.x += 0.07f;
+			direction.y -= 0.07f;
+		}
+		else
+		{
+			if (abs(velocity.x) >= 0)
+			{
+				velocity.x -= velocity.x / 100;
+			}
+			if (velocity.y >= 0)
+			{
+				velocity.y += -max_velocity;
+			}
+			else
+			{
+				velocity.y += -min_velocity;
+			}
+			direction.y -= 0.1f;
+		}
+	}
+	else if (LeftThumbStateX > 0)
+	{
+		if (velocity.x >= 0)
+		{
+			velocity.x += min_velocity;
+		}
+		else
+		{
+			velocity.x += max_velocity;
+		}
+		if (abs(velocity.y) >= 0)
+		{
+			velocity.y -= velocity.y / 100;
+		}
+		direction.x += 0.1f;
+	}
+	else
+	{
+		velocity += {-velocity.x / 100, -velocity.y / 100};
+	}
+	float angle = RadianToDegree(angle_between({ 0,1 }, direction));
+	if (direction.x >= 0)
+	{
+		angle *= -1;
+	}
+	m_owner->SetRotation(angle);
+	direction = normalize(direction);
 }

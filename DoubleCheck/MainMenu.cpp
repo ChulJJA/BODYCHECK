@@ -1,14 +1,14 @@
 /*
- * Author		:Chulseung Lee
+ * Author		:Chulseung Lee Kim
  * File			:MainMenu.cpp
  * Term			:2020 Spring
- * Class		:GAM200
- * Project		:GAM200 Project
- * Date			:2019/02/25
- * Description	:This file contains codes for main menu.
- *
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Source file for Main Menu
  * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
  */
+
 #include <GLFW/glfw3.h>
 #include "MainMenu.h"
 #include "Input.h"

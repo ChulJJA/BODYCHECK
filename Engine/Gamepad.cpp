@@ -28,6 +28,7 @@ XInput_ButtonIDs::XInput_ButtonIDs()
 }
 
 Gamepad* Gamepad::gamepadManager = nullptr;
+Gamepad* Gamepad::gamepadManagerSec = nullptr;
 
 Gamepad* Gamepad::getGamepad()
 {
@@ -35,6 +36,14 @@ Gamepad* Gamepad::getGamepad()
 		gamepadManager = new Gamepad(1);
 
 	return gamepadManager;
+}
+
+Gamepad* Gamepad::getGamepadSecond()
+{
+	if (gamepadManagerSec == nullptr)
+		gamepadManagerSec = new Gamepad(2);
+
+	return gamepadManagerSec;
 }
 
 Gamepad::Gamepad(){}
@@ -197,7 +206,7 @@ void Gamepad::Rumble(float Get_LeftMoter, float Get_RightMotor)
 {
 	XINPUT_VIBRATION VibrationState;
 
-	ZeroMemory(&VibrationState, sizeof(PXINPUT_VIBRATION));
+	ZeroMemory(&VibrationState, sizeof(XINPUT_VIBRATION));
 
 	int Set_LeftMotor = int(Get_LeftMoter * 65535.0f);
 	int Set_RightMotor = int(Get_RightMotor * 65535.0f);

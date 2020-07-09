@@ -26,6 +26,8 @@ enum class ParticleType
 	DASH,
 	COLLIDE,
 	SPEEDMODE,
+	MISSILE,
+	WIN,
 };
 
 class ParticleGenerator
@@ -62,4 +64,6 @@ private:
 	bool green = false;
 	bool blue = false;
 
+	float theta = 15.0f;
+	int circle_points = 1;
 };

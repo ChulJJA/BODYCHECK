@@ -1,12 +1,11 @@
 /*
- * Author		:ChulSeung Lee
- * File			:SoundOption.cpp
+ * Author		:Chulseung Lee
+ * File			:Option.cpp
  * Term			:2020 Spring
  * Class		:GAM250
  * Project		:GAM250 Project
- * Date			:2019/02/18
- * Description	:Cpp for main menu.
- *
+ * Date			:2020/07/09
+ * Description	:Source file for Option
  * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
  */
 
@@ -173,12 +172,14 @@ void Option::ButtonBehavior()
 		{
 			const vector2 icon_translation = music_icon[0]->GetTransform().GetTranslation();
 			volume = sound.GetSoundGroupVolume(true);
+
 			if (volume >= 1)
 			{
 				return;
 			}
 			SetSoundVolume(0.25, true);
 			music_icon[0]->SetTranslation({ icon_translation.x + 680, icon_translation.y });
+			sound.Play(SOUND::SoundControl);
 
 			volume_timer = 0;
 		}
@@ -191,6 +192,7 @@ void Option::ButtonBehavior()
 			{
 				return;
 			}
+			sound.Play(SOUND::SoundControl);
 
 			SetSoundVolume(-0.25, true);
 			music_icon[0]->SetTranslation({ icon_translation.x - 680, icon_translation.y });
@@ -204,12 +206,12 @@ void Option::ButtonBehavior()
 		{
 			vector2 icon_translation = music_icon[1]->GetTransform().GetTranslation();
 			volume = sound.GetSoundGroupVolume(false);
-			sound.Play(SOUND::SoundControl);
 
 			if (volume >= 1)
 			{
 				return;
 			}
+			sound.Play(SOUND::SoundControl);
 
 			SetSoundVolume(0.25, false);
 			music_icon[1]->SetTranslation({ icon_translation.x + 680, icon_translation.y });
@@ -220,12 +222,12 @@ void Option::ButtonBehavior()
 		{
 			vector2 icon_translation = music_icon[1]->GetTransform().GetTranslation();
 			volume = sound.GetSoundGroupVolume(false);
-			sound.Play(SOUND::SoundControl);
 
 			if (volume <= 0)
 			{
 				return;
 			}
+			sound.Play(SOUND::SoundControl);
 
 			SetSoundVolume(-0.25, false);
 			music_icon[1]->SetTranslation({ icon_translation.x - 680, icon_translation.y });

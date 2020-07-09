@@ -4,10 +4,9 @@
  * Term			:2020 Spring
  * Class		:GAM250
  * Project		:GAM250 Project
- * Date			:2020/02/17
- * Description	:It is designed to test the bugs.
- *
- *				 copyright   All content ?2019 DigiPen (USA) Corporation, all rights reserved
+ * Date			:2020/07/09
+ * Description	:Source file for TestLevel
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
  */
 
 #include "Windows.h"

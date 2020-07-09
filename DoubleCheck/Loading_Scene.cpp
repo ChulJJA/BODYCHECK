@@ -1,3 +1,14 @@
+/*
+ * Author		:Sangmin Kim
+ * File			:Loading_Scene.cpp
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Source file for Loading Scene
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
+ */
+
 #include "Loading_Scene.h"
 #include "Object.h"
 #include "Component_Sprite.h"
@@ -47,7 +58,7 @@ void Loading_Scene::Update(float dt)
 	if (state_manager->GetCurrentState()->GetStateInfo() == GameState::Game)
 	{
 		
-		image->AddComponent(new Sprite(image, "../sprite/loading.png", true, 13, 4, { 0.f, 0.f },
+		image->AddComponent(new Sprite(image, "../sprite/loading.png", true, 7, 4, { 0.f, 0.f },
 			{ 200.f, 200.f }, { 255,255,255,255 }));
 		image->SetScale(vector2{ 19.f , 12.f});
 

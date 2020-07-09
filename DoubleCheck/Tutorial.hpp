@@ -1,14 +1,13 @@
 /*
  * Author		:Suhwan Kim
- * File			:Level1.h
- * Term			:2019 Fall
- * Class		:GAM200
- * Project		:GAM200 Project
- * Date			:2019/02/22
- * Description	:Header file for Tutorial stage.
- * copyright   All content ?2019 DigiPen (USA) Corporation, all rights reserved
+ * File			:Tutorial.hpp
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Header file for Tutorial
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
  */
-
 
 #pragma once
 #include "State.h"

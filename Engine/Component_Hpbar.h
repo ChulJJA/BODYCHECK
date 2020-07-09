@@ -27,7 +27,7 @@ public:
 		Damaging
 	};
 	
-	Hp_Bar() :offset(0.f), curr_state(Hp_Bar_State::None), timer(0.f)
+	Hp_Bar() :offset(0), curr_state(Hp_Bar_State::None), timer(0.f)
 	{
 
 	}
