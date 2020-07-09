@@ -32,6 +32,8 @@ void PauseLevel::Load()
 	object_manager = ObjectManager::GetObjectManager();
 	Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 	Graphic::GetGraphic()->get_need_update_sprite() = true;
+	r_u_sure = false;
+	r_u_sure_come = false;
 
 	Background();
 	SetRestartButton();
@@ -39,7 +41,14 @@ void PauseLevel::Load()
 	SetOptionButton();
 	SetQuitButton();
 	SetBackButton();
-	
+
+	make_sure_dialogue = new Object();
+	make_sure_dialogue->AddComponent(new Sprite(make_sure_dialogue, "../Sprite/rusure_yes.png", { 0.f, 0.f }, false, Sprite_Type::R_U_SURE_YES), "rusureyes", false);
+	make_sure_dialogue->AddComponent(new Sprite(make_sure_dialogue, "../Sprite/rusure_no.png", { 0.f, 0.f }, false, Sprite_Type::R_U_SURE_NO), "rusureno", false);
+	make_sure_dialogue->GetTransform().SetScale({ 10.f, 6.f });
+	make_sure_dialogue->Set_Need_To_Update(false);
+	object_manager->AddObject(make_sure_dialogue);
+
 
 	pointer = 0;
 	buttonTimer = 0;
@@ -48,12 +57,12 @@ void PauseLevel::Load()
 void PauseLevel::Update(float dt)
 {
 	buttonTimer++;
-	
-	if(buttonTimer >= 10)
+	ButtonBehavior();
+
+	if (buttonTimer >= 10)
 	{
 		ButtonSelector();
 	}
-	ButtonBehavior();
 }
 
 void PauseLevel::Clear()
@@ -70,7 +79,7 @@ void PauseLevel::Clear()
 	backButtonHover->SetDeadCondition(true);
 	background->SetDeadCondition(true);
 
-	if(pointer == static_cast<int>(BUTTON::RESTART) || pointer == static_cast<int>(BUTTON::MAINMENU))
+	if (pointer == static_cast<int>(BUTTON::RESTART) || pointer == static_cast<int>(BUTTON::MAINMENU))
 	{
 		Message_Manager::Get_Message_Manager()->Get_Messages().clear();
 		ObjectManager::GetObjectManager()->Get_Objects().clear();
@@ -165,142 +174,200 @@ void PauseLevel::SetBackButton()
 
 void PauseLevel::ButtonSelector()
 {
-	if (input.Is_Key_Pressed(GLFW_KEY_DOWN) && pointer <= static_cast<int>(BUTTON::BACK))
+	if (r_u_sure_come)
 	{
-		pointer++;
-		if (pointer == static_cast<int>(BUTTON::RESTART))
-		{
-			sound.Play(SOUND::Click);
-			ObjectHover(restartButton, restartButtonHover);
-		}
-		if (pointer == static_cast<int>(BUTTON::MAINMENU))
-		{
-			sound.Play(SOUND::Click);
-			ObjectHover(mainMenuButton, mainMenuButtonHover);
-			ObjectHover(restartButtonHover, restartButton);
-		}
-		else if (pointer == static_cast<int>(BUTTON::OPTION))
-		{
-			sound.Play(SOUND::Click);
-			ObjectHover(optionButton, optionButtonHover);
-			ObjectHover(mainMenuButtonHover, mainMenuButton);
-		}
-		else if (pointer == static_cast<int>(BUTTON::QUIT))
-		{
-			sound.Play(SOUND::Click);
-			ObjectHover(quitButton, quitButtonHover);
-			ObjectHover(optionButtonHover, optionButton);
-		}
-		else if (pointer == static_cast<int>(BUTTON::BACK))
-		{
-			sound.Play(SOUND::Click);
-			ObjectHover(backButton, backButtonHover);
-			ObjectHover(quitButtonHover, quitButton);
-		}
-		if (pointer > 4)
-		{
-			pointer = 4;
-		}
+		Component* r_u_sure_current_sprite = make_sure_dialogue->Get_Current_Sprite();
+		Component* r_u_sure_yes_sprite = make_sure_dialogue->Find_Sprite_By_Type(Sprite_Type::R_U_SURE_YES);
+		Component* r_u_sure_no_sprite = make_sure_dialogue->Find_Sprite_By_Type(Sprite_Type::R_U_SURE_NO);
 
-		buttonTimer = 0;
+		if (make_sure_dialogue->Get_Need_To_Update() == false)
+		{
+			make_sure_dialogue->Change_Sprite(make_sure_dialogue->Find_Sprite_By_Type(Sprite_Type::R_U_SURE_YES));
+			make_sure_dialogue->Set_Need_To_Update(true);
+		}
+		else
+		{
+			if (r_u_sure_current_sprite != nullptr && r_u_sure_yes_sprite != nullptr && r_u_sure_no_sprite != nullptr)
+			{
+				if (input.Is_Key_Triggered(GLFW_KEY_RIGHT))
+				{
+					if (r_u_sure_current_sprite == r_u_sure_yes_sprite)
+					{
+						make_sure_dialogue->Change_Sprite(r_u_sure_no_sprite);
+					}
+				}
+				else if (input.Is_Key_Triggered(GLFW_KEY_LEFT))
+				{
+					if (r_u_sure_current_sprite == r_u_sure_no_sprite)
+					{
+						make_sure_dialogue->Change_Sprite(r_u_sure_yes_sprite);
+					}
+				}
+
+				if (input.Is_Key_Triggered(GLFW_KEY_SPACE) && r_u_sure_current_sprite == r_u_sure_yes_sprite)
+				{
+					r_u_sure_come = false;
+					r_u_sure = true;
+				}
+				else if (input.Is_Key_Triggered(GLFW_KEY_SPACE) && r_u_sure_current_sprite == r_u_sure_no_sprite)
+				{
+					r_u_sure_come = false;
+					make_sure_dialogue->Set_Need_To_Update(false);
+				}
+			}
+		}
 	}
-	else if (input.Is_Key_Pressed(GLFW_KEY_UP) && pointer >= static_cast<int>(BUTTON::RESTART))
+	else
 	{
-		pointer--;
+		if (input.Is_Key_Pressed(GLFW_KEY_DOWN) && pointer <= static_cast<int>(BUTTON::BACK))
+		{
+			pointer++;
+			if (pointer == static_cast<int>(BUTTON::RESTART))
+			{
+				sound.Play(SOUND::Click);
+				ObjectHover(restartButton, restartButtonHover);
+			}
+			if (pointer == static_cast<int>(BUTTON::MAINMENU))
+			{
+				sound.Play(SOUND::Click);
+				ObjectHover(mainMenuButton, mainMenuButtonHover);
+				ObjectHover(restartButtonHover, restartButton);
+			}
+			else if (pointer == static_cast<int>(BUTTON::OPTION))
+			{
+				sound.Play(SOUND::Click);
+				ObjectHover(optionButton, optionButtonHover);
+				ObjectHover(mainMenuButtonHover, mainMenuButton);
+			}
+			else if (pointer == static_cast<int>(BUTTON::QUIT))
+			{
+				sound.Play(SOUND::Click);
+				ObjectHover(quitButton, quitButtonHover);
+				ObjectHover(optionButtonHover, optionButton);
+			}
+			else if (pointer == static_cast<int>(BUTTON::BACK))
+			{
+				sound.Play(SOUND::Click);
+				ObjectHover(backButton, backButtonHover);
+				ObjectHover(quitButtonHover, quitButton);
+			}
+			if (pointer > 4)
+			{
+				pointer = 4;
+			}
 
-		if (pointer == static_cast<int>(BUTTON::RESTART))
-		{
-			sound.Play(SOUND::Click);
-			ObjectHover(restartButton, restartButtonHover);
-			ObjectHover(mainMenuButtonHover, mainMenuButton);
+			buttonTimer = 0;
 		}
-		else if (pointer == static_cast<int>(BUTTON::MAINMENU))
+		else if (input.Is_Key_Pressed(GLFW_KEY_UP) && pointer >= static_cast<int>(BUTTON::RESTART))
 		{
-			sound.Play(SOUND::Click);
-			ObjectHover(mainMenuButton, mainMenuButtonHover);
-			ObjectHover(optionButtonHover, optionButton);
-		}
-		else if (pointer == static_cast<int>(BUTTON::OPTION))
-		{
-			sound.Play(SOUND::Click);
-			ObjectHover(optionButton, optionButtonHover);
-			ObjectHover(quitButtonHover, quitButton);
-		}
-		else if (pointer == static_cast<int>(BUTTON::QUIT))
-		{
-			sound.Play(SOUND::Click);
-			ObjectHover(quitButton, quitButtonHover);
-			ObjectHover(backButtonHover, backButton);
-		}
-		else if (pointer == static_cast<int>(BUTTON::BACK))
-		{
-			sound.Play(SOUND::Click);
-			ObjectHover(backButton, backButtonHover);
-		}
+			pointer--;
 
-		if (pointer < 0)
-		{
-			pointer = 0;
-		}
+			if (pointer == static_cast<int>(BUTTON::RESTART))
+			{
+				sound.Play(SOUND::Click);
+				ObjectHover(restartButton, restartButtonHover);
+				ObjectHover(mainMenuButtonHover, mainMenuButton);
+			}
+			else if (pointer == static_cast<int>(BUTTON::MAINMENU))
+			{
+				sound.Play(SOUND::Click);
+				ObjectHover(mainMenuButton, mainMenuButtonHover);
+				ObjectHover(optionButtonHover, optionButton);
+			}
+			else if (pointer == static_cast<int>(BUTTON::OPTION))
+			{
+				sound.Play(SOUND::Click);
+				ObjectHover(optionButton, optionButtonHover);
+				ObjectHover(quitButtonHover, quitButton);
+			}
+			else if (pointer == static_cast<int>(BUTTON::QUIT))
+			{
+				sound.Play(SOUND::Click);
+				ObjectHover(quitButton, quitButtonHover);
+				ObjectHover(backButtonHover, backButton);
+			}
+			else if (pointer == static_cast<int>(BUTTON::BACK))
+			{
+				sound.Play(SOUND::Click);
+				ObjectHover(backButton, backButtonHover);
+			}
 
-		buttonTimer = 0;
+			if (pointer < 0)
+			{
+				pointer = 0;
+			}
+
+			buttonTimer = 0;
+		}
 	}
 }
 
 void PauseLevel::ButtonBehavior()
 {
 	const float currentBGM_Volume = sound.GetSoundGroupVolume(true);
-	if(pointer == static_cast<int>(BUTTON::RESTART) && input.Is_Key_Pressed(GLFW_KEY_SPACE))
+
+	if (r_u_sure_come == false)
 	{
-		FMOD_BOOL isPlaying;
-		FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlaying);
-		sound.Play(SOUND::Selected);
-		sound.SetSoundGroupVolume(true, currentBGM_Volume * 3);
-		Sleep(800);
-		if (isPlaying == true)
+
+		if (pointer == static_cast<int>(BUTTON::RESTART) && input.Is_Key_Pressed(GLFW_KEY_SPACE))
 		{
-			sound.Stop(SOUND::BGM2);
-			sound.UnLoad();
+			FMOD_BOOL isPlaying;
+			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlaying);
+			sound.Play(SOUND::Selected);
+			sound.SetSoundGroupVolume(true, currentBGM_Volume * 3);
+			Sleep(800);
+			if (isPlaying == true)
+			{
+				sound.Stop(SOUND::BGM2);
+				sound.UnLoad();
+			}
+			object_manager->Clear();
+			is_next = true;
+			next_level = "Level1";
+			state_manager->level_state->is_pause = false;
+			Clear();
 		}
-		object_manager->Clear();
-		is_next = true;
-		next_level = "Level1";
-		state_manager->level_state->is_pause = false;
-		Clear();
-	}
-	else if(pointer == static_cast<int>(BUTTON::MAINMENU) && input.Is_Key_Pressed(GLFW_KEY_SPACE))
-	{
-		is_next = true;
-		next_level = "Menu";
-		sound.Play(SOUND::Selected);
-		Sleep(800);
-		FMOD_BOOL isPlaying;
-		FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlaying);
-		if(isPlaying == true)
+		else if (pointer == static_cast<int>(BUTTON::MAINMENU) && input.Is_Key_Pressed(GLFW_KEY_SPACE))
 		{
-			sound.Stop(SOUND::BGM2);
-			sound.UnLoad();
+			is_next = true;
+			next_level = "Menu";
+			sound.Play(SOUND::Selected);
+			Sleep(800);
+			FMOD_BOOL isPlaying;
+			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlaying);
+			if (isPlaying == true)
+			{
+				sound.Stop(SOUND::BGM2);
+				sound.UnLoad();
+			}
+			Clear();
 		}
-		Clear();
+		else if (pointer == static_cast<int>(BUTTON::OPTION) && input.Is_Key_Pressed(GLFW_KEY_SPACE))
+		{
+			is_next = true;
+			next_level = "Option";
+			sound.Play(SOUND::Selected);
+			Clear();
+		}
+		else if (pointer == static_cast<int>(BUTTON::QUIT) && input.Is_Key_Triggered(GLFW_KEY_SPACE))
+		{
+			sound.Play(SOUND::Selected);
+			r_u_sure_come = true;
+			//Sleep(800);
+			//exit(0);
+		}
+		else if (pointer == static_cast<int>(BUTTON::BACK) && input.Is_Key_Pressed(GLFW_KEY_SPACE))
+		{
+			sound.SetSoundGroupVolume(true, currentBGM_Volume * 3);
+			sound.Play(SOUND::Selected);
+			state_manager->BackToLevel();
+			Clear();
+		}
 	}
-	else if(pointer == static_cast<int>(BUTTON::OPTION) && input.Is_Key_Pressed(GLFW_KEY_SPACE))
+	if (r_u_sure)
 	{
-		is_next = true;
-		next_level = "Option";
-		sound.Play(SOUND::Selected);
-		Clear();
-	}
-	else if(pointer == static_cast<int>(BUTTON::QUIT) && input.Is_Key_Pressed(GLFW_KEY_SPACE))
-	{
-		sound.Play(SOUND::Selected);
-		Sleep(800);
 		exit(0);
 	}
-	else if(pointer == static_cast<int>(BUTTON::BACK) && input.Is_Key_Pressed(GLFW_KEY_SPACE))
-	{
-		sound.SetSoundGroupVolume(true, currentBGM_Volume * 3);
-		sound.Play(SOUND::Selected);
-		state_manager->BackToLevel();
-		Clear();
-	}
+
+
 }

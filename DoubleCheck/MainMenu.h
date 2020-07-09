@@ -74,4 +74,8 @@ private:
 
     Object* pointer1;
     Object* pointer2;
+
+    Object* make_sure_dialogue;
+    bool r_u_sure = false;
+    bool r_u_sure_come = false;
 };
