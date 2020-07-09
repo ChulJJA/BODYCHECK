@@ -50,6 +50,15 @@ void Object::Set_Current_Sprite(Component* sprite)
 }
 
 
+Object::~Object()
+{
+	for (auto& data : components_)
+	{
+		delete data;
+	}
+	//components_.clear();
+}
+
 void Object::AddComponent(Component* comp, std::string name, bool toggle)
 {
 	comp->Init(this);

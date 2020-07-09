@@ -1,14 +1,14 @@
 /*
  * Author		:Sangmin Kim
- * File			:Component_Hpbar.h
- * Term			:2019 Fall
- * Class		:GAM200
- * Project		:GAM200 Project
- * Date			:2019/12/11
- * Description	:header file for Component_Hpbar.cpp
- *
- * copyright   All content ?2019 DigiPen (USA) Corporation, all rights reserved
+ * File			:Component_HpBar.h
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Header file for Component HP Bar
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
  */
+
 
 #pragma once
 #include "Component.hpp"
@@ -27,7 +27,7 @@ public:
 		Damaging
 	};
 	
-	Hp_Bar() :offset(0.f), curr_state(Hp_Bar_State::None), timer(0.f)
+	Hp_Bar() :offset(0), curr_state(Hp_Bar_State::None), timer(0.f)
 	{
 
 	}

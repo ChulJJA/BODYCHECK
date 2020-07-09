@@ -102,6 +102,7 @@
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)external\glfw\lib\$(PlatformTarget);$(SolutionDir)external\glew\lib\$(PlatformTarget);$(SolutionDir)external\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;glew32s.lib;glfw3.lib;glfw3dll.lib;opengl32.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
@@ -123,6 +124,7 @@
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)external\glfw\lib\$(PlatformTarget);$(SolutionDir)external\glew\lib\$(PlatformTarget);$(SolutionDir)external\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;glew32s.lib;glfw3.lib;glfw3dll.lib;opengl32.lib;fmod64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
@@ -148,6 +150,10 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)external\glfw\lib\$(PlatformTarget);$(SolutionDir)external\glew\lib\$(PlatformTarget);$(SolutionDir)external\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;glew32s.lib;glfw3.lib;glfw3dll.lib;opengl32.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+      <SetChecksum>false</SetChecksum>
     </Link>
     <ProjectReference>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
@@ -173,6 +179,10 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)external\glfw\lib\$(PlatformTarget);$(SolutionDir)external\glew\lib\$(PlatformTarget);$(SolutionDir)external\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;glew32s.lib;glfw3.lib;glfw3dll.lib;opengl32.lib;fmod64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+      <SetChecksum>false</SetChecksum>
     </Link>
     <ProjectReference>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>

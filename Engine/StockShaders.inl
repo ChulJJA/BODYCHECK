@@ -89,13 +89,16 @@ layout(location = 0) in vec2 position;
 layout(location = 1) in vec2 texture_coordinate;
 
 uniform mat3 to_ndc;
+uniform mat3 model;
+uniform mat3 cam;
 uniform float depth;
 
 out vec2 interpolated_texture_coordinate;
 
 void main()
 {
-    vec3 position = to_ndc * vec3(position, 1.0f);
+    //vec3 position = to_ndc * vec3(position, 1.0f);
+	vec3 position = to_ndc * cam * model * vec3(position, 1.0f);
     gl_Position = vec4(position.xy, 0.5, 1.0);
     interpolated_texture_coordinate = texture_coordinate;
 }

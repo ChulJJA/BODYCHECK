@@ -78,6 +78,6 @@ public:
 	float mineAlarm = 60.f;
 private:
 	float volume_info[SOUND_NUM] = {};
-	float SFX_Volume = 1.f;
-	float BGM_Volume = 0.25f;
+	float SFX_Volume = 0.5f;
+	float BGM_Volume = 0.5f;
 };

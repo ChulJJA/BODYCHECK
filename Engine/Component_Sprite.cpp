@@ -1,13 +1,12 @@
 /*
  * Author		:Jeesoo Kim
  * File			:Component_Sprite.cpp
- * Term			:2019 Fall
- * Class		:GAM200
- * Project		:GAM200 Project
- * Date			:2019/12/11
- * Description	:Sprite component cpp for basic sprite of object.
- *
- * copyright   All content ?2019 DigiPen (USA) Corporation, all rights reserved
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Source file for Component Sprite
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
  */
 
 #include "Component_Sprite.h"
@@ -260,15 +259,18 @@ void Sprite::Update(float dt)
 		m_owner->SetMesh(mesh);
 		shape.UpdateVerticesFromMesh(mesh);
 
-		matrix3 mat_ndc = camera_view.GetCameraToNDCTransform();
-		mat_ndc *= camera.WorldToCamera();
-		mat_ndc *= model_to_world;
+		//matrix3 mat_ndc = camera_view.GetCameraToNDCTransform();
+		//mat_ndc *= camera.WorldToCamera();
+		//mat_ndc *= model_to_world;
 
 		m_owner->GetMesh().Get_Is_Moved() = false;
 		material.floatUniforms["time"] = 1;
 
 
-		material.matrix3Uniforms["to_ndc"] = mat_ndc;
+		material.matrix3Uniforms["to_ndc"] = camera_view.GetCameraToNDCTransform();
+		material.matrix3Uniforms["cam"] = camera.WorldToCamera();
+		material.matrix3Uniforms["model"] = m_owner->GetTransform().GetModelToWorld();
+
 		Graphic::GetGraphic()->Draw(shape, material);
 
 	}
@@ -278,9 +280,9 @@ void Sprite::Update(float dt)
 
 	else if (m_owner->GetMesh().Get_Is_Moved() || Graphic::GetGraphic()->get_need_update_sprite() || m_owner->Get_Tag() == "arena")
 	{
-		matrix3 mat_ndc = camera_view.GetCameraToNDCTransform();
-		mat_ndc *= camera.WorldToCamera();
-		mat_ndc *= model_to_world;
+		//matrix3 mat_ndc = camera_view.GetCameraToNDCTransform();
+		//mat_ndc *= camera.WorldToCamera();
+		//mat_ndc *= model_to_world;
 
 		Physics* physics = m_owner->GetComponentByTemplate<Physics>();
 
@@ -296,7 +298,12 @@ void Sprite::Update(float dt)
 			}
 		}
 		mesh.Get_Is_Moved() = false;
-		material.matrix3Uniforms["to_ndc"] = mat_ndc;
+		//material.matrix3Uniforms["to_ndc"] = mat_ndc;
+
+		material.matrix3Uniforms["to_ndc"] = camera_view.GetCameraToNDCTransform();
+		material.matrix3Uniforms["cam"] = camera.WorldToCamera();
+		material.matrix3Uniforms["model"] = m_owner->GetTransform().GetModelToWorld();
+
 		Graphic::GetGraphic()->Draw(shape, material);
 	}
 

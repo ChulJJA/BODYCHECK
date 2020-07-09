@@ -179,7 +179,6 @@ void Sound::SetSoundGroup()
 		{
 			result = FMOD_Sound_SetSoundGroup(sound[count], sfx_group);
 			ErrorCheck(result);
-			result = FMOD_Channel_SetVolume(channel[count], 1);
 		}
 	}
 

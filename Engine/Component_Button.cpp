@@ -1,3 +1,14 @@
+/*
+ * Author		:Sangmin Kim
+ * File			:Component_Button.cpp
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Source file for Component Button
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
+ */
+
 #include "Component_Button.h"
 
 void Component_Button::Init(Object* obj)

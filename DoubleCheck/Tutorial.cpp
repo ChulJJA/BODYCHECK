@@ -1,16 +1,13 @@
 /*
- * Author		:Suwhan Kim
+ * Author		:Suhwan Kim
  * File			:Tutorial.cpp
- * Term			:2019 Fall
- * Class		:GAM200
- * Project		:GAM200 Project
- * Date			:2019/02/22
- * Description	:This file is for intialize the stuff required on the prototype.
- *				 There are Player objects, refree, items, text, ui information.
- *
- *				 copyright   All content ?2019 DigiPen (USA) Corporation, all rights reserved
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Source file for Tutorial
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
  */
-
 
 #include "Windows.h"
 #include "Tutorial.hpp"
