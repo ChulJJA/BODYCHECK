@@ -200,7 +200,7 @@ void MainMenu::SetPlayButton()
 	pointer1 = new Object();
 	pointer1->Set_Name("pointer1");
 	pointer1->Set_Tag("pointer");
-	pointer1->AddComponent(new Sprite(pointer1, "../Sprite/Player/State/pen_blue2_dance.png", true, 15, 7, { -250,100 }, { 100.f,100.f },
+	pointer1->AddComponent(new Sprite(pointer1, "../Sprite/Player/State/pen_purple_dance.png", true, 15, 7, { -250,100 }, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Dance), "dance", true);
 	pointer1->GetTransform().SetScale({ 2, 2 });
 	ObjectManager::GetObjectManager()->AddObject(pointer1);
@@ -208,7 +208,7 @@ void MainMenu::SetPlayButton()
 	pointer2 = new Object();
 	pointer2->Set_Name("pointer2");
 	pointer2->Set_Tag("pointer");
-	pointer2->AddComponent(new Sprite(pointer2, "../Sprite/Player/State/pen_blue2_dance.png", true, 15, 7, { 350,100 }, { 100.f,100.f },
+	pointer2->AddComponent(new Sprite(pointer2, "../Sprite/Player/State/pen_purple_dance.png", true, 15, 7, { 350,100 }, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Dance), "dance", true);
 	pointer2->GetTransform().SetScale({ 2, 2 });
 	ObjectManager::GetObjectManager()->AddObject(pointer2);

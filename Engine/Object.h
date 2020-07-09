@@ -295,6 +295,7 @@ public:
 public:
     void SetDeadCondition(bool condition) { is_dead = condition; }
     bool IsDead() { return is_dead; }
+    ~Object();
 	
 	void AddComponent(Component* comp, std::string name = "component", bool toggle = true);
     void DeleteComponent(Component* comp);

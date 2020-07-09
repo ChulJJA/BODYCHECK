@@ -12,6 +12,7 @@
 
 #include "Engine.hpp"
 
+#if _DEBUG
 int main()
 {
     Engine engine;
@@ -22,3 +23,15 @@ int main()
     engine.Delete();
     return 0;
 }
+#else
+int WinMain()
+{
+    Engine engine;
+    engine.Init();
+    while (!engine.IsDone())
+        engine.Update();
+
+    engine.Delete();
+    return 0;
+}
+#endif
