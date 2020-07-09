@@ -1,3 +1,14 @@
+/*
+ * Author		:Jeesoo Kim
+ * File			:Particle.cpp
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Source file for Particle
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
+ */
+
 #include "Particle.h"
 
 #include "Component_Missile.h"
