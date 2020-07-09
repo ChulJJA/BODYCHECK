@@ -1,3 +1,14 @@
+/*
+ * Author		:Chulseung Lee
+ * File			:ObjectSetter.cpp
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Source file for Object Setter
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
+ */
+
 #include "ObjectSetter.h"
 #include "ObjectManager.h"
 #include "Component_Sprite.h"

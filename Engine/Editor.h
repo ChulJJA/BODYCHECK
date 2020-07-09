@@ -1,3 +1,14 @@
+/*
+ * Author		:Sangmin Kim
+ * File			:Editor.h
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Header file for Editor
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
+ */
+
 #pragma once
 #include <string>
 #include <vector>
