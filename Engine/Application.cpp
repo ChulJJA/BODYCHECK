@@ -54,7 +54,7 @@ void Application::Init()
     glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
 
     window = glfwCreateWindow(1280, 720, "BodyCheck", nullptr, nullptr);
-
+    
     glfwMakeContextCurrent(window);
 
     if (!window)
@@ -84,7 +84,7 @@ void Application::Init()
     glfwSetScrollCallback(window, scroll_callback);
 
     glfwSwapInterval(true);
- //   glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     object1.LoadFromPNG("../sprite/HP.png");
     object2.LoadFromPNG("../sprite/HP.png");
     object3.LoadFromPNG("../sprite/HP.png");
@@ -127,7 +127,6 @@ void Application::Update(float dt)
 
     int status = glfwJoystickPresent(GLFW_JOYSTICK_1);
 
-    //if (status == true)
 	if (status)
     {
         int axesCount;
@@ -144,12 +143,6 @@ void Application::Update(float dt)
         save_dt = 0;
     }
     FPS_frame++;
-    
-
-    if (input.Is_Mouse_Double_Clicked(GLFW_MOUSE_BUTTON_LEFT))
-    {
-        std::cout << "aaa" << std::endl;
-    }
 }
 
 void Application::Delete()
