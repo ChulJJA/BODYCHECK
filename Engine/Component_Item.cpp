@@ -1,13 +1,12 @@
 /*
- * Author		:Suhwan Kim
+ * Author		:Sangmin Kim
  * File			:Component_Item.cpp
- * Term			:2019 Fall
- * Class		:GAM200
- * Project		:GAM200 Project
- * Date			:2019/12/11
- * Description	:Basic ai movement for item object is implemented in here.
- *
- * copyright   All content ?2019 DigiPen (USA) Corporation, all rights reserved
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Source file for Component Item
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
  */
 
 #include "Component_Item.h"
