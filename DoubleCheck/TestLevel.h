@@ -4,9 +4,9 @@
  * Term			:2020 Spring
  * Class		:GAM250
  * Project		:GAM250 Project
- * Date			:2020/02/15
- * Description	:Header file for TestLevl.cpp
- * copyright   All content ?2019 DigiPen (USA) Corporation, all rights reserved
+ * Date			:2020/07/09
+ * Description	:Header file for Test Level
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
  */
 
 #pragma once

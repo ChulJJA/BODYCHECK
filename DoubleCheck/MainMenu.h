@@ -1,12 +1,12 @@
 /*
- * Author		:Suhwan Kim
+ * Author		:Chulseung Lee
  * File			:MainMenu.h
- * Term			:2019 Fall
- * Class		:GAM200
- * Project		:GAM200 Project
- * Date			:2019/12/11
- * Description	:Header file of MainMenu.cpp
- * copyright   All content ?2019 DigiPen (USA) Corporation, all rights reserved
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Header file for Main Menu
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
  */
 
 #pragma once

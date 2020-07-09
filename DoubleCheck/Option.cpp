@@ -1,12 +1,11 @@
 /*
- * Author		:ChulSeung Lee
- * File			:SoundOption.cpp
+ * Author		:Chulseung Lee
+ * File			:Option.cpp
  * Term			:2020 Spring
  * Class		:GAM250
  * Project		:GAM250 Project
- * Date			:2019/02/18
- * Description	:Cpp for main menu.
- *
+ * Date			:2020/07/09
+ * Description	:Source file for Option
  * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
  */
 

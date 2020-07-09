@@ -1,15 +1,13 @@
-#pragma once
 /*
  * Author		:Chulseung Lee
  * File			:PauseLevel.h
- * Term			:2020 Winter
+ * Term			:2020 Spring
  * Class		:GAM250
  * Project		:GAM250 Project
- * Date			:2020/04/30
- * Description	:Header file of SoundOption.cpp
+ * Date			:2020/07/09
+ * Description	:Header file for Pause Level
  * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
  */
-
 #pragma once
 #include "State.h"
 #include "vector2.hpp"
