@@ -1,12 +1,12 @@
 /*
- * Author		:Minseok Sung
- * File			:Applicaion.cpp
- * Term			:2019 Fall
- * Class		:GAM200
- * Project		:GAM200 Project
- * Date			:2019/12/11
- * Description	:cpp file for creating window, getting input.
- * copyright   All content ?2019 DigiPen (USA) Corporation, all rights reserved
+ * Author		:Sangmin Kim
+ * File			:Application.cpp
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Source file for Application
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
  */
 
 #include "Application.hpp"

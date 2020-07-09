@@ -1,13 +1,12 @@
 ﻿/*
  * Author		:Sangmin Kim
  * File			:Engine.cpp
- * Term			:2019 Fall
- * Class		:GAM200
- * Project		:GAM200 Project
- * Date			:2019/12/11
- * Description	:The basic engine initiailze & update, managers initialize & update is implemented in here
- *
- * copyright   All content ?2019 DigiPen (USA) Corporation, all rights reserved
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Source file for Engine
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
  */
 
 #include "Engine.hpp"

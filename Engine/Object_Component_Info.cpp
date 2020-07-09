@@ -1,12 +1,12 @@
 /*
  * Author		:Sangmin Kim
  * File			:Object_Component_Info.cpp
- * Term			:2019 Fall
- * Class		:GAM200
- * Project		:GAM200 Project
- * Date			:2019/12/11
- * Description	:cpp file for represent object's component information.
- * copyright   All content ?2019 DigiPen (USA) Corporation, all rights reserved
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Source file for Object Component Info
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
  */
 
 #include "Object_Component_Info.h"

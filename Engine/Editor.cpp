@@ -1,3 +1,14 @@
+/*
+ * Author		:Sangmin Kim
+ * File			:Editor.cpp
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Source file for Editor
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
+ */
+
 #include "Editor.h"
 #include "Object.h"
 #include "Component_Item.h"

@@ -1,3 +1,14 @@
+/*
+ * Author		:Sangmin Kim
+ * File			:Message_Function_Item_Recover.cpp
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Source file for Message Function Item Recover
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
+ */
+
 #include "Message_Function_Item_Recover.h"
 #include "Component_Hpbar.h"
 #include "Object.h"
