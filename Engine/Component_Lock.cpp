@@ -1,3 +1,14 @@
+/*
+ * Author		:Sangmin Kim
+ * File			:Component_Lock.cpp
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Source file for Component Lock
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
+ */
+
 #include "Component_Lock.h"
 #include "Input.h"
 #include <GLFW/glfw3.h>

@@ -1,3 +1,14 @@
+/*
+ * Author		:Sangmin Kim
+ * File			:Component_Missile.cpp
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Source file for Component Missile
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
+ */
+
 #include "Component_Missile.h"
 #include "Component_Player.h"
 #include "angles.hpp"
