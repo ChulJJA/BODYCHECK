@@ -1,3 +1,14 @@
+/*
+ * Author		:Sangmin Kim
+ * File			:Message_Function.cpp
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Source file for Message Function
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
+ */
+
 #include "Message_Function.h"
 #include "Message.h"
 #include "Component_Text.h"

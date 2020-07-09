@@ -1,3 +1,14 @@
+/*
+ * Author		:Sangmin Kim
+ * File			:Message_Kind.h
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Header file for Message Kind
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
+ */
+
 #pragma once
 
 enum class Message_Kind

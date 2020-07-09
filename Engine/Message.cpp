@@ -1,14 +1,12 @@
 /*
  * Author		:Sangmin Kim
  * File			:Message.cpp
- * Term			:2019 Fall
- * Class		:GAM200
- * Project		:GAM200 Project
- * Date			:2019/12/11
- * Description	:cpp file for implementing message system's message part.
- *				 Checking the vector which contains messages, depends on the message type,
- *				 implementing proper function.
- * copyright   All content ?2019 DigiPen (USA) Corporation, all rights reserved
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Source file for Message
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
  */
 
 #include "Message.h"
