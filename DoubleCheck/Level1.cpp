@@ -26,6 +26,7 @@
 #include "StateManager.h"
 #include "Editor.h"
 #include "gl.hpp"
+#include "File_Driven_Manager.h"
 
 using namespace std;
 
@@ -35,6 +36,7 @@ namespace
 	ObjectManager* object_manager = nullptr;
 	StateManager* state_manager = nullptr;
 	Editor* editor = nullptr;
+	File_Driven_Manager file_driven;
 }
 
 void Level1::Load()
@@ -117,8 +119,14 @@ void Level1::Load()
 	ObjectManager::GetObjectManager()->AddObject(fire2);
 
 	aud = Get_Audience();
+	file_driven.Get_Player_Info("../Data/Objects/player_sec.txt", player_sec_pos, player_sec_scale, player_sec_sprite_path);
+	file_driven.Get_Player_Info("../Data/Objects/player_third.txt", player_third_pos, player_third_scale, player_third_sprite_path);
+	Referee::Get_Referee()->Set_Sec_Player_Info(player_sec_pos, player_sec_scale, player_sec_sprite_path);
+	Referee::Get_Referee()->Set_Third_Player_Info(player_third_pos, player_third_scale, player_third_sprite_path);
 
 	referee->Init();
+
+
 
 	//player_first_ui = Make_Set_Ui("first_ui", "ui", "../Sprite/UI/pen_green_ui.png", { -1300, -800 }, { 5.0f,5.0f }, player);
 	player_second_ui = Make_Set_Ui("second_ui", "ui", "../Sprite/UI/pen_red_ui.png", { -500, -800 }, { 5.0f,5.0f }, player_sec);
@@ -126,8 +134,8 @@ void Level1::Load()
 	//player_fourth_ui = Make_Set_Ui("fourth_ui", "ui", "../Sprite/UI/pen_normal_ui.png", { 1100, -800 }, { 5.0f,5.0f }, player_forth);
 
 	//player = Make_Player("first", "player", "pen_green2", { 400.f, 400.f }, { 2.f, 2.f });
-	player_sec = Make_Player("second", "player", "pen_red2", { -800.f, 0.f }/*{ 400.f, -400.f }*/, { 4.f, 4.f });
-	player_third = Make_Player("third", "player", "pen_blue2", { 800.f, 0.f }/*{ -400.f, 400.f }*/, { 4.f, 4.f });
+	player_sec = Make_Player("second", "player", player_sec_sprite_path, player_sec_pos, player_sec_scale);
+	player_third = Make_Player("third", "player", player_third_sprite_path, player_third_pos, player_third_scale);
 	//player_forth = Make_Player("fourth", "player", "pen_normal2", { -400.f, -400.f }, { 2.f, 2.f });
 
 	//player->GetComponentByTemplate<Player>()->Set_This_UI_info(player_first_ui);
@@ -154,6 +162,8 @@ void Level1::Load()
 	//Referee::Get_Referee()->Set_Fourth_Ui(player_fourth_ui);
 	Referee::Get_Referee()->Set_Curr_Sec_Player(player_sec);
 	Referee::Get_Referee()->Set_Curr_Third_Player(player_third);
+
+
 
 
 	Graphic::GetGraphic()->get_need_update_sprite() = true;
@@ -303,6 +313,7 @@ void Level1::Update(float dt)
 	{
 		Clear();
 		referee->isGameDone = false;
+		Graphic::GetGraphic()->Get_View().Set_Is_Zoom_End_False();
 		is_next = true;
 		next_level = "Menu";
 		gameDoneTimer = 0;

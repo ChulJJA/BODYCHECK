@@ -199,6 +199,7 @@
     <ClInclude Include="Damage_Calculator.h" />
     <ClInclude Include="Editor.h" />
     <ClInclude Include="Engine.hpp" />
+    <ClInclude Include="File_Driven_Manager.h" />
     <ClInclude Include="Gamepad.hpp" />
     <ClInclude Include="GL.hpp" />
     <ClInclude Include="glCheck.hpp" />
@@ -274,6 +275,7 @@
     <ClCompile Include="Damage_Calculator.cpp" />
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="File_Driven_Manager.cpp" />
     <ClCompile Include="Gamepad.cpp" />
     <ClCompile Include="GL.cpp" />
     <ClCompile Include="Graphic.cpp" />

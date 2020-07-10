@@ -66,4 +66,12 @@ private:
     Object* prev_timer = nullptr;
 
     float gameDoneTimer = 0.f;
+
+    vector2 player_sec_pos;
+    vector2 player_sec_scale;
+    std::string player_sec_sprite_path;
+
+    vector2 player_third_pos;
+    vector2 player_third_scale;
+    std::string player_third_sprite_path;
 };
