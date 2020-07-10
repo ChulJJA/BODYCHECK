@@ -6,7 +6,6 @@
     <ClCompile Include="Logo.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="TestLevel.cpp" />
     <ClCompile Include="Tutorial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -16,13 +15,13 @@
     <ClCompile Include="Option.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Credit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Level1.h" />
     <ClInclude Include="Loading_Scene.h" />
     <ClInclude Include="Logo.h" />
     <ClInclude Include="MainMenu.h" />
-    <ClInclude Include="TestLevel.h" />
     <Filter Include="Source Files">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
@@ -43,6 +42,7 @@
     <ClInclude Include="PauseLevel.h">
       <Filter>Source Files\Header</Filter>
     </ClInclude>
+    <ClInclude Include="Credit.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Level1.cpp">

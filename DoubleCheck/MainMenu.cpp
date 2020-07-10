@@ -92,6 +92,12 @@ void MainMenu::Update(float dt)
 	{
 		ButtonSelector();
 	}
+	if(input.Is_Key_Triggered(GLFW_KEY_C))
+	{
+		is_next = true;
+		next_level = "Credit";
+		Clear();
+	}
 }
 
 void MainMenu::Clear()
