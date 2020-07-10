@@ -32,6 +32,7 @@ void PauseLevel::Load()
 	object_manager = ObjectManager::GetObjectManager();
 	Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 	Graphic::GetGraphic()->get_need_update_sprite() = true;
+
 	r_u_sure = false;
 	r_u_sure_come = false;
 
@@ -57,6 +58,7 @@ void PauseLevel::Load()
 void PauseLevel::Update(float dt)
 {
 	buttonTimer++;
+
 	ButtonBehavior();
 
 	if (buttonTimer >= 10)

@@ -127,6 +127,7 @@ void Msg_Func_Audience::Update(float dt)
 	}
 	else
 	{
+
 		m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Audience_Normal));
 		m_from->Change_Sprite(m_from->Find_Sprite_By_Type(Sprite_Type::Audience_Normal));
 		msg->Set_Should_Delete(true);

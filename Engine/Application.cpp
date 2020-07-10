@@ -109,16 +109,7 @@ void Application::Update(float dt)
     glfwGetWindowSize(window, &w, &h);
     window_size.width = (float)w;
     window_size.height = (float)h;
-    GLFWgamepadstate state;
 
-    if (glfwGetGamepadState(GLFW_JOYSTICK_1, &state))
-    {
-        if (state.buttons[GLFW_GAMEPAD_BUTTON_B])
-        {
-            Toggle_Fullscreen();
-        }
-    }
-    
 
     if (input.Is_Key_Triggered(GLFW_KEY_K))
     {
@@ -129,14 +120,6 @@ void Application::Update(float dt)
         Clear();
     }
 
-
-    int status = glfwJoystickPresent(GLFW_JOYSTICK_1);
-
-	if (status)
-    {
-        int axesCount;
-        const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &axesCount);
-    }
     
     save_dt += dt;
     if (save_dt >= 1.0f)
