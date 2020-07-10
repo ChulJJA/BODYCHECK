@@ -81,7 +81,7 @@ void Sound::LoadSound()
 	result = FMOD_System_CreateSound(f_system, "Sounds/ItemAppear.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::ItemAppear)]);
 	ErrorCheck(result);
 
-	result = FMOD_System_CreateSound(f_system, "Sounds/ItemAppear2.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::ItemAppear2)]);
+	result = FMOD_System_CreateSound(f_system, "Sounds/ItemAppear2.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::ItemAppear2)]);
 	ErrorCheck(result);
 	
 	result = FMOD_System_CreateSound(f_system, "Sounds/Selected.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::Selected)]);

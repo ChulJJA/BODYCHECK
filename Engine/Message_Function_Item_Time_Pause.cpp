@@ -85,6 +85,4 @@ void Msg_Func_Item_Time_Pause::Update(float dt)
 			msg->Set_Should_Delete(true);
 		}
 	}
-
-
 }
