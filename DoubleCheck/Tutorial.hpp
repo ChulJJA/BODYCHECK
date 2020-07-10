@@ -28,11 +28,11 @@ public:
 
     virtual void Load();
     virtual void Update(float dt);
-    virtual void UnLoad()
-    {
+    virtual void UnLoad();
+   /* {
         next_level = {};
         is_next = false;
-    }
+    }*/
 
     void SetArena();
     void SetStaffAndExplanation();
@@ -73,7 +73,6 @@ private:
     Object* option_button;
     Object* option_button_hover;
 
-    //BitmapFont      font{};
     bool showing_editor = true;
     bool dt_refreshed = false;
     bool timer_deleted = false;
