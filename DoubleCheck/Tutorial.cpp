@@ -49,6 +49,7 @@ void Tutorial::Load()
 	}
 	Loading_Scene* loading = new Loading_Scene();
 	loading->Load();
+	current_state = GameState::Tutorial;
 
 	HDC hdc = wglGetCurrentDC();//GetDC(glfwGetWin32Window(Application::Get_Application()->Get_Window()));
 	const HGLRC main_context = wglGetCurrentContext();
