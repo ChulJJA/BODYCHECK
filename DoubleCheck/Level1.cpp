@@ -25,6 +25,8 @@
 #include "Option.h"
 #include "StateManager.h"
 #include "Editor.h"
+#include "gl.hpp"
+
 using namespace std;
 
 namespace
@@ -43,6 +45,8 @@ void Level1::Load()
 	}
 	Loading_Scene* loading = new Loading_Scene();
 	loading->Load();
+	GL::set_clear_color({ 0.31372, 0.73725, 0.8745, 1 });
+
 
 	HDC hdc = wglGetCurrentDC();
 	const HGLRC main_context = wglGetCurrentContext();
@@ -297,8 +301,6 @@ void Level1::UnLoad()
 {
 	next_level = {};
 	is_next = false;
-	delete referee;
-	delete object_manager;
 }
 
 void Level1::Pause()

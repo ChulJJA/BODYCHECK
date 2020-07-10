@@ -13,6 +13,7 @@
 #include "Credit.h"
 #include <Input.h>
 #include "Component_Button.h"
+#include "Message_Manager.h"
 
 using namespace std;
 
@@ -34,11 +35,13 @@ void Credit::Update(float dt)
 	{
         is_next = true;
         next_level = "Menu";
+        Clear();
 	}
 }
 
 void Credit::Clear()
 {
+    credit->SetDeadCondition(true);
 }
 
 void Credit::SetTestSprite()

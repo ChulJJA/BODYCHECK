@@ -44,10 +44,16 @@ void MainMenu::Load()
 		sound.Initialize();
 	}
 	FMOD_BOOL isPlaying;
+	FMOD_BOOL isPlayingBGM2;
 	FMOD_Channel_IsPlaying(sound.channel[0], &isPlaying);
+	FMOD_Channel_IsPlaying(sound.channel[1], &isPlayingBGM2);
 	if (isPlaying == false)
 	{
 		sound.Play(SOUND::BGM);
+	}
+	if (isPlayingBGM2 == true)
+	{
+		sound.Stop(SOUND::BGM2);
 	}
 	p_1_selected = false;
 	p_2_selected = false;
