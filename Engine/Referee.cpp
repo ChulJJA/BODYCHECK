@@ -201,8 +201,8 @@ void Referee::Init()
 	else if (state_manager->GetCurrentState()->GetStateInfo() == GameState::Tutorial)
 	{
 		//player_first_life = 20;
-		player_sec_life = 20;
-		player_third_life = 20;
+		player_sec_life = 1;
+		player_third_life = 1;
 		//player_fourth_life = 20;
 		total_life_count =/* player_first_life +*/ player_sec_life + player_third_life /*+ player_fourth_life*/;
 	}
