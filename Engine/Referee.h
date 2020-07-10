@@ -38,7 +38,7 @@ public:
     void Delete();
     void Clear_Referee();
 
-	Object* Make_Player_Pool(std::string sprite_path, vector2 pos, std::string name, std::string tag, Object* text);
+	Object* Make_Player_Pool(std::string sprite_path, vector2 pos, std::string name, std::string tag, Object* text, vector2 scale);
 	Object* Make_Item_Pool(std::string sprite_path, vector2 pos, std::string name, std::string tag, Item::Item_Kind kind);
 	void Respawn_Player(Stage_Statement state, float dt);
 	void Respawn_Item(float dt);
@@ -141,6 +141,9 @@ public:
     void Reset_Variables();
     void Reset_Item_Variables();
     bool isGameDone = false;
+
+    void Set_Sec_Player_Info(vector2 pos, vector2 scale, std::string path);
+    void Set_Third_Player_Info(vector2 pos, vector2 scale, std::string path);
 private:
     Referee();
     static Referee* referee;
@@ -229,4 +232,12 @@ private:
 	std::vector<Object*> total_item;
 
     ParticleGenerator* win_particle;
+
+    vector2 player_sec_pos;
+    vector2 player_sec_scale;
+    std::string player_sec_sprite_path;
+
+    vector2 player_third_pos;
+    vector2 player_third_scale;
+    std::string player_third_sprite_path;
 };

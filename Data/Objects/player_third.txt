@@ -1,0 +1,3 @@
+Sprite: pen_blue2
+Position: 800 0
+Scale: 4 4

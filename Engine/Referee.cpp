@@ -148,6 +148,20 @@ void Referee::Reset_Item_Variables()
 	curr_field_num = 0;
 }
 
+void Referee::Set_Sec_Player_Info(vector2 pos, vector2 scale, std::string path)
+{
+	player_sec_pos = pos;
+	player_sec_scale = scale;
+	player_sec_sprite_path = path;
+}
+
+void Referee::Set_Third_Player_Info(vector2 pos, vector2 scale, std::string path)
+{
+	player_third_pos = pos;
+	player_third_scale = scale;
+	player_third_sprite_path = path;
+}
+
 Referee::Referee()
 {
 
@@ -375,7 +389,7 @@ void Referee::Clear_Referee()
 
 }
 
-Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::string name, std::string tag, Object* text)
+Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::string name, std::string tag, Object* text, vector2 scale)
 {
 	std::string path_to_player_state = "../Sprite/Player/State/";
 	std::string path_to_player_item_effect = "../Sprite/Player/Item_Effect/";
@@ -528,7 +542,7 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	player->AddComponent(new Physics(true), "physics");
 
 	player->Set_Current_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Player_Spawn));
-	player->SetScale({ 4.f,4.f });
+	player->SetScale(scale);
 	player->Set_Dmg_Text(text);
 	player->SetNeedCollision(false);
 
@@ -772,11 +786,11 @@ void Referee::SetPlayerTemp()
 	//}
 	for (int i = 0; i < player_sec_life; i++)
 	{
-		player_sec_temp[i] = Make_Player_Pool("pen_red2", { 400,-400 }, "second", "save", second_text);
+		player_sec_temp[i] = Make_Player_Pool(player_sec_sprite_path, player_sec_pos, "second", "save", second_text, player_sec_scale);
 	}
 	for (int i = 0; i < player_third_life; i++)
 	{
-		player_third_temp[i] = Make_Player_Pool("pen_blue2", { -400,400 }, "third", "save", third_text);
+		player_third_temp[i] = Make_Player_Pool(player_third_sprite_path, player_third_pos, "third", "save", third_text, player_third_scale);
 	}
 	//for (int i = 0; i < player_fourth_life; i++)
 	//{
@@ -959,6 +973,7 @@ void Referee::Win(float dt)
 
 			Graphic::GetGraphic()->Get_View().Get_Camera().SetCenter(vector2{ 0.f, 0.f });
 			Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
+			Graphic::GetGraphic()->Get_View().Set_Is_Zoom_End_False();
 			win_player = nullptr;
 			isGameDone = true;
 		}
