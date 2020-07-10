@@ -212,11 +212,11 @@ namespace
     }
     void window_focus_callback(GLFWwindow* window, int focused)
     {
-        if (!focused && state->GetCurrentState()!=nullptr)
+        if (!focused && state->GetCurrentState()->GetStateInfo() == GameState::Game)
         {
             state->GetCurrentState()->is_pause = true;
         }
-        else if(focused && state->GetCurrentState() != nullptr)
+        else if(focused && state->GetCurrentState()->GetStateInfo() == GameState::Game)
         {
             state->GetCurrentState()->is_pause = false;
         }
