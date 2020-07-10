@@ -1,3 +1,14 @@
+/*
+ * Author		:Sangmin Kim
+ * File			:Message_Function_Dead.cpp
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Source file for Message_Function_Dead
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
+ */
+
 #include "Message_Function_Dead.h"
 #include "Object.h"
 #include "Message.h"

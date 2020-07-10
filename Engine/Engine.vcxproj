@@ -309,9 +309,6 @@
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Player_UI.cpp" />
     <ClCompile Include="Referee.cpp" />
-    <ClCompile Include="ResourceManager.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Sound_Manager.cpp" />
     <ClCompile Include="State.cpp" />

@@ -1,3 +1,14 @@
+/*
+ * Author		:Minseok Sung
+ * File			:Message_Function_Item_Time_Pause.h
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Header file for Message Function Item Time Pause
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
+ */
+
 #pragma once
 #include "Message_Function_Base.h"
 #include <fmod.h>

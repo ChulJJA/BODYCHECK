@@ -1,3 +1,14 @@
+/*
+ * Author		:Suhwan Kim
+ * File			:GamePad.cpp
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Source file for Gamepad
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
+ */
+
 #include "Gamepad.hpp"
 
 #pragma comment(lib, "XInput9_1_0.lib")
