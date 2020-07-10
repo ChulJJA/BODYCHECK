@@ -331,14 +331,7 @@ void MainMenu::ButtonSelector()
 			}
 			button_timer = 0;
 		}
-//<<<<<<< HEAD
-//		button_timer = 0;
-//	}
-//	else if ((input.Is_Key_Pressed(GLFW_KEY_UP) || (LeftStickInDeadZone == false && LeftThumbStateY > 0)) && pointer >= static_cast<int>(BUTTON::START))
-//	{
-//		pointer--;
-//=======
-//>>>>>>> abb3a56006cb2db6f3ef35194bbbe4a577b91159
+
 
 		if ((input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::START))
 		{
