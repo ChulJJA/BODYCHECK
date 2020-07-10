@@ -44,7 +44,10 @@ private:
 public:
     void Init();
     void Update(float dt);
-
+    void Set_Is_Zoom_End_False()
+    {
+        is_zoom_end = false;
+    }
     Camera& Get_Camera()
     {
         return camera;
