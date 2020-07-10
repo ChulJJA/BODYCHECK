@@ -252,7 +252,8 @@ void Option::ButtonBehavior()
 		if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)) || gamepadManager->GetButtonDown(xButtons.A))
 		{
 			sound.Play(SOUND::Selected);
-			state_manager->BackToLevel();
+			is_next = true;
+			next_level = "PauseLevel";
 			Clear();
 		}
 	}
