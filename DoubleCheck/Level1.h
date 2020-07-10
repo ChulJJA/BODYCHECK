@@ -64,4 +64,6 @@ private:
     bool dt_refreshed = false;
     bool timer_deleted = false;
     Object* prev_timer = nullptr;
+
+    float gameDoneTimer = 0.f;
 };

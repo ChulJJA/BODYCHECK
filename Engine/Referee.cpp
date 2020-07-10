@@ -960,6 +960,7 @@ void Referee::Win(float dt)
 			Graphic::GetGraphic()->Get_View().Get_Camera().SetCenter(vector2{ 0.f, 0.f });
 			Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 			win_player = nullptr;
+			isGameDone = true;
 		}
 	}
 }
