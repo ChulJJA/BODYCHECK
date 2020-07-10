@@ -92,6 +92,12 @@ void MainMenu::Update(float dt)
 	{
 		ButtonSelector();
 	}
+	if(input.Is_Key_Triggered(GLFW_KEY_C))
+	{
+		is_next = true;
+		next_level = "Credit";
+		Clear();
+	}
 }
 
 void MainMenu::Clear()
@@ -216,12 +222,12 @@ void MainMenu::ButtonSelector()
 				}
 			}
 
-			if (input.Is_Key_Triggered(GLFW_KEY_SPACE) && r_u_sure_current_sprite == r_u_sure_yes_sprite)
+			if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)) && r_u_sure_current_sprite == r_u_sure_yes_sprite)
 			{
 				r_u_sure_come = false;
 				r_u_sure = true;
 			}
-			else if (input.Is_Key_Triggered(GLFW_KEY_SPACE) && r_u_sure_current_sprite == r_u_sure_no_sprite)
+			else if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)) && r_u_sure_current_sprite == r_u_sure_no_sprite)
 			{
 				r_u_sure_come = false;
 				make_sure_dialogue->Set_Need_To_Update(false);
@@ -331,7 +337,7 @@ void MainMenu::ButtonSelector()
 			button_timer = 0;
 		}
 
-		if ((input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::START))
+		if (((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::START))
 		{
 			pointer = static_cast<int>(BUTTON::START);
 			sound.Play(SOUND::Selected);
@@ -342,14 +348,14 @@ void MainMenu::ButtonSelector()
 			sound.UnLoad();
 			Clear();
 		}
-		else if ((input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::TUTORIAL))
+		else if (((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::TUTORIAL))
 		{
 			sound.Play(SOUND::Selected);
 			is_next = true;
 			next_level = "Tutorial";
 			Clear();
 		}
-		else if ((input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::MUSIC))
+		else if (((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::MUSIC))
 		{
 			pointer = static_cast<int>(BUTTON::START);
 			sound.Play(SOUND::Selected);
@@ -357,7 +363,7 @@ void MainMenu::ButtonSelector()
 			next_level = "Option";
 			Clear();
 		}
-		else if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::TEST))
+		else if (((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::TEST))
 		{
 			if (r_u_sure == true)
 			{

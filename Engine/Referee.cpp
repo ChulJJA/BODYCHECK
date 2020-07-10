@@ -1,14 +1,12 @@
 ﻿/*
  * Author		:Sangmin Kim
  * File			:Referee.cpp
- * Term			:2019 Fall
- * Class		:GAM200
- * Project		:GAM200 Project
- * Date			:2019/12/11
- * Description	:cpp file for making for manager of game board. This object will
- *				 add item & respawn player to the prototype game screen.
- *
- * copyright   All content ?2019 DigiPen (USA) Corporation, all rights reserved
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Source file for Referee
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
  */
 
 #include "Referee.h"

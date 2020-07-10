@@ -1,3 +1,14 @@
+/*
+ * Author		:Chulseung Lee
+ * File			:Damage_Calculator.cpp
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Source file for Damage Calculator
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
+ */
+
 #include "Damage_Calculator.h"
 #include "Object.h"
 #include "UsefulTools.hpp"

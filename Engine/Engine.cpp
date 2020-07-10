@@ -1,13 +1,12 @@
 ﻿/*
  * Author		:Sangmin Kim
  * File			:Engine.cpp
- * Term			:2019 Fall
- * Class		:GAM200
- * Project		:GAM200 Project
- * Date			:2019/12/11
- * Description	:The basic engine initiailze & update, managers initialize & update is implemented in here
- *
- * copyright   All content ?2019 DigiPen (USA) Corporation, all rights reserved
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Source file for Engine
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
  */
 
 #include "Engine.hpp"
@@ -24,7 +23,7 @@
 #include "Windows.h"
 #include <thread>
 #include "Logo.h"
-#include "TestLevel.h"
+#include "Credit.h"
 #include "Option.h"
 #include "Loading_Scene.h"
 #include "Editor.h"
@@ -89,7 +88,7 @@ void Engine::Init()
     state_manager->AddState("Level1", new Level1);
     state_manager->AddState("Tutorial", new Tutorial);
     state_manager->AddState("Option", new Option);
-    state_manager->AddState("TestLevel", new TestLevel);
+    state_manager->AddState("Credit", new Credit);
 	state_manager->AddState("Loading", new Loading_Scene);
     state_manager->AddState("PauseLevel", new PauseLevel);
     StateManager::GetStateManager()->level_state = state_manager->Get_States().find("Level1")->second.get();

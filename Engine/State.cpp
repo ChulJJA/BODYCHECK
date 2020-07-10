@@ -1,3 +1,14 @@
+/*
+ * Author		:Sangmin Kim
+ * File			:State.cpp
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Source file for State
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
+ */
+
 #include "State.h"
 #include "Object.h"
 #include "Player_Ui.h"

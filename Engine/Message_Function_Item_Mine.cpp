@@ -1,3 +1,14 @@
+/*
+ * Author		:Minseok Sung
+ * File			:Message_Function_Item_Mine.cpp
+ * Term			:2020 Spring
+ * Class		:GAM250
+ * Project		:GAM250 Project
+ * Date			:2020/07/09
+ * Description	:Source file for Message Function Item Mine
+ * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
+ */
+
 #include "Message.h"
 #include "vector2.hpp"
 #include "Physics.h"
