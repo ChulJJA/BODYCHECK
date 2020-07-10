@@ -98,11 +98,6 @@ void StateManager::LeaveState(float dt)
 		prev_state->UnLoad();
 		stateName = "Option";
 	}
-	else if(prev_state->GetStateInfo() == GameState::Tutorial)
-	{
-		prev_state->UnLoad();
-		stateName = "Tutorial";
-	}
 	else
 	{
 		prev_state->UnLoad();

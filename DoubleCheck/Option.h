@@ -65,6 +65,9 @@ private:
     Object* back_button_hover;
     Object* full_screen_button;
     Object* full_screen_button_hover;
+
+    Object* pointer1;
+    Object* pointer2;
 	
     BitmapFont      font{};
 
