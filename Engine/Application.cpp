@@ -91,7 +91,7 @@ void Application::Init()
     object3.LoadFromPNG("../sprite/HP.png");
     object4.LoadFromPNG("../sprite/HP.png");
     object5.LoadFromPNG("../sprite/HP.png");
-    Toggle_Fullscreen();
+    //Toggle_Fullscreen();
 }
 
 void Application::Update(float dt)
