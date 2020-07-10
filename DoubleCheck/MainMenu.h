@@ -24,6 +24,7 @@ class MainMenu : public State
         START,
         TUTORIAL,
         MUSIC,
+    	CREDIT,
         TEST
     };
 	
@@ -46,6 +47,7 @@ public:
     void SetTutorialButton();
     void SetMusicButton();
     void SetTestLevelButton();
+    void SetCreditButton();
     void ButtonSelector();
     void Set_Player_Button();
 	
@@ -54,13 +56,10 @@ private:
     float button_timer;
 	
     Object* play_button;
-    Object* play_button_hover;
     Object* tutorial_button;
-    Object* tutorial_button_hover;
     Object* music_button;
-    Object* music_button_hover;
     Object* test_button;
-    Object* test_button_hover;
+    Object* creditButton;
 
     Object* player_1_button;
     Object* player_2_button;
