@@ -52,6 +52,7 @@ void Tutorial::Load()
 	r_u_sure_come = false;
 	Loading_Scene* loading = new Loading_Scene();
 	loading->Load();
+	current_state = GameState::Tutorial;
 
 	HDC hdc = wglGetCurrentDC();//GetDC(glfwGetWin32Window(Application::Get_Application()->Get_Window()));
 	const HGLRC main_context = wglGetCurrentContext();
@@ -75,7 +76,7 @@ void Tutorial::Load()
 		prev_timer = nullptr;
 		transition_timer = 4.9f;
 		current_state = GameState::Tutorial;
-		referee = Referee::Get_Referee();
+		//referee = Referee::Get_Referee();
 		object_manager = ObjectManager::GetObjectManager();
 		state_manager = StateManager::GetStateManager();
 		Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
@@ -96,16 +97,25 @@ void Tutorial::Load()
 		SetArena();
 		
 		editor = new Editor();
-		referee->Init();
+		//referee->Init();
 		editor->Init();
 		editor->Set_Visible(true);
 
-		//Player_Second_UI = Make_Set_Ui("second_ui", "ui", "../Sprite/UI/pen_red_ui.png", { -500, -800 }, { 5.0f,5.0f }, Player_Second);
-		//Player_Third_UI = Make_Set_Ui("third_ui", "ui", "../Sprite/UI/pen_blue_ui.png", { 300, -800 }, { 5.0f,5.0f }, Player_Third);
+		Player_Second_UI = Make_Set_Ui("second_ui", "ui", "../Sprite/UI/pen_red_ui.png", { -500, -800 }, { 5.0f,5.0f }, Player_Second);
+		Player_Third_UI = Make_Set_Ui("third_ui", "ui", "../Sprite/UI/pen_blue_ui.png", { 300, -800 }, { 5.0f,5.0f }, Player_Third);
 
 
 		Player_Second = Make_Player("second", "player", "pen_red2", { -800.f, 0.f }, { 4.f, 4.f }, true);
 		Player_Third = Make_Player("third", "player", "pen_blue2", { 800.f,0.f }, { 4.f, 4.f }, true);
+
+		description_second = new Object();
+		description_second->AddComponent(new Sprite(description_second, "../Sprite/UI/p1_selected.png", { -500, 800 }, false), "desc_sec", true);
+		description_second->SetScale(5.f);
+		description_third = new Object();
+		description_third->AddComponent(new Sprite(description_third, "../Sprite/UI/p2_selected.png", { 300, 800 }, false), "desc_third", true);
+		description_third->SetScale(5.f);
+		ObjectManager::GetObjectManager()->AddObject(description_second);
+		ObjectManager::GetObjectManager()->AddObject(description_third);
 
 
 		Player_Second->Get_Belongs_Objects().clear();
@@ -116,8 +126,8 @@ void Tutorial::Load()
 		Player_Third->Set_Need_To_Update(false);
 		Player_Third->SetNeedCollision(false);*/
 
-		//Player_Second->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Second_UI);
-		//Player_Third->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Third_UI);
+		Player_Second->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Second_UI);
+		Player_Third->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Third_UI);
 
 
 
@@ -138,7 +148,6 @@ void Tutorial::Load()
 		{
 			loading_thread.join();
 		}
-
 	}
 	make_sure_dialogue = new Object();
 	make_sure_dialogue->AddComponent(new Sprite(make_sure_dialogue, "../Sprite/rusure_yes.png", { 0.f, 0.f }, false, Sprite_Type::R_U_SURE_YES), "rusureyes", false);
@@ -154,9 +163,9 @@ void Tutorial::Update(float dt)
 
 	FMOD_Channel_IsPlaying(sound.channel[1], &isBGMPlaying);
 
-	referee->Update(dt);
+	//referee->Update(dt);
 
-	if (timer_deleted == false)
+	/*if (timer_deleted == false)
 	{
 		std::vector<Object*> timers = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("timer");
 		int size = timers.size();
@@ -167,7 +176,7 @@ void Tutorial::Update(float dt)
 		}
 
 		timer_deleted = true;
-	}
+	}*/
 
 	//EventCheck();
 
@@ -199,7 +208,7 @@ void Tutorial::SetArena()
 	Arena->AddComponent(new Sprite(Arena, "../Sprite/IceGround2.png", { 0,-100 }, false));
 	Arena->Set_Current_Sprite(Arena->Find_Sprite_By_Name("arena"));
 	Arena->SetScale({ 35, 17 });
-	//ObjectManager::GetObjectManager()->AddObject(Arena);
+	ObjectManager::GetObjectManager()->AddObject(Arena);
 }
 
 void Tutorial::SetStaffAndExplanation()

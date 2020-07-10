@@ -27,30 +27,26 @@ namespace
 
 void Logo::Load()
 {
-    //GL::set_clear_color({ 0,0,0 });
-    //state_manager = StateManager::GetStateManager();
-    //object_manager = ObjectManager::GetObjectManager();
-
-    //Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
-    //Graphic::GetGraphic()->get_need_update_sprite() = true;
+    GL::set_clear_color({ 1,1,1 });
+    state_manager = StateManager::GetStateManager();
+    state_manager->SetPrevState(new Logo());
 
     digipen_logo = new Object();
     digipen_logo->Set_Name("digipen_logo");
     digipen_logo->AddComponent(new Sprite(digipen_logo, "../Sprite/DigipenLogo.png", { 0, 0 }, false, Sprite_Type::None), "logo", true);
-    digipen_logo->GetTransform().SetScale({ 24, 6 });
-    digipen_logo->Set_Need_To_Update(true); 
+    digipen_logo->GetTransform().SetScale({ 13, 10 });
+    digipen_logo->GetMesh().Get_Is_Moved() = true;
 
     fmod_logo = new Object();
     fmod_logo->Set_Name("fmodLogo");
     fmod_logo->AddComponent(new Sprite(fmod_logo, "../Sprite/FMODLogo.png", { 0, 0 }, false, Sprite_Type::None), "logo2", true);
-    fmod_logo->GetTransform().SetScale({ 24, 6 });
+    fmod_logo->GetTransform().SetScale({ 10, 6 });
 
     team_logo = new Object();
     team_logo->Set_Name("teamLogo");
-    team_logo->AddComponent(new Sprite(team_logo, "../Sprite/TeamLogo.png", true, 14, 8, {0, 0}, { 350,350},
+    team_logo->AddComponent(new Sprite(team_logo, "../Sprite/TeamLogo.png", true, 8, 8, {0, 0}, { 100,100},
 		{ 255,255,255,255 }, Sprite_Type::None), "logo", true);
-    team_logo->AddComponent(new Sprite(team_logo, "../Sprite/TeamLogo.png", { 0,0 }, false, Sprite_Type::None), "logo3", false);
-	team_logo->GetTransform().SetScale({ 10, 6 });
+	team_logo->GetTransform().SetScale({ 16, 10 });
 }
 
 void Logo::Update(float dt)
@@ -62,6 +58,18 @@ void Logo::Update(float dt)
 	}
     logo_timer += dt;
 
+    if (!logo_on2)
+    {
+        digipen_logo->GetMesh().Get_Is_Moved() = true;
+    }
+    if (!logo_on3)
+    {
+        fmod_logo->GetMesh().Get_Is_Moved() = true;
+    }
+    if(logo_dead3)
+    {
+        team_logo->GetMesh().Get_Is_Moved() = true;
+    }
     if (logo_on == true)
     {
         ObjectManager::GetObjectManager()->AddObject(digipen_logo);
@@ -96,13 +104,11 @@ void Logo::Update(float dt)
     }
     if (logo_timer >= 8 && logo_dead3 == true)
     {
-        //team_logo->SetDeadCondition(true);
+        team_logo->SetDeadCondition(true);
         logo_dead3 = false;
         is_next = true;
-        GL::set_clear_color({ 0.31372, 0.73725, 0.8745, 1 });
         next_level = "Menu";
     }
-   
 }
 
 void Logo::Clear()

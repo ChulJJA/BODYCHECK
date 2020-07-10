@@ -48,6 +48,10 @@ private:
     Object* Player_Third;
     Object* Player_Fourth;
 
+    Object* description_second;
+    Object* description_third;
+
+
     /*Object* Player_First_Text;
     Object* Player_Second_Text;
     Object* Player_Third_Text;

@@ -114,7 +114,7 @@ void Referee::Reset_Variables()
 	player_fourth_temp = nullptr;
 	missile_saving = nullptr;
 	item_respawn_timer = 3.0f;
-	missile_num = 50;
+	missile_num = 20;
 	missile_count = 0;
 	win_player = nullptr;
 	win = false;
@@ -760,16 +760,16 @@ void Referee::Respawn_Item(float dt)
 
 void Referee::SetPlayerTemp()
 {
-	player_first_temp = new Object * [player_first_life]();
+	//player_first_temp = new Object * [player_first_life]();
 	player_sec_temp = new Object * [player_sec_life]();
 	player_third_temp = new Object * [player_third_life]();
-	player_fourth_temp = new Object * [player_fourth_life]();
+	//player_fourth_temp = new Object * [player_fourth_life]();
 
 
-	for (int i = 0; i < player_first_life; i++)
-	{
-		player_first_temp[i] = Make_Player_Pool("pen_green2", { 400,400 }, "first", "save", first_text);
-	}
+	//for (int i = 0; i < player_first_life; i++)
+	//{
+	//	player_first_temp[i] = Make_Player_Pool("pen_green2", { 400,400 }, "first", "save", first_text);
+	//}
 	for (int i = 0; i < player_sec_life; i++)
 	{
 		player_sec_temp[i] = Make_Player_Pool("pen_red2", { 400,-400 }, "second", "save", second_text);
@@ -778,10 +778,10 @@ void Referee::SetPlayerTemp()
 	{
 		player_third_temp[i] = Make_Player_Pool("pen_blue2", { -400,400 }, "third", "save", third_text);
 	}
-	for (int i = 0; i < player_fourth_life; i++)
-	{
-		player_fourth_temp[i] = Make_Player_Pool("pen_normal2", { -400,-400 }, "fourth", "save", fourth_text);
-	}
+	//for (int i = 0; i < player_fourth_life; i++)
+	//{
+	//	player_fourth_temp[i] = Make_Player_Pool("pen_normal2", { -400,-400 }, "fourth", "save", fourth_text);
+	//}
 }
 
 void Referee::SetItem()
