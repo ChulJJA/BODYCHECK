@@ -204,12 +204,12 @@ void PauseLevel::ButtonSelector()
 					}
 				}
 
-				if (input.Is_Key_Triggered(GLFW_KEY_SPACE) && r_u_sure_current_sprite == r_u_sure_yes_sprite)
+				if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)) && r_u_sure_current_sprite == r_u_sure_yes_sprite)
 				{
 					r_u_sure_come = false;
 					r_u_sure = true;
 				}
-				else if (input.Is_Key_Triggered(GLFW_KEY_SPACE) && r_u_sure_current_sprite == r_u_sure_no_sprite)
+				else if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)) && r_u_sure_current_sprite == r_u_sure_no_sprite)
 				{
 					r_u_sure_come = false;
 					make_sure_dialogue->Set_Need_To_Update(false);
@@ -309,7 +309,7 @@ void PauseLevel::ButtonBehavior()
 	if (r_u_sure_come == false)
 	{
 
-		if (pointer == static_cast<int>(BUTTON::RESTART) && input.Is_Key_Pressed(GLFW_KEY_SPACE))
+		if (pointer == static_cast<int>(BUTTON::RESTART) && (input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)))
 		{
 			FMOD_BOOL isPlaying;
 			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlaying);
@@ -327,7 +327,7 @@ void PauseLevel::ButtonBehavior()
 			state_manager->level_state->is_pause = false;
 			Clear();
 		}
-		else if (pointer == static_cast<int>(BUTTON::MAINMENU) && input.Is_Key_Pressed(GLFW_KEY_SPACE))
+		else if (pointer == static_cast<int>(BUTTON::MAINMENU) && (input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)))
 		{
 			is_next = true;
 			next_level = "Menu";
@@ -342,21 +342,21 @@ void PauseLevel::ButtonBehavior()
 			}
 			Clear();
 		}
-		else if (pointer == static_cast<int>(BUTTON::OPTION) && input.Is_Key_Pressed(GLFW_KEY_SPACE))
+		else if (pointer == static_cast<int>(BUTTON::OPTION) && (input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)))
 		{
 			is_next = true;
 			next_level = "Option";
 			sound.Play(SOUND::Selected);
 			Clear();
 		}
-		else if (pointer == static_cast<int>(BUTTON::QUIT) && input.Is_Key_Triggered(GLFW_KEY_SPACE))
+		else if (pointer == static_cast<int>(BUTTON::QUIT) && (input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)))
 		{
 			sound.Play(SOUND::Selected);
 			r_u_sure_come = true;
 			//Sleep(800);
 			//exit(0);
 		}
-		else if (pointer == static_cast<int>(BUTTON::BACK) && input.Is_Key_Pressed(GLFW_KEY_SPACE))
+		else if (pointer == static_cast<int>(BUTTON::BACK) && (input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)))
 		{
 			sound.SetSoundGroupVolume(true, currentBGM_Volume * 3);
 			sound.Play(SOUND::Selected);
