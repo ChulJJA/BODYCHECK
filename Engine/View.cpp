@@ -45,6 +45,10 @@ void View::Update(float dt)
 	//win_player = Referee::Get_Referee()->Get_Win_Player();
 	if (is_ended == true)
 	{
+		if (input.Is_Key_Triggered(GLFW_KEY_ESCAPE))
+		{
+			is_zoom_end = true;
+		}
 		Win_Zoom(dt);
 	}
 }
@@ -186,16 +190,22 @@ void View::Win_Zoom(float dt)
 
 	if (win_player != nullptr)
 	{
-		camera.SetCenter(win_player->GetTransform().GetTranslation());
-
-
-		camera_view.SetZoom(setting_zoom);
-
-		if (setting_zoom < 0.7f)
+		if (!is_zoom_end)
 		{
-			setting_zoom += 0.01f;
+			camera.SetCenter(win_player->GetTransform().GetTranslation());
+
+			camera_view.SetZoom(setting_zoom);
+
+			if (setting_zoom < 0.7f)
+			{
+				setting_zoom += 0.01f;
+			}
 		}
-		std::cout << "1" << std::endl;
+		else
+		{
+			Graphic::GetGraphic()->Get_View().Get_Camera().SetCenter(vector2{ 0.f, 0.f });
+			Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
+		}
 	}
 	else
 	{

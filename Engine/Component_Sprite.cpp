@@ -174,7 +174,7 @@ Sprite::Sprite(Object* obj, const char* staticSpritePath, vector2 position, bool
 	sprite_type = type_player;
 }
 
-Sprite::Sprite(Object* obj, const char* aniamtedSpritePath, bool animated, int frames, float m_speed, vector2 position, vector2 scale, Color4ub color, Sprite_Type type_player)
+Sprite::Sprite(Object* obj, const char* aniamtedSpritePath, bool animated, int frames, float m_speed, vector2 position, vector2 scale, Color4ub color, Sprite_Type type_player, bool need_debug_info)
 {
 	m_owner = obj;
 	is_animated = animated;
@@ -213,6 +213,20 @@ Sprite::Sprite(Object* obj, const char* aniamtedSpritePath, bool animated, int f
 	material.matrix3Uniforms["to_ndc"] = mat_ndc;
 	shape.InitializeWithMeshAndLayout(m_owner->GetMesh(), SHADER::textured_vertex_layout());
 	material.floatUniforms["time"] = 1;
+
+	if (need_debug_info)
+	{
+		Mesh debug_mesh;
+		debug_mesh = MESH::create_wire_circle(40, { 255,0,0,255 });
+		debug_shape.InitializeWithMeshAndLayout(debug_mesh, SHADER::solid_color_vertex_layout());
+
+		m_owner->Set_Debug_Mesh(debug_mesh);
+		is_debug_mode = need_debug_info;
+
+		debug_material.shader = &(SHADER::solid_color());
+		debug_material.color4fUniforms["color"] = to_color4f(Color4ub(0,0,0,255));
+
+	}
 
 	sprite_type = type_player;
 }
@@ -271,6 +285,13 @@ void Sprite::Update(float dt)
 		material.matrix3Uniforms["cam"] = camera.WorldToCamera();
 		material.matrix3Uniforms["model"] = m_owner->GetTransform().GetModelToWorld();
 
+		if (is_debug_mode)
+		{
+			matrix3 ndc = camera_view.GetCameraToNDCTransform() * camera.WorldToCamera() * m_owner->GetTransform().GetModelToWorld();
+			debug_material.matrix3Uniforms["to_ndc"] = ndc;
+			Graphic::GetGraphic()->Draw(debug_shape, debug_material);
+		}
+
 		Graphic::GetGraphic()->Draw(shape, material);
 
 	}
@@ -305,6 +326,13 @@ void Sprite::Update(float dt)
 		material.matrix3Uniforms["model"] = m_owner->GetTransform().GetModelToWorld();
 
 		Graphic::GetGraphic()->Draw(shape, material);
+
+		if (is_debug_mode)
+		{
+			matrix3 ndc = camera_view.GetCameraToNDCTransform() * camera.WorldToCamera() * m_owner->GetTransform().GetModelToWorld();
+			debug_material.matrix3Uniforms["to_ndc"] = ndc;
+			Graphic::GetGraphic()->Draw(debug_shape, debug_material);
+		}
 	}
 
 }

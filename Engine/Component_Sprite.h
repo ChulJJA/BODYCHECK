@@ -90,6 +90,9 @@ enum class Sprite_Type
     Button_Hover,
     R_U_SURE_YES,
     R_U_SURE_NO,
+
+    Loading,
+    Loading_Press,
 };
 
 
@@ -101,7 +104,7 @@ public:
     Sprite(Object* obj, bool need_debug_drawing = false);
     Sprite(Object* obj, const char* staticSpritePath, vector2 position, bool need_debug_drnawing = true, Sprite_Type type_player = Sprite_Type::None, vector2 scale = {100.f, 100.f});
     Sprite(Object* obj, const char* aniamtedSpritePath, bool animated, int frames, float m_speed, vector2 position, vector2 scale, Color4ub color = { 255,255,255,255 },
-		Sprite_Type type_player = Sprite_Type::None);
+		Sprite_Type type_player = Sprite_Type::None, bool need_debug_info = false);
     void Init(Object* obj) override;
     void Update(float dt) override;
 	void Update_Instancing(float dt);
@@ -148,5 +151,6 @@ private:
     float spriteWidth = 0;
     bool animated_init = true;
 	Sprite_Type sprite_type;
+    bool is_debug_mode = false;
 
 };

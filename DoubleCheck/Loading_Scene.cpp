@@ -26,6 +26,7 @@
 #include <consoleapi2.h>
 #include <consoleapi3.h>
 #include "GL.hpp"
+#include "Input.h"
 
 namespace 
 {
@@ -59,16 +60,32 @@ void Loading_Scene::Update(float dt)
 	{
 		
 		image->AddComponent(new Sprite(image, "../sprite/loading.png", true, 7, 4, { 0.f, 0.f },
-			{ 200.f, 200.f }, { 255,255,255,255 }));
+			{ 200.f, 200.f }, { 255,255,255,255 }, Sprite_Type::Loading));
+		image->AddComponent(new Sprite(image, "../sprite/loading_press.png", true, 2, 2, { 0.f, 0.f },
+			{ 200.f, 200.f }, { 255,255,255,255 }, Sprite_Type::Loading_Press));
 		image->SetScale(vector2{ 19.f , 12.f});
 
-		while (done)
+		bool is_done = true;
+		while (is_done)
 		{
 			glfwSwapBuffers(Application::Get_Application()->Get_Window());
 			glfwPollEvents();
 			Graphic::GetGraphic()->Update(dt);
 			GL::set_clear_color({ 0.31372, 0.73725, 0.8745, 1 });
-			image->GetComponentByTemplate<Sprite>()->Update(dt);
+
+			if (done)
+			{
+				image->Find_Sprite_By_Type(Sprite_Type::Loading)->Update(dt);
+			}
+			else
+			{
+				image->Find_Sprite_By_Type(Sprite_Type::Loading_Press)->Update(dt);
+
+				if (GetKeyState(VK_SPACE))
+				{
+					is_done = false;
+				}
+			}
 		}
 
 	}
@@ -79,6 +96,7 @@ void Loading_Scene::Update(float dt)
 
 		while (done)
 		{
+			SetFocus(GetFocus());
 			glfwSwapBuffers(Application::Get_Application()->Get_Window());
 			glfwPollEvents();
 			Graphic::GetGraphic()->Update(dt);
@@ -86,9 +104,6 @@ void Loading_Scene::Update(float dt)
 			image2->GetComponentByTemplate<Sprite>()->Update(dt);
 		}
 	}
-
-
-	//image->AddComponent(new Sprite(image, "../sprite/loadingscene.png", { 0.f, 0.f }));
 }
 
 void Loading_Scene::UnLoad()
