@@ -20,9 +20,11 @@
 #include <fstream>
 #include "Physics.h"
 #include "Component_Hpbar.h"
+#include "StateManager.h"
+#include "State.h"
 using namespace std;
 Application* Application::application = nullptr;
-
+StateManager* state = nullptr;
 namespace
 {
     void    key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
@@ -92,6 +94,8 @@ void Application::Init()
     object4.LoadFromPNG("../sprite/HP.png");
     object5.LoadFromPNG("../sprite/HP.png");
     Toggle_Fullscreen();
+
+    state = StateManager::GetStateManager();
 }
 
 void Application::Update(float dt)
@@ -208,13 +212,13 @@ namespace
     }
     void window_focus_callback(GLFWwindow* window, int focused)
     {
-        if (!focused)
+        if (!focused && state->GetCurrentState()->GetStateInfo() == GameState::Game)
         {
-            
+            state->GetCurrentState()->is_pause = true;
         }
-        else
+        else if(focused && state->GetCurrentState()->GetStateInfo() == GameState::Game)
         {
-            
+            state->GetCurrentState()->is_pause = false;
         }
     }
 }
