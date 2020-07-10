@@ -140,7 +140,7 @@ public:
     void Set_Timer();
     void Reset_Variables();
     void Reset_Item_Variables();
-
+    bool isGameDone = false;
 private:
     Referee();
     static Referee* referee;

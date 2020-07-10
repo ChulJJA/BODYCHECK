@@ -961,6 +961,7 @@ void Referee::Win(float dt)
 			Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 			Graphic::GetGraphic()->Get_View().Set_Is_Zoom_End_False();
 			win_player = nullptr;
+			isGameDone = true;
 		}
 	}
 }

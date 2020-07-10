@@ -294,13 +294,28 @@ void Level1::Update(float dt)
 		}
 	}
 
+	if(referee->isGameDone == true)
+	{
+		gameDoneTimer += dt;
+
+	}
+	if(gameDoneTimer >= 3)
+	{
+		Clear();
+		referee->isGameDone = false;
+		is_next = true;
+		next_level = "Menu";
+		gameDoneTimer = 0;
+	}
 	Pause();
 }
 
 void Level1::UnLoad()
 {
-	next_level = {};
-	is_next = false;
+	//next_level = {};
+	//is_next = false;
+	//delete referee;
+	//delete object_manager;  
 }
 
 void Level1::Pause()
