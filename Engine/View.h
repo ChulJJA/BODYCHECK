@@ -39,6 +39,7 @@ private:
     Shake_Status status = Shake_Status::None;
     float force = 10.f;
     int shake_num;
+    bool is_zoom_end = false;
 	
 public:
     void Init();
