@@ -111,15 +111,20 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 
 	player->AddComponent(new Sprite(player, sprite_path_spawn.c_str(), true, 37, 9.25, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Spawn), "spawn", !is_main_menu);
-	
+	bool is_debug_mode;
+#if _DEBUG
+	is_debug_mode = true;
+#else
+	is_debug_mode = false;
+#endif
 	player->AddComponent(new Sprite(player, sprite_path_normal.c_str(), true, 3, 6, pos, { 100.f,100.f },
-		{ 255,255,255,255 }, Sprite_Type::Player_Normal), "normal", is_main_menu);
+		{ 255,255,255,255 }, Sprite_Type::Player_Normal, is_debug_mode), "normal", is_main_menu);
 
 	player->AddComponent(new Sprite(player, sprite_path_speed2.c_str(), true, 3, 24, pos, { 100.f,100.f },
-		{ 255,255,255,255 }, Sprite_Type::Player_Speed2), "speed2", false);
+		{ 255,255,255,255 }, Sprite_Type::Player_Speed2, is_debug_mode), "speed2", false);
 
 	player->AddComponent(new Sprite(player, sprite_path_speed3.c_str(), true, 3, 48, pos, { 100.f,100.f },
-		{ 255,255,255,255 }, Sprite_Type::Player_Speed3), "speed3", false);
+		{ 255,255,255,255 }, Sprite_Type::Player_Speed3, is_debug_mode), "speed3", false);
 	
 	player->AddComponent(new Sprite(player, sprite_path_lock.c_str(), true, 4, 8, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Locking), "lock", false);
@@ -127,13 +132,13 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 	player->AddComponent(new Sprite(player, sprite_path_ready.c_str(), pos, false, Sprite_Type::Player_Ready), "ready", false);
 	
 	player->AddComponent(new Sprite(player, sprite_path_die.c_str(), true, 8, 16, pos, { 100.f,100.f },
-		{ 255,255,255,255 }, Sprite_Type::Player_Die), "die", false);
+		{ 255,255,255,255 }, Sprite_Type::Player_Die, is_debug_mode), "die", false);
 	
 	player->AddComponent(new Sprite(player, sprite_path_crying.c_str(), true, 2, 4, pos, { 100.f,100.f },
-		{ 255,255,255,255 }, Sprite_Type::Player_Crying), "crying", false);
+		{ 255,255,255,255 }, Sprite_Type::Player_Crying, is_debug_mode), "crying", false);
 	
 	player->AddComponent(new Sprite(player, sprite_path_fat.c_str(), true, 3, 9, pos, { 100.f,100.f },
-		{ 255,255,255,255 }, Sprite_Type::Player_Fat), "fat", false);
+		{ 255,255,255,255 }, Sprite_Type::Player_Fat, is_debug_mode), "fat", false);
 
 
 	player->AddComponent(new Sprite(player, sprite_path_reverse_moving_pen.c_str(), true, 2, 8, pos, { 100.f,100.f },

@@ -23,20 +23,22 @@
 #include "Input.h"
 #include "Option.h"
 #include "StateManager.h"
+#include "Message_Manager.h"
+#include "Editor.h"
 
-
-#define GLFW_EXPOSE_NATIVE_WGL
-#define GLFW_EXPOSE_NATIVE_WIN32 
-#include <GLFW/glfw3native.h>
-#include <mutex>
-#include "Physics.h"
+ //
+ //#define GLFW_EXPOSE_NATIVE_WGL
+ //#define GLFW_EXPOSE_NATIVE_WIN32 
+ //#include <GLFW/glfw3native.h>
+ //#include <mutex>
+ //#include "Physics.h"
 
 namespace
 {
 	Referee* referee = nullptr;
 	StateManager* state_manager = nullptr;
 	ObjectManager* object_manager = nullptr;
-
+	Editor* editor = nullptr;
 }
 
 void Tutorial::Load()
@@ -49,7 +51,7 @@ void Tutorial::Load()
 	loading->Load();
 
 	HDC hdc = wglGetCurrentDC();//GetDC(glfwGetWin32Window(Application::Get_Application()->Get_Window()));
-	HGLRC main_context = wglGetCurrentContext();
+	const HGLRC main_context = wglGetCurrentContext();
 	HGLRC loading_context = wglCreateContext(hdc);
 	wglShareLists(main_context, loading_context);
 
@@ -66,6 +68,8 @@ void Tutorial::Load()
 	{
 		dt_refreshed = false;
 		timer_deleted = false;
+
+		prev_timer = nullptr;
 		transition_timer = 4.9f;
 		current_state = GameState::Tutorial;
 		referee = Referee::Get_Referee();
@@ -84,35 +88,42 @@ void Tutorial::Load()
 		{
 			sound.Play(SOUND::BGM2);
 		}
-		//sound.Stop(SOUND::BGM);
-		//sound.Play(SOUND::BGM2);
+
 
 		SetArena();
-
+		
+		editor = new Editor();
 		referee->Init();
-		//SetStaffAndExplanation();
-		//Player_First_UI = Make_Set_Ui("first_ui", "ui", "../Sprite/UI/pen_green_ui.png", { -1300, -800 }, { 5.0f,5.0f }, Player_First);
-		Player_Second_UI = Make_Set_Ui("second_ui", "ui", "../Sprite/UI/pen_red_ui.png", { -500, -800 }, { 5.0f,5.0f }, Player_Second);
-		Player_Third_UI = Make_Set_Ui("third_ui", "ui", "../Sprite/UI/pen_blue_ui.png", { 300, -800 }, { 5.0f,5.0f }, Player_Third);
-		//Player_Fourth_UI = Make_Set_Ui("fourth_ui", "ui", "../Sprite/UI/pen_normal_ui.png", { 1100, -800 }, { 5.0f,5.0f }, Player_Fourth);
+		editor->Init();
+		editor->Set_Visible(true);
 
-		//Player_First = Make_Player("first", "player", "pen_green2", { 400.f, 400.f }, { 2.f, 2.f });
-		Player_Second = Make_Player("second", "player", "pen_red2", { 400.f, -400.f }, { 2.f, 2.f });
-		Player_Third = Make_Player("third", "player", "pen_blue2", { -400.f, 400.f }, { 2.f, 2.f });
-		//Player_Fourth = Make_Player("fourth", "player", "pen_normal2", { -400.f, -400.f }, { 2.f, 2.f });
+		//Player_Second_UI = Make_Set_Ui("second_ui", "ui", "../Sprite/UI/pen_red_ui.png", { -500, -800 }, { 5.0f,5.0f }, Player_Second);
+		//Player_Third_UI = Make_Set_Ui("third_ui", "ui", "../Sprite/UI/pen_blue_ui.png", { 300, -800 }, { 5.0f,5.0f }, Player_Third);
 
-		//Player_First->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_First_UI);
-		Player_Second->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Second_UI);
-		Player_Third->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Third_UI);
-		//Player_Fourth->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Fourth_UI);
+
+		Player_Second = Make_Player("second", "player", "pen_red2", { -800.f, 0.f }, { 4.f, 4.f }, true);
+		Player_Third = Make_Player("third", "player", "pen_blue2", { 800.f,0.f }, { 4.f, 4.f }, true);
+
+
+		Player_Second->Get_Belongs_Objects().clear();
+		Player_Third->Get_Belongs_Objects().clear();
+
+		/*Player_Second->Set_Need_To_Update(false);
+		Player_Second->SetNeedCollision(false);
+		Player_Third->Set_Need_To_Update(false);
+		Player_Third->SetNeedCollision(false);*/
+
+		//Player_Second->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Second_UI);
+		//Player_Third->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Third_UI);
 
 
 
 		//Referee::Get_Referee()->Set_First_Ui(Player_First_UI);
-		Referee::Get_Referee()->Set_Second_Ui(Player_Second_UI);
-		Referee::Get_Referee()->Set_Third_Ui(Player_Third_UI);
+		//Referee::Get_Referee()->Set_Second_Ui(Player_Second_UI);
+		//Referee::Get_Referee()->Set_Third_Ui(Player_Third_UI);
 		//Referee::Get_Referee()->Set_Fourth_Ui(Player_Fourth_UI);
-
+		Referee::Get_Referee()->Set_Curr_Sec_Player(Player_Second);
+		Referee::Get_Referee()->Set_Curr_Third_Player(Player_Third);
 
 
 
@@ -134,94 +145,37 @@ void Tutorial::Update(float dt)
 	FMOD_BOOL isBGMPlaying;
 
 	FMOD_Channel_IsPlaying(sound.channel[1], &isBGMPlaying);
-	if (dt_refreshed == true)
+
+	referee->Update(dt);
+
+	if (timer_deleted == false)
 	{
-		if (transition_timer > 0.f)
+		std::vector<Object*> timers = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("timer");
+		int size = timers.size();
+
+		for (int i = 0; i < size; i++)
 		{
-			transition_timer -= dt;
-			int timer_int = static_cast<int>(transition_timer);
-
-			if (((transition_timer > 1.8f && transition_timer < 2.4f) ||
-				((transition_timer > 3.6f && transition_timer < 4.2f)))
-				&& timer_int > 1)
-			{
-				timer_int = 6;
-			}
-			else if (transition_timer < 1.f)
-			{
-				timer_int = 7;
-			}
-
-			Object* timer_obj = nullptr;
-			Object* prev_timer_obj = nullptr;
-
-			switch (timer_int)
-			{
-			case 1:
-				timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer1");
-				prev_timer = timer_obj;
-				prev_timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer_erase");
-			case 2:
-			case 3:
-				timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer2");
-				prev_timer = timer_obj;
-				prev_timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer_erase");
-				break;
-			case 4:
-			case 5:
-				timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer3");
-				prev_timer = timer_obj;
-				break;
-			case 6:
-				timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer_erase");
-				timer_obj->Set_Need_To_Update(true);
-				prev_timer->Set_Need_To_Update(false);
-				break;
-			case 7:
-				timer_obj = ObjectManager::GetObjectManager()->Find_Object_By_Name("timer_start");
-				timer_obj->Set_Need_To_Update(true);
-				prev_timer->Set_Need_To_Update(false);
-
-				vector2& scale = timer_obj->GetScale_Reference();
-				scale.x += 0.3f;
-				scale.y += 0.3f;
-				break;
-			}
-
-			if (prev_timer_obj != nullptr)
-			{
-				prev_timer_obj->Set_Need_To_Update(false);
-				timer_obj->Set_Need_To_Update(true);
-			}
+			timers.at(i)->SetDeadCondition(true);
 		}
-		else
-		{
-			referee->Update(dt);
 
-			if (timer_deleted == false)
-			{
-				std::vector<Object*> timers = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("timer");
-				int size = timers.size();
-
-				for (int i = 0; i < size; i++)
-				{
-					timers.at(i)->SetDeadCondition(true);
-				}
-
-				timer_deleted = true;
-			}
-		}
-	}
-	else
-	{
-		dt_refreshed = true;
+		timer_deleted = true;
 	}
 
 	//EventCheck();
 
+	editor->Update(dt);
+
+
 	Pause();
 }
 
+void Tutorial::UnLoad()
+{
+	next_level = {};
+	is_next = false;
+	//delete referee;
+	///delete object_manager;
+}
 
 void Tutorial::SetArena()
 {
@@ -231,16 +185,16 @@ void Tutorial::SetArena()
 	Arena->AddComponent(new Sprite(Arena, "../Sprite/IceGround2.png", { 0,-100 }, false));
 	Arena->Set_Current_Sprite(Arena->Find_Sprite_By_Name("arena"));
 	Arena->SetScale({ 35, 17 });
-	ObjectManager::GetObjectManager()->AddObject(Arena);
+	//ObjectManager::GetObjectManager()->AddObject(Arena);
 }
 
 void Tutorial::SetStaffAndExplanation()
 {
-	Explanation_Staff = new Object();
+	/*Explanation_Staff = new Object();
 	Explanation_Staff->Set_Name("explanation_staff");
 	Explanation_Staff->AddComponent(new Sprite(Explanation_Staff, "../Sprite/HowToPlay.png", { 1400, 0 }, false));
 	Explanation_Staff->GetTransform().SetScale(9.f);
-	ObjectManager::GetObjectManager()->AddObject(Explanation_Staff);
+	ObjectManager::GetObjectManager()->AddObject(Explanation_Staff);*/
 
 	/*Explanation_Text_First = new Object();
 	Explanation_Text_First->Set_Name("explanation_text_first");
@@ -291,15 +245,23 @@ void Tutorial::EventCheck()
 
 void Tutorial::Pause()
 {
-	if (input.Is_Key_Pressed(GLFW_KEY_P))
+	if (input.Is_Key_Pressed(GLFW_KEY_ESCAPE))
 	{
 		sound.Play(SOUND::Click);
+		const float currentBGM_Volume = sound.GetSoundGroupVolume(true);
+		sound.SetSoundGroupVolume(true, currentBGM_Volume / 3);
 		is_pause = true;
 	}
 }
 
 void Tutorial::Clear()
 {
-	object_manager->Clear();
+	Message_Manager::Get_Message_Manager()->Get_Messages().clear();
+	ObjectManager::GetObjectManager()->Get_Objects().clear();
+
+	if (editor != nullptr)
+	{
+		editor = nullptr;
+	}
 }
 

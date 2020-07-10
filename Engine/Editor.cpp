@@ -99,8 +99,8 @@ void Editor::Setting_Display(float offset, float pos_y)
 	init_pos_x += offset;
 	display_item_dash = Make_Display("../Sprite/Item/item_dash.png", { init_pos_x,pos_y }, Item::Item_Kind::Dash);
 	init_pos_x += offset;
-	display_item_magnetic = Make_Display("../Sprite/Item/magnet.png", { init_pos_x,pos_y }, Item::Item_Kind::Magnatic);
-	init_pos_x += offset;
+	/*display_item_magnetic = Make_Display("../Sprite/Item/magnet.png", { init_pos_x,pos_y }, Item::Item_Kind::Magnatic);
+	init_pos_x += offset;*/
 	display_item_timepause = Make_Display("../Sprite/Item/time_pause.png", { init_pos_x,pos_y }, Item::Item_Kind::Time_Pause);
 	init_pos_x += offset;
 	display_item_missile = Make_Display("../Sprite/Item/missile_launcher_showing.png", { init_pos_x,pos_y }, Item::Item_Kind::Missile);
@@ -246,7 +246,7 @@ void Editor::Set_Visible(bool toggle)
 	Component* bulk = display_item_bulkup->Find_Sprite_By_Name("display");
 	Component* dash = display_item_dash->Find_Sprite_By_Name("display");
 	Component* recover = display_item_recover->Find_Sprite_By_Name("display");
-	Component* mag = display_item_magnetic->Find_Sprite_By_Name("display");
+	//Component* mag = display_item_magnetic->Find_Sprite_By_Name("display");
 	Component* missile = display_item_missile->Find_Sprite_By_Name("display");
 	Component* throwing = display_item_throwing->Find_Sprite_By_Name("display");
 	Component* time = display_item_timepause->Find_Sprite_By_Name("display");
@@ -265,10 +265,10 @@ void Editor::Set_Visible(bool toggle)
 	{
 		recover->Set_Need_Update(true);
 	}
-	if (mag != nullptr)
+	/*if (mag != nullptr)
 	{
 		mag->Set_Need_Update(true);
-	}
+	}*/
 	if (missile != nullptr)
 	{
 		missile->Set_Need_Update(true);

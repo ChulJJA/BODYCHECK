@@ -202,6 +202,7 @@ void MainMenu::SetCreditButton()
 void MainMenu::ButtonSelector()
 {
 	float LeftThumbStateY = gamepadManager->LeftStick_Y();
+	bool LeftStickInDeadZone = gamepadManager->LStick_InDeadzone();
 
 	if (r_u_sure_come)
 	{
@@ -297,7 +298,7 @@ void MainMenu::ButtonSelector()
 			}
 			button_timer = 0;
 		}
-		else if ((input.Is_Key_Pressed(GLFW_KEY_UP) || LeftThumbStateY > 0) && pointer >= static_cast<int>(BUTTON::START))
+		else if ((input.Is_Key_Pressed(GLFW_KEY_UP) || (LeftStickInDeadZone == false && LeftThumbStateY > 0.5f)) && pointer >= static_cast<int>(BUTTON::START))
 		{
 			pointer--;
 
@@ -346,6 +347,7 @@ void MainMenu::ButtonSelector()
 			}
 			button_timer = 0;
 		}
+
 
 		if (((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::START))
 		{
