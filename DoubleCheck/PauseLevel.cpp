@@ -408,6 +408,4 @@ void PauseLevel::ButtonBehavior()
 	{
 		exit(0);
 	}
-
-
 }

@@ -40,6 +40,10 @@ public:
     void LeaveState(float dt);
     void BackToLevel();
     void BackToMenu();
+    void SetPrevState(State* state)
+    {
+        prev_state = state;
+    }
     State* level_state = nullptr;
 private:
     static StateManager* state_manager;

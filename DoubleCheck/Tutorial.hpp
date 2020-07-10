@@ -23,7 +23,6 @@ public:
     
     Tutorial()
     {
-        current_state = GameState::Tutorial;
     }
 
     virtual void Load();
@@ -38,7 +37,7 @@ public:
     void SetStaffAndExplanation();
     void EventCheck();
 
-    void Pause();
+    void BackToMenu();
     void Clear();
 
 private:
@@ -48,6 +47,10 @@ private:
     Object* Player_Second;
     Object* Player_Third;
     Object* Player_Fourth;
+
+    Object* description_second;
+    Object* description_third;
+
 
     /*Object* Player_First_Text;
     Object* Player_Second_Text;
@@ -77,4 +80,8 @@ private:
     bool dt_refreshed = false;
     bool timer_deleted = false;
     Object* prev_timer = nullptr;
+
+    Object* make_sure_dialogue;
+    bool r_u_sure = false;
+    bool r_u_sure_come = false;
 };

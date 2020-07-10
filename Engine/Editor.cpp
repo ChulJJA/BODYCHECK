@@ -27,36 +27,36 @@ void Editor::Init()
 {
 	val = 0;
 	item_spawned_num = 0;
-	int item_num = 100;
-	items = new Object * [item_num];
-	std::string eat_effect = "../Sprite/Item/item_eateffect.png";
-	std::string spawn_effect = "../Sprite/Item/item_spawn.png";
-	std::string sprite_path = "../Sprite/Item/fish.png";
+	//int item_num = 100;
+	//items = new Object * [item_num];
+	//`std::string eat_effect = "../Sprite/Item/item_eateffect.png";
+	//`std::string spawn_effect = "../Sprite/Item/item_spawn.png";
+	//`std::string sprite_path = "../Sprite/Item/fish.png";
 
-	for (int i = 0; i < item_num; i++)
-	{
-		items[i] = new Object();
-		//items[i]->AddComponent(new Sprite(items[i], "../Sprite/Item/Item.png", { 0.f,0.f }));
-
-		/*items[i]->AddComponent(new Sprite(items[i], spawn_effect.c_str(), true, 10, 10, { 0.f,0.f }, { 200.f,200.f },
-			{ 255,255,255,255 }, Sprite_Type::Item_Spawn_Effect), "item_spawn", true);
-*/
-
-		items[i]->AddComponent(new Sprite(items[i], sprite_path.c_str(), true, 6, 12, { 0.f,0.f }, { 200.f,200.f },
-			{ 255,255,255,255 }, Sprite_Type::Item), "item", true);
-
-		items[i]->AddComponent(new Sprite(items[i], eat_effect.c_str(), true, 3, 12, { 0.f,0.f }, { 200.f,200.f },
-			{ 255,255,255,255 }, Sprite_Type::Item_Eateffect), "item_eat", false);
-
-		items[i]->AddComponent(new Item());
-		items[i]->AddComponent(new Physics);
-		items[i]->Set_Name("item");
-		items[i]->Set_Tag("item");
-		items[i]->SetScale({ 1.f, 1.f });
-		items[i]->SetNeedCollision(true);
-		items[i]->GetComponentByTemplate<Item>()->Set_Kind(Item::Item_Kind::None);
-		items[i]->Add_Pointed_By(&items[i]);
-	}
+//	for (int i = 0; i < item_num; i++)
+//	{
+//		items[i] = new Object();
+//		//items[i]->AddComponent(new Sprite(items[i], "../Sprite/Item/Item.png", { 0.f,0.f }));
+//
+//		/*items[i]->AddComponent(new Sprite(items[i], spawn_effect.c_str(), true, 10, 10, { 0.f,0.f }, { 200.f,200.f },
+//			{ 255,255,255,255 }, Sprite_Type::Item_Spawn_Effect), "item_spawn", true);
+//*/
+//
+//		items[i]->AddComponent(new Sprite(items[i], sprite_path.c_str(), true, 6, 12, { 0.f,0.f }, { 200.f,200.f },
+//			{ 255,255,255,255 }, Sprite_Type::Item), "item", true);
+//
+//		items[i]->AddComponent(new Sprite(items[i], eat_effect.c_str(), true, 3, 12, { 0.f,0.f }, { 200.f,200.f },
+//			{ 255,255,255,255 }, Sprite_Type::Item_Eateffect), "item_eat", false);
+//
+//		items[i]->AddComponent(new Item());
+//		items[i]->AddComponent(new Physics);
+//		items[i]->Set_Name("item");
+//		items[i]->Set_Tag("item");
+//		items[i]->SetScale({ 1.f, 1.f });
+//		items[i]->SetNeedCollision(true);
+//		items[i]->GetComponentByTemplate<Item>()->Set_Kind(Item::Item_Kind::None);
+//		items[i]->Add_Pointed_By(&items[i]);
+//	}
 
 	Setting_Display(300.f, -400.f);
 

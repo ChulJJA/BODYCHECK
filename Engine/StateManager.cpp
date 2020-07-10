@@ -37,6 +37,7 @@ void StateManager::Update(float dt)
 
 		if (current_state->IsNextLevel())
 		{
+			current_state->Set_is_next(false);
 			prev_state = current_state;
 			std::string temp_name = current_state->GetNextLevelName();
 			current_state->UnLoad();

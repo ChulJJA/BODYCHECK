@@ -69,19 +69,23 @@ void Msg_Func_Collision::Update(float dt)
 				m_target->SetDeadCondition(true);
 				Player* player_info_from = m_from->GetComponentByTemplate<Player>();
 				Object* hp_bar = m_from->Get_Belong_Object_By_Tag("hp_bar");
-				Hp_Bar* info_hp_bar = hp_bar->GetComponentByTemplate<Hp_Bar>();
 
-				if (info_hp_bar != nullptr)
+				if (hp_bar != nullptr)
 				{
-					if (player_info_from->Get_Item_Used_Status() == Player::Item_Use_Status::None &&
-						info_hp_bar->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
-					{
-						sound.Play(SOUND::Missile);
+					Hp_Bar* info_hp_bar = hp_bar->GetComponentByTemplate<Hp_Bar>();
 
-						info_hp_bar->Decrease(0.5f);
-						m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
-						info_hp_bar->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
-						info_hp_bar->Set_Timer(1.f);
+					if (info_hp_bar != nullptr)
+					{
+						if (player_info_from->Get_Item_Used_Status() == Player::Item_Use_Status::None &&
+							info_hp_bar->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
+						{
+							sound.Play(SOUND::Missile);
+
+							info_hp_bar->Decrease(0.5f);
+							m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
+							info_hp_bar->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
+							info_hp_bar->Set_Timer(1.f);
+						}
 					}
 				}
 			}
@@ -93,19 +97,23 @@ void Msg_Func_Collision::Update(float dt)
 				m_target->SetDeadCondition(true);
 				Player* player_info_from = m_from->GetComponentByTemplate<Player>();
 				Object* hp_bar = m_from->Get_Belong_Object_By_Tag("hp_bar");
-				Hp_Bar* info_hp_bar = hp_bar->GetComponentByTemplate<Hp_Bar>();
 
-				if (info_hp_bar != nullptr)
+				if (hp_bar != nullptr)
 				{
-					if (player_info_from->Get_Item_Used_Status() == Player::Item_Use_Status::None &&
-						info_hp_bar->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
-					{
-						sound.Play(SOUND::ThrowingHit);
+					Hp_Bar* info_hp_bar = hp_bar->GetComponentByTemplate<Hp_Bar>();
 
-						info_hp_bar->Decrease(0.5f);
-						m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
-						info_hp_bar->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
-						info_hp_bar->Set_Timer(1.f);
+					if (info_hp_bar != nullptr)
+					{
+						if (player_info_from->Get_Item_Used_Status() == Player::Item_Use_Status::None &&
+							info_hp_bar->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
+						{
+							sound.Play(SOUND::ThrowingHit);
+
+							info_hp_bar->Decrease(0.5f);
+							m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
+							info_hp_bar->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
+							info_hp_bar->Set_Timer(1.f);
+						}
 					}
 				}
 			}
@@ -122,17 +130,21 @@ void Msg_Func_Collision::Update(float dt)
 				m_from->SetDeadCondition(true);
 				Player* player_info_target = m_target->GetComponentByTemplate<Player>();
 				Object* hp_bar = m_target->Get_Belong_Object_By_Tag("hp_bar");
-				Hp_Bar* info_hp_bar = hp_bar->GetComponentByTemplate<Hp_Bar>();
-				if (info_hp_bar != nullptr)
+
+				if (hp_bar != nullptr)
 				{
-					if (player_info_target->Get_Item_Used_Status() == Player::Item_Use_Status::None &&
-						info_hp_bar->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
+					Hp_Bar* info_hp_bar = hp_bar->GetComponentByTemplate<Hp_Bar>();
+					if (info_hp_bar != nullptr)
 					{
-						sound.Play(SOUND::Missile);
-						info_hp_bar->Decrease(0.5f);
-						m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
-						info_hp_bar->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
-						info_hp_bar->Set_Timer(1.f);
+						if (player_info_target->Get_Item_Used_Status() == Player::Item_Use_Status::None &&
+							info_hp_bar->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
+						{
+							sound.Play(SOUND::Missile);
+							info_hp_bar->Decrease(0.5f);
+							m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
+							info_hp_bar->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
+							info_hp_bar->Set_Timer(1.f);
+						}
 					}
 				}
 			}
@@ -144,21 +156,26 @@ void Msg_Func_Collision::Update(float dt)
 				m_from->SetDeadCondition(true);
 				Player* player_info_target = m_target->GetComponentByTemplate<Player>();
 				Object* hp_bar = m_target->Get_Belong_Object_By_Tag("hp_bar");
-				Hp_Bar* info_hp_bar = hp_bar->GetComponentByTemplate<Hp_Bar>();
 
-				if (info_hp_bar != nullptr)
+				if (hp_bar != nullptr)
 				{
-					if (player_info_target->Get_Item_Used_Status() == Player::Item_Use_Status::None &&
-						info_hp_bar->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
-					{
-						sound.Play(SOUND::ThrowingHit);
+					Hp_Bar* info_hp_bar = hp_bar->GetComponentByTemplate<Hp_Bar>();
 
-						info_hp_bar->Decrease(0.5f);
-						m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
-						info_hp_bar->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
-						info_hp_bar->Set_Timer(1.f);
+					if (info_hp_bar != nullptr)
+					{
+						if (player_info_target->Get_Item_Used_Status() == Player::Item_Use_Status::None &&
+							info_hp_bar->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
+						{
+							sound.Play(SOUND::ThrowingHit);
+
+							info_hp_bar->Decrease(0.5f);
+							m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
+							info_hp_bar->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
+							info_hp_bar->Set_Timer(1.f);
+						}
 					}
 				}
+
 			}
 		}
 
@@ -193,10 +210,10 @@ void Msg_Func_Collision::Update(float dt)
 		Graphic::GetGraphic()->Get_View().Active_Screen_Shake(10.f);
 		const float speed_mag1 = magnitude_squared(m_from->GetComponentByTemplate<Player>()->GetPlayerVelocity());
 		const float speed_mag2 = magnitude_squared(m_target->GetComponentByTemplate<Player>()->GetPlayerVelocity());
-		if(speed_mag1 + speed_mag2 > 300.0f)
+		if (speed_mag1 + speed_mag2 > 300.0f)
 		{
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_target, nullptr, Message_Kind::Particle_Collision, .5f));
-		}		
+		}
 
 		Player* player_from_info = m_from->GetComponentByTemplate<Player>();
 		Player* player_target_info = m_target->GetComponentByTemplate<Player>();

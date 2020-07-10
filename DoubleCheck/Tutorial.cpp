@@ -47,8 +47,12 @@ void Tutorial::Load()
 	{
 		sound.Initialize();
 	}
+	current_state = GameState::Tutorial;
+	r_u_sure = false;
+	r_u_sure_come = false;
 	Loading_Scene* loading = new Loading_Scene();
 	loading->Load();
+	current_state = GameState::Tutorial;
 
 	HDC hdc = wglGetCurrentDC();//GetDC(glfwGetWin32Window(Application::Get_Application()->Get_Window()));
 	const HGLRC main_context = wglGetCurrentContext();
@@ -72,7 +76,7 @@ void Tutorial::Load()
 		prev_timer = nullptr;
 		transition_timer = 4.9f;
 		current_state = GameState::Tutorial;
-		referee = Referee::Get_Referee();
+		//referee = Referee::Get_Referee();
 		object_manager = ObjectManager::GetObjectManager();
 		state_manager = StateManager::GetStateManager();
 		Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
@@ -93,16 +97,25 @@ void Tutorial::Load()
 		SetArena();
 		
 		editor = new Editor();
-		referee->Init();
+		//referee->Init();
 		editor->Init();
 		editor->Set_Visible(true);
 
-		//Player_Second_UI = Make_Set_Ui("second_ui", "ui", "../Sprite/UI/pen_red_ui.png", { -500, -800 }, { 5.0f,5.0f }, Player_Second);
-		//Player_Third_UI = Make_Set_Ui("third_ui", "ui", "../Sprite/UI/pen_blue_ui.png", { 300, -800 }, { 5.0f,5.0f }, Player_Third);
+		Player_Second_UI = Make_Set_Ui("second_ui", "ui", "../Sprite/UI/pen_red_ui.png", { -500, -800 }, { 5.0f,5.0f }, Player_Second);
+		Player_Third_UI = Make_Set_Ui("third_ui", "ui", "../Sprite/UI/pen_blue_ui.png", { 300, -800 }, { 5.0f,5.0f }, Player_Third);
 
 
 		Player_Second = Make_Player("second", "player", "pen_red2", { -800.f, 0.f }, { 4.f, 4.f }, true);
 		Player_Third = Make_Player("third", "player", "pen_blue2", { 800.f,0.f }, { 4.f, 4.f }, true);
+
+		description_second = new Object();
+		description_second->AddComponent(new Sprite(description_second, "../Sprite/UI/p1_selected.png", { -500, 800 }, false), "desc_sec", true);
+		description_second->SetScale(5.f);
+		description_third = new Object();
+		description_third->AddComponent(new Sprite(description_third, "../Sprite/UI/p2_selected.png", { 300, 800 }, false), "desc_third", true);
+		description_third->SetScale(5.f);
+		ObjectManager::GetObjectManager()->AddObject(description_second);
+		ObjectManager::GetObjectManager()->AddObject(description_third);
 
 
 		Player_Second->Get_Belongs_Objects().clear();
@@ -113,8 +126,8 @@ void Tutorial::Load()
 		Player_Third->Set_Need_To_Update(false);
 		Player_Third->SetNeedCollision(false);*/
 
-		//Player_Second->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Second_UI);
-		//Player_Third->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Third_UI);
+		Player_Second->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Second_UI);
+		Player_Third->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Third_UI);
 
 
 
@@ -135,9 +148,13 @@ void Tutorial::Load()
 		{
 			loading_thread.join();
 		}
-
-		sound.Play(SOUND::CountDown);
 	}
+	make_sure_dialogue = new Object();
+	make_sure_dialogue->AddComponent(new Sprite(make_sure_dialogue, "../Sprite/rusure_yes.png", { 0.f, 0.f }, false, Sprite_Type::R_U_SURE_YES), "rusureyes", false);
+	make_sure_dialogue->AddComponent(new Sprite(make_sure_dialogue, "../Sprite/rusure_no.png", { 0.f, 0.f }, false, Sprite_Type::R_U_SURE_NO), "rusureno", false);
+	make_sure_dialogue->GetTransform().SetScale({ 10.f, 6.f });
+	make_sure_dialogue->Set_Need_To_Update(false);
+	object_manager->AddObject(make_sure_dialogue);
 }
 
 void Tutorial::Update(float dt)
@@ -146,9 +163,9 @@ void Tutorial::Update(float dt)
 
 	FMOD_Channel_IsPlaying(sound.channel[1], &isBGMPlaying);
 
-	referee->Update(dt);
+	//referee->Update(dt);
 
-	if (timer_deleted == false)
+	/*if (timer_deleted == false)
 	{
 		std::vector<Object*> timers = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("timer");
 		int size = timers.size();
@@ -159,14 +176,20 @@ void Tutorial::Update(float dt)
 		}
 
 		timer_deleted = true;
-	}
+	}*/
 
 	//EventCheck();
 
 	editor->Update(dt);
 
-
-	Pause();
+	if(r_u_sure)
+	{
+		is_next = true;
+		next_level = "Menu";
+		Clear();
+	}
+	
+	BackToMenu();
 }
 
 void Tutorial::UnLoad()
@@ -185,7 +208,7 @@ void Tutorial::SetArena()
 	Arena->AddComponent(new Sprite(Arena, "../Sprite/IceGround2.png", { 0,-100 }, false));
 	Arena->Set_Current_Sprite(Arena->Find_Sprite_By_Name("arena"));
 	Arena->SetScale({ 35, 17 });
-	//ObjectManager::GetObjectManager()->AddObject(Arena);
+	ObjectManager::GetObjectManager()->AddObject(Arena);
 }
 
 void Tutorial::SetStaffAndExplanation()
@@ -243,14 +266,52 @@ void Tutorial::EventCheck()
 
 }
 
-void Tutorial::Pause()
+void Tutorial::BackToMenu()
 {
+	if (r_u_sure_come)
+	{
+		Component* r_u_sure_current_sprite = make_sure_dialogue->Get_Current_Sprite();
+		Component* r_u_sure_yes_sprite = make_sure_dialogue->Find_Sprite_By_Type(Sprite_Type::R_U_SURE_YES);
+		Component* r_u_sure_no_sprite = make_sure_dialogue->Find_Sprite_By_Type(Sprite_Type::R_U_SURE_NO);
+
+		if (make_sure_dialogue->Get_Need_To_Update() == false)
+		{
+			make_sure_dialogue->Change_Sprite(make_sure_dialogue->Find_Sprite_By_Type(Sprite_Type::R_U_SURE_YES));
+			make_sure_dialogue->Set_Need_To_Update(true);
+		}
+
+		if (r_u_sure_current_sprite != nullptr && r_u_sure_yes_sprite != nullptr && r_u_sure_no_sprite != nullptr)
+		{
+			if (input.Is_Key_Triggered(GLFW_KEY_RIGHT))
+			{
+				if (r_u_sure_current_sprite == r_u_sure_yes_sprite)
+				{
+					make_sure_dialogue->Change_Sprite(r_u_sure_no_sprite);
+				}
+			}
+			else if (input.Is_Key_Triggered(GLFW_KEY_LEFT))
+			{
+				if (r_u_sure_current_sprite == r_u_sure_no_sprite)
+				{
+					make_sure_dialogue->Change_Sprite(r_u_sure_yes_sprite);
+				}
+			}
+
+			if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)) && r_u_sure_current_sprite == r_u_sure_yes_sprite)
+			{
+				r_u_sure_come = false;
+				r_u_sure = true;
+			}
+			else if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)) && r_u_sure_current_sprite == r_u_sure_no_sprite)
+			{
+				r_u_sure_come = false;
+				make_sure_dialogue->Set_Need_To_Update(false);
+			}
+		}
+	}
 	if (input.Is_Key_Pressed(GLFW_KEY_ESCAPE))
 	{
-		sound.Play(SOUND::Click);
-		const float currentBGM_Volume = sound.GetSoundGroupVolume(true);
-		sound.SetSoundGroupVolume(true, currentBGM_Volume / 3);
-		is_pause = true;
+		r_u_sure_come = true;
 	}
 }
 
@@ -258,6 +319,7 @@ void Tutorial::Clear()
 {
 	Message_Manager::Get_Message_Manager()->Get_Messages().clear();
 	ObjectManager::GetObjectManager()->Get_Objects().clear();
+	//object_manager->Clear();
 
 	if (editor != nullptr)
 	{
