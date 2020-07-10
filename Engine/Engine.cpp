@@ -23,7 +23,7 @@
 #include "Windows.h"
 #include <thread>
 #include "Logo.h"
-#include "TestLevel.h"
+#include "Credit.h"
 #include "Option.h"
 #include "Loading_Scene.h"
 #include "Editor.h"
@@ -88,7 +88,7 @@ void Engine::Init()
     state_manager->AddState("Level1", new Level1);
     state_manager->AddState("Tutorial", new Tutorial);
     state_manager->AddState("Option", new Option);
-    state_manager->AddState("TestLevel", new TestLevel);
+    state_manager->AddState("Credit", new Credit);
 	state_manager->AddState("Loading", new Loading_Scene);
     state_manager->AddState("PauseLevel", new PauseLevel);
     StateManager::GetStateManager()->level_state = state_manager->Get_States().find("Level1")->second.get();

@@ -90,6 +90,8 @@ enum class Sprite_Type
     Button_Hover,
     R_U_SURE_YES,
     R_U_SURE_NO,
+
+	CreditGround
 };
 
 

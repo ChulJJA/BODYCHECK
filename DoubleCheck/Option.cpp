@@ -160,7 +160,7 @@ void Option::ButtonBehavior()
 
 	if (pointer == static_cast<int>(BUTTON::FULLSCREEN))
 	{
-		if (input.Is_Key_Pressed(GLFW_KEY_SPACE))
+		if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)))
 		{
 			sound.Play(SOUND::Selected);
 			app->Toggle_Fullscreen();
@@ -238,7 +238,7 @@ void Option::ButtonBehavior()
 	}
 	else if (pointer == static_cast<int>(BUTTON::BACK) && state_manager->GetPrevState()->GetStateInfo() == GameState::Menu)
 	{
-		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A))
+		if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)) || gamepadManager->GetButtonDown(xButtons.A))
 		{
 			pointer = static_cast<int>(BUTTON::MUSIC);
 			sound.Play(SOUND::Selected);
@@ -249,7 +249,7 @@ void Option::ButtonBehavior()
 	}
 	else if (pointer == static_cast<int>(BUTTON::BACK) && state_manager->GetPrevState()->GetStateInfo() == GameState::PauseLevel)
 	{
-		if (input.Is_Key_Pressed(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.A))
+		if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)) || gamepadManager->GetButtonDown(xButtons.A))
 		{
 			sound.Play(SOUND::Selected);
 			state_manager->BackToLevel();
