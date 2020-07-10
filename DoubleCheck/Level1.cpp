@@ -143,7 +143,7 @@ void Level1::Load()
 	//player_forth->GetComponentByTemplate<Player>()->Set_This_UI_info(player_fourth_ui);
 
 
-	Referee::Get_Referee()->Set_First_Ui(player_first_ui);
+	//Referee::Get_Referee()->Set_First_Ui(player_first_ui);
 
 	Referee::Get_Referee()->Set_Second_Ui(player_second_ui);
 	Referee::Get_Referee()->Set_Third_Ui(player_third_ui);

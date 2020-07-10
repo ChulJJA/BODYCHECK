@@ -23,7 +23,6 @@
 #include "State.h"
 #include "Component_Missile.h"
 #include "UsefulTools.hpp"
-#include "Component_Missile.h"
 #include "Physics.h"
 #include "Message_Manager.h"
 
@@ -166,11 +165,11 @@ Referee::Referee()
 	}
 	else if (state_manager->GetCurrentState()->GetStateInfo() == GameState::Tutorial)
 	{
-		player_first_life = 20;
-		player_sec_life = 20;
-		player_third_life = 20;
-		player_fourth_life = 20;
-		total_life_count = player_first_life + player_sec_life + player_third_life + player_fourth_life;
+		//player_first_life = 20;
+		player_sec_life = 1;
+		player_third_life = 1;
+		//player_fourth_life = 20;
+		total_life_count = /*player_first_life +*/ player_sec_life + player_third_life /*+ player_fourth_life*/;
 	}
 }
 
@@ -201,11 +200,11 @@ void Referee::Init()
 	}
 	else if (state_manager->GetCurrentState()->GetStateInfo() == GameState::Tutorial)
 	{
-		player_first_life = 20;
+		//player_first_life = 20;
 		player_sec_life = 20;
 		player_third_life = 20;
-		player_fourth_life = 20;
-		total_life_count = player_first_life + player_sec_life + player_third_life + player_fourth_life;
+		//player_fourth_life = 20;
+		total_life_count =/* player_first_life +*/ player_sec_life + player_third_life /*+ player_fourth_life*/;
 	}
 
 
@@ -244,8 +243,8 @@ void Referee::Update(float dt)
 			Respawn_Player(i, dt);
 		}
 	}
-
-	if (win == false)
+	
+	if (state_manager->GetCurrentState()->GetStateInfo() == GameState::Game && win == false)
 	{
 		Respawn_Item(dt);
 	}

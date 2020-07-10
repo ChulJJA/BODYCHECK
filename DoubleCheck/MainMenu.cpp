@@ -232,7 +232,7 @@ void MainMenu::ButtonSelector()
 	else
 	{
 
-		if ((input.Is_Key_Pressed(GLFW_KEY_DOWN) || (LeftStickInDeadZone == false && LeftThumbStateY < 0)) && pointer <= static_cast<int>(BUTTON::TEST))
+		if ((input.Is_Key_Pressed(GLFW_KEY_DOWN) || (LeftStickInDeadZone == false && LeftThumbStateY < -0.5f)) && pointer <= static_cast<int>(BUTTON::TEST))
 		{
 			pointer++;
 
@@ -281,7 +281,7 @@ void MainMenu::ButtonSelector()
 			}
 			button_timer = 0;
 		}
-		else if ((input.Is_Key_Pressed(GLFW_KEY_UP) || (LeftStickInDeadZone == false && LeftThumbStateY < 0)) && pointer >= static_cast<int>(BUTTON::START))
+		else if ((input.Is_Key_Pressed(GLFW_KEY_UP) || (LeftStickInDeadZone == false && LeftThumbStateY > 0.5f)) && pointer >= static_cast<int>(BUTTON::START))
 		{
 			pointer--;
 
