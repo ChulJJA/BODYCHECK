@@ -30,6 +30,7 @@ namespace
     void    mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
     void    scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
     bool    is_full = false;
+    void    window_focus_callback(GLFWwindow* window, int focused);
 }
 
 
@@ -90,7 +91,7 @@ void Application::Init()
     object3.LoadFromPNG("../sprite/HP.png");
     object4.LoadFromPNG("../sprite/HP.png");
     object5.LoadFromPNG("../sprite/HP.png");
-
+    Toggle_Fullscreen();
 }
 
 void Application::Update(float dt)
@@ -143,6 +144,8 @@ void Application::Update(float dt)
         save_dt = 0;
     }
     FPS_frame++;
+
+    glfwSetWindowFocusCallback(window, window_focus_callback);
 }
 
 void Application::Delete()
@@ -219,5 +222,16 @@ namespace
     void scroll_callback(GLFWwindow* /*window*/, double xoffset, double yoffset)
     {
         input.Set_Mouse_Wheel(xoffset, yoffset);
+    }
+    void window_focus_callback(GLFWwindow* window, int focused)
+    {
+        if (!focused)
+        {
+            
+        }
+        else
+        {
+            
+        }
     }
 }
