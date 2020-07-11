@@ -50,6 +50,7 @@ public:
     void SetCreditButton();
     void ButtonSelector();
     void Set_Player_Button();
+    void SetControllerImage();
 	
 private:
     int pointer;
@@ -75,6 +76,12 @@ private:
     Object* pointer2;
 
     Object* make_sure_dialogue;
+
+    Object* firstPlayerKeyboard;
+    Object* secPlayerKeyboard;
+    Object* firstPlayerGamepad;
+    Object* secPlayerGamepad;
+	
     bool r_u_sure = false;
     bool r_u_sure_come = false;
 };

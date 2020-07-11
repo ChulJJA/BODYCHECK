@@ -208,7 +208,9 @@ void MainMenu::SetCreditButton()
 void MainMenu::ButtonSelector()
 {
 	float LeftThumbStateY = gamepadManager->LeftStick_Y();
+	float LeftThumbStateX = gamepadManager->LeftStick_X();
 	bool LeftStickInDeadZone = gamepadManager->LStick_InDeadzone();
+	bool pressButtonA = gamepadManager->GetButtonDown(xButtons.A);
 
 	if (r_u_sure_come)
 	{
@@ -224,14 +226,14 @@ void MainMenu::ButtonSelector()
 
 		if (r_u_sure_current_sprite != nullptr && r_u_sure_yes_sprite != nullptr && r_u_sure_no_sprite != nullptr)
 		{
-			if (input.Is_Key_Triggered(GLFW_KEY_RIGHT))
+			if (input.Is_Key_Triggered(GLFW_KEY_RIGHT) || (LeftStickInDeadZone == false && LeftThumbStateX > 0.5f))
 			{
 				if (r_u_sure_current_sprite == r_u_sure_yes_sprite)
 				{
 					make_sure_dialogue->Change_Sprite(r_u_sure_no_sprite);
 				}
 			}
-			else if (input.Is_Key_Triggered(GLFW_KEY_LEFT))
+			else if (input.Is_Key_Triggered(GLFW_KEY_LEFT) || (LeftStickInDeadZone == false && LeftThumbStateX < -0.5f))
 			{
 				if (r_u_sure_current_sprite == r_u_sure_no_sprite)
 				{
@@ -239,12 +241,12 @@ void MainMenu::ButtonSelector()
 				}
 			}
 
-			if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)) && r_u_sure_current_sprite == r_u_sure_yes_sprite)
+			if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER) || pressButtonA) && r_u_sure_current_sprite == r_u_sure_yes_sprite)
 			{
 				r_u_sure_come = false;
 				r_u_sure = true;
 			}
-			else if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)) && r_u_sure_current_sprite == r_u_sure_no_sprite)
+			else if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER) || pressButtonA) && r_u_sure_current_sprite == r_u_sure_no_sprite)
 			{
 				r_u_sure_come = false;
 				make_sure_dialogue->Set_Need_To_Update(false);
@@ -253,7 +255,7 @@ void MainMenu::ButtonSelector()
 	}
 	else
 	{
-		if ((input.Is_Key_Pressed(GLFW_KEY_DOWN) || (LeftThumbStateY < 0)) && pointer <= static_cast<int>(BUTTON::TEST))
+		if ((input.Is_Key_Pressed(GLFW_KEY_DOWN) || (LeftStickInDeadZone == false && LeftThumbStateY < -0.5f)) && pointer <= static_cast<int>(BUTTON::TEST))
 		{
 			pointer++;
 
@@ -451,4 +453,28 @@ void MainMenu::Set_Player_Button()
 
 	//object_manager->AddObject(player_sec);
 	//object_manager->AddObject(player_third);
+}
+
+void MainMenu::SetControllerImage()
+{
+	firstPlayerKeyboard = new Object();
+	firstPlayerKeyboard->Set_Name("firstPlayerKeyboardImage");
+	firstPlayerKeyboard->AddComponent(new Sprite(firstPlayerKeyboard, "../Sprite/UI/firstPlayerKeyboard.png", { -400.f ,-900.f }, false, Sprite_Type::None), "firstPlayerKeyboardImage", true);
+	firstPlayerKeyboard->GetTransform().SetScale({ 4, 4 });
+
+	secPlayerKeyboard = new Object();
+	secPlayerKeyboard->Set_Name("secPlayerKeyboardImage");
+	secPlayerKeyboard->AddComponent(new Sprite(secPlayerKeyboard, "../Sprite/UI/secPlayerKeyboard.png", { 800.f ,-900.f }, false, Sprite_Type::None), "secPlayerKeyboardImage", true);
+	secPlayerKeyboard->GetTransform().SetScale({ 4, 4 });
+
+	firstPlayerGamepad = new Object();
+	firstPlayerGamepad->Set_Name("firstPlayerGamepadImage");
+	firstPlayerGamepad->AddComponent(new Sprite(firstPlayerGamepad, "../Sprite/UI/Player1.png", { -400.f ,-900.f }, false, Sprite_Type::None), "firstPlayerGamepadImage", true);
+	firstPlayerGamepad->GetTransform().SetScale({ 4, 4 });
+
+	
+	secPlayerGamepad = new Object();
+	secPlayerGamepad->Set_Name("secPlayerGamepadImage");
+	secPlayerGamepad->AddComponent(new Sprite(secPlayerGamepad, "../Sprite/UI/Player2.png", { 800.f ,-900.f }, false, Sprite_Type::None), "secPlayerGamepadImage", true);
+	secPlayerGamepad->GetTransform().SetScale({ 4, 4 });
 }
