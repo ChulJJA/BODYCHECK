@@ -39,5 +39,7 @@ public:
 
 private:
     Object* credit;
+    Object* sec_page;
+    Object* third_page;
 	
 };
