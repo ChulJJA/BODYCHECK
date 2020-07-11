@@ -18,11 +18,13 @@
 #include "Logo.h"
 #include <Input.h>
 #include "gl.hpp"
+#include "Gamepad.hpp"
 
 namespace
 {
     ObjectManager* object_manager = nullptr;
     StateManager* state_manager = nullptr;
+    Gamepad* gamepadManager = nullptr;
 }
 
 void Logo::Load()
@@ -30,6 +32,7 @@ void Logo::Load()
     GL::set_clear_color({ 1,1,1 });
     state_manager = StateManager::GetStateManager();
     state_manager->SetPrevState(new Logo());
+    gamepadManager = Gamepad::getGamepad();
 
     digipen_logo = new Object();
     digipen_logo->Set_Name("digipen_logo");
@@ -51,7 +54,7 @@ void Logo::Load()
 
 void Logo::Update(float dt)
 {
-	if(input.Is_Key_Triggered(GLFW_KEY_ENTER) || input.Is_Key_Triggered(GLFW_KEY_SPACE))
+	if(input.Is_Key_Triggered(GLFW_KEY_ENTER) || input.Is_Key_Triggered(GLFW_KEY_SPACE) || gamepadManager->GetButtonDown(xButtons.Start))
 	{
         is_next = true;
         next_level = "Menu";

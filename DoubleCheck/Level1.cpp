@@ -27,6 +27,7 @@
 #include "Editor.h"
 #include "gl.hpp"
 #include "File_Driven_Manager.h"
+#include "Gamepad.hpp"
 
 using namespace std;
 
@@ -37,6 +38,9 @@ namespace
 	StateManager* state_manager = nullptr;
 	Editor* editor = nullptr;
 	File_Driven_Manager file_driven;
+	Gamepad* gamepadManager = nullptr;
+	Gamepad* gamepadManagerSec = nullptr;
+	
 }
 
 void Level1::Load()
@@ -76,6 +80,8 @@ void Level1::Load()
 	referee = Referee::Get_Referee();
 	object_manager = ObjectManager::GetObjectManager();
 	state_manager = StateManager::GetStateManager();
+	gamepadManager = Gamepad::getGamepad();
+	gamepadManagerSec = Gamepad::getGamepadSecond();
 	Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 	FMOD_BOOL isPlayingBGM;
 	FMOD_BOOL isPlayingBGM2;
@@ -331,7 +337,7 @@ void Level1::UnLoad()
 
 void Level1::Pause()
 {
-	if (input.Is_Key_Pressed(GLFW_KEY_ESCAPE))
+	if (input.Is_Key_Pressed(GLFW_KEY_ESCAPE) || gamepadManager->GetButtonDown(xButtons.Back) || gamepadManagerSec->GetButtonDown(xButtons.Back))
 	{
 		sound.Play(SOUND::Click);
 		const float currentBGM_Volume = sound.GetSoundGroupVolume(true);

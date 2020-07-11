@@ -19,17 +19,20 @@
 #include "Sound_Manager.h"
 #include "Engine.hpp"
 #include "Message_Manager.h"
+#include "Gamepad.hpp"
 namespace
 {
 	ObjectManager* object_manager = nullptr;
 	StateManager* state_manager = nullptr;
 	Application* app = Application::Get_Application();
+	Gamepad* gamepadManager = nullptr;
 }
 
 void PauseLevel::Load()
 {
 	state_manager = StateManager::GetStateManager();
 	object_manager = ObjectManager::GetObjectManager();
+	gamepadManager = Gamepad::getGamepad();
 	Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 	Graphic::GetGraphic()->get_need_update_sprite() = true;
 
@@ -194,6 +197,11 @@ void PauseLevel::SetBackButton()
 
 void PauseLevel::ButtonSelector()
 {
+	float LeftThumbStateY = gamepadManager->LeftStick_Y();
+	float LeftThumbStateX = gamepadManager->LeftStick_X();
+	bool LeftStickInDeadZone = gamepadManager->LStick_InDeadzone();
+	bool pressButtonA = gamepadManager->GetButtonDown(xButtons.A);
+	
 	if (r_u_sure_come)
 	{
 		Component* r_u_sure_current_sprite = make_sure_dialogue->Get_Current_Sprite();
@@ -209,14 +217,14 @@ void PauseLevel::ButtonSelector()
 		{
 			if (r_u_sure_current_sprite != nullptr && r_u_sure_yes_sprite != nullptr && r_u_sure_no_sprite != nullptr)
 			{
-				if (input.Is_Key_Triggered(GLFW_KEY_RIGHT))
+				if (input.Is_Key_Triggered(GLFW_KEY_RIGHT) || (LeftStickInDeadZone == false && LeftThumbStateX > 0.5f))
 				{
 					if (r_u_sure_current_sprite == r_u_sure_yes_sprite)
 					{
 						make_sure_dialogue->Change_Sprite(r_u_sure_no_sprite);
 					}
 				}
-				else if (input.Is_Key_Triggered(GLFW_KEY_LEFT))
+				else if (input.Is_Key_Triggered(GLFW_KEY_LEFT) || (LeftStickInDeadZone == false && LeftThumbStateX < -0.5f))
 				{
 					if (r_u_sure_current_sprite == r_u_sure_no_sprite)
 					{
@@ -224,12 +232,12 @@ void PauseLevel::ButtonSelector()
 					}
 				}
 
-				if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)) && r_u_sure_current_sprite == r_u_sure_yes_sprite)
+				if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER) || pressButtonA) && r_u_sure_current_sprite == r_u_sure_yes_sprite)
 				{
 					r_u_sure_come = false;
 					r_u_sure = true;
 				}
-				else if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)) && r_u_sure_current_sprite == r_u_sure_no_sprite)
+				else if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER) || pressButtonA) && r_u_sure_current_sprite == r_u_sure_no_sprite)
 				{
 					r_u_sure_come = false;
 					make_sure_dialogue->Set_Need_To_Update(false);
@@ -239,7 +247,7 @@ void PauseLevel::ButtonSelector()
 	}
 	else
 	{
-		if (input.Is_Key_Pressed(GLFW_KEY_DOWN) && pointer <= static_cast<int>(BUTTON::BACK))
+		if ((input.Is_Key_Pressed(GLFW_KEY_DOWN) || (LeftStickInDeadZone == false && LeftThumbStateY < -0.5f)) && pointer <= static_cast<int>(BUTTON::BACK))
 		{
 			pointer++;
 			if (pointer == static_cast<int>(BUTTON::RESTART))
@@ -288,7 +296,7 @@ void PauseLevel::ButtonSelector()
 
 			buttonTimer = 0;
 		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_UP) && pointer >= static_cast<int>(BUTTON::RESTART))
+		else if ((input.Is_Key_Pressed(GLFW_KEY_UP) || (LeftStickInDeadZone == false && LeftThumbStateY > 0.5f)) && pointer >= static_cast<int>(BUTTON::RESTART))
 		{
 			pointer--;
 
@@ -345,35 +353,36 @@ void PauseLevel::ButtonSelector()
 void PauseLevel::ButtonBehavior()
 {
 	const float currentBGM_Volume = sound.GetSoundGroupVolume(true);
-
+	bool pressButtonA = gamepadManager->GetButtonDown(xButtons.A);
+	
 	if (r_u_sure_come == false)
 	{
 
-		if (pointer == static_cast<int>(BUTTON::RESTART) && (input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)))
+		if (pointer == static_cast<int>(BUTTON::RESTART) && (input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER) || pressButtonA))
 		{
 			r_u_sure_come = true;
 			sound.Play(SOUND::Selected);
 		}
-		else if (pointer == static_cast<int>(BUTTON::MAINMENU) && (input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)))
+		else if (pointer == static_cast<int>(BUTTON::MAINMENU) && (input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER) || pressButtonA))
 		{
 			r_u_sure_come = true;
 			sound.Play(SOUND::Selected);
 		}
-		else if (pointer == static_cast<int>(BUTTON::OPTION) && (input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)))
+		else if (pointer == static_cast<int>(BUTTON::OPTION) && (input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER) || pressButtonA))
 		{
 			is_next = true;
 			next_level = "Option";
 			sound.Play(SOUND::Selected);
 			Clear();
 		}
-		else if (pointer == static_cast<int>(BUTTON::QUIT) && (input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)))
+		else if (pointer == static_cast<int>(BUTTON::QUIT) && (input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER) || pressButtonA))
 		{
 			sound.Play(SOUND::Selected);
 			r_u_sure_come = true;
 			//Sleep(800);
 			//exit(0);
 		}
-		else if (pointer == static_cast<int>(BUTTON::BACK) && (input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)))
+		else if (pointer == static_cast<int>(BUTTON::BACK) && (input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER) || pressButtonA))
 		{
 			sound.SetSoundGroupVolume(true, currentBGM_Volume * 3);
 			sound.Play(SOUND::Selected);
