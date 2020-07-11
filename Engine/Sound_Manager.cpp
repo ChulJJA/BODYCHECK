@@ -78,7 +78,7 @@ void Sound::LoadSound()
 	result = FMOD_System_CreateSound(f_system, "Sounds/CountDown.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::CountDown)]);
 	ErrorCheck(result);
 
-	result = FMOD_System_CreateSound(f_system, "Sounds/ItemAppear.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::ItemAppear)]);
+	result = FMOD_System_CreateSound(f_system, "Sounds/ItemAppear.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::ItemAppear)]);
 	ErrorCheck(result);
 
 	result = FMOD_System_CreateSound(f_system, "Sounds/ItemAppear2.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::ItemAppear2)]);
@@ -114,7 +114,7 @@ void Sound::LoadSound()
 	result = FMOD_System_CreateSound(f_system, "Sounds/ThrowingHit.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::ThrowingHit)]);
 	ErrorCheck(result);
 
-	result = FMOD_System_CreateSound(f_system, "Sounds/TimePause.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::TimePause)]);
+	result = FMOD_System_CreateSound(f_system, "Sounds/TimePause.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::TimePause)]);
 	ErrorCheck(result);
 
 	result = FMOD_System_CreateSound(f_system, "Sounds/BGM2Reverse.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::BGM2Reverse)]);
