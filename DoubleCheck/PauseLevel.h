@@ -70,4 +70,5 @@ private:
     Object* make_sure_dialogue;
     bool r_u_sure = false;
     bool r_u_sure_come = false;
+    //bool is_end_selected;
 };

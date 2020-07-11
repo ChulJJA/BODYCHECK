@@ -93,7 +93,11 @@ enum class Sprite_Type
 
     Loading,
     Loading_Press,
-	CreditGround
+	CreditGround,
+
+    Credit_First,
+    Credit_Second,
+    Credit_Third
 };
 
 
