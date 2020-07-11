@@ -15,7 +15,9 @@
     <ClCompile Include="Option.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Credit.cpp" />
+    <ClCompile Include="Credit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Level1.h" />
@@ -42,7 +44,9 @@
     <ClInclude Include="PauseLevel.h">
       <Filter>Source Files\Header</Filter>
     </ClInclude>
-    <ClInclude Include="Credit.h" />
+    <ClInclude Include="Credit.h">
+      <Filter>Source Files\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Level1.cpp">
@@ -55,9 +59,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TestLevel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Loading_Scene.cpp">
@@ -75,9 +76,6 @@
       <Filter>Source Files\Header</Filter>
     </ClInclude>
     <ClInclude Include="MainMenu.h">
-      <Filter>Source Files\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="TestLevel.h">
       <Filter>Source Files\Header</Filter>
     </ClInclude>
   </ItemGroup>

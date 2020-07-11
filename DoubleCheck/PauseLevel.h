@@ -61,6 +61,9 @@ private:
     Object* backButton;
     Object* backButtonHover;
 
+    Object* pointer1;
+    Object* pointer2;
+
     int pointer;
     float buttonTimer;
 
