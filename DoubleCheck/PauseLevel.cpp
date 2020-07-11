@@ -351,36 +351,13 @@ void PauseLevel::ButtonBehavior()
 
 		if (pointer == static_cast<int>(BUTTON::RESTART) && (input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)))
 		{
-			FMOD_BOOL isPlaying;
-			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlaying);
+			r_u_sure_come = true;
 			sound.Play(SOUND::Selected);
-			sound.SetSoundGroupVolume(true, currentBGM_Volume * 3);
-			Sleep(800);
-			if (isPlaying == true)
-			{
-				sound.Stop(SOUND::BGM2);
-				sound.UnLoad();
-			}
-			object_manager->Clear();
-			is_next = true;
-			next_level = "Level1";
-			state_manager->level_state->is_pause = false;
-			Clear();
 		}
 		else if (pointer == static_cast<int>(BUTTON::MAINMENU) && (input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)))
 		{
-			is_next = true;
-			next_level = "Menu";
+			r_u_sure_come = true;
 			sound.Play(SOUND::Selected);
-			Sleep(800);
-			FMOD_BOOL isPlaying;
-			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlaying);
-			if (isPlaying == true)
-			{
-				sound.Stop(SOUND::BGM2);
-				sound.UnLoad();
-			}
-			Clear();
 		}
 		else if (pointer == static_cast<int>(BUTTON::OPTION) && (input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)))
 		{
@@ -406,6 +383,40 @@ void PauseLevel::ButtonBehavior()
 	}
 	if (r_u_sure)
 	{
-		exit(0);
+		if (pointer == static_cast<int>(BUTTON::QUIT))
+		{
+			exit(0);
+		}
+		else if(pointer == static_cast<int>(BUTTON::RESTART))
+		{
+			FMOD_BOOL isPlaying;
+			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlaying);
+			sound.SetSoundGroupVolume(true, currentBGM_Volume * 3);
+			Sleep(800);
+			if (isPlaying == true)
+			{
+				sound.Stop(SOUND::BGM2);
+				sound.UnLoad();
+			}
+			object_manager->Clear();
+			is_next = true;
+			next_level = "Level1";
+			state_manager->level_state->is_pause = false;
+			Clear();
+		}
+		else
+		{
+			is_next = true;
+			next_level = "Menu";
+			Sleep(800);
+			FMOD_BOOL isPlaying;
+			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlaying);
+			if (isPlaying == true)
+			{
+				sound.Stop(SOUND::BGM2);
+				sound.UnLoad();
+			}
+			Clear();
+		}
 	}
 }
