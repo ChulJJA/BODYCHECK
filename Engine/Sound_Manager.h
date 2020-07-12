@@ -40,7 +40,7 @@ enum class SOUND
 	Throwing,
 	ThrowingHit,
 	TimePause,
-	BGM2Reverse,
+	//BGM2Reverse,
 	Mine,
 	MineBomb,
 	MineAlarm,

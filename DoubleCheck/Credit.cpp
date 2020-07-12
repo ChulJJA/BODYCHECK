@@ -66,9 +66,9 @@ void Credit::SetTestSprite()
 {
 	credit = new Object();
 	credit->Set_Name("credit");
-	credit->AddComponent(new Sprite(credit, "../Sprite/Credit.png", { 0, 0 }, false, Sprite_Type::Credit_First), "credit", true);
-	credit->AddComponent(new Sprite(credit, "../Sprite/ExplanationStaff.png", { 0, 0 }, false, Sprite_Type::Credit_Second), "sec", false);
-	credit->AddComponent(new Sprite(credit, "../Sprite/HowToPlay.png", { 0, 0 }, false, Sprite_Type::Credit_Third), "third", false);
+	credit->AddComponent(new Sprite(credit, "../Sprite/Credit4.png", { 0, 0 }, false, Sprite_Type::Credit_First), "credit", true);
+	credit->AddComponent(new Sprite(credit, "../Sprite/Credit5.png", { 0, 0 }, false, Sprite_Type::Credit_Second), "sec", false);
+	credit->AddComponent(new Sprite(credit, "../Sprite/Credit6.png", { 0, 0 }, false, Sprite_Type::Credit_Third), "third", false);
 	credit->Change_Sprite(credit->Find_Sprite_By_Type(Sprite_Type::Credit_First));
 	credit->GetTransform().SetScale({ 37, 20.5 });
 
