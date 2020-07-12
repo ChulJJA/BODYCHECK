@@ -356,7 +356,6 @@ void Level1::Pause()
 	{
 		sound.Play(SOUND::Click);
 		const float currentBGM_Volume = sound.GetSoundGroupVolume(true);
-		sound.SetSoundGroupVolume(true, currentBGM_Volume / 3);
 		is_pause = true;
 	}
 }
