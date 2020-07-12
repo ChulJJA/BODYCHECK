@@ -83,5 +83,6 @@ private:
 
     Object* make_sure_dialogue;
     bool r_u_sure = false;
-    bool r_u_sure_come = false;
+    bool r_u_sure_come = false; 
+    bool isClickPlayed = false;
 };

@@ -296,6 +296,7 @@ void Level1::Update(float dt)
 			if (showing_editor == false)
 			{
 				editor->Set_Visible(true);
+				sound.Play(SOUND::EditorAppear);
 			}
 			showing_editor = true;
 		}
@@ -337,6 +338,7 @@ void Level1::UnLoad()
 
 void Level1::Pause()
 {
+
 	if (input.Is_Key_Pressed(GLFW_KEY_ESCAPE) || gamepadManager->GetButtonDown(xButtons.Back) || gamepadManagerSec->GetButtonDown(xButtons.Back))
 	{
 		sound.Play(SOUND::Click);

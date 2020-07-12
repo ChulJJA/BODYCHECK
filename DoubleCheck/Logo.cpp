@@ -19,6 +19,8 @@
 #include <Input.h>
 #include "gl.hpp"
 #include "Gamepad.hpp"
+#include "Sound_Manager.h"
+#include "Engine.hpp"
 
 namespace
 {
@@ -101,6 +103,7 @@ void Logo::Update(float dt)
 
     if (logo_on3 == true)
     {
+        sound.Play(SOUND::TeamDoubleCheck);
         ObjectManager::GetObjectManager()->AddObject(team_logo);
         logo_on3 = false;
 

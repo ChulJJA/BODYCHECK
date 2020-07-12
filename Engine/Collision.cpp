@@ -132,6 +132,10 @@ bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 				PLAYER_UI* ui_info = player_info->Get_Ui();
 
 				const Item::Item_Kind item_kind = object_a->GetComponentByTemplate<Item>()->Get_Kind();
+				if(item_kind != player_info->Get_Item_State())
+				{
+					sound.Play(SOUND::Item);
+				}
 				player_info->Set_Item_State(item_kind);
 				if (ui_info != nullptr)
 				{
@@ -150,6 +154,10 @@ bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 				PLAYER_UI* ui_info = player_info->Get_Ui();
 
 				const Item::Item_Kind item_kind = object_b->GetComponentByTemplate<Item>()->Get_Kind();
+				if (item_kind != player_info->Get_Item_State())
+				{
+					sound.Play(SOUND::Item);
+				}
 				player_info->Set_Item_State(item_kind);
 
 				if (ui_info != nullptr)

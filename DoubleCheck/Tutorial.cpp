@@ -286,6 +286,7 @@ void Tutorial::BackToMenu()
 			{
 				if (r_u_sure_current_sprite == r_u_sure_yes_sprite)
 				{
+					sound.Play(SOUND::Click);
 					make_sure_dialogue->Change_Sprite(r_u_sure_no_sprite);
 				}
 			}
@@ -293,24 +294,34 @@ void Tutorial::BackToMenu()
 			{
 				if (r_u_sure_current_sprite == r_u_sure_no_sprite)
 				{
+					sound.Play(SOUND::Click);
 					make_sure_dialogue->Change_Sprite(r_u_sure_yes_sprite);
 				}
 			}
 
 			if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)) && r_u_sure_current_sprite == r_u_sure_yes_sprite)
 			{
+				sound.Play(SOUND::Selected);
+				Sleep(1000);
 				r_u_sure_come = false;
 				r_u_sure = true;
 			}
 			else if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)) && r_u_sure_current_sprite == r_u_sure_no_sprite)
 			{
+				sound.Play(SOUND::Selected);
 				r_u_sure_come = false;
+				isClickPlayed = false;
 				make_sure_dialogue->Set_Need_To_Update(false);
 			}
 		}
 	}
 	if (input.Is_Key_Pressed(GLFW_KEY_ESCAPE))
 	{
+		if(isClickPlayed == false)
+		{
+			sound.Play(SOUND::Click);
+			isClickPlayed = true;
+		}
 		r_u_sure_come = true;
 	}
 }

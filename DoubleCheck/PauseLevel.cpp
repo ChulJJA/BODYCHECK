@@ -222,6 +222,7 @@ void PauseLevel::ButtonSelector()
 					if (r_u_sure_current_sprite == r_u_sure_yes_sprite)
 					{
 						make_sure_dialogue->Change_Sprite(r_u_sure_no_sprite);
+						sound.Play(SOUND::Click);
 					}
 				}
 				else if (input.Is_Key_Triggered(GLFW_KEY_LEFT) || (LeftStickInDeadZone == false && LeftThumbStateX < -0.5f))
@@ -229,16 +230,19 @@ void PauseLevel::ButtonSelector()
 					if (r_u_sure_current_sprite == r_u_sure_no_sprite)
 					{
 						make_sure_dialogue->Change_Sprite(r_u_sure_yes_sprite);
+						sound.Play(SOUND::Click);
 					}
 				}
 
 				if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER) || pressButtonA) && r_u_sure_current_sprite == r_u_sure_yes_sprite)
 				{
+					sound.Play(SOUND::Selected);
 					r_u_sure_come = false;
 					r_u_sure = true;
 				}
 				else if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER) || pressButtonA) && r_u_sure_current_sprite == r_u_sure_no_sprite)
 				{
+					sound.Play(SOUND::Selected);
 					r_u_sure_come = false;
 					make_sure_dialogue->Set_Need_To_Update(false);
 				}
@@ -394,6 +398,7 @@ void PauseLevel::ButtonBehavior()
 	{
 		if (pointer == static_cast<int>(BUTTON::QUIT))
 		{
+			Sleep(1000);
 			exit(0);
 		}
 		else if(pointer == static_cast<int>(BUTTON::RESTART))
@@ -401,7 +406,7 @@ void PauseLevel::ButtonBehavior()
 			FMOD_BOOL isPlaying;
 			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlaying);
 			sound.SetSoundGroupVolume(true, currentBGM_Volume * 3);
-			Sleep(800);
+			Sleep(1000);
 			if (isPlaying == true)
 			{
 				sound.Stop(SOUND::BGM2);
@@ -417,7 +422,7 @@ void PauseLevel::ButtonBehavior()
 		{
 			is_next = true;
 			next_level = "Menu";
-			Sleep(800);
+			Sleep(1000);
 			FMOD_BOOL isPlaying;
 			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlaying);
 			if (isPlaying == true)

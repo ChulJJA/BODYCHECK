@@ -40,13 +40,14 @@ enum class SOUND
 	Throwing,
 	ThrowingHit,
 	TimePause,
-	//BGM2Reverse,
 	Mine,
 	MineBomb,
 	MineAlarm,
 	FingerSnap,
 	DemonLaugh,
 	ClockTicking,
+	EditorAppear,
+	SpeedUp,
 	END
 };
 

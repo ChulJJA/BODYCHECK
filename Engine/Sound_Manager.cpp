@@ -117,9 +117,6 @@ void Sound::LoadSound()
 	result = FMOD_System_CreateSound(f_system, "Sounds/TimePause.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::TimePause)]);
 	ErrorCheck(result);
 
-	////result = FMOD_System_CreateSound(f_system, "Sounds/BGM2Reverse.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::BGM2Reverse)]);
-	////ErrorCheck(result);
-
 	result = FMOD_System_CreateSound(f_system, "Sounds/Mine.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::Mine)]);
 	ErrorCheck(result);
 
@@ -136,6 +133,12 @@ void Sound::LoadSound()
 	ErrorCheck(result);
 
 	result = FMOD_System_CreateSound(f_system, "Sounds/ClockTicking.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::ClockTicking)]);
+	ErrorCheck(result);
+	
+	result = FMOD_System_CreateSound(f_system, "Sounds/EditorAppear.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::EditorAppear)]);
+	ErrorCheck(result);
+
+	result = FMOD_System_CreateSound(f_system, "Sounds/SpeedUp.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::SpeedUp)]);
 	ErrorCheck(result);
 	
 	result = FMOD_System_CreateSoundGroup(f_system, "BGM", &bgm_group);
