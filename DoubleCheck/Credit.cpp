@@ -46,7 +46,7 @@ void Credit::Load()
 
 void Credit::Update(float dt)
 {
-	if (input.Is_Key_Triggered(GLFW_KEY_ESCAPE))
+	if (input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER))
 	{
 		Component* credit_current_sprite = credit->Get_Current_Sprite();
 		Component* credit_first_sprite = credit->Find_Sprite_By_Type(Sprite_Type::Credit_First);

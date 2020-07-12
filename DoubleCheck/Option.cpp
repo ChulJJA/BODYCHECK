@@ -264,21 +264,21 @@ void Option::ButtonBehavior()
 void Option::SetMuteButton()
 {
 	mute_button[0] = new Object();
-	mute_button[0]->AddComponent(new Sprite(mute_button[0], "../Sprite/Mute.png", { 1000, 50 }, false));
+	mute_button[0]->AddComponent(new Sprite(mute_button[0], "../Sprite/Mute.png", { 960, 50 }, false));
 	mute_button[0]->GetTransform().SetScale({ 1, 1 });
 	ObjectManager::GetObjectManager()->AddObject(mute_button[0]);
 	unmute_button[0] = new Object();
-	unmute_button[0]->AddComponent(new Sprite(unmute_button[0], "../Sprite/Unmute.png", { 1000, 50 }, false));
+	unmute_button[0]->AddComponent(new Sprite(unmute_button[0], "../Sprite/Unmute.png", { 960, 50 }, false));
 	unmute_button[0]->GetTransform().SetScale({ 1, 1 });
 	unmute_button[0]->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
 	ObjectManager::GetObjectManager()->AddObject(unmute_button[0]);
 
 	mute_button[1] = new Object();
-	mute_button[1]->AddComponent(new Sprite(mute_button[1], "../Sprite/Mute.png", { 1000, -450 }, false));
+	mute_button[1]->AddComponent(new Sprite(mute_button[1], "../Sprite/Mute.png", { 960, -450 }, false));
 	mute_button[1]->GetTransform().SetScale({ 1, 1 });
 	ObjectManager::GetObjectManager()->AddObject(mute_button[1]);
 	unmute_button[1] = new Object();
-	unmute_button[1]->AddComponent(new Sprite(unmute_button[1], "../Sprite/Unmute.png", { 1000, -450 }, false));
+	unmute_button[1]->AddComponent(new Sprite(unmute_button[1], "../Sprite/Unmute.png", { 960, -450 }, false));
 	unmute_button[1]->GetTransform().SetScale({ 1, 1 });
 	unmute_button[1]->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
 	ObjectManager::GetObjectManager()->AddObject(unmute_button[1]);
