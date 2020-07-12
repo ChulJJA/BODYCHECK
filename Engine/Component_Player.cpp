@@ -25,6 +25,7 @@
 #include "Message_Kind.h"
 #include "Physics.h"
 #include "Gamepad.hpp"
+#include "Sound_Manager.h"
 
 GLFWgamepadstate state;
 
@@ -70,7 +71,13 @@ void Player::Update(float dt)
 			{
 				if (change_to_sprite == m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Bulkup_Used))
 				{
-					//durlsjgdjfk.
+					//FMOD_BOOL isPlaying;
+					//FMOD_Channel_IsPlaying(sound.channel[11], &isPlaying);
+					//if(isPlaying)
+					//{
+					//	sound.Stop(SOUND::BulkUp);
+					//}
+					sound.Play(SOUND::BulkUp2);
 				}
 				m_owner->Change_Sprite(change_to_sprite);
 				curr_state = Char_State::Prepared;
