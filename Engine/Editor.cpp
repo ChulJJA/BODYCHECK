@@ -228,7 +228,8 @@ Object* Editor::Make_Display(std::string path, vector2 trans, Item::Item_Kind ki
 	display_obj->GetComponentByTemplate<Item>()->Set_Kind(kind);
 	display_obj->SetNeedCollision(true);
 	display_obj->Set_Current_Sprite(display_obj->Find_Sprite_By_Name("display"));
-	display_vec.push_back(display_obj);
+	//display_vec.push_back(display_obj);
+	ObjectManager::GetObjectManager()->AddObject(display_obj);
 	return display_obj;
 }
 
@@ -290,14 +291,14 @@ void Editor::Set_Visible(bool toggle)
 		reverse->Set_Need_Update(true);
 	}
 
-	if (toggle == true && val == 0)
-	{
-		for (auto i : display_vec)
-		{
-			ObjectManager::GetObjectManager()->AddObject(i);
-		}
-		val++;
-	}
+	//if (toggle == true && val == 0)
+	//{
+	//	for (auto i : display_vec)
+	//	{
+	//		ObjectManager::GetObjectManager()->AddObject(i);
+	//	}
+	//	val++;
+	//}
 
 	if (display_item_bulkup != nullptr)
 	{

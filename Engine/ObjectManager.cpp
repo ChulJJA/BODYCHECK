@@ -59,7 +59,7 @@ void ObjectManager::Update(float dt)
 						{
 							if (component->Get_Need_Update())
 							{
-								component->Update(dt);
+ 								component->Update(dt);
 							}
 						}
 					}
