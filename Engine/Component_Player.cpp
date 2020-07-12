@@ -68,6 +68,10 @@ void Player::Update(float dt)
 			}
 			else
 			{
+				if (change_to_sprite == m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Bulkup_Used))
+				{
+					//durlsjgdjfk.
+				}
 				m_owner->Change_Sprite(change_to_sprite);
 				curr_state = Char_State::Prepared;
 			}
