@@ -52,8 +52,11 @@ void Credit::Update(float dt)
 		Component* credit_first_sprite = credit->Find_Sprite_By_Type(Sprite_Type::Credit_First);
 		Component* credit_second_sprite = credit->Find_Sprite_By_Type(Sprite_Type::Credit_Second);
 		Component* credit_third_sprite = credit->Find_Sprite_By_Type(Sprite_Type::Credit_Third);
+		Component* credit_fourth_sprite = credit->Find_Sprite_By_Type(Sprite_Type::Credit_Fourth);
+		Component* credit_fifth_sprite = credit->Find_Sprite_By_Type(Sprite_Type::Credit_Fifth);
+		Component* credit_sixth_sprite = credit->Find_Sprite_By_Type(Sprite_Type::Credit_Sixth);
 
-		if (credit_current_sprite == credit_third_sprite)
+		if (credit_current_sprite == credit_sixth_sprite)
 		{
 			sound.Play(SOUND::Selected);
 
@@ -79,6 +82,22 @@ void Credit::Update(float dt)
 			credit->Change_Sprite(credit->Find_Sprite_By_Type(Sprite_Type::Credit_Third));
 			sound.Play(SOUND::Selected);
 		}
+		else if (credit_current_sprite == credit_third_sprite)
+		{
+			credit->Change_Sprite(credit->Find_Sprite_By_Type(Sprite_Type::Credit_Fourth));
+			sound.Play(SOUND::Selected);
+		}
+		
+		else if (credit_current_sprite == credit_fourth_sprite)
+		{
+			credit->Change_Sprite(credit->Find_Sprite_By_Type(Sprite_Type::Credit_Fifth));
+			sound.Play(SOUND::Selected);
+		}
+		else if (credit_current_sprite == credit_fifth_sprite)
+		{
+			credit->Change_Sprite(credit->Find_Sprite_By_Type(Sprite_Type::Credit_Sixth));
+			sound.Play(SOUND::Selected);
+		}
 		
 
 	}
@@ -93,9 +112,12 @@ void Credit::SetTestSprite()
 {
 	credit = new Object();
 	credit->Set_Name("credit");
-	credit->AddComponent(new Sprite(credit, "../Sprite/Credit4.png", { 0, 0 }, false, Sprite_Type::Credit_First), "credit", true);
-	credit->AddComponent(new Sprite(credit, "../Sprite/Credit5.png", { 0, 0 }, false, Sprite_Type::Credit_Second), "sec", false);
-	credit->AddComponent(new Sprite(credit, "../Sprite/Credit6.png", { 0, 0 }, false, Sprite_Type::Credit_Third), "third", false);
+	credit->AddComponent(new Sprite(credit, "../Sprite/DigipenLogo.png", { 0, 0 }, false, Sprite_Type::Credit_First), "credit", true);
+	credit->AddComponent(new Sprite(credit, "../Sprite/Credit2.png", { 0, 0 }, false, Sprite_Type::Credit_Second), "sec", false);
+	credit->AddComponent(new Sprite(credit, "../Sprite/Credit3.png", { 0, 0 }, false, Sprite_Type::Credit_Third), "third", false);
+	credit->AddComponent(new Sprite(credit, "../Sprite/Credit4.png", { 0, 0 }, false, Sprite_Type::Credit_Fourth), "fourth", false);
+	credit->AddComponent(new Sprite(credit, "../Sprite/Credit5.png", { 0, 0 }, false, Sprite_Type::Credit_Fifth), "fifth", false);
+	credit->AddComponent(new Sprite(credit, "../Sprite/Credit6.png", { 0, 0 }, false, Sprite_Type::Credit_Sixth), "sixth", false);
 	credit->Change_Sprite(credit->Find_Sprite_By_Type(Sprite_Type::Credit_First));
 	credit->GetTransform().SetScale({ 37, 20.5 });
 
