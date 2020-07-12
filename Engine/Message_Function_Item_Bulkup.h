@@ -46,4 +46,6 @@ private:
 	float bulkup_end_timer = 2.f;
 	float bulkup_end_offset = 0.1f;
 	bool end_big_mode = true;
+
+	bool isPlayed = false;
 };
