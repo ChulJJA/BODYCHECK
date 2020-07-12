@@ -98,7 +98,10 @@ enum class Sprite_Type
 
     Credit_First,
     Credit_Second,
-    Credit_Third
+    Credit_Third,
+	Credit_Fourth,
+	Credit_Fifth,
+	Credit_Sixth
 };
 
 

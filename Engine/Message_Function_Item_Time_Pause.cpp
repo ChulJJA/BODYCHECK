@@ -36,10 +36,20 @@ void Msg_Func_Item_Time_Pause::Init()
 		info_player->Set_Item_State(Item::Item_Kind::None);
 		obj->Change_Sprite(obj->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Timestop));
 		sound.Play(SOUND::ClockTicking);
-		FMOD_Channel_IsPlaying(sound.channel[1], &isBgm);
-		if(isBgm)
+		FMOD_BOOL isBGMPlaying;
+		FMOD_BOOL isMatchBGMPlaying;
+		FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isBGMPlaying);
+		FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::MatchBGM)], &isMatchBGMPlaying);
+		
+		if(isBGMPlaying)
 		{
 			sound.Stop(SOUND::BGM2);
+			prevBGM = "BGM2";
+		}
+		if (isMatchBGMPlaying)
+		{
+			sound.Stop(SOUND::MatchBGM);
+			prevBGM = "MatchBGM";
 		}
 		info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Use, Ui::Ui_Status_Obj::Item_Time_Pause);
 
@@ -81,7 +91,19 @@ void Msg_Func_Item_Time_Pause::Update(float dt)
 		else if (info_player->Get_Char_State() == Player::Char_State::None)
 		{
 			info_player->Change_To_Normal_State();
-
+			FMOD_BOOL isBGMPlaying;
+			FMOD_BOOL isMatchBGMPlaying;
+			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isBGMPlaying);
+			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::MatchBGM)], &isMatchBGMPlaying);
+			if(prevBGM == "MatchBGM" && !isMatchBGMPlaying)
+			{
+				sound.Play(SOUND::MatchBGM);
+			}
+			else if(prevBGM == "BGM2" && !isBGMPlaying)
+			{
+				sound.Play(SOUND::BGM2);
+			}
+			sound.Stop(SOUND::ClockTicking);
 			msg->Set_Should_Delete(true);
 		}
 	}

@@ -912,7 +912,7 @@ void Referee::Win(float dt)
 			ObjectManager::GetObjectManager()->AddObject(fourth_win);
 			win = true;
 		}*/
-		if(player_sec_life <= 0 || player_third_life <= 0)
+		if((player_sec_life <= 0 || player_third_life <= 0))
 		{
 			FMOD_BOOL isBGM2Playing;
 			FMOD_BOOL isMatchBGMPlaying;
@@ -926,6 +926,7 @@ void Referee::Win(float dt)
 			{
 				sound.Play(SOUND::MatchBGM);
 			}
+			playOnce = true;
 		}
 		if (/*player_first_life == -1 &&*/ player_sec_life == -1 /*&& player_fourth_life == -1*/)
 		{

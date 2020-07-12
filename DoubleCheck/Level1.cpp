@@ -191,13 +191,6 @@ void Level1::Load()
 
 void Level1::Update(float dt)
 {
-	FMOD_BOOL isBGMPlaying;
-
-	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isBGMPlaying);
-	if(!isBGMPlaying)
-	{
-		sound.Play(SOUND::BGM2);
-	}
 	FMOD_BOOL isPauseBGMPlaying;
 	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::PauseBGM)], &isPauseBGMPlaying);
 
@@ -355,7 +348,6 @@ void Level1::Pause()
 	if (input.Is_Key_Pressed(GLFW_KEY_ESCAPE) || gamepadManager->GetButtonDown(xButtons.Back) || gamepadManagerSec->GetButtonDown(xButtons.Back))
 	{
 		sound.Play(SOUND::Click);
-		const float currentBGM_Volume = sound.GetSoundGroupVolume(true);
 		is_pause = true;
 	}
 }
