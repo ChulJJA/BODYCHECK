@@ -53,9 +53,27 @@ void PauseLevel::Load()
 	make_sure_dialogue->Set_Need_To_Update(false);
 	object_manager->AddObject(make_sure_dialogue);
 
-
 	pointer = 0;
 	buttonTimer = 0;
+
+	FMOD_BOOL isPlayingBGM2;
+	FMOD_BOOL isMatchBGMPlaying;
+	FMOD_BOOL isPauseBGMPlaying;
+	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlayingBGM2);
+	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::MatchBGM)], &isMatchBGMPlaying);
+	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::PauseBGM)], &isPauseBGMPlaying);
+	if (isPlayingBGM2 == true)
+	{
+		sound.Stop(SOUND::BGM2);
+	}
+	if (isMatchBGMPlaying)
+	{
+		sound.Stop(SOUND::MatchBGM);
+	}
+	if(!isPauseBGMPlaying)
+	{
+		sound.Play(SOUND::PauseBGM);
+	}
 }
 
 void PauseLevel::Update(float dt)
@@ -239,6 +257,7 @@ void PauseLevel::ButtonSelector()
 					sound.Play(SOUND::Selected);
 					r_u_sure_come = false;
 					r_u_sure = true;
+					sound.Stop(SOUND::PauseBGM);
 				}
 				else if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER) || pressButtonA) && r_u_sure_current_sprite == r_u_sure_no_sprite)
 				{

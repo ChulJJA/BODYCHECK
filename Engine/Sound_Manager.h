@@ -10,12 +10,15 @@
  */
 
 #pragma once
-#define SOUND_NUM 40
+#define SOUND_NUM 50
 
 enum class SOUND
 {
 	BGM = 0,
 	BGM2,
+	CreditBGM,
+	MatchBGM,
+	PauseBGM,
 	TeamDoubleCheck,
 	DouDouDouDoubleCheck,
 	Respawn,
@@ -50,6 +53,7 @@ enum class SOUND
 	SpeedUp,
 	BulkUp2,
 	EndBulkUp,
+	GameStart,
 	END
 };
 

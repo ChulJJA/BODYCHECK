@@ -146,7 +146,19 @@ void Sound::LoadSound()
 
 	result = FMOD_System_CreateSound(f_system, "Sounds/EndBulkUp.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::EndBulkUp)]);
 	ErrorCheck(result);
-	
+
+	result = FMOD_System_CreateSound(f_system, "Sounds/CreditBGM.wav", FMOD_LOOP_NORMAL, nullptr, &sound[static_cast<int>(SOUND::CreditBGM)]);
+	ErrorCheck(result);
+
+	result = FMOD_System_CreateSound(f_system, "Sounds/GameStart.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::GameStart)]);
+	ErrorCheck(result);
+
+	result = FMOD_System_CreateSound(f_system, "Sounds/MatchBGM.wav", FMOD_LOOP_NORMAL, nullptr, &sound[static_cast<int>(SOUND::MatchBGM)]);
+	ErrorCheck(result);
+
+	result = FMOD_System_CreateSound(f_system, "Sounds/PauseBGM.wav", FMOD_LOOP_NORMAL, nullptr, &sound[static_cast<int>(SOUND::PauseBGM)]);
+	ErrorCheck(result);
+
 	result = FMOD_System_CreateSoundGroup(f_system, "BGM", &bgm_group);
 	ErrorCheck(result);
 	
@@ -177,7 +189,7 @@ void Sound::SetSoundGroup()
 		result = FMOD_System_PlaySound(f_system, sound[count], 0, true, &channel[count]);
 		ErrorCheck(result);
 
-		if (count <= static_cast<int>(SOUND::BGM2))
+		if (count <= static_cast<int>(SOUND::PauseBGM))
 		{
 			result = FMOD_Sound_SetSoundGroup(sound[count], bgm_group);
 			ErrorCheck(result);
