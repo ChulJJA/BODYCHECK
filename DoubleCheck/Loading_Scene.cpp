@@ -84,8 +84,8 @@ void Loading_Scene::Update(float dt)
 
 				if (GetKeyState(VK_SPACE))
 				{
-					//sound.Play(SOUND::GameStart);
-					//Sleep(1000);
+					sound.Play(SOUND::GameStart);
+					Sleep(1000);
 					is_done = false;
 				}
 			}
