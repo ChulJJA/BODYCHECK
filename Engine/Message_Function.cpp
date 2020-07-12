@@ -59,7 +59,7 @@ void Message_Func::Functioning(float dt)
 		}
 		else if (kind == Message_Kind::Item_Bulkup)
 		{
-			function = new Msg_Func_Item_Bulkup(m_from, m_target, 15.f, msg_);
+			function = new Msg_Func_Item_Bulkup(m_from, m_target, 5.f, msg_);
 		}
 		else if (kind == Message_Kind::Item_Recover)
 		{

@@ -86,7 +86,7 @@ void Input::Triggered_Reset()
 
 void Input::Set_Keyboard_Input(int key, int action)
 {
-    if(key < -1 || key > GLFW_KEY_LAST)
+    if(key <= -1 || key >= GLFW_KEY_LAST)
     {
         return;
     }

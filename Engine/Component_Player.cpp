@@ -1298,6 +1298,7 @@ void Player::UseItem()
 			Change_Weapon_Sprite(nullptr);
 			sound.Play(SOUND::BulkUp);
 			Change_To_Normal_State();
+			m_owner->GetScale_Reference().x += 0.5f;
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 5.f));
 		}
@@ -1371,7 +1372,6 @@ void Player::UseItem()
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
 			m_owner->GetScale_Reference().x += 0.5f;
-			m_owner->GetScale_Reference().y += 0.2f;
 
 			sound.Play(SOUND::BulkUp);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 5.f));
