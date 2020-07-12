@@ -16,6 +16,7 @@
 #include "Component_Ui.h"
 #include "Player_Ui.h"
 #include "Component_Sprite.h"
+#include "Engine.hpp"
 
 void Msg_Func_Item_Bulkup::Init()
 {
