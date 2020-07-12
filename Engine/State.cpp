@@ -48,6 +48,7 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 	std::string sprite_path_magnet_chasing = path_to_player_item_effect;
 	std::string sprite_path_dash_effect = path_to_player_item_effect;
 	std::string sprite_path_timestop_effect = path_to_player_item_effect;
+	std::string sprite_path_reverse_effect = path_to_player_item_effect;
 	
 	//std::string sprite_path_missile_launcher = path_to_player_display_item;
 	//std::string sprite_path_dash = path_to_player_display_item;
@@ -87,6 +88,7 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 		sprite_path_magnet_chasing += sprite_path + "_chasing.png";
 		sprite_path_dash_effect += sprite_path + "_dash_effect.png";
 		sprite_path_timestop_effect += sprite_path + "_timestop.png";
+		sprite_path_reverse_effect += sprite_path + "_reverse_effect.png";
 	}
 
 	{
@@ -147,6 +149,9 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 
 	player->AddComponent(new Sprite(player, sprite_path_timestop_effect.c_str(), true, 4, 8, pos, { 200.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Effect_Timestop), "time", false);
+
+	player->AddComponent(new Sprite(player, sprite_path_reverse_effect.c_str(), true, 4, 8, pos, { 100.f,100.f },
+		{ 255,255,255,255 }, Sprite_Type::Player_Effect_Reverse), "reverse", false);
 
 	player->AddComponent(new Sprite(player, sprite_path_dance.c_str(), true, 15, 7, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Dance), "dance", false);

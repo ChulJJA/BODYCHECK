@@ -61,34 +61,45 @@ void Msg_Func_Collision::Update(float dt)
 	{
 		physics.KnockBack_Missile(m_from, m_target);
 
-		if (m_target->GetName() == "missile")
+		if (m_target->GetName() == "missile" || m_target->GetName() == "plask")
 		{
 			if (m_target->GetComponentByTemplate<Missile>()->Get_From_Obj() != m_from)
 			{
 
 				m_target->SetDeadCondition(true);
 				Player* player_info_from = m_from->GetComponentByTemplate<Player>();
-				Object* hp_bar = m_from->Get_Belong_Object_By_Tag("hp_bar");
 
-				if (hp_bar != nullptr)
+				if (m_target->GetName() == "missile")
 				{
-					Hp_Bar* info_hp_bar = hp_bar->GetComponentByTemplate<Hp_Bar>();
+					Object* hp_bar = m_from->Get_Belong_Object_By_Tag("hp_bar");
 
-					if (info_hp_bar != nullptr)
+					if (hp_bar != nullptr)
 					{
-						if (player_info_from->Get_Item_Used_Status() == Player::Item_Use_Status::None &&
-							info_hp_bar->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
-						{
-							sound.Play(SOUND::Missile);
+						Hp_Bar* info_hp_bar = hp_bar->GetComponentByTemplate<Hp_Bar>();
 
-							info_hp_bar->Decrease(0.5f);
-							m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
-							info_hp_bar->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
-							info_hp_bar->Set_Timer(1.f);
+						if (info_hp_bar != nullptr)
+						{
+							if (player_info_from->Get_Item_Used_Status() == Player::Item_Use_Status::None &&
+								info_hp_bar->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
+							{
+								sound.Play(SOUND::Missile);
+
+								info_hp_bar->Decrease(0.5f);
+								m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
+								info_hp_bar->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
+								info_hp_bar->Set_Timer(1.f);
+							}
 						}
 					}
 				}
+				else
+				{
+					Player* player_info_target = m_from->GetComponentByTemplate<Player>();
+					player_info_target->Set_Char_State(Player::Char_State::Reverse_Moving);
+					m_from->Change_Sprite(m_from->Find_Sprite_By_Type(Sprite_Type::Player_Reverse_Moving));
+				}
 			}
+
 		}
 		else
 		{
@@ -123,29 +134,39 @@ void Msg_Func_Collision::Update(float dt)
 	{
 		physics.KnockBack_Missile(m_target, m_from);
 
-		if (m_from->GetName() == "missile")
+		if (m_from->GetName() == "missile" || m_from->GetName() == "plask")
 		{
 			if (m_from->GetComponentByTemplate<Missile>()->Get_From_Obj() != m_target)
 			{
 				m_from->SetDeadCondition(true);
-				Player* player_info_target = m_target->GetComponentByTemplate<Player>();
-				Object* hp_bar = m_target->Get_Belong_Object_By_Tag("hp_bar");
 
-				if (hp_bar != nullptr)
+				if (m_from->GetName() == "missile")
 				{
-					Hp_Bar* info_hp_bar = hp_bar->GetComponentByTemplate<Hp_Bar>();
-					if (info_hp_bar != nullptr)
+					Player* player_info_target = m_target->GetComponentByTemplate<Player>();
+					Object* hp_bar = m_target->Get_Belong_Object_By_Tag("hp_bar");
+
+					if (hp_bar != nullptr)
 					{
-						if (player_info_target->Get_Item_Used_Status() == Player::Item_Use_Status::None &&
-							info_hp_bar->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
+						Hp_Bar* info_hp_bar = hp_bar->GetComponentByTemplate<Hp_Bar>();
+						if (info_hp_bar != nullptr)
 						{
-							sound.Play(SOUND::Missile);
-							info_hp_bar->Decrease(0.5f);
-							m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
-							info_hp_bar->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
-							info_hp_bar->Set_Timer(1.f);
+							if (player_info_target->Get_Item_Used_Status() == Player::Item_Use_Status::None &&
+								info_hp_bar->Get_Hp_Bar_State() == Hp_Bar::Hp_Bar_State::None)
+							{
+								sound.Play(SOUND::Missile);
+								info_hp_bar->Decrease(0.5f);
+								m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Crying));
+								info_hp_bar->Set_Hp_Bar_State(Hp_Bar::Hp_Bar_State::Damaging);
+								info_hp_bar->Set_Timer(1.f);
+							}
 						}
 					}
+				}
+				else
+				{
+					Player* player_info_target = m_target->GetComponentByTemplate<Player>();
+					player_info_target->Set_Char_State(Player::Char_State::Reverse_Moving);
+					m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Reverse_Moving));
 				}
 			}
 		}

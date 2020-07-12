@@ -35,6 +35,7 @@ enum class Sprite_Type
     Player_Effect_Missile,
     Player_Effect_Dash,
     Player_Effect_Timestop,
+    Player_Effect_Reverse,
 	Player_Bulkup_Used,
 	Player_Crying,
 	Player_Die,
