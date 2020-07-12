@@ -123,7 +123,7 @@ void Msg_Func_Item_Reverse_Moving::Update(float dt)
 						missile->Set_Name("plask");
 						missile->Set_Tag("throwing");
 						missile->SetNeedCollision(true);
-						missile->AddComponent(new Sprite(missile, "../sprite/Item/plask.png", true, 2, 2, { 0.f,0.f },
+						missile->AddComponent(new Sprite(missile, "../sprite/Item/plask.png", true, 2, 4, { 0.f,0.f },
 							{ 200.f,200.f }, { 255,255,255,255 }), "plask");
 						missile->AddComponent(new Physics);
 						missile->AddComponent(new Missile);
