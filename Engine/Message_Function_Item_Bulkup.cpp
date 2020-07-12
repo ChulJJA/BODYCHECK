@@ -40,7 +40,7 @@ void Msg_Func_Item_Bulkup::Init()
 				info_player->Sprite_After_Preparation(obj->Find_Sprite_By_Type(Sprite_Type::Player_Bulkup_Used));
 
 				//info_player->Set_Item_Used_Status(Player::Item_Use_Status::Bulkup);
-				
+
 				obj->Change_Sprite(obj->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Bulkp));
 			}
 
@@ -55,18 +55,51 @@ void Msg_Func_Item_Bulkup::Update(float dt)
 
 	if (info_player != nullptr)
 	{
-		if (info_player->Get_Char_State() == Player::Char_State::Prepared || 
+		if (info_player->Get_Char_State() == Player::Char_State::Prepared ||
 			info_player->Get_Item_Used_Status() == Player::Item_Use_Status::Bulkup)
 		{
 			info_player->Set_Item_Used_Status(Player::Item_Use_Status::Bulkup);
-			
+
 			if (timer > 0.f)
 			{
-				if (m_target->GetTransform().GetScale().x <= 5.f)
+				if (!is_ready_end)
+				{
+					if (bulkup_ready_timer > 0.f)
+					{
+						if (bulkup_ready_offset > 0.f)
+						{
+							if (ready_big_mode)
+							{
+								m_target->GetTransform().GetScale_Reference().x = big_rate;
+								m_target->GetTransform().GetScale_Reference().y = big_rate;
+
+							}
+							else
+							{
+								m_target->GetTransform().GetScale_Reference().x = 2.f;
+								m_target->GetTransform().GetScale_Reference().y = 2.f;
+							}
+							bulkup_ready_offset -= dt;
+						}
+						else
+						{
+							ready_big_mode = !ready_big_mode;
+							bulkup_ready_offset = 0.1f;
+							big_rate += 0.5f;
+
+						}
+						bulkup_ready_timer -= dt;
+					}
+					else
+					{
+						is_ready_end = true;
+					}
+				}
+				else
 				{
 					m_target->Get_Plus_Dmg() = 2.f;
-					m_target->GetTransform().GetScale_Reference().x += dt;
-					m_target->GetTransform().GetScale_Reference().y += dt;
+					m_target->GetTransform().GetScale_Reference().x = 5.f;
+					m_target->GetTransform().GetScale_Reference().y = 5.f;
 				}
 
 				timer -= dt;

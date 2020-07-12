@@ -27,8 +27,8 @@ void Throwing::Update(float dt)
 	{
 		timer -= dt;
 		
-		pos.x -= (sin(angle_in_radian) * 30);
-		pos.y += (cos(angle_in_radian) * 30);
+		pos.x -= (sin(angle_in_radian) * 50);
+		pos.y += (cos(angle_in_radian) * 50);
 
 		m_owner->GetTransform().SetTranslation(pos);
 	}

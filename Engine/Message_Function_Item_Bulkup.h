@@ -36,4 +36,9 @@ public:
 private:
 	float timer;
 	Message* msg;
+	float bulkup_ready_timer = 1.f;
+	float bulkup_ready_offset = 0.1f;
+	bool is_ready_end = false;
+	bool ready_big_mode = true;
+	float big_rate = 2.5f;
 };
