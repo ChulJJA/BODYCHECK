@@ -143,14 +143,13 @@ void Player::Update(float dt)
 		if (speed_mag > 100.f)
 		{
 			Component* normal_sprite = m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Normal);
-			Component* current_sprite = m_owner->Get_Current_Sprite();
 
 			if (speed_mag < 1000.f)
 			{
-				if (normal_sprite == current_sprite)
+				if (normal_sprite == m_owner->Get_Current_Sprite())
 				{
 					Component* speed2_sprite = m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Speed2);
-					if (speed2_sprite != current_sprite)
+					if (speed2_sprite != m_owner->Get_Current_Sprite())
 					{
 						m_owner->Change_Sprite(speed2_sprite);
 						/*if (speedParticle != nullptr)
@@ -1299,8 +1298,8 @@ void Player::UseItem()
 			Change_Weapon_Sprite(nullptr);
 			sound.Play(SOUND::BulkUp);
 			Change_To_Normal_State();
-
 			m_owner->GetScale_Reference().x += 0.5f;
+			m_owner->GetScale_Reference().y += 0.2f;
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 5.f));
 		}
@@ -1373,8 +1372,9 @@ void Player::UseItem()
 		{
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
-
 			m_owner->GetScale_Reference().x += 0.5f;
+			m_owner->GetScale_Reference().y += 0.2f;
+
 			sound.Play(SOUND::BulkUp);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 5.f));
 		}
