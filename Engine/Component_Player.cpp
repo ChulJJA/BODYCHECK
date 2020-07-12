@@ -71,12 +71,7 @@ void Player::Update(float dt)
 			{
 				if (change_to_sprite == m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Bulkup_Used))
 				{
-					//FMOD_BOOL isPlaying;
-					//FMOD_Channel_IsPlaying(sound.channel[11], &isPlaying);
-					//if(isPlaying)
-					//{
-					//	sound.Stop(SOUND::BulkUp);
-					//}
+
 					sound.Play(SOUND::BulkUp2);
 				}
 				m_owner->Change_Sprite(change_to_sprite);

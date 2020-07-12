@@ -22,6 +22,7 @@ void Msg_Func_Item_Bulkup::Init()
 {
     if (msg->Get_Target() != nullptr)
     {
+        isPlayed = false;
         Object* obj = msg->Get_Target();
         Player* info_player = obj->GetComponentByTemplate<Player>();
         PLAYER_UI* info_ui = info_player->Get_Ui();
@@ -107,12 +108,10 @@ void Msg_Func_Item_Bulkup::Update(float dt)
             }
             else
             {
-                FMOD_BOOL isPlaying;
-                FMOD_Channel_IsPlaying(sound.channel[35], &isPlaying);
-
-                if (!isPlaying)
+                if (!isPlayed)
                 {
                     sound.Play(SOUND::EndBulkUp);
+                    isPlayed = true;
                 }
                 if (!is_end)
                 {

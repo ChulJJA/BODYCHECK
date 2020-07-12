@@ -930,6 +930,12 @@ void Referee::Win(float dt)
 		if (/*player_first_life == -1 &&*/ player_sec_life == -1 /*&& player_fourth_life == -1*/)
 		{
 			win = true;
+			FMOD_BOOL isMatchBGMPlaying;
+			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::MatchBGM)], &isMatchBGMPlaying);
+			if (isMatchBGMPlaying)
+			{
+				sound.Stop(SOUND::MatchBGM);
+			}
 			sound.Play(SOUND::Win);
 			player_dance_time = 5.f;
 			curr_third_player->Change_Sprite(curr_third_player->Find_Sprite_By_Type(Sprite_Type::Player_Dance));
@@ -943,6 +949,12 @@ void Referee::Win(float dt)
 		}
 		if (/*player_first_life == -1 &&*/ player_third_life == -1/* && player_fourth_life == -1*/)
 		{
+			FMOD_BOOL isMatchBGMPlaying;
+			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::MatchBGM)], &isMatchBGMPlaying);
+			if (isMatchBGMPlaying)
+			{
+				sound.Stop(SOUND::MatchBGM);
+			}
 			win = true;
 			sound.Play(SOUND::Win);
 			player_dance_time = 5.f;
@@ -980,9 +992,11 @@ void Referee::Win(float dt)
 			if (player_third_life == -1 && win_player != nullptr)
 			{
 				ObjectManager::GetObjectManager()->AddObject(second_win);
+				sound.Play(SOUND::WinCrowd);
 			}
 			if (player_sec_life == -1 && win_player != nullptr)
 			{
+				sound.Play(SOUND::WinCrowd);
 				ObjectManager::GetObjectManager()->AddObject(third_win);
 			}
 
