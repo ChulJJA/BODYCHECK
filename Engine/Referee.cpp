@@ -912,6 +912,21 @@ void Referee::Win(float dt)
 			ObjectManager::GetObjectManager()->AddObject(fourth_win);
 			win = true;
 		}*/
+		if(player_sec_life <= 0 || player_third_life <= 0)
+		{
+			FMOD_BOOL isBGM2Playing;
+			FMOD_BOOL isMatchBGMPlaying;
+			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isBGM2Playing);
+			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::MatchBGM)], &isMatchBGMPlaying);
+			if(isBGM2Playing)
+			{
+				sound.Stop(SOUND::BGM2);
+			}
+			if(!isMatchBGMPlaying)
+			{
+				sound.Play(SOUND::MatchBGM);
+			}
+		}
 		if (/*player_first_life == -1 &&*/ player_sec_life == -1 /*&& player_fourth_life == -1*/)
 		{
 			win = true;

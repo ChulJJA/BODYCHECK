@@ -17,6 +17,8 @@ enum class SOUND
 	BGM = 0,
 	BGM2,
 	CreditBGM,
+	MatchBGM,
+	PauseBGM,
 	TeamDoubleCheck,
 	DouDouDouDoubleCheck,
 	Respawn,
