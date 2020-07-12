@@ -41,9 +41,4 @@ private:
 	bool is_ready_end = false;
 	bool ready_big_mode = true;
 	float big_rate = 2.5f;
-
-	bool is_end = false;
-	float bulkup_end_timer = 2.f;
-	float bulkup_end_offset = 0.1f;
-	bool end_big_mode = true;
 };

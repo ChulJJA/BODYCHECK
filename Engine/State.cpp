@@ -159,7 +159,7 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 		{ 255,255,255,255 }, Sprite_Type::Heal_Showing), "heal", false);*/
 	
 	
-	player->AddComponent(new Sprite(player, sprite_path_ready_bulkup.c_str(), true, 4, 12, pos, { 100.f,100.f },
+	player->AddComponent(new Sprite(player, sprite_path_ready_bulkup.c_str(), true, 4, 8, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Effect_Bulkp), "effect_bulkup", false);
 
 	player->AddComponent(new Sprite(player, sprite_path_bulkup_used.c_str(), true, 3, 9, pos, { 100.f,100.f },
