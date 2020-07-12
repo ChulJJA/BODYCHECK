@@ -45,8 +45,8 @@ void MainMenu::Load()
 	}
 	FMOD_BOOL isPlaying;
 	FMOD_BOOL isPlayingBGM2;
-	FMOD_Channel_IsPlaying(sound.channel[0], &isPlaying);
-	FMOD_Channel_IsPlaying(sound.channel[1], &isPlayingBGM2);
+	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM)], &isPlaying);
+	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlayingBGM2);
 	if (isPlaying == false)
 	{
 		sound.Play(SOUND::BGM);

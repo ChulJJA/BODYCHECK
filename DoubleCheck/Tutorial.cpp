@@ -161,7 +161,7 @@ void Tutorial::Update(float dt)
 {
 	FMOD_BOOL isBGMPlaying;
 
-	FMOD_Channel_IsPlaying(sound.channel[1], &isBGMPlaying);
+	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isBGMPlaying);
 
 	//referee->Update(dt);
 

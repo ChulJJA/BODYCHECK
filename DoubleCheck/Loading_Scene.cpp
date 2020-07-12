@@ -27,6 +27,7 @@
 #include <consoleapi3.h>
 #include "GL.hpp"
 #include "Input.h"
+#include "Engine.hpp"
 
 namespace 
 {
@@ -83,6 +84,8 @@ void Loading_Scene::Update(float dt)
 
 				if (GetKeyState(VK_SPACE))
 				{
+					sound.Play(SOUND::GameStart);
+					Sleep(1000);
 					is_done = false;
 				}
 			}
