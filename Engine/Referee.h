@@ -240,4 +240,6 @@ private:
     vector2 player_third_pos;
     vector2 player_third_scale;
     std::string player_third_sprite_path;
+
+    bool playOnce = false;
 };
