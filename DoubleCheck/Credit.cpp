@@ -14,6 +14,7 @@
 #include <Input.h>
 #include "Component_Button.h"
 #include "Message_Manager.h"
+#include "Engine.hpp"
 
 using namespace std;
 
@@ -25,8 +26,22 @@ namespace
 
 void Credit::Load()
 {
+	FMOD_BOOL isBGMPlaying;
+	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM)], &isBGMPlaying);
+	if (isBGMPlaying)
+	{
+		sound.Stop(SOUND::BGM);
+	}
+	
 	current_state = GameState::Credit;
 	SetTestSprite();
+	
+	FMOD_BOOL isPlaying;
+	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::CreditBGM)], &isPlaying);
+	if (!isPlaying)
+	{
+		sound.Play(SOUND::CreditBGM);
+	}	
 }
 
 void Credit::Update(float dt)
@@ -40,6 +55,16 @@ void Credit::Update(float dt)
 
 		if (credit_current_sprite == credit_third_sprite)
 		{
+			sound.Play(SOUND::Selected);
+
+			FMOD_BOOL isPlaying;
+
+			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::CreditBGM)], &isPlaying);
+
+			if(isPlaying)
+			{
+				sound.Stop(SOUND::CreditBGM);
+			}
 			is_next = true;
 			next_level = "Menu";
 			Clear();
@@ -47,10 +72,12 @@ void Credit::Update(float dt)
 		else if (credit_current_sprite == credit_first_sprite)
 		{
 			credit->Change_Sprite(credit->Find_Sprite_By_Type(Sprite_Type::Credit_Second));
+			sound.Play(SOUND::Selected);
 		}
 		else if (credit_current_sprite == credit_second_sprite)
 		{
 			credit->Change_Sprite(credit->Find_Sprite_By_Type(Sprite_Type::Credit_Third));
+			sound.Play(SOUND::Selected);
 		}
 		
 
