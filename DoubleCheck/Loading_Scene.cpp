@@ -87,6 +87,28 @@ void Loading_Scene::Update(float dt)
 					sound.Play(SOUND::GameStart);
 					Sleep(1000);
 					is_done = false;
+					//sound.UnLoad();
+					//sound.Initialize();
+					//FMOD_BOOL isPlayingBGM;
+					//FMOD_BOOL isPlayingBGM2;
+					//FMOD_BOOL isPauseBGMPlaying;
+					//FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::PauseBGM)], &isPauseBGMPlaying);
+					//FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM)], &isPlayingBGM);
+					//FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlayingBGM2);
+					//if (isPlayingBGM == true)
+					//{
+					//	sound.Stop(SOUND::BGM);
+					//}
+					//if (isPauseBGMPlaying)
+					//{
+					//	sound.Stop(SOUND::PauseBGM);
+					//}
+					//if (isPlayingBGM2 == false)
+					//{
+					//	sound.Play(SOUND::BGM2);
+					//}
+					sound.Stop(SOUND::BGM);
+					sound.Play(SOUND::BGM2);
 				}
 			}
 		}

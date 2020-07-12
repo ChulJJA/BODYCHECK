@@ -45,8 +45,12 @@ void MainMenu::Load()
 	}
 	FMOD_BOOL isPlaying;
 	FMOD_BOOL isPlayingBGM2;
+	FMOD_BOOL isMatchBGMPlaying;
+	FMOD_BOOL isPauseBGMPlaying;
 	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM)], &isPlaying);
 	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlayingBGM2);
+	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::MatchBGM)], &isMatchBGMPlaying);
+	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::MatchBGM)], &isPauseBGMPlaying);
 	if (isPlaying == false)
 	{
 		sound.Play(SOUND::BGM);
@@ -54,6 +58,14 @@ void MainMenu::Load()
 	if (isPlayingBGM2 == true)
 	{
 		sound.Stop(SOUND::BGM2);
+	}
+	if(isMatchBGMPlaying)
+	{
+		sound.Stop(SOUND::MatchBGM);
+	}
+	if(isPauseBGMPlaying)
+	{
+		sound.Stop(SOUND::PauseBGM);
 	}
 	p_1_selected = false;
 	p_2_selected = false;
@@ -92,7 +104,12 @@ void MainMenu::Load()
 
 void MainMenu::Update(float dt)
 {
-
+	FMOD_BOOL isPauseBGMPlaying;
+	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::MatchBGM)], &isPauseBGMPlaying);
+	if (isPauseBGMPlaying)
+	{
+		sound.Stop(SOUND::PauseBGM);
+	}
 	button_timer++;
 
 	if (button_timer >= 10)
@@ -368,8 +385,6 @@ void MainMenu::ButtonSelector()
 			StateManager::GetStateManager()->level_state->is_pause = false;
 			is_next = true;
 			next_level = "Level1";
-			Sleep(800);
-			sound.UnLoad();
 			Clear();
 		}
 		else if (((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::TUTORIAL))
