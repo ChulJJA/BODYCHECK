@@ -16,6 +16,7 @@
 #include "Component_Ui.h"
 #include "Player_Ui.h"
 #include "Component_Sprite.h"
+#include "Engine.hpp"
 
 void Msg_Func_Item_Bulkup::Init()
 {
@@ -108,11 +109,19 @@ void Msg_Func_Item_Bulkup::Update(float dt)
 			{
 				if (m_target->GetTransform().GetScale().x >= 2.f)
 				{
+					FMOD_BOOL isPlaying;
+					FMOD_Channel_IsPlaying(sound.channel[35], &isPlaying);
+
+					if (!isPlaying)
+					{
+						sound.Play(SOUND::EndBulkUp);
+					}
 					m_target->GetTransform().GetScale_Reference().x -= dt;
 					m_target->GetTransform().GetScale_Reference().y -= dt;
 				}
 				else
 				{
+
 					m_target->Get_Plus_Dmg() = 0.f;
 					info_player->Set_Char_State(Player::Char_State::None);
 					info_player->Change_To_Normal_State();

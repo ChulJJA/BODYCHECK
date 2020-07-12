@@ -48,6 +48,8 @@ enum class SOUND
 	ClockTicking,
 	EditorAppear,
 	SpeedUp,
+	BulkUp2,
+	EndBulkUp,
 	END
 };
 
