@@ -243,23 +243,7 @@ void ArenaAndObjectCollision(Object* object)
 	Player* object_player = object->GetComponentByTemplate<Player>();
 	if (object->Get_Tag() == "player" && (object_translation.x < -1650 || object_translation.x > 1650 || object_translation.y < -850 || object_translation.y > 630))
 	{
-		if (object_translation.x < -1650)
-		{
-			object->SetTranslation({ -1630, object_translation.y });
-		}
-		else if (object_translation.x > 1650)
-		{
-			object->SetTranslation({ 1630, object_translation.y });
-		}
-		else if (object_translation.y > 630)
-		{
-			object->SetTranslation({ object_translation.x, 610 });
-		}
-		else if (object_translation.y < -850)
-		{
-			object->SetTranslation({ object_translation.x, -830 });
-		}
-		//object->SetTranslation({ 0,0 });
+		object->SetTranslation({ 0,0 });
 	}
 	if (object_player != nullptr)
 	{

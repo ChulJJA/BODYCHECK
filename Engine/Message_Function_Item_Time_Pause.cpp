@@ -59,10 +59,9 @@ void Msg_Func_Item_Time_Pause::Update(float dt)
 
 			another_players.erase(std::find(another_players.begin(), another_players.end(), obj));
 
-			info_player->Change_To_Normal_State();
-
-			if (info_player != nullptr && !another_players.empty())
+			if (info_player != nullptr)
 			{
+				info_player->Change_To_Normal_State();
 
 				for (auto player : another_players)
 				{
