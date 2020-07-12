@@ -42,6 +42,13 @@ Loading_Scene::Loading_Scene() : image(nullptr), image2(nullptr)
 
 void Loading_Scene::Load()
 {
+	FMOD_BOOL isPlayingBGM;
+	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM)], &isPlayingBGM);
+	if (!isPlayingBGM)
+	{
+		sound.Play(SOUND::BGM);
+	}
+	
 	state_manager = StateManager::GetStateManager();
 	Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 	done = true;
@@ -67,6 +74,7 @@ void Loading_Scene::Update(float dt)
 		image->SetScale(vector2{ 19.f , 12.f});
 
 		bool is_done = true;
+		rewind(stdin);
 		while (is_done)
 		{
 			glfwSwapBuffers(Application::Get_Application()->Get_Window());
@@ -82,33 +90,31 @@ void Loading_Scene::Update(float dt)
 			{
 				image->Find_Sprite_By_Type(Sprite_Type::Loading_Press)->Update(dt);
 
-				if (GetKeyState(VK_SPACE))
+				if (GetKeyState(VK_SPACE) > 0)
 				{
 					sound.Play(SOUND::GameStart);
 					Sleep(1000);
 					is_done = false;
-					//sound.UnLoad();
-					//sound.Initialize();
-					//FMOD_BOOL isPlayingBGM;
-					//FMOD_BOOL isPlayingBGM2;
-					//FMOD_BOOL isPauseBGMPlaying;
-					//FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::PauseBGM)], &isPauseBGMPlaying);
-					//FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM)], &isPlayingBGM);
-					//FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlayingBGM2);
-					//if (isPlayingBGM == true)
-					//{
-					//	sound.Stop(SOUND::BGM);
-					//}
-					//if (isPauseBGMPlaying)
-					//{
-					//	sound.Stop(SOUND::PauseBGM);
-					//}
-					//if (isPlayingBGM2 == false)
-					//{
-					//	sound.Play(SOUND::BGM2);
-					//}
-					sound.Stop(SOUND::BGM);
-					sound.Play(SOUND::BGM2);
+					sound.UnLoad();
+					sound.Initialize();
+					FMOD_BOOL isPlayingBGM;
+					FMOD_BOOL isPlayingBGM2;
+					FMOD_BOOL isPauseBGMPlaying;
+					FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::PauseBGM)], &isPauseBGMPlaying);
+					FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM)], &isPlayingBGM);
+					FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlayingBGM2);
+					if (isPlayingBGM == true)
+					{
+						sound.Stop(SOUND::BGM);
+					}
+					if (isPauseBGMPlaying)
+					{
+						sound.Stop(SOUND::PauseBGM);
+					}
+					if (isPlayingBGM2 == false)
+					{
+						sound.Play(SOUND::BGM2);
+					}
 				}
 			}
 		}

@@ -71,12 +71,7 @@ void Player::Update(float dt)
 			{
 				if (change_to_sprite == m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Bulkup_Used))
 				{
-					//FMOD_BOOL isPlaying;
-					//FMOD_Channel_IsPlaying(sound.channel[11], &isPlaying);
-					//if(isPlaying)
-					//{
-					//	sound.Stop(SOUND::BulkUp);
-					//}
+
 					sound.Play(SOUND::BulkUp2);
 				}
 				m_owner->Change_Sprite(change_to_sprite);
@@ -1298,6 +1293,7 @@ void Player::UseItem()
 			Change_Weapon_Sprite(nullptr);
 			sound.Play(SOUND::BulkUp);
 			Change_To_Normal_State();
+			m_owner->GetScale_Reference().x += 0.5f;
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 5.f));
 		}
@@ -1370,6 +1366,7 @@ void Player::UseItem()
 		{
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
+			m_owner->GetScale_Reference().x += 0.5f;
 
 			sound.Play(SOUND::BulkUp);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 5.f));

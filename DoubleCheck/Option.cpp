@@ -103,16 +103,16 @@ void Option::SetMusicIcon()
 {
 	const float sfx_volume = sound.GetSoundGroupVolume(false);
 	const float bgm_volume = sound.GetSoundGroupVolume(true);
-	const float initial_sfx_icon = sfx_volume * 4 * 680;
-	const float initial_bgm_icon = bgm_volume * 4 * 680;
+	const float initial_sfx_icon = sfx_volume * 4 * 420;
+	const float initial_bgm_icon = bgm_volume * 4 * 420;
 
 	music_icon[0] = new Object();
-	music_icon[0]->AddComponent(new Sprite(music_icon[0], "../Sprite/icon.png", { -1055 + initial_bgm_icon, -260 }, false));
+	music_icon[0]->AddComponent(new Sprite(music_icon[0], "../Sprite/icon.png", { -550 + initial_bgm_icon, -260 }, false));
 	music_icon[0]->GetTransform().SetScale({ 10, 10 });
 	ObjectManager::GetObjectManager()->AddObject(music_icon[0]);
 
 	music_icon[1] = new Object();
-	music_icon[1]->AddComponent(new Sprite(music_icon[1], "../Sprite/icon.png", { -1055 + initial_sfx_icon, -760 }, false));
+	music_icon[1]->AddComponent(new Sprite(music_icon[1], "../Sprite/icon.png", { -550 + initial_sfx_icon, -760 }, false));
 	music_icon[1]->GetTransform().SetScale({ 10, 10 });
 	ObjectManager::GetObjectManager()->AddObject(music_icon[1]);
 }

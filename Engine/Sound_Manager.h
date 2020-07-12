@@ -54,6 +54,7 @@ enum class SOUND
 	BulkUp2,
 	EndBulkUp,
 	GameStart,
+	WinCrowd,
 	END
 };
 

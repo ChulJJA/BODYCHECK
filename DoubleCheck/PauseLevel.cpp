@@ -375,7 +375,6 @@ void PauseLevel::ButtonSelector()
 
 void PauseLevel::ButtonBehavior()
 {
-	const float currentBGM_Volume = sound.GetSoundGroupVolume(true);
 	bool pressButtonA = gamepadManager->GetButtonDown(xButtons.A);
 	
 	if (r_u_sure_come == false)
@@ -407,7 +406,6 @@ void PauseLevel::ButtonBehavior()
 		}
 		else if (pointer == static_cast<int>(BUTTON::BACK) && (input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER) || pressButtonA))
 		{
-			sound.SetSoundGroupVolume(true, currentBGM_Volume * 3);
 			sound.Play(SOUND::Selected);
 			state_manager->BackToLevel();
 			Clear();
@@ -424,7 +422,6 @@ void PauseLevel::ButtonBehavior()
 		{
 			FMOD_BOOL isPlaying;
 			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isPlaying);
-			sound.SetSoundGroupVolume(true, currentBGM_Volume * 3);
 			Sleep(1000);
 			if (isPlaying == true)
 			{

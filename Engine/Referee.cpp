@@ -513,7 +513,7 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 		{ 255,255,255,255 }, Sprite_Type::Player_Fat, is_debug_mode), "fat", false);
 	player->AddComponent(new Sprite(player, sprite_path_paused.c_str(), pos, false, Sprite_Type::Player_Paused, { 100.f, 100.f }), "paused", false);
 
-	player->AddComponent(new Sprite(player, sprite_path_ready_bulkup.c_str(), true, 8, 16, pos, { 100.f,100.f },
+	player->AddComponent(new Sprite(player, sprite_path_ready_bulkup.c_str(), true, 4, 8, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Effect_Bulkp), "effect_bulkup", false);
 
 	player->AddComponent(new Sprite(player, sprite_path_bulkup_used.c_str(), true, 3, 9, pos, { 100.f,100.f },
@@ -930,6 +930,12 @@ void Referee::Win(float dt)
 		if (/*player_first_life == -1 &&*/ player_sec_life == -1 /*&& player_fourth_life == -1*/)
 		{
 			win = true;
+			FMOD_BOOL isMatchBGMPlaying;
+			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::MatchBGM)], &isMatchBGMPlaying);
+			if (isMatchBGMPlaying)
+			{
+				sound.Stop(SOUND::MatchBGM);
+			}
 			sound.Play(SOUND::Win);
 			player_dance_time = 5.f;
 			curr_third_player->Change_Sprite(curr_third_player->Find_Sprite_By_Type(Sprite_Type::Player_Dance));
@@ -943,6 +949,12 @@ void Referee::Win(float dt)
 		}
 		if (/*player_first_life == -1 &&*/ player_third_life == -1/* && player_fourth_life == -1*/)
 		{
+			FMOD_BOOL isMatchBGMPlaying;
+			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::MatchBGM)], &isMatchBGMPlaying);
+			if (isMatchBGMPlaying)
+			{
+				sound.Stop(SOUND::MatchBGM);
+			}
 			win = true;
 			sound.Play(SOUND::Win);
 			player_dance_time = 5.f;
@@ -980,9 +992,11 @@ void Referee::Win(float dt)
 			if (player_third_life == -1 && win_player != nullptr)
 			{
 				ObjectManager::GetObjectManager()->AddObject(second_win);
+				sound.Play(SOUND::WinCrowd);
 			}
 			if (player_sec_life == -1 && win_player != nullptr)
 			{
+				sound.Play(SOUND::WinCrowd);
 				ObjectManager::GetObjectManager()->AddObject(third_win);
 			}
 
