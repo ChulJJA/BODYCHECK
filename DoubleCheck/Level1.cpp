@@ -355,7 +355,6 @@ void Level1::Pause()
 	if (input.Is_Key_Pressed(GLFW_KEY_ESCAPE) || gamepadManager->GetButtonDown(xButtons.Back) || gamepadManagerSec->GetButtonDown(xButtons.Back))
 	{
 		sound.Play(SOUND::Click);
-		const float currentBGM_Volume = sound.GetSoundGroupVolume(true);
 		is_pause = true;
 	}
 }

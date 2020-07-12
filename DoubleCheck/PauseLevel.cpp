@@ -375,7 +375,6 @@ void PauseLevel::ButtonSelector()
 
 void PauseLevel::ButtonBehavior()
 {
-	const float currentBGM_Volume = sound.GetSoundGroupVolume(true);
 	bool pressButtonA = gamepadManager->GetButtonDown(xButtons.A);
 	
 	if (r_u_sure_come == false)
