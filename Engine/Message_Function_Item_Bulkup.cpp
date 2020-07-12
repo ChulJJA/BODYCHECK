@@ -107,7 +107,55 @@ void Msg_Func_Item_Bulkup::Update(float dt)
 			}
 			else
 			{
-				if (m_target->GetTransform().GetScale().x >= 2.f)
+				FMOD_BOOL isPlaying;
+				FMOD_Channel_IsPlaying(sound.channel[35], &isPlaying);
+
+				if (!isPlaying)
+				{
+					sound.Play(SOUND::EndBulkUp);
+				}
+				if (!is_end)
+				{
+					if (bulkup_end_timer > 0.f)
+					{
+						if (bulkup_end_offset > 0.f)
+						{
+							if (end_big_mode)
+							{
+								m_target->GetTransform().GetScale_Reference().x = big_rate;
+								m_target->GetTransform().GetScale_Reference().y = big_rate;
+
+							}
+							else
+							{
+								m_target->GetTransform().GetScale_Reference().x = 2.f;
+								m_target->GetTransform().GetScale_Reference().y = 2.f;
+							}
+							bulkup_end_offset -= dt;
+						}
+						else
+						{
+							end_big_mode = !end_big_mode;
+							bulkup_end_offset = 0.1f;
+							big_rate -= 0.1f;
+
+						}
+						bulkup_end_timer -= dt;
+					}
+					else
+					{
+						//is_ready_end = true;
+						m_target->GetTransform().GetScale_Reference().x = 2.f;
+						m_target->GetTransform().GetScale_Reference().y = 2.f;
+						m_target->Get_Plus_Dmg() = 0.f;
+						info_player->Set_Char_State(Player::Char_State::None);
+						info_player->Change_To_Normal_State();
+						info_player->Set_Item_Used_Status(Player::Item_Use_Status::None);
+						msg->Set_Should_Delete(true);
+					}
+				}
+				
+				/*if (m_target->GetTransform().GetScale().x >= 2.f)
 				{
 					FMOD_BOOL isPlaying;
 					FMOD_Channel_IsPlaying(sound.channel[35], &isPlaying);
@@ -127,7 +175,7 @@ void Msg_Func_Item_Bulkup::Update(float dt)
 					info_player->Change_To_Normal_State();
 					info_player->Set_Item_Used_Status(Player::Item_Use_Status::None);
 					msg->Set_Should_Delete(true);
-				}
+				}*/
 
 			}
 		}
