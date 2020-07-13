@@ -122,7 +122,12 @@ void Referee::Reset_Variables()
 	win_player = nullptr;
 	win = false;
 	player_dance_time = 0.f;
-
+	playOnce = false;
+	change_once = false;
+	aud_is_cheerup_mode_finish = false;
+	audience_vec.clear();
+	curr_field_num = 0;
+	is_cheerup_mode = false;
 	Reset_Item_Variables();
 }
 
@@ -148,7 +153,6 @@ void Referee::Reset_Item_Variables()
 	item_num_missile = item_num;
 	item_num_mine = item_num;
 	total_item_num = item_num * 8;
-	curr_field_num = 0;
 }
 
 void Referee::Set_Sec_Player_Info(vector2 pos, vector2 scale, std::string path)
@@ -199,6 +203,22 @@ void Referee::Separate_Player()
 	}
 }
 
+void Referee::Set_Audience_Cheerup_mode(float dt)
+{
+	/*std::cout << "ck " << std::endl;
+	for (auto& aud : audience_vec)
+	{
+		aud->GetTransform().GetTranslation_Reference().y -= dt;
+	}
+
+	if (audience_vec[0]->GetTransform().GetTranslation_Reference().y < 500.f)
+	{
+		std::cout << "ck2" << std::endl;
+		aud_is_cheerup_mode_finish = true;
+		audience_vec.clear();
+	}*/
+}
+
 Referee::Referee()
 {
 
@@ -241,7 +261,7 @@ void Referee::Init()
 	state_manager = StateManager::GetStateManager();
 	if (state_manager->GetCurrentState()->GetStateInfo() == GameState::Game)
 	{
-		int total = 3;
+		int total = 4;
 		player_first_life = total;
 		player_sec_life = total;
 		player_third_life = total;
@@ -311,6 +331,11 @@ void Referee::Update(float dt)
 	}
 
 	Separate_Player();
+
+	//if (!aud_is_cheerup_mode_finish && !audience_vec.empty())
+	//{
+	//	Set_Audience_Cheerup_mode(dt);
+	//}
 }
 
 void Referee::Delete()
@@ -539,7 +564,7 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 
 	player->AddComponent(new Sprite(player, sprite_path_lock.c_str(), true, 4, 8, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Locking), "lock", false);
-	player->AddComponent(new Sprite(player, sprite_path_reverse_moving_pen.c_str(), true, 2, 8, pos, { 100.f,100.f },
+	player->AddComponent(new Sprite(player, sprite_path_reverse_moving_pen.c_str(), true, 4, 8, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Reverse_Moving), "reverse", false);
 	player->AddComponent(new Sprite(player, sprite_path_ready.c_str(), pos, false, Sprite_Type::Player_Ready), "ready", false);
 	player->AddComponent(new Sprite(player, sprite_path_timestop_effect.c_str(), true, 4, 8, pos, { 100.f,100.f },
@@ -970,6 +995,19 @@ void Referee::Win(float dt)
 				sound.currentBGM = SOUND::MatchBGM;
 				playOnce = true;
 			}
+
+			if (!change_once)
+			{
+				audience_vec = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("audience");
+
+				for (auto& aud : audience_vec)
+				{
+					aud->Change_Sprite(aud->Find_Sprite_By_Type(Sprite_Type::Audience_Cheerup));
+					aud->GetTransform().GetTranslation_Reference().y -= 200.f;
+				}
+				change_once = true;
+				is_cheerup_mode = true;
+			}
 		}
 		if (/*player_first_life == -1 &&*/ player_sec_life == -1 /*&& player_fourth_life == -1*/)
 		{
@@ -1048,7 +1086,7 @@ void Referee::Win(float dt)
 			Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 			Graphic::GetGraphic()->Get_View().Set_Is_Zoom_End_False();
 			win_player = nullptr;
-
+			is_cheerup_mode = false;
 			if (input.Is_Key_Triggered(GLFW_KEY_SPACE))
 			{
 				sound.Play(SOUND::GameStart);
