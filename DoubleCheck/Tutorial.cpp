@@ -91,6 +91,7 @@ void Tutorial::Load()
 		if (isPlayingBGM2 == false)
 		{
 			sound.Play(SOUND::BGM2);
+			sound.currentBGM = SOUND::BGM2;
 		}
 
 

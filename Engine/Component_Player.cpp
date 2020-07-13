@@ -332,11 +332,11 @@ void Player::Func_Time_Pause(float dt)
 	{
 		Change_To_Normal_State();
 		FMOD_BOOL isBgm;
-		FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isBgm);
+		FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(sound.currentBGM)], &isBgm);
 
 		if (!isBgm)
 		{
-			sound.Play(SOUND::BGM2);
+			sound.Play(sound.currentBGM);
 		}
 		curr_state = Char_State::None;
 	}
