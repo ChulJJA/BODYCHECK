@@ -25,7 +25,7 @@
 #include "UsefulTools.hpp"
 #include "Physics.h"
 #include "Message_Manager.h"
-
+#include "Input.h"
 Referee* Referee::referee = nullptr;
 StateManager* state_manager = nullptr;
 Application* app = nullptr;
@@ -41,14 +41,14 @@ void Referee::Set_Win_State()
 	second_win->Set_Name("second_win");
 	second_win->AddComponent(new Sprite(second_win, "../Sprite/pen_red2_win.png", true, 4, 8, { 0.f,0.f }, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::None), "win", true);
-	second_win->GetTransform().SetScale({ 40.f, 21.f });
+	second_win->GetTransform().SetScale({ 37.f, 21.f });
 
 
 	third_win = new Object();
 	third_win->Set_Name("third_win");
 	third_win->AddComponent(new Sprite(third_win, "../Sprite/pen_blue2_win.png", true, 4, 8, { 0.f,0.f }, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::None), "win", true);
-	third_win->GetTransform().SetScale({ 40.f, 21.f });
+	third_win->GetTransform().SetScale({ 37.f, 21.f });
 
 	fourth_win = new Object();
 	fourth_win->Set_Name("fourth_win");
@@ -1008,7 +1008,12 @@ void Referee::Win(float dt)
 			Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 			Graphic::GetGraphic()->Get_View().Set_Is_Zoom_End_False();
 			win_player = nullptr;
-			isGameDone = true;
+
+			if (input.Is_Key_Triggered(GLFW_KEY_SPACE))
+			{
+				sound.Play(SOUND::Click);
+				isGameDone = true;
+			}
 		}
 	}
 }
