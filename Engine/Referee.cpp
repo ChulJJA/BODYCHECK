@@ -261,7 +261,7 @@ void Referee::Init()
 	state_manager = StateManager::GetStateManager();
 	if (state_manager->GetCurrentState()->GetStateInfo() == GameState::Game)
 	{
-		int total = 3;
+		int total = 4;
 		player_first_life = total;
 		player_sec_life = total;
 		player_third_life = total;
