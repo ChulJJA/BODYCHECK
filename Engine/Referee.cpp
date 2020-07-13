@@ -39,12 +39,15 @@ void Referee::Set_Win_State()
 
 	second_win = new Object();
 	second_win->Set_Name("second_win");
-	second_win->AddComponent(new Sprite(second_win, "../Sprite/pen_red2_win.png", { 0.f,0.f }, false, Sprite_Type::None), "win", true);
+	second_win->AddComponent(new Sprite(second_win, "../Sprite/pen_red2_win.png", true, 4, 8, { 0.f,0.f }, { 100.f,100.f },
+		{ 255,255,255,255 }, Sprite_Type::None), "win", true);
 	second_win->GetTransform().SetScale({ 40.f, 21.f });
+
 
 	third_win = new Object();
 	third_win->Set_Name("third_win");
-	third_win->AddComponent(new Sprite(third_win, "../Sprite/pen_blue2_win.png", { 0.f,0.f }, false, Sprite_Type::None), "win", true);
+	third_win->AddComponent(new Sprite(third_win, "../Sprite/pen_blue2_win.png", true, 4, 8, { 0.f,0.f }, { 100.f,100.f },
+		{ 255,255,255,255 }, Sprite_Type::None), "win", true);
 	third_win->GetTransform().SetScale({ 40.f, 21.f });
 
 	fourth_win = new Object();
