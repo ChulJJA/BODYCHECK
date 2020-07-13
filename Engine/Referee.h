@@ -144,6 +144,7 @@ public:
 
     void Set_Sec_Player_Info(vector2 pos, vector2 scale, std::string path);
     void Set_Third_Player_Info(vector2 pos, vector2 scale, std::string path);
+    void Separate_Player();
 private:
     Referee();
     static Referee* referee;

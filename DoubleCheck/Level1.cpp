@@ -322,7 +322,7 @@ void Level1::Update(float dt)
 		gameDoneTimer += dt;
 
 	}
-	if(gameDoneTimer >= 3)
+	if(gameDoneTimer >= 1)
 	{
 		Clear();
 		referee->isGameDone = false;

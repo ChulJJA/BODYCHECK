@@ -25,7 +25,7 @@
 #include "UsefulTools.hpp"
 #include "Physics.h"
 #include "Message_Manager.h"
-
+#include "Input.h"
 Referee* Referee::referee = nullptr;
 StateManager* state_manager = nullptr;
 Application* app = nullptr;
@@ -39,13 +39,16 @@ void Referee::Set_Win_State()
 
 	second_win = new Object();
 	second_win->Set_Name("second_win");
-	second_win->AddComponent(new Sprite(second_win, "../Sprite/pen_red2_win.png", { 0.f,0.f }, false, Sprite_Type::None), "win", true);
-	second_win->GetTransform().SetScale({ 40.f, 21.f });
+	second_win->AddComponent(new Sprite(second_win, "../Sprite/pen_red2_win.png", true, 4, 8, { 0.f,0.f }, { 100.f,100.f },
+		{ 255,255,255,255 }, Sprite_Type::None), "win", true);
+	second_win->GetTransform().SetScale({ 37.f, 21.f });
+
 
 	third_win = new Object();
 	third_win->Set_Name("third_win");
-	third_win->AddComponent(new Sprite(third_win, "../Sprite/pen_blue2_win.png", { 0.f,0.f }, false, Sprite_Type::None), "win", true);
-	third_win->GetTransform().SetScale({ 40.f, 21.f });
+	third_win->AddComponent(new Sprite(third_win, "../Sprite/pen_blue2_win.png", true, 4, 8, { 0.f,0.f }, { 100.f,100.f },
+		{ 255,255,255,255 }, Sprite_Type::None), "win", true);
+	third_win->GetTransform().SetScale({ 37.f, 21.f });
 
 	fourth_win = new Object();
 	fourth_win->Set_Name("fourth_win");
@@ -162,6 +165,40 @@ void Referee::Set_Third_Player_Info(vector2 pos, vector2 scale, std::string path
 	player_third_sprite_path = path;
 }
 
+void Referee::Separate_Player()
+{
+	vector2& sec_pos = curr_sec_player->GetTransform().GetTranslation_Reference();
+	vector2& third_pos = curr_third_player->GetTransform().GetTranslation_Reference();
+
+	float distance = distance_between(sec_pos, third_pos);
+
+	if (distance < 30.f)
+	{
+		float offset = 100.f;
+		if (sec_pos.x > third_pos.x)
+		{
+			sec_pos.x += offset;
+			third_pos.x -= offset;
+		}
+		else
+		{
+			sec_pos.x -= offset;
+			third_pos.x += offset;
+		}
+
+		if (sec_pos.y > third_pos.y)
+		{
+			sec_pos.y += offset;
+			third_pos.y -= offset;
+		}
+		else
+		{
+			sec_pos.y -= offset;
+			third_pos.y += offset;
+		}
+	}
+}
+
 Referee::Referee()
 {
 
@@ -270,6 +307,8 @@ void Referee::Update(float dt)
 		Reset_Item_Variables();
 		SetItem();
 	}
+
+	Separate_Player();
 }
 
 void Referee::Delete()
@@ -693,6 +732,7 @@ void Referee::Respawn_Item(float dt)
 
 	if (item_respawn_timer <= 0.0f && total_item_num > 0 && curr_field_num <= 3)
 	{
+		std::cout << "curr field" << curr_field_num << std::endl;
 		if (item == Item::Item_Kind::Dash)
 		{
 			if (item_num_dash > 0)
@@ -1005,7 +1045,12 @@ void Referee::Win(float dt)
 			Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 			Graphic::GetGraphic()->Get_View().Set_Is_Zoom_End_False();
 			win_player = nullptr;
-			isGameDone = true;
+
+			if (input.Is_Key_Triggered(GLFW_KEY_SPACE))
+			{
+				sound.Play(SOUND::GameStart);
+				isGameDone = true;
+			}
 		}
 	}
 }
