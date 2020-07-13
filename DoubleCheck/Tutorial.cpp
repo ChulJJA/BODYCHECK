@@ -136,6 +136,13 @@ void Tutorial::Load()
 	make_sure_dialogue->GetTransform().SetScale({ 10.f, 6.f });
 	make_sure_dialogue->Set_Need_To_Update(false);
 	object_manager->AddObject(make_sure_dialogue);
+
+	esc_indicator = new Object();
+	esc_indicator->AddComponent(new Sprite(esc_indicator, "../Sprite/UI/escape.png", { 0.f, 0.f }, false, Sprite_Type::None
+		, {100.f, 100.f}), "none", true);
+	esc_indicator->SetScale({ 30.f, 2.f });
+	esc_indicator->GetTransform().SetTranslation({ 0.f, -900.f });
+	object_manager->AddObject(esc_indicator);
 }
 
 void Tutorial::Update(float dt)
@@ -254,7 +261,7 @@ void Tutorial::SetStaffAndExplanation()
 		false, Sprite_Type::Explanation_Staff_Heal), "heal", false);
 	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/MissileStaff.png", staff_sec_pos,
 		false, Sprite_Type::Explanation_Staff_Missile), "missile", false);
-	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/PoisionStaff.png", staff_sec_pos,
+	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/PoisonStaff.png", staff_sec_pos,
 		false, Sprite_Type::Explanation_Staff_Reverse), "reverse", false);
 	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/TPStaff.png", staff_sec_pos,
 		false, Sprite_Type::Explanation_Staff_TP), "time", false);

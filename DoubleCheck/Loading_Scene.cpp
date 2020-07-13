@@ -123,7 +123,7 @@ void Loading_Scene::Update(float dt)
 	}
 	else if (state_manager->GetCurrentState()->GetStateInfo() == GameState::Tutorial)
 	{
-		image2->AddComponent(new Sprite(image2, "../Sprite/HowToPlay.png", { 0, 0 }, false));
+		image2->AddComponent(new Sprite(image2, "../Sprite/Credit2.png", { 0, 0 }, false));
 		image2->SetScale(20.f);
 
 		while (done)

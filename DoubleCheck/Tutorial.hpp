@@ -68,6 +68,7 @@ private:
     Object* mainmenu_button_hover;
     Object* option_button;
     Object* option_button_hover;
+    Object* esc_indicator;
 
     bool showing_editor = true;
     bool dt_refreshed = false;
