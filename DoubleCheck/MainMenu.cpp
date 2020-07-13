@@ -134,6 +134,7 @@ void MainMenu::SetPlayButton()
 	play_button->AddComponent(new Sprite(play_button, "../Sprite/PlayButton.png", { 50, 100 }, false, Sprite_Type::Button), "button", true);
 	play_button->AddComponent(new Sprite(play_button, "../Sprite/PlayButtonHover.png", { 50, 100 }, false, Sprite_Type::Button_Hover), "hover", false);
 	play_button->GetTransform().SetScale({ 5, 5 });
+	play_button->Set_Current_Sprite(play_button->Find_Sprite_By_Type(Sprite_Type::Button_Hover));
 	play_button->AddComponent(new Physics());
 	play_button->SetNeedCollision(true);
 	ObjectManager::GetObjectManager()->AddObject(play_button);

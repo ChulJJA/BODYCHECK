@@ -1048,7 +1048,7 @@ void Referee::Win(float dt)
 
 			if (input.Is_Key_Triggered(GLFW_KEY_SPACE))
 			{
-				sound.Play(SOUND::Click);
+				sound.Play(SOUND::GameStart);
 				isGameDone = true;
 			}
 		}
