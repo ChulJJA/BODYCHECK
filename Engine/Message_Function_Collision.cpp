@@ -310,7 +310,7 @@ void Msg_Func_Collision::Update(float dt)
 		{
 			FMOD_BOOL isBgm;
 			FMOD_BOOL isStopClocking;
-			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isBgm);
+			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(sound.currentBGM)], &isBgm);
 			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::ClockTicking)], &isStopClocking);
 			if(isStopClocking)
 			{
@@ -319,7 +319,7 @@ void Msg_Func_Collision::Update(float dt)
 
 			if (!isBgm)
 			{
-				sound.Play(SOUND::BGM2);
+				sound.Play(sound.currentBGM);
 			}
 			player_from_info->Change_To_Normal_State();
 
@@ -328,7 +328,7 @@ void Msg_Func_Collision::Update(float dt)
 		{
 			FMOD_BOOL isBgm;
 			FMOD_BOOL isStopClocking;
-			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isBgm);
+			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(sound.currentBGM)], &isBgm);
 			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::ClockTicking)], &isStopClocking);
 			if (isStopClocking)
 			{
@@ -337,7 +337,7 @@ void Msg_Func_Collision::Update(float dt)
 
 			if (!isBgm)
 			{
-				sound.Play(SOUND::BGM2);
+				sound.Play(sound.currentBGM);
 			}
 
 			player_target_info->Change_To_Normal_State();

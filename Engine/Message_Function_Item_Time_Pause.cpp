@@ -44,12 +44,10 @@ void Msg_Func_Item_Time_Pause::Init()
 		if(isBGMPlaying)
 		{
 			sound.Stop(SOUND::BGM2);
-			prevBGM = "BGM2";
 		}
 		if (isMatchBGMPlaying)
 		{
 			sound.Stop(SOUND::MatchBGM);
-			prevBGM = "MatchBGM";
 		}
 		info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Use, Ui::Ui_Status_Obj::Item_Time_Pause);
 
@@ -92,14 +90,12 @@ void Msg_Func_Item_Time_Pause::Update(float dt)
 		{
 			info_player->Change_To_Normal_State();
 			FMOD_BOOL isBGMPlaying;
-			FMOD_BOOL isMatchBGMPlaying;
 			FMOD_BOOL isClocking;
-			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isBGMPlaying);
-			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::MatchBGM)], &isMatchBGMPlaying);
+			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(sound.currentBGM)], &isBGMPlaying);
 			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::ClockTicking)], &isClocking);
 			if(!isBGMPlaying)
 			{
-				sound.Play(SOUND::BGM2);
+				sound.Play(sound.currentBGM);
 			}
 			if(isClocking)
 			{

@@ -303,6 +303,8 @@ void Referee::Init()
 	Set_Win_State();
 	Set_Kill_State();
 	Set_Timer();
+
+	playOnce = false;
 }
 
 void Referee::Update(float dt)
@@ -987,11 +989,12 @@ void Referee::Win(float dt)
 			{
 				sound.Stop(SOUND::BGM2);
 			}
-			if(!isMatchBGMPlaying)
+			if(!isMatchBGMPlaying && playOnce == false)
 			{
 				sound.Play(SOUND::MatchBGM);
+				sound.currentBGM = SOUND::MatchBGM;
+				playOnce = true;
 			}
-			playOnce = true;
 
 			if (!change_once)
 			{

@@ -406,10 +406,10 @@ void PauseLevel::ButtonBehavior()
 		{
 			sound.Play(SOUND::Selected);
 			FMOD_BOOL isBGM;
-			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isBGM);
+			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(sound.currentBGM)], &isBGM);
 			if(!isBGM)
 			{
-				sound.Play(SOUND::BGM2);
+				sound.Play(sound.currentBGM);
 			}
 			state_manager->BackToLevel();
 			Clear();
