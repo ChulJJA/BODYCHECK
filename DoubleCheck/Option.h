@@ -58,7 +58,7 @@ public:
     void SetSoundVolume(float value, bool isBGM = true);
 private:
     Object* background;
-    Object* music_icon[2];
+    Object* music_icon[3];
     Object* volume_box[4];
     Object* volume_box_hover[2];
     Object* mute_button[2];
@@ -69,6 +69,8 @@ private:
     Object* full_screen_button_hover;
     Object* lifeButton;
     Object* lifeButtonHover;
+
+    Object* life_count;
     Object* lifeBox;
 
     Object* pointer1;

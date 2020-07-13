@@ -26,6 +26,10 @@
 #include "Physics.h"
 #include "Message_Manager.h"
 #include "Input.h"
+
+extern int life;
+
+
 Referee* Referee::referee = nullptr;
 StateManager* state_manager = nullptr;
 Application* app = nullptr;
@@ -261,7 +265,7 @@ void Referee::Init()
 	state_manager = StateManager::GetStateManager();
 	if (state_manager->GetCurrentState()->GetStateInfo() == GameState::Game)
 	{
-		int total = 4;
+		int total = life;
 		player_first_life = total;
 		player_sec_life = total;
 		player_third_life = total;
@@ -759,7 +763,6 @@ void Referee::Respawn_Item(float dt)
 
 	if (item_respawn_timer <= 0.0f && total_item_num > 0 && curr_field_num <= 3)
 	{
-		std::cout << "curr field" << curr_field_num << std::endl;
 		if (item == Item::Item_Kind::Dash)
 		{
 			if (item_num_dash > 0)
