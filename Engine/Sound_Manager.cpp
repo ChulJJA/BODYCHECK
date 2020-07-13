@@ -60,7 +60,7 @@ void Sound::LoadSound()
 	result = FMOD_System_CreateSound(f_system, "Sounds/Crack.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::Crack)]);
 	ErrorCheck(result);
 
-	result = FMOD_System_CreateSound(f_system, "Sounds/Item.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::Item)]);
+	result = FMOD_System_CreateSound(f_system, "Sounds/Item.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::Item)]);
 	ErrorCheck(result);
 
 	result = FMOD_System_CreateSound(f_system, "Sounds/Dash.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::Dash)]);

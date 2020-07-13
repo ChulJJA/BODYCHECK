@@ -93,8 +93,10 @@ void Msg_Func_Item_Time_Pause::Update(float dt)
 			info_player->Change_To_Normal_State();
 			FMOD_BOOL isBGMPlaying;
 			FMOD_BOOL isMatchBGMPlaying;
+			FMOD_BOOL isClocking;
 			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isBGMPlaying);
 			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::MatchBGM)], &isMatchBGMPlaying);
+			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::ClockTicking)], &isClocking);
 			if(prevBGM == "MatchBGM" && !isMatchBGMPlaying)
 			{
 				sound.Play(SOUND::MatchBGM);
@@ -103,7 +105,10 @@ void Msg_Func_Item_Time_Pause::Update(float dt)
 			{
 				sound.Play(SOUND::BGM2);
 			}
-			sound.Stop(SOUND::ClockTicking);
+			if(isClocking)
+			{
+				sound.Stop(SOUND::ClockTicking);
+			}
 			msg->Set_Should_Delete(true);
 		}
 	}

@@ -233,13 +233,14 @@ void Player::Update(float dt)
 	}
 	if (speedParticle != nullptr && m_owner != nullptr && speed_magn > 1000.f)
 	{
-		if(speedUpSoundTimer >= 0.3)
+
+		speedParticle->Update(dt, m_owner, 1, vector2(-m_owner->GetScale_Reference() / 2.0f));
+		speedParticle->Draw(m_owner);
+		if (speedUpSoundTimer >= 0.2)
 		{
 			sound.Play(SOUND::SpeedUp);
 			speedUpSoundTimer = 0;
 		}
-		speedParticle->Update(dt, m_owner, 1, vector2(-m_owner->GetScale_Reference() / 2.0f));
-		speedParticle->Draw(m_owner);
 	} 
 
 	if (
