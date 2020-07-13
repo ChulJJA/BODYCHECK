@@ -52,16 +52,9 @@ private:
     Object* description_third;
 
 
-    /*Object* Player_First_Text;
-    Object* Player_Second_Text;
-    Object* Player_Third_Text;
-    Object* Player_Fourth_Text;*/
+    Object* Explanation_Staff_sec;
+    Object* Explanation_Staff_third;
 
-    Object* Explanation_Staff;
-    /*Object* Explanation_Text_First;
-    Object* Explanation_Text_Second;
-    Object* Explanation_Text_Third;
-    Object* Explanation_Text_Fourth;*/
     
     PLAYER_UI* Player_First_UI;
     PLAYER_UI* Player_Second_UI;

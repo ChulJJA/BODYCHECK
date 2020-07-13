@@ -97,6 +97,8 @@ void Tutorial::Load()
 
 		SetArena();
 		
+		SetStaffAndExplanation();
+		
 		editor = new Editor();
 		//referee->Init();
 		editor->Init();
@@ -182,6 +184,7 @@ void Tutorial::Update(float dt)
 	//EventCheck();
 
 	editor->Update(dt);
+	
 
 	if(r_u_sure)
 	{
@@ -214,39 +217,33 @@ void Tutorial::SetArena()
 
 void Tutorial::SetStaffAndExplanation()
 {
-	/*Explanation_Staff = new Object();
-	Explanation_Staff->Set_Name("explanation_staff");
-	Explanation_Staff->AddComponent(new Sprite(Explanation_Staff, "../Sprite/HowToPlay.png", { 1400, 0 }, false));
-	Explanation_Staff->GetTransform().SetScale(9.f);
-	ObjectManager::GetObjectManager()->AddObject(Explanation_Staff);*/
+	Explanation_Staff_sec = new Object();
+	Explanation_Staff_sec->Set_Name("staff");
+	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/Staff.png", { -800.f, -800.f }, false), "staffNone", true);
+	Explanation_Staff_sec->SetScale({10, 10});
+	/*Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/BulkUpStaff.png", { -900.f, -800.f }, false));
+	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/BoosterStaff.png", { -900.f, -800.f }, false));
+	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/MissileStaff.png", { -900.f, -800.f }, false));
+	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/HealStaff.png", { -900.f, -800.f }, false));
+	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/PoisonStaff.png", { -900.f, -800.f }, false));
+	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/GunStaff.png", { -900.f, -800.f }, false));
+	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/TPStaff.png", { -900.f, -800.f }, false));*/
+	
+	ObjectManager::GetObjectManager()->Add_Object_Instancing(Explanation_Staff_sec);
 
-	/*Explanation_Text_First = new Object();
-	Explanation_Text_First->Set_Name("explanation_text_first");
-	Explanation_Text_First->AddComponent(new Sprite(Explanation_Text_First, "../Sprite/ExplanationTextFirst.png", { 1450, 0 }, false));
-	Explanation_Text_First->GetTransform().SetScale({ 9.f, 9.f });
-	Explanation_Text_First->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
-	ObjectManager::GetObjectManager()->AddObject(Explanation_Text_First);
+	Explanation_Staff_third = new Object();
+	Explanation_Staff_third->Set_Name("staff");
+	Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/Staff.png", { 600.f, -800.f }, false), "staffNoneThird", true);
+	Explanation_Staff_third->SetScale({ 10, 10 });
+	//Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/BulkUpStaff.png", { 600.f, -800.f }, false));
+	//Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/BoosterStaff.png", { 600.f, -800.f }, false));
+	//Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/MissileStaff.png", { 600.f, -800.f }, false));
+	//Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/HealStaff.png", { 600.f, -800.f }, false));
+	//Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/PoisonStaff.png", { 600.f, -800.f }, false));
+	//Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/GunStaff.png", { 600.f, -800.f }, false));
+	//Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/TPStaff.png", { 600.f, -800.f }, false));
 
-	Explanation_Text_Second = new Object();
-	Explanation_Text_Second->Set_Name("explanation_text_second");
-	Explanation_Text_Second->AddComponent(new Sprite(Explanation_Text_Second, "../Sprite/ExplanationTextSecond.png", { 1450, 0 }, false));
-	Explanation_Text_Second->GetTransform().SetScale({ 9.f, 9.f });
-	Explanation_Text_Second->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
-	ObjectManager::GetObjectManager()->AddObject(Explanation_Text_Second);
-
-	Explanation_Text_Third = new Object();
-	Explanation_Text_Third->Set_Name("explanation_text_third");
-	Explanation_Text_Third->AddComponent(new Sprite(Explanation_Text_Third, "../Sprite/ExplanationTextThird.png", { 1450, 0 }, false));
-	Explanation_Text_Third->GetTransform().SetScale({ 9.f, 9.f });
-	Explanation_Text_Third->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
-	ObjectManager::GetObjectManager()->AddObject(Explanation_Text_Third);
-
-	Explanation_Text_Fourth = new Object();
-	Explanation_Text_Fourth->Set_Name("explanation_text_second");
-	Explanation_Text_Fourth->AddComponent(new Sprite(Explanation_Text_Fourth, "../Sprite/ExplanationTextSecond.png", { 1450, 0 }, false));
-	Explanation_Text_Fourth->GetTransform().SetScale({ 9.f, 9.f });
-	Explanation_Text_Fourth->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
-	ObjectManager::GetObjectManager()->AddObject(Explanation_Text_Fourth);*/
+	ObjectManager::GetObjectManager()->Add_Object_Instancing(Explanation_Staff_third);
 }
 
 
