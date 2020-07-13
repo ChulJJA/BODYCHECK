@@ -51,6 +51,11 @@ void View::Update(float dt)
 		}
 		Win_Zoom(dt);
 	}
+
+	if (Referee::Get_Referee()->Get_Is_CheerUp_Mode())
+	{
+		Active_Screen_Shake(5.f, 1);
+	}
 }
 
 bool myfunction(int i, int j)

@@ -39,10 +39,5 @@ public:
 
 private:
     Object* credit;
-    Object* sec_page;
-    Object* third_page;
-    Object* fourth_page;
-    Object* fifth_page;
-    Object* sixth_page;
 	
 };
