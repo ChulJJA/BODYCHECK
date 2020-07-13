@@ -38,5 +38,6 @@ public:
 private:
 	float timer;
 	Message* msg;
+	Object* throwing;
 	ParticleGenerator* particle;
 };
