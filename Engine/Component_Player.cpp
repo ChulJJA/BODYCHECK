@@ -376,7 +376,8 @@ void Player::Func_Mine(float dt)
 		install_mine->AddComponent(new Physics());
 		install_mine->AddComponent(new Player());
 		//install_mine->AddComponent(new Sprite(install_mine, "../sprite/mine_object.png", { m_owner->GetTransform().GetTranslation().x ,m_owner->GetTransform().GetTranslation().y - 150 }));
-		install_mine->AddComponent(new Sprite(install_mine, "../Sprite/Item/mine.png", { random_position_x ,random_position_y }));
+		//install_mine->AddComponent(new Sprite(install_mine, "../Sprite/Item/mine.png", { random_position_x ,random_position_y }));
+		install_mine->AddComponent(new Sprite(install_mine, "../Sprite/Item/mine.png", true, 4, 5.0f, { random_position_x ,random_position_y }, { 100.f,100.f }));
 		//install_mine->AddComponent(new Sprite(install_mine, "../Sprite/Player/Item_Effect/mine_active.png", true, 4, 8, {random_position_x, random_position_y},
 		//	{100.f, 100.f}, {255,255,255,255}, Sprite_Type::Item), "none", false);
 		//install_mine->DeleteComponent(install_mine->GetComponentByTemplate<Hp_Bar>());

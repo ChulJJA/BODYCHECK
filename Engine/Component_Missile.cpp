@@ -45,7 +45,7 @@ void Missile::Update(float dt)
 		
 		if (m_owner->GetName() == "missile")
 		{
-			missile_particle->Update(dt, m_owner, 1, vector2(-250.0f, .0f));
+			missile_particle->Update(dt, m_owner, 1, vector2(-250.f,0));
 			missile_particle->Draw(m_owner);
 		}
 		else
