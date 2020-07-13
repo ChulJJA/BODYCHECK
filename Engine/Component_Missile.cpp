@@ -19,7 +19,7 @@ void Missile::Init(Object* obj)
 {
 	m_owner = obj;
 	physics = m_owner->GetComponentByTemplate<Physics>();
-	missile_particle = new ParticleGenerator(m_owner, 50, "../Sprite/ParticleCollision.png", ParticleType::MISSILE);
+	missile_particle = new ParticleGenerator(m_owner, 20, "../Sprite/ParticleCollision.png", ParticleType::MISSILE);
 }
 
 void Missile::Update(float dt)

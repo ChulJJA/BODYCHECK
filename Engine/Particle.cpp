@@ -119,11 +119,11 @@ void ParticleGenerator::Update(float dt, Object* object, GLuint newParticles, ve
 			for (GLuint i = 0; i < this->total_particles; ++i)
 			{
 				Particle& p = this->particles[i];
-				p.life -= dt;
+				p.life -= dt * 5.0f;
 				if (p.life > 0.0f)
 				{
 					p.position -= (p.velocity * dt);
-					p.color.alpha -= dt;
+					p.color.alpha -= dt * 2.5f;
 				}
 			}
 		case ParticleType::WIN:
@@ -225,7 +225,7 @@ void ParticleGenerator::Draw(Object* obj)
 					matrix3 result = MATRIX3::build_identity();
 					result *= MATRIX3::build_translation({ particle.position.x, particle.position.y }) *
 						MATRIX3::build_rotation(obj->GetTransform().GetRotation()) *
-						MATRIX3::build_scale({ obj->GetScale().x, obj->GetScale().y });
+						MATRIX3::build_scale({ obj->GetScale().x - 0.2f, obj->GetScale().y- 0.6f });
 					matrix3 mat_ndc = Graphic::GetGraphic()->Get_View().Get_Camera_View().GetCameraToNDCTransform();
 					mat_ndc *= Graphic::GetGraphic()->Get_View().Get_Camera().WorldToCamera();
 					mat_ndc *= result;

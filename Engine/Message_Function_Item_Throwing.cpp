@@ -41,7 +41,7 @@ void Msg_Func_Item_Throwing::Init()
 			
 			info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Use, Ui::Ui_Status_Obj::Item_Throwing);
 
-			//particle = new ParticleGenerator(obj, 20, "../Sprite/ParticleCollision.png", ParticleType::SPEEDMODE);
+			particle = new ParticleGenerator(obj, 20, "../Sprite/ParticleFire.png", ParticleType::SPEEDMODE);
 		}
 	}
 }
@@ -50,12 +50,12 @@ void Msg_Func_Item_Throwing::Update(float dt)
 {
 	Player* info_player = m_target->GetComponentByTemplate<Player>();
 
-	if(info_player != nullptr)
+	if (info_player != nullptr)
 	{
 		if (info_player->Get_Char_State() == Player::Char_State::Prepared)
 		{
 			info_player->Set_Char_State(Player::Char_State::None);
-			Object* throwing = new Object();
+			throwing = new Object();
 			throwing->Set_Name("throwing");
 			throwing->Set_Tag("throwing");
 			throwing->AddComponent(new Sprite(throwing, "../Sprite/Item/bullet.png", m_target->GetTransform().GetTranslation()));
@@ -69,13 +69,12 @@ void Msg_Func_Item_Throwing::Update(float dt)
 			ObjectManager::GetObjectManager()->AddObject(throwing);
 			info_player->Change_To_Normal_State();
 
-			//particle->Update(dt, throwing, 1, vector2(-throwing->GetScale_Reference() / 2.0f));
-			//particle->Draw(throwing);
+
 			m_target->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing)->Set_Need_Update(false);
 			msg->Set_Should_Delete(true);
 
 		}
-		else if(info_player->Get_Char_State() == Player::Char_State::None)
+		else if (info_player->Get_Char_State() == Player::Char_State::None)
 		{
 			info_player->Change_To_Normal_State();
 			m_target->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing)->Set_Need_Update(false);
@@ -83,5 +82,12 @@ void Msg_Func_Item_Throwing::Update(float dt)
 			delete particle;
 		}
 	}
+	if (particle != nullptr && throwing != nullptr)
+	{
+		particle->Update(dt, throwing, 1, vector2(-throwing->GetScale_Reference() / 2.0f));
+		particle->Draw(throwing);
+	}
+
+
 	
 }
