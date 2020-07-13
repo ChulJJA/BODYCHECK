@@ -74,7 +74,7 @@ void Loading_Scene::Update(float dt)
 		image->SetScale(vector2{ 19.f , 12.f});
 
 		bool is_done = true;
-		rewind(stdin);
+		//rewind(stdin);
 		while (is_done)
 		{
 			glfwSwapBuffers(Application::Get_Application()->Get_Window());
@@ -90,7 +90,7 @@ void Loading_Scene::Update(float dt)
 			{
 				image->Find_Sprite_By_Type(Sprite_Type::Loading_Press)->Update(dt);
 
-				if (GetKeyState(VK_SPACE) > 0)
+				if (GetKeyState(VK_SPACE) & 0x8000)
 				{
 					sound.Play(SOUND::GameStart);
 					Sleep(1000);
