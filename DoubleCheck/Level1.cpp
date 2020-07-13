@@ -347,6 +347,7 @@ void Level1::Pause()
 
 	if (input.Is_Key_Pressed(GLFW_KEY_ESCAPE) || gamepadManager->GetButtonDown(xButtons.Back) || gamepadManagerSec->GetButtonDown(xButtons.Back))
 	{
+		sound.StopAllSFX();
 		sound.Play(SOUND::Click);
 		is_pause = true;
 	}

@@ -305,6 +305,7 @@ void Tutorial::BackToMenu()
 				Sleep(1000);
 				r_u_sure_come = false;
 				r_u_sure = true;
+				sound.StopAllSFX();
 			}
 			else if ((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)) && r_u_sure_current_sprite == r_u_sure_no_sprite)
 			{
