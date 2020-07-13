@@ -280,3 +280,16 @@ void Sound::SetSoundGroupVolume(bool is_bgm, float volume)
 		ErrorCheck(result);
 	}
 }
+
+void Sound::StopAllSFX()
+{
+	for (int count = static_cast<int>(SOUND::PauseBGM) + 1; count < static_cast<int>(SOUND::END); ++count)
+	{
+		FMOD_BOOL isSFXPlaying;
+		FMOD_Channel_IsPlaying(channel[count], &isSFXPlaying);
+		if(isSFXPlaying)
+		{
+			Stop(static_cast<SOUND>(count));
+		}
+	}
+}
