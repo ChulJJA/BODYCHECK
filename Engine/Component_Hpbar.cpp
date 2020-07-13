@@ -74,6 +74,13 @@ void Hp_Bar::Decrease(float dmg)
 
 					Message_Manager::Get_Message_Manager()->Save_Message(new Message(
 						audience, die_obj_audience, Message_Kind::Audience_Red_Joy, 3.f));
+
+					Object* die_obj_audience2 = ObjectManager::GetObjectManager()->Find_Object_By_Name("audience_normal");
+
+					Object* audience2 = ObjectManager::GetObjectManager()->Find_Object_By_Name("audience_green");
+
+					Message_Manager::Get_Message_Manager()->Save_Message(new Message(
+						audience2, die_obj_audience2, Message_Kind::Audience_Red_Joy, 3.f));
 				}
 				else if (hitting_obj->GetName() == "third")
 				{
@@ -81,6 +88,14 @@ void Hp_Bar::Decrease(float dmg)
 
 					Message_Manager::Get_Message_Manager()->Save_Message(new Message(
 						audience, die_obj_audience, Message_Kind::Audience_Blue_Joy, 3.f));
+
+					Object* die_obj_audience2 = ObjectManager::GetObjectManager()->Find_Object_By_Name("audience_green");
+
+					Object* audience2 = ObjectManager::GetObjectManager()->Find_Object_By_Name("audience_normal");
+
+					Message_Manager::Get_Message_Manager()->Save_Message(new Message(
+						audience2, die_obj_audience2, Message_Kind::Audience_Blue_Joy, 3.f));
+
 					//Message_Manager::Get_Message_Manager()->Save_Message(new Message(Referee::Get_Referee()->Get_Third_Kill(), 
 						//nullptr, Message_Kind::));
 				}

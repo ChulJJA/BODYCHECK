@@ -38,7 +38,7 @@ void Msg_Func_Collision::Update(float dt)
 	{
 		Component* target_current_sprite = m_target->Get_Current_Sprite();
 		Component* target_item_sprite = m_target->Find_Sprite_By_Type(Sprite_Type::Item);
-		Referee::Get_Referee()->Decre_Curr_Item_Field_Num();
+
 
 		if (target_current_sprite == target_item_sprite)
 		{
@@ -361,6 +361,7 @@ void Msg_Func_Collision::Update(float dt)
 void Msg_Func_Collision::Player_Get_Item(Object* player, Object* item)
 {
 	sound.Play(SOUND::Item);
+	Referee::Get_Referee()->Decre_Curr_Item_Field_Num();
 	item->Change_Sprite(item->Find_Sprite_By_Type(Sprite_Type::Item_Eateffect));
 	Message_Manager::Get_Message_Manager()->Save_Message(new Message(item, nullptr, Message_Kind::Delete_Object, 0.5f));
 

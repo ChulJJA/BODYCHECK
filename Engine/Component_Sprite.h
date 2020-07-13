@@ -70,6 +70,7 @@ enum class Sprite_Type
 	Reverse_Showing,
 
 	Audience_Normal,
+    Audience_Cheerup,
     Audience_Joy,
     Audience_Sad,
 	Audience_Red_Good,
