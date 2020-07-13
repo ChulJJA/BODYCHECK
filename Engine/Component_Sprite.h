@@ -102,7 +102,16 @@ enum class Sprite_Type
     Credit_Third,
 	Credit_Fourth,
 	Credit_Fifth,
-	Credit_Sixth
+	Credit_Sixth,
+
+    Explanation_Staff_Normal,
+    Explanation_Staff_Booster,
+    Explanation_Staff_Gun,
+    Explanation_Staff_TP,
+    Explanation_Staff_Heal,
+    Explanation_Staff_Bulkup,
+    Explanation_Staff_Reverse,
+    Explanation_Staff_Missile,
 };
 
 
