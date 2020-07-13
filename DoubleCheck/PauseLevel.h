@@ -18,11 +18,11 @@ class PauseLevel : public State
 {
     enum class BUTTON
     {
+    	BACK,
         RESTART,
     	MAINMENU,
     	OPTION,
-    	QUIT,
-    	BACK
+    	QUIT
     };
 public:
     PauseLevel()

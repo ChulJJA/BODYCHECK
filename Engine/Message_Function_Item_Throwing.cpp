@@ -40,6 +40,8 @@ void Msg_Func_Item_Throwing::Init()
 			//obj->Change_Sprite(obj->Find_Sprite_By_Type(Sprite_Type::Player_Ready));
 			
 			info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Use, Ui::Ui_Status_Obj::Item_Throwing);
+
+			//particle = new ParticleGenerator(obj, 20, "../Sprite/ParticleCollision.png", ParticleType::SPEEDMODE);
 		}
 	}
 }
@@ -67,14 +69,18 @@ void Msg_Func_Item_Throwing::Update(float dt)
 			ObjectManager::GetObjectManager()->AddObject(throwing);
 			info_player->Change_To_Normal_State();
 
+			//particle->Update(dt, throwing, 1, vector2(-throwing->GetScale_Reference() / 2.0f));
+			//particle->Draw(throwing);
 			m_target->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing)->Set_Need_Update(false);
 			msg->Set_Should_Delete(true);
+
 		}
 		else if(info_player->Get_Char_State() == Player::Char_State::None)
 		{
 			info_player->Change_To_Normal_State();
 			m_target->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing)->Set_Need_Update(false);
 			msg->Set_Should_Delete(true);
+			delete particle;
 		}
 	}
 	

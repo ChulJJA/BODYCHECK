@@ -254,7 +254,7 @@ void Tutorial::SetStaffAndExplanation()
 		false, Sprite_Type::Explanation_Staff_Heal), "heal", false);
 	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/MissileStaff.png", staff_sec_pos,
 		false, Sprite_Type::Explanation_Staff_Missile), "missile", false);
-	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/PoisionStaff_third.png", staff_sec_pos,
+	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/PoisionStaff.png", staff_sec_pos,
 		false, Sprite_Type::Explanation_Staff_Reverse), "reverse", false);
 	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/TPStaff.png", staff_sec_pos,
 		false, Sprite_Type::Explanation_Staff_TP), "time", false);

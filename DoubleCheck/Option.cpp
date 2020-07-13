@@ -49,6 +49,7 @@ void Option::Load()
 	SetMusicIcon();
 	SetMuteButton();
 	SetFullScreenButton();
+	SetLifeButton();
 	SetBackButton();
 }
 
@@ -89,6 +90,9 @@ void Option::Clear()
 	background->SetDeadCondition(true);
 	pointer1->SetDeadCondition(true);
 	pointer2->SetDeadCondition(true);
+	lifeButton->SetDeadCondition(true);
+	lifeButtonHover->SetDeadCondition(true);
+	lifeBox->SetDeadCondition(true);
 }
 
 void Option::SetBackground()
@@ -112,7 +116,7 @@ void Option::SetMusicIcon()
 	ObjectManager::GetObjectManager()->AddObject(music_icon[0]);
 
 	music_icon[1] = new Object();
-	music_icon[1]->AddComponent(new Sprite(music_icon[1], "../Sprite/icon.png", { -550 + initial_sfx_icon, -760 }, false));
+	music_icon[1]->AddComponent(new Sprite(music_icon[1], "../Sprite/icon.png", { -550 + initial_sfx_icon, -640 }, false));
 	music_icon[1]->GetTransform().SetScale({ 10, 10 });
 	ObjectManager::GetObjectManager()->AddObject(music_icon[1]);
 }
@@ -131,13 +135,13 @@ void Option::SetMusicVolumeBox()
 	ObjectManager::GetObjectManager()->AddObject(volume_box_hover[0]);
 
 	volume_box[1] = new Object();
-	volume_box[1]->AddComponent(new Sprite(volume_box[1], "../Sprite/VolumeBox.png", { 20, -480 }, false));
+	volume_box[1]->AddComponent(new Sprite(volume_box[1], "../Sprite/VolumeBox.png", { 20, -360 }, false));
 	volume_box[1]->GetTransform().SetScale({ 20, 15 });
 	ObjectManager::GetObjectManager()->AddObject(volume_box[1]);
 
 
 	volume_box_hover[1] = new Object();
-	volume_box_hover[1]->AddComponent(new Sprite(volume_box_hover[1], "../Sprite/buttonUIhover_SFX.png", { 0, -200 }, false));
+	volume_box_hover[1]->AddComponent(new Sprite(volume_box_hover[1], "../Sprite/buttonUIhover_SFX.png", { 0, -130 }, false));
 	volume_box_hover[1]->GetTransform().SetScale({ 5, 5 });
 	volume_box_hover[1]->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1, 1,1, 0 };
 	ObjectManager::GetObjectManager()->AddObject(volume_box_hover[1]);
@@ -148,7 +152,7 @@ void Option::SetMusicVolumeBox()
 	ObjectManager::GetObjectManager()->AddObject(volume_box[2]);
 
 	volume_box[3] = new Object();
-	volume_box[3]->AddComponent(new Sprite(volume_box[3], "../Sprite/buttonUI_SFX.png", { 0, -200 }, false));
+	volume_box[3]->AddComponent(new Sprite(volume_box[3], "../Sprite/buttonUI_SFX.png", { 0, -130 }, false));
 	volume_box[3]->GetTransform().SetScale({ 5, 5 });
 	ObjectManager::GetObjectManager()->AddObject(volume_box[3]);
 }
@@ -274,11 +278,11 @@ void Option::SetMuteButton()
 	ObjectManager::GetObjectManager()->AddObject(unmute_button[0]);
 
 	mute_button[1] = new Object();
-	mute_button[1]->AddComponent(new Sprite(mute_button[1], "../Sprite/Mute.png", { 960, -450 }, false));
+	mute_button[1]->AddComponent(new Sprite(mute_button[1], "../Sprite/Mute.png", { 960, -330 }, false));
 	mute_button[1]->GetTransform().SetScale({ 1, 1 });
 	ObjectManager::GetObjectManager()->AddObject(mute_button[1]);
 	unmute_button[1] = new Object();
-	unmute_button[1]->AddComponent(new Sprite(unmute_button[1], "../Sprite/Unmute.png", { 960, -450 }, false));
+	unmute_button[1]->AddComponent(new Sprite(unmute_button[1], "../Sprite/Unmute.png", { 960, -330 }, false));
 	unmute_button[1]->GetTransform().SetScale({ 1, 1 });
 	unmute_button[1]->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
 	ObjectManager::GetObjectManager()->AddObject(unmute_button[1]);
@@ -341,12 +345,12 @@ void Option::SetFullScreenButton()
 void Option::SetBackButton()
 {
 	back_button = new Object();
-	back_button->AddComponent(new Sprite(back_button, "../Sprite/BackButton.png", { 0, -700 }, false));
+	back_button->AddComponent(new Sprite(back_button, "../Sprite/BackButton.png", { 0, -880 }, false));
 	back_button->GetTransform().SetScale({ 5, 5 });
 	ObjectManager::GetObjectManager()->AddObject(back_button);
 
 	back_button_hover = new Object();
-	back_button_hover->AddComponent(new Sprite(back_button_hover, "../Sprite/BackButtonHover.png", { 0, -700 }, false));
+	back_button_hover->AddComponent(new Sprite(back_button_hover, "../Sprite/BackButtonHover.png", { 0, -880 }, false));
 	back_button_hover->GetTransform().SetScale({ 5, 5 });
 	back_button_hover->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
 	ObjectManager::GetObjectManager()->AddObject(back_button_hover);
@@ -380,21 +384,29 @@ void Option::ButtonSelector()
 			sound.Play(SOUND::Click);
 			ObjectHover(volume_box[3], volume_box_hover[1]);
 			ObjectHover(volume_box_hover[0], volume_box[2]);
-			pointer1->SetTranslation({ -320,-200 });
-			pointer2->SetTranslation({ 320,-200 });
+			pointer1->SetTranslation({ -320,-140 });
+			pointer2->SetTranslation({ 320,-140 });
+		}
+		else if(pointer == static_cast<int>(BUTTON::LIFE))
+		{
+			sound.Play(SOUND::Click);
+			ObjectHover(lifeButton, lifeButtonHover);
+			ObjectHover(volume_box_hover[1], volume_box[3]);
+			pointer1->SetTranslation({ -320,-500 });
+			pointer2->SetTranslation({ 320,-500 });
 		}
 		else if (pointer == static_cast<int>(BUTTON::BACK))
 		{
 			sound.Play(SOUND::Click);
 			ObjectHover(back_button, back_button_hover);
-			ObjectHover(volume_box_hover[1], volume_box[3]);
-			pointer1->SetTranslation({ -320,-700 });
-			pointer2->SetTranslation({ 320,-700 });
+			ObjectHover(lifeButtonHover, lifeButton);
+			pointer1->SetTranslation({ -320,-880 });
+			pointer2->SetTranslation({ 320,-880 });
 		}
 
-		if (pointer > 3)
+		if (pointer > 4)
 		{
-			pointer = 3;
+			pointer = 4;
 		}
 
 		button_timer = 0;
@@ -423,16 +435,24 @@ void Option::ButtonSelector()
 		{
 			sound.Play(SOUND::Click);
 			ObjectHover(volume_box[3], volume_box_hover[1]);
+			ObjectHover(lifeButtonHover, lifeButton);
+			pointer1->SetTranslation({ -320,-140 });
+			pointer2->SetTranslation({ 320,-140 });
+		}
+		else if (pointer == static_cast<int>(BUTTON::LIFE))
+		{
+			sound.Play(SOUND::Click);
+			ObjectHover(lifeButton, lifeButtonHover);
 			ObjectHover(back_button_hover, back_button);
-			pointer1->SetTranslation({ -320,-200 });
-			pointer2->SetTranslation({ 320,-200 });
+			pointer1->SetTranslation({ -320,-500 });
+			pointer2->SetTranslation({ 320,-500 });
 		}
 		else if (pointer == static_cast<int>(BUTTON::BACK))
 		{
 			sound.Play(SOUND::Click);
 			ObjectHover(back_button, back_button_hover);
-			pointer1->SetTranslation({ -320,-700 });
-			pointer2->SetTranslation({ 320,-700 });
+			pointer1->SetTranslation({ -320,-880 });
+			pointer2->SetTranslation({ 320,-880 });
 		}
 
 		if (pointer < 0)
@@ -442,6 +462,25 @@ void Option::ButtonSelector()
 
 		button_timer = 0;
 	}
+}
+
+void Option::SetLifeButton()
+{
+	lifeButton = new Object();
+	lifeButton->AddComponent(new Sprite(lifeButton, "../Sprite/BackButton.png", { 0, -500 }, false));
+	lifeButton->GetTransform().SetScale({ 5, 5 });
+	ObjectManager::GetObjectManager()->AddObject(lifeButton);
+
+	lifeButtonHover = new Object();
+	lifeButtonHover->AddComponent(new Sprite(lifeButtonHover, "../Sprite/BackButtonHover.png", { 0, -500 }, false));
+	lifeButtonHover->GetTransform().SetScale({ 5, 5 });
+	lifeButtonHover->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
+	ObjectManager::GetObjectManager()->AddObject(lifeButtonHover);
+
+	lifeBox = new Object();
+	lifeBox->AddComponent(new Sprite(lifeBox, "../Sprite/VolumeBox.png", { 20, -720 }, false));
+	lifeBox->GetTransform().SetScale({ 20, 15 });
+	ObjectManager::GetObjectManager()->AddObject(lifeBox);
 }
 
 void Option::SetSoundVolume(float value, bool isBGM)

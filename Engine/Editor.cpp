@@ -111,7 +111,7 @@ void Editor::Setting_Display(float offset, float pos_y)
 	init_pos_x += offset;
 	display_item_throwing = Make_Display("../Sprite/Item/throwing_showing.png", { init_pos_x,pos_y }, Item::Item_Kind::Throwing);
 	init_pos_x += offset;
-	display_item_mine = Make_Display("../Sprite/Item/mine.png", { init_pos_x,pos_y }, Item::Item_Kind::Mine);
+	display_item_mine = Make_Display("../Sprite/Item/mine_.png", { init_pos_x,pos_y }, Item::Item_Kind::Mine);
 	init_pos_x += offset;
 }
 

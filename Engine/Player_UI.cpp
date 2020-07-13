@@ -59,7 +59,7 @@ void PLAYER_UI::Initialize()
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/time_pause.png", item_trans, false, Sprite_Type::Item_Timepause), "time_pause", false);
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/reverse_moving.png", item_trans, false, Sprite_Type::Item_Reverse), "reverse_moving", false);
 	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/missile_launcher_showing.png", item_trans, false, Sprite_Type::Item_Missile), "missile", false);
-	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/mine.png", item_trans, false, Sprite_Type::Item_Mine), "mine", false);
+	info_item->AddComponent(new Sprite(info_item, "../Sprite/Item/mine_.png", item_trans, false, Sprite_Type::Item_Mine), "mine", false);
     info_item->Set_Name(this->GetName() + "info_item");
 	info_item->Set_Current_Sprite(info_item->Find_Sprite_By_Type(Sprite_Type::None));
     ObjectManager::GetObjectManager()->AddObject(info_item);
