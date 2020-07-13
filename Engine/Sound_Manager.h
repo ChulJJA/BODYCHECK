@@ -55,6 +55,8 @@ enum class SOUND
 	EndBulkUp,
 	GameStart,
 	WinCrowd,
+	Plask,
+	PlaskHoming,
 	END
 };
 

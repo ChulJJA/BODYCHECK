@@ -13,6 +13,7 @@
 #include "Component_Player.h"
 #include "angles.hpp"
 #include "Physics.h"
+#include "Engine.hpp"
 
 void Missile::Init(Object* obj)
 {
@@ -24,7 +25,7 @@ void Missile::Init(Object* obj)
 void Missile::Update(float dt)
 {
 	vector2& pos = m_owner->GetTransform().GetTranslation_Reference();
-	
+	plaskSound += dt;
 	if (target != nullptr)
 	{
 		obj_pos = target->GetTransform().GetTranslation();
@@ -36,6 +37,11 @@ void Missile::Update(float dt)
 
 		Rotating_Toward_Target(pos);
 		Homing(target_dir, pos);
+		if(m_owner->GetName() == "plask" && plaskSound >= 0.35)
+		{
+			sound.Play(SOUND::PlaskHoming);
+			plaskSound = 0;
+		}
 		
 		if (m_owner->GetName() == "missile")
 		{

@@ -162,6 +162,12 @@ void Sound::LoadSound()
 	result = FMOD_System_CreateSound(f_system, "Sounds/WinCrowd.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::WinCrowd)]);
 	ErrorCheck(result);
 
+	result = FMOD_System_CreateSound(f_system, "Sounds/Plask.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::Plask)]);
+	ErrorCheck(result);
+
+	result = FMOD_System_CreateSound(f_system, "Sounds/PlaskHoming.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::PlaskHoming)]);
+	ErrorCheck(result);
+
 	result = FMOD_System_CreateSoundGroup(f_system, "BGM", &bgm_group);
 	ErrorCheck(result);
 	

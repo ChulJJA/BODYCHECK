@@ -49,4 +49,6 @@ private:
 	Physics* physics;	
 
 	ParticleGenerator* missile_particle;
+
+	float plaskSound = 0;
 };

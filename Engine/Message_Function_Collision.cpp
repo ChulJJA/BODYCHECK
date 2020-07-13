@@ -94,6 +94,7 @@ void Msg_Func_Collision::Update(float dt)
 				}
 				else
 				{
+					sound.Play(SOUND::Plask);
 					Player* player_info_target = m_from->GetComponentByTemplate<Player>();
 					player_info_target->Set_Char_State(Player::Char_State::Reverse_Moving);
 					m_from->Change_Sprite(m_from->Find_Sprite_By_Type(Sprite_Type::Player_Reverse_Moving));
@@ -164,6 +165,7 @@ void Msg_Func_Collision::Update(float dt)
 				}
 				else
 				{
+					sound.Play(SOUND::Plask);
 					Player* player_info_target = m_target->GetComponentByTemplate<Player>();
 					player_info_target->Set_Char_State(Player::Char_State::Reverse_Moving);
 					m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Reverse_Moving));
