@@ -87,6 +87,7 @@ public:
 	void StopAllSFX();
 	bool isInitialized;
 	float mineAlarm = 60.f;
+	SOUND currentBGM;
 private:
 	float volume_info[SOUND_NUM] = {};
 	float SFX_Volume = 0.5f;

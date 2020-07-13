@@ -17,6 +17,8 @@
 #include "Component_Player.h"
 #include "Message_Kind.h"
 #include "ObjectManager.h"
+#include "Sound_Manager.h"
+#include "Engine.hpp"
 
 void Hp_Bar::Init(Object* obj)
 {
@@ -130,6 +132,21 @@ void Hp_Bar::Damaging(float dt)
 	}
 	else
 	{
+		if (hp_owner->GetComponentByTemplate<Player>()->Get_Char_State() == Player::Char_State::Time_Pause)
+		{
+			FMOD_BOOL isBGMPlaying;
+			FMOD_BOOL isClocking;
+			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(sound.currentBGM)], &isBGMPlaying);
+			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::ClockTicking)], &isClocking);
+			if (!isBGMPlaying)
+			{
+				sound.Play(sound.currentBGM);
+			}
+			if (isClocking)
+			{
+				sound.Stop(SOUND::ClockTicking);
+			}
+		}
 		hp_owner->GetComponentByTemplate<Player>()->Change_To_Normal_State();
 		curr_state = Hp_Bar_State::None;
 	}
