@@ -97,11 +97,7 @@ void Msg_Func_Item_Time_Pause::Update(float dt)
 			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isBGMPlaying);
 			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::MatchBGM)], &isMatchBGMPlaying);
 			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::ClockTicking)], &isClocking);
-			if(prevBGM == "MatchBGM" && !isMatchBGMPlaying)
-			{
-				sound.Play(SOUND::MatchBGM);
-			}
-			else if(prevBGM == "BGM2" && !isBGMPlaying)
+			if(!isBGMPlaying)
 			{
 				sound.Play(SOUND::BGM2);
 			}

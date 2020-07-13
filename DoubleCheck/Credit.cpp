@@ -84,7 +84,7 @@ void Credit::Update(float dt)
 		}
 		else if (credit_current_sprite == credit_third_sprite)
 		{
-			credit->Change_Sprite(credit->Find_Sprite_By_Type(Sprite_Type::Credit_Fourth));
+			credit->Change_Sprite(credit->Find_Sprite_By_Type(Sprite_Type::Credit_Fourth ));
 			sound.Play(SOUND::Selected);
 		}
 		
@@ -112,7 +112,7 @@ void Credit::SetTestSprite()
 {
 	credit = new Object();
 	credit->Set_Name("credit");
-	credit->AddComponent(new Sprite(credit, "../Sprite/DigipenLogo.png", { 0, 0 }, false, Sprite_Type::Credit_First), "credit", true);
+	credit->AddComponent(new Sprite(credit, "../Sprite/Credit1.png", { 0, 0 }, false, Sprite_Type::Credit_First), "credit", true);
 	credit->AddComponent(new Sprite(credit, "../Sprite/Credit2.png", { 0, 0 }, false, Sprite_Type::Credit_Second), "sec", false);
 	credit->AddComponent(new Sprite(credit, "../Sprite/Credit3.png", { 0, 0 }, false, Sprite_Type::Credit_Third), "third", false);
 	credit->AddComponent(new Sprite(credit, "../Sprite/Credit4.png", { 0, 0 }, false, Sprite_Type::Credit_Fourth), "fourth", false);
