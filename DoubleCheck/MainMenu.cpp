@@ -405,6 +405,7 @@ void MainMenu::ButtonSelector()
 		}
 		else if (((input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER)) || gamepadManager->GetButtonDown(xButtons.A)) && pointer == static_cast<int>(BUTTON::CREDIT))
 		{
+			sound.StopAllSFX();
 			pointer = static_cast<int>(BUTTON::START);
 			sound.Play(SOUND::Selected);
 			is_next = true;
