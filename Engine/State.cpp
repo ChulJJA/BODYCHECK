@@ -143,7 +143,7 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 		{ 255,255,255,255 }, Sprite_Type::Player_Fat, is_debug_mode), "fat", false);
 
 
-	player->AddComponent(new Sprite(player, sprite_path_reverse_moving_pen.c_str(), true, 2, 8, pos, { 100.f,100.f },
+	player->AddComponent(new Sprite(player, sprite_path_reverse_moving_pen.c_str(), true, 4, 8, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Reverse_Moving), "reverse", false);
 
 

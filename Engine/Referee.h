@@ -145,6 +145,12 @@ public:
     void Set_Sec_Player_Info(vector2 pos, vector2 scale, std::string path);
     void Set_Third_Player_Info(vector2 pos, vector2 scale, std::string path);
     void Separate_Player();
+    void Set_Audience_Cheerup_mode(float dt);
+    bool Get_Is_CheerUp_Mode()
+    {
+        return is_cheerup_mode;
+    }
+
 private:
     Referee();
     static Referee* referee;
@@ -243,4 +249,8 @@ private:
     std::string player_third_sprite_path;
 
     bool playOnce = false;
+    bool change_once = false;
+    bool aud_is_cheerup_mode_finish = false;
+    std::vector<Object*> audience_vec;
+    bool is_cheerup_mode = false;
 };
