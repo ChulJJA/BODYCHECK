@@ -150,6 +150,10 @@ public:
     {
         return is_cheerup_mode;
     }
+    void Set_CheerUp_Mode(bool toggle)
+    {
+        is_cheerup_mode = toggle;
+    }
 
 private:
     Referee();

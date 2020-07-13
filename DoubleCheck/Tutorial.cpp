@@ -111,37 +111,15 @@ void Tutorial::Load()
 		Player_Second = Make_Player("second", "player", "pen_red2", { -800.f, 0.f }, { 4.f, 4.f }, true);
 		Player_Third = Make_Player("third", "player", "pen_blue2", { 800.f,0.f }, { 4.f, 4.f }, true);
 
-		description_second = new Object();
-		description_second->AddComponent(new Sprite(description_second, "../Sprite/UI/p1_selected.png", { -500, 800 }, false), "desc_sec", true);
-		description_second->SetScale(5.f);
-		description_third = new Object();
-		description_third->AddComponent(new Sprite(description_third, "../Sprite/UI/p2_selected.png", { 300, 800 }, false), "desc_third", true);
-		description_third->SetScale(5.f);
-		ObjectManager::GetObjectManager()->AddObject(description_second);
-		ObjectManager::GetObjectManager()->AddObject(description_third);
-
-
 		Player_Second->Get_Belongs_Objects().clear();
 		Player_Third->Get_Belongs_Objects().clear();
 
-		/*Player_Second->Set_Need_To_Update(false);
-		Player_Second->SetNeedCollision(false);
-		Player_Third->Set_Need_To_Update(false);
-		Player_Third->SetNeedCollision(false);*/
 
 		Player_Second->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Second_UI);
 		Player_Third->GetComponentByTemplate<Player>()->Set_This_UI_info(Player_Third_UI);
 
-
-
-		//Referee::Get_Referee()->Set_First_Ui(Player_First_UI);
-		//Referee::Get_Referee()->Set_Second_Ui(Player_Second_UI);
-		//Referee::Get_Referee()->Set_Third_Ui(Player_Third_UI);
-		//Referee::Get_Referee()->Set_Fourth_Ui(Player_Fourth_UI);
 		Referee::Get_Referee()->Set_Curr_Sec_Player(Player_Second);
 		Referee::Get_Referee()->Set_Curr_Third_Player(Player_Third);
-
-
 
 		Graphic::GetGraphic()->get_need_update_sprite() = true;
 
@@ -166,22 +144,66 @@ void Tutorial::Update(float dt)
 
 	FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isBGMPlaying);
 
-	//referee->Update(dt);
-
-	/*if (timer_deleted == false)
+	Player* sec_player_info = Player_Second->GetComponentByTemplate<Player>();
+	Item::Item_Kind second_kind = sec_player_info->Get_Item_State();
+	switch (second_kind)
 	{
-		std::vector<Object*> timers = ObjectManager::GetObjectManager()->Find_Objects_By_Tag("timer");
-		int size = timers.size();
+	case Item::Item_Kind::Bulkup:
+		Explanation_Staff_sec->Change_Sprite(Explanation_Staff_sec->Find_Sprite_By_Type(Sprite_Type::Explanation_Staff_Bulkup));
+		break;
+	case Item::Item_Kind::HP:
+		Explanation_Staff_sec->Change_Sprite(Explanation_Staff_sec->Find_Sprite_By_Type(Sprite_Type::Explanation_Staff_Heal));
+		break;
+	case Item::Item_Kind::Throwing:
+		Explanation_Staff_sec->Change_Sprite(Explanation_Staff_sec->Find_Sprite_By_Type(Sprite_Type::Explanation_Staff_Gun));
+		break;
+	case Item::Item_Kind::Time_Pause:
+		Explanation_Staff_sec->Change_Sprite(Explanation_Staff_sec->Find_Sprite_By_Type(Sprite_Type::Explanation_Staff_TP));
+		break;
+	case Item::Item_Kind::Missile:
+		Explanation_Staff_sec->Change_Sprite(Explanation_Staff_sec->Find_Sprite_By_Type(Sprite_Type::Explanation_Staff_Missile));
+		break;
+	case Item::Item_Kind::Reverse_Moving:
+		Explanation_Staff_sec->Change_Sprite(Explanation_Staff_sec->Find_Sprite_By_Type(Sprite_Type::Explanation_Staff_Reverse));
+		break;
+	case Item::Item_Kind::Dash:
+		Explanation_Staff_sec->Change_Sprite(Explanation_Staff_sec->Find_Sprite_By_Type(Sprite_Type::Explanation_Staff_Booster));
+		break;
+	default:
+		Explanation_Staff_sec->Change_Sprite(Explanation_Staff_sec->Find_Sprite_By_Type(Sprite_Type::Explanation_Staff_Normal));
+		break;
+	}
 
-		for (int i = 0; i < size; i++)
-		{
-			timers.at(i)->SetDeadCondition(true);
-		}
-
-		timer_deleted = true;
-	}*/
-
-	//EventCheck();
+	Player* third_player_info = Player_Third->GetComponentByTemplate<Player>();
+	Item::Item_Kind third_kind = third_player_info->Get_Item_State();
+	switch (third_kind)
+	{
+	case Item::Item_Kind::Bulkup:
+		Explanation_Staff_third->Change_Sprite(Explanation_Staff_third->Find_Sprite_By_Type(Sprite_Type::Explanation_Staff_Bulkup));
+		break;
+	case Item::Item_Kind::HP:
+		Explanation_Staff_third->Change_Sprite(Explanation_Staff_third->Find_Sprite_By_Type(Sprite_Type::Explanation_Staff_Heal));
+		break;
+	case Item::Item_Kind::Throwing:
+		Explanation_Staff_third->Change_Sprite(Explanation_Staff_third->Find_Sprite_By_Type(Sprite_Type::Explanation_Staff_Gun));
+		break;
+	case Item::Item_Kind::Time_Pause:
+		Explanation_Staff_third->Change_Sprite(Explanation_Staff_third->Find_Sprite_By_Type(Sprite_Type::Explanation_Staff_TP));
+		break;
+	case Item::Item_Kind::Missile:
+		Explanation_Staff_third->Change_Sprite(Explanation_Staff_third->Find_Sprite_By_Type(Sprite_Type::Explanation_Staff_Missile));
+		break;
+	case Item::Item_Kind::Reverse_Moving:
+		Explanation_Staff_third->Change_Sprite(Explanation_Staff_third->Find_Sprite_By_Type(Sprite_Type::Explanation_Staff_Reverse));
+		break;
+	case Item::Item_Kind::Dash:
+		Explanation_Staff_third->Change_Sprite(Explanation_Staff_third->Find_Sprite_By_Type(Sprite_Type::Explanation_Staff_Booster));
+		break;
+	default:
+		Explanation_Staff_third->Change_Sprite(Explanation_Staff_third->Find_Sprite_By_Type(Sprite_Type::Explanation_Staff_Normal));
+		break;
+	}
+	
 
 	editor->Update(dt);
 	
@@ -219,31 +241,49 @@ void Tutorial::SetStaffAndExplanation()
 {
 	Explanation_Staff_sec = new Object();
 	Explanation_Staff_sec->Set_Name("staff");
-	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/Staff.png", { -800.f, -800.f }, false), "staffNone", true);
-	Explanation_Staff_sec->SetScale({10, 10});
-	/*Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/BulkUpStaff.png", { -900.f, -800.f }, false));
-	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/BoosterStaff.png", { -900.f, -800.f }, false));
-	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/MissileStaff.png", { -900.f, -800.f }, false));
-	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/HealStaff.png", { -900.f, -800.f }, false));
-	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/PoisonStaff.png", { -900.f, -800.f }, false));
-	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/GunStaff.png", { -900.f, -800.f }, false));
-	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/TPStaff.png", { -900.f, -800.f }, false));*/
+	vector2 staff_sec_pos = { -1000.f, 300.f };
+	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/Staff_sec.png", staff_sec_pos, 
+		false, Sprite_Type::Explanation_Staff_Normal), "normal", true);
+	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/BoosterStaff.png", staff_sec_pos,
+		false, Sprite_Type::Explanation_Staff_Booster), "booster", false);
+	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/BulkUpStaff.png", staff_sec_pos,
+		false, Sprite_Type::Explanation_Staff_Bulkup), "bulkup", false);
+	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/GunStaff.png", staff_sec_pos,
+		false, Sprite_Type::Explanation_Staff_Gun), "gun", false);
+	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/HealStaff.png", staff_sec_pos,
+		false, Sprite_Type::Explanation_Staff_Heal), "heal", false);
+	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/MissileStaff.png", staff_sec_pos,
+		false, Sprite_Type::Explanation_Staff_Missile), "missile", false);
+	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/PoisionStaff.png", staff_sec_pos,
+		false, Sprite_Type::Explanation_Staff_Reverse), "reverse", false);
+	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/TPStaff.png", staff_sec_pos,
+		false, Sprite_Type::Explanation_Staff_TP), "time", false);
+	Explanation_Staff_sec->SetScale({15, 15});
 	
-	ObjectManager::GetObjectManager()->Add_Object_Instancing(Explanation_Staff_sec);
+	ObjectManager::GetObjectManager()->AddObject(Explanation_Staff_sec);
 
 	Explanation_Staff_third = new Object();
 	Explanation_Staff_third->Set_Name("staff");
-	Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/Staff.png", { 600.f, -800.f }, false), "staffNoneThird", true);
-	Explanation_Staff_third->SetScale({ 10, 10 });
-	//Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/BulkUpStaff.png", { 600.f, -800.f }, false));
-	//Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/BoosterStaff.png", { 600.f, -800.f }, false));
-	//Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/MissileStaff.png", { 600.f, -800.f }, false));
-	//Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/HealStaff.png", { 600.f, -800.f }, false));
-	//Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/PoisonStaff.png", { 600.f, -800.f }, false));
-	//Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/GunStaff.png", { 600.f, -800.f }, false));
-	//Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/TPStaff.png", { 600.f, -800.f }, false));
+	vector2 staff_third_pos = { 1000.f, 300.f };
+	Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/Staff_third.png", staff_third_pos,
+		false, Sprite_Type::Explanation_Staff_Normal), "normal", true);
+	Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/BoosterStaff_third.png", staff_third_pos,
+		false, Sprite_Type::Explanation_Staff_Booster), "booster", false);
+	Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/BulkUpStaff_third.png", staff_third_pos,
+		false, Sprite_Type::Explanation_Staff_Bulkup), "bulkup", false);
+	Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/Gun_third.png", staff_third_pos,
+		false, Sprite_Type::Explanation_Staff_Gun), "gun", false);
+	Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/HealStaff_third.png", staff_third_pos,
+		false, Sprite_Type::Explanation_Staff_Heal), "heal", false);
+	Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/MissileStaff_third.png", staff_third_pos,
+		false, Sprite_Type::Explanation_Staff_Missile), "missile", false);
+	Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/PoisionStaff_third.png", staff_third_pos,
+		false, Sprite_Type::Explanation_Staff_Reverse), "reverse", false);
+	Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/TPStaff_third.png", staff_third_pos,
+		false, Sprite_Type::Explanation_Staff_TP), "time", false);
+	Explanation_Staff_third->SetScale({ 15, 15 });
 
-	ObjectManager::GetObjectManager()->Add_Object_Instancing(Explanation_Staff_third);
+	ObjectManager::GetObjectManager()->AddObject(Explanation_Staff_third);
 }
 
 

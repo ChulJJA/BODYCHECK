@@ -10,6 +10,7 @@
  */
 
 #include "Engine.hpp"
+extern int life = 3;
 
 #if _DEBUG
 int main()

@@ -24,6 +24,9 @@
 #include "UsefulTools.hpp"
 #include "StateManager.h"
 #include "Gamepad.hpp"
+
+extern int life;
+
 namespace
 {
 	ObjectManager* object_manager = nullptr;
@@ -39,18 +42,34 @@ void Option::Load()
 	gamepadManager = Gamepad::getGamepad();
 	Graphic::GetGraphic()->Get_View().Get_Camera_View().SetZoom(0.35f);
 	Graphic::GetGraphic()->get_need_update_sprite() = true;
-
+	
 	volume_timer = 0;
 	button_timer = 0;
 	pointer = 0;
 
 	SetBackground();
 	SetMusicVolumeBox();
+	SetLifeButton();
 	SetMusicIcon();
 	SetMuteButton();
 	SetFullScreenButton();
-	SetLifeButton();
 	SetBackButton();
+
+	if (life != 3)
+	{
+		if (life < 3)
+		{
+			std::cout << "ck1" << std::endl;
+			int diff = 3 - life;
+			music_icon[2]->GetTransform().GetTranslation_Reference().x -= (diff * 420);
+		}
+		else
+		{
+			std::cout << "ck2" << std::endl;
+			int diff = life - 3;
+			music_icon[2]->GetTransform().GetTranslation_Reference().x += (diff * 420);
+		}
+	}
 }
 
 void Option::Update(float dt)
@@ -73,6 +92,7 @@ void Option::Clear()
 {
 	music_icon[0]->SetDeadCondition(true);
 	music_icon[1]->SetDeadCondition(true);
+	music_icon[2]->SetDeadCondition(true);
 	volume_box[0]->SetDeadCondition(true);
 	volume_box[1]->SetDeadCondition(true);
 	volume_box_hover[0]->SetDeadCondition(true);
@@ -90,6 +110,10 @@ void Option::Clear()
 	background->SetDeadCondition(true);
 	pointer1->SetDeadCondition(true);
 	pointer2->SetDeadCondition(true);
+	lifeButton->SetDeadCondition(true);
+	lifeButtonHover->SetDeadCondition(true);
+	lifeBox->SetDeadCondition(true);
+	life_count->SetDeadCondition(true);
 }
 
 void Option::SetBackground()
@@ -116,6 +140,11 @@ void Option::SetMusicIcon()
 	music_icon[1]->AddComponent(new Sprite(music_icon[1], "../Sprite/icon.png", { -550 + initial_sfx_icon, -640 }, false));
 	music_icon[1]->GetTransform().SetScale({ 10, 10 });
 	ObjectManager::GetObjectManager()->AddObject(music_icon[1]);
+
+	music_icon[2] = new Object();
+	music_icon[2]->AddComponent(new Sprite(music_icon[2], "../Sprite/icon.png", { 320, -1000 }, false));
+	music_icon[2]->GetTransform().SetScale({ 10, 10 });
+	ObjectManager::GetObjectManager()->AddObject(music_icon[2]);
 }
 
 void Option::SetMusicVolumeBox()
@@ -208,6 +237,7 @@ void Option::ButtonBehavior()
 	{
 		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT) || (LeftStickInDeadZone == false && LeftThumbStateX > 0.5f))
 		{
+			std::cout << life << std::endl;
 			vector2 icon_translation = music_icon[1]->GetTransform().GetTranslation();
 			volume = sound.GetSoundGroupVolume(false);
 
@@ -224,6 +254,7 @@ void Option::ButtonBehavior()
 		}
 		else if (input.Is_Key_Pressed(GLFW_KEY_LEFT) || (LeftStickInDeadZone == false && LeftThumbStateX < -0.5f))
 		{
+			std::cout << life << std::endl;
 			vector2 icon_translation = music_icon[1]->GetTransform().GetTranslation();
 			volume = sound.GetSoundGroupVolume(false);
 
@@ -237,6 +268,73 @@ void Option::ButtonBehavior()
 			music_icon[1]->SetTranslation({ icon_translation.x - 420, icon_translation.y });
 
 			volume_timer = 0;
+		}
+	}
+	else if (pointer == static_cast<int>(BUTTON::LIFE))
+	{
+		if (input.Is_Key_Pressed(GLFW_KEY_RIGHT) || (LeftStickInDeadZone == false && LeftThumbStateX > 0.5f))
+		{
+			vector2 icon_translation = music_icon[2]->GetTransform().GetTranslation();
+
+			if (icon_translation.x < 1100)
+			{
+				life++;
+
+				switch (life)
+				{
+				case 1:
+					life_count->Change_Sprite(life_count->Find_Sprite_By_Type(Sprite_Type::Num_1));
+					break;
+				case 2:
+					life_count->Change_Sprite(life_count->Find_Sprite_By_Type(Sprite_Type::Num_2));
+					break;
+				case 3:
+					life_count->Change_Sprite(life_count->Find_Sprite_By_Type(Sprite_Type::Num_3));
+					break;
+				case 4:
+					life_count->Change_Sprite(life_count->Find_Sprite_By_Type(Sprite_Type::Num_4));
+					break;
+				case 5:
+					life_count->Change_Sprite(life_count->Find_Sprite_By_Type(Sprite_Type::Num_5));
+					break;
+				}
+
+				sound.Play(SOUND::SoundControl);
+				music_icon[2]->SetTranslation({ icon_translation.x + 420, icon_translation.y });
+				volume_timer = 0;
+			}
+		}
+		else if (input.Is_Key_Pressed(GLFW_KEY_LEFT) || (LeftStickInDeadZone == false && LeftThumbStateX < -0.5f))
+		{
+			vector2 icon_translation = music_icon[2]->GetTransform().GetTranslation();
+			if (icon_translation.x > -520)
+			{
+				life--;
+
+				switch (life)
+				{
+				
+				case 1:
+					life_count->Change_Sprite(life_count->Find_Sprite_By_Type(Sprite_Type::Num_1));
+					break;
+				case 2:
+					life_count->Change_Sprite(life_count->Find_Sprite_By_Type(Sprite_Type::Num_2));
+					break;
+				case 3:
+					life_count->Change_Sprite(life_count->Find_Sprite_By_Type(Sprite_Type::Num_3));
+					break;
+				case 4:
+					life_count->Change_Sprite(life_count->Find_Sprite_By_Type(Sprite_Type::Num_4));
+					break;
+				case 5:
+					life_count->Change_Sprite(life_count->Find_Sprite_By_Type(Sprite_Type::Num_5));
+					break;
+				}
+
+				sound.Play(SOUND::SoundControl);
+				music_icon[2]->SetTranslation({ icon_translation.x - 420, icon_translation.y });
+				volume_timer = 0;
+			}
 		}
 	}
 	else if (pointer == static_cast<int>(BUTTON::BACK) && state_manager->GetPrevState()->GetStateInfo() == GameState::Menu)
@@ -332,7 +430,7 @@ void Option::SetFullScreenButton()
 
 	pointer2 = new Object();
 	pointer2->Set_Name("pointer2");
-	pointer2->Set_Tag("pointer");  
+	pointer2->Set_Tag("pointer");
 	pointer2->AddComponent(new Sprite(pointer2, "../Sprite/Player/State/pen_purple_dance.png", true, 15, 7, { 320,500 }, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Dance), "dance", true);
 	pointer2->GetTransform().SetScale({ 2, 2 });
@@ -384,7 +482,7 @@ void Option::ButtonSelector()
 			pointer1->SetTranslation({ -320,-140 });
 			pointer2->SetTranslation({ 320,-140 });
 		}
-		else if(pointer == static_cast<int>(BUTTON::LIFE))
+		else if (pointer == static_cast<int>(BUTTON::LIFE))
 		{
 			sound.Play(SOUND::Click);
 			ObjectHover(lifeButton, lifeButtonHover);
@@ -464,15 +562,47 @@ void Option::ButtonSelector()
 void Option::SetLifeButton()
 {
 	lifeButton = new Object();
-	lifeButton->AddComponent(new Sprite(lifeButton, "../Sprite/BackButton.png", { 0, -500 }, false));
+	lifeButton->AddComponent(new Sprite(lifeButton, "../Sprite/LivesButton.png", { 0, -500 }, false));
 	lifeButton->GetTransform().SetScale({ 5, 5 });
 	ObjectManager::GetObjectManager()->AddObject(lifeButton);
 
 	lifeButtonHover = new Object();
-	lifeButtonHover->AddComponent(new Sprite(lifeButtonHover, "../Sprite/BackButtonHover.png", { 0, -500 }, false));
+	lifeButtonHover->AddComponent(new Sprite(lifeButtonHover, "../Sprite/LivesButtonHover.png", { 0, -500 }, false));
 	lifeButtonHover->GetTransform().SetScale({ 5, 5 });
 	lifeButtonHover->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
 	ObjectManager::GetObjectManager()->AddObject(lifeButtonHover);
+
+	life_count = new Object();
+	life_count->AddComponent(new Sprite(life_count, "../Sprite/UI/1.png", { 950, -680 }, false, Sprite_Type::Num_1));
+	life_count->AddComponent(new Sprite(life_count, "../Sprite/UI/2.png", { 950, -680 }, false, Sprite_Type::Num_2));
+	life_count->AddComponent(new Sprite(life_count, "../Sprite/UI/3.png", { 950, -680 }, false, Sprite_Type::Num_3));
+	life_count->AddComponent(new Sprite(life_count, "../Sprite/UI/4.png", { 950, -680 }, false, Sprite_Type::Num_4));
+	life_count->AddComponent(new Sprite(life_count, "../Sprite/UI/5.png", { 950, -680 }, false, Sprite_Type::Num_5));
+
+	switch (life)
+	{
+
+	case 1:
+		life_count->Set_Current_Sprite(life_count->Find_Sprite_By_Type(Sprite_Type::Num_1));
+		break;
+	case 2:
+		life_count->Set_Current_Sprite(life_count->Find_Sprite_By_Type(Sprite_Type::Num_2));
+		break;
+	case 3:
+		life_count->Set_Current_Sprite(life_count->Find_Sprite_By_Type(Sprite_Type::Num_3));
+		break;
+	case 4:
+		life_count->Set_Current_Sprite(life_count->Find_Sprite_By_Type(Sprite_Type::Num_4));
+		break;
+	case 5:
+		life_count->Set_Current_Sprite(life_count->Find_Sprite_By_Type(Sprite_Type::Num_5));
+		break;
+	}
+
+
+	life_count->GetTransform().SetScale({ 2, 2 });
+	ObjectManager::GetObjectManager()->AddObject(life_count);
+
 
 	lifeBox = new Object();
 	lifeBox->AddComponent(new Sprite(lifeBox, "../Sprite/VolumeBox.png", { 20, -720 }, false));
