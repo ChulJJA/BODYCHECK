@@ -165,6 +165,40 @@ void Referee::Set_Third_Player_Info(vector2 pos, vector2 scale, std::string path
 	player_third_sprite_path = path;
 }
 
+void Referee::Separate_Player()
+{
+	vector2& sec_pos = curr_sec_player->GetTransform().GetTranslation_Reference();
+	vector2& third_pos = curr_third_player->GetTransform().GetTranslation_Reference();
+
+	float distance = distance_between(sec_pos, third_pos);
+
+	if (distance < 30.f)
+	{
+		float offset = 100.f;
+		if (sec_pos.x > third_pos.x)
+		{
+			sec_pos.x += offset;
+			third_pos.x -= offset;
+		}
+		else
+		{
+			sec_pos.x -= offset;
+			third_pos.x += offset;
+		}
+
+		if (sec_pos.y > third_pos.y)
+		{
+			sec_pos.y += offset;
+			third_pos.y -= offset;
+		}
+		else
+		{
+			sec_pos.y -= offset;
+			third_pos.y += offset;
+		}
+	}
+}
+
 Referee::Referee()
 {
 
@@ -273,6 +307,8 @@ void Referee::Update(float dt)
 		Reset_Item_Variables();
 		SetItem();
 	}
+
+	Separate_Player();
 }
 
 void Referee::Delete()
@@ -696,6 +732,7 @@ void Referee::Respawn_Item(float dt)
 
 	if (item_respawn_timer <= 0.0f && total_item_num > 0 && curr_field_num <= 3)
 	{
+		std::cout << "curr field" << curr_field_num << std::endl;
 		if (item == Item::Item_Kind::Dash)
 		{
 			if (item_num_dash > 0)
