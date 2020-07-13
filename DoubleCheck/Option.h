@@ -27,6 +27,7 @@ class Option : public State
         FULLSCREEN,
         SFX,
 		MUSIC,
+    	LIFE,
 		BACK,
 	};
 public:
@@ -53,6 +54,7 @@ public:
     void SetFullScreenButton();
     void SetBackButton();
     void ButtonSelector();
+    void SetLifeButton();
     void SetSoundVolume(float value, bool isBGM = true);
 private:
     Object* background;
@@ -65,6 +67,9 @@ private:
     Object* back_button_hover;
     Object* full_screen_button;
     Object* full_screen_button_hover;
+    Object* lifeButton;
+    Object* lifeButtonHover;
+    Object* lifeBox;
 
     Object* pointer1;
     Object* pointer2;
