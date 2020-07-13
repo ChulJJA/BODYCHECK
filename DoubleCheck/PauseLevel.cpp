@@ -20,6 +20,7 @@
 #include "Engine.hpp"
 #include "Message_Manager.h"
 #include "Gamepad.hpp"
+#include "Referee.h"
 namespace
 {
 	ObjectManager* object_manager = nullptr;
@@ -38,7 +39,8 @@ void PauseLevel::Load()
 
 	r_u_sure = false;
 	r_u_sure_come = false;
-
+	prev_cheerup_mode = Referee::Get_Referee()->Get_Is_CheerUp_Mode();
+	Referee::Get_Referee()->Set_CheerUp_Mode(false);
 	Background();
 	SetRestartButton();
 	SetMainMenuButton();
@@ -414,6 +416,7 @@ void PauseLevel::ButtonBehavior()
 				sound.Play(sound.currentBGM);
 			}
 			state_manager->BackToLevel();
+			Referee::Get_Referee()->Set_CheerUp_Mode(prev_cheerup_mode);
 			Clear();
 		}
 	}
