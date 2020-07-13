@@ -401,12 +401,16 @@ void PauseLevel::ButtonBehavior()
 		{
 			sound.Play(SOUND::Selected);
 			r_u_sure_come = true;
-			//Sleep(800);
-			//exit(0);
 		}
 		else if (pointer == static_cast<int>(BUTTON::BACK) && (input.Is_Key_Triggered(GLFW_KEY_SPACE) || input.Is_Key_Triggered(GLFW_KEY_ENTER) || pressButtonA))
 		{
 			sound.Play(SOUND::Selected);
+			FMOD_BOOL isBGM;
+			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isBGM);
+			if(!isBGM)
+			{
+				sound.Play(SOUND::BGM2);
+			}
 			state_manager->BackToLevel();
 			Clear();
 		}
