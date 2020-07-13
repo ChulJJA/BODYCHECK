@@ -90,6 +90,9 @@ void Option::Clear()
 	background->SetDeadCondition(true);
 	pointer1->SetDeadCondition(true);
 	pointer2->SetDeadCondition(true);
+	lifeButton->SetDeadCondition(true);
+	lifeButtonHover->SetDeadCondition(true);
+	lifeBox->SetDeadCondition(true);
 }
 
 void Option::SetBackground()

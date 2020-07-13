@@ -227,7 +227,7 @@ void Tutorial::SetStaffAndExplanation()
 	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/HealStaff.png", { -900.f, -800.f }, false));
 	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/PoisonStaff.png", { -900.f, -800.f }, false));
 	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/GunStaff.png", { -900.f, -800.f }, false));
-	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/TPStaff.png", { -900.f, -800.f }, false));*/
+	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/TornadoStaff.png", { -900.f, -800.f }, false));*/
 	
 	ObjectManager::GetObjectManager()->Add_Object_Instancing(Explanation_Staff_sec);
 
@@ -241,7 +241,7 @@ void Tutorial::SetStaffAndExplanation()
 	//Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/HealStaff.png", { 600.f, -800.f }, false));
 	//Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/PoisonStaff.png", { 600.f, -800.f }, false));
 	//Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/GunStaff.png", { 600.f, -800.f }, false));
-	//Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/TPStaff.png", { 600.f, -800.f }, false));
+	//Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/TornadoStaff.png", { 600.f, -800.f }, false));
 
 	ObjectManager::GetObjectManager()->Add_Object_Instancing(Explanation_Staff_third);
 }
