@@ -12,6 +12,7 @@
 #pragma once
 
 #include "Message_Function_Base.h"
+#include "Particle.h"
 
 class Message;
 
@@ -37,4 +38,5 @@ public:
 private:
 	float timer;
 	Message* msg;
+	ParticleGenerator* particle;
 };

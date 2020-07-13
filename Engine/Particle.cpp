@@ -130,13 +130,13 @@ void ParticleGenerator::Update(float dt, Object* object, GLuint newParticles, ve
 			for (GLuint i = 0; i < this->total_particles; ++i)
 			{
 				Particle& p = this->particles[i];
-				p.life -= dt * 2.0f;
+				p.life -= dt * 5.0f;
 				if (p.life > 0.0f)
 				{
 					p.position -= object->GetTransform().GetTranslation();
 					p.position = rotate_by(15, p.position);
 					p.position += object->GetTransform().GetTranslation();
-					p.color.alpha -= dt;
+					p.color.alpha -= dt * 2.0f;
 				}
 			}
 			break;
@@ -225,7 +225,7 @@ void ParticleGenerator::Draw(Object* obj)
 					matrix3 result = MATRIX3::build_identity();
 					result *= MATRIX3::build_translation({ particle.position.x, particle.position.y }) *
 						MATRIX3::build_rotation(obj->GetTransform().GetRotation()) *
-						MATRIX3::build_scale({ obj->GetScale().x - 0.5f, obj->GetScale().y - 0.5f });
+						MATRIX3::build_scale({ obj->GetScale().x, obj->GetScale().y });
 					matrix3 mat_ndc = Graphic::GetGraphic()->Get_View().Get_Camera_View().GetCameraToNDCTransform();
 					mat_ndc *= Graphic::GetGraphic()->Get_View().Get_Camera().WorldToCamera();
 					mat_ndc *= result;
@@ -343,7 +343,7 @@ void ParticleGenerator::respawnParticle(Particle& particle, Object* object, vect
 		particle.color = Color4f(rColor, rColor, rColor, 1.0f);
 		particle.position = object->GetTransform().GetTranslation() + offset;
 		particle.life = 1.0f;
-		particle.velocity = object->GetComponentByTemplate<Physics>()->GetVelocity() * 2 + vector2(0, random);
+		particle.velocity = object->GetComponentByTemplate<Physics>()->GetVelocity() + vector2(random);
 	}
 	else if (m_type == ParticleType::WIN)
 	{
