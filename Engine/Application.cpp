@@ -22,6 +22,7 @@
 #include "Component_Hpbar.h"
 #include "StateManager.h"
 #include "State.h"
+#include "Engine.hpp"
 using namespace std;
 Application* Application::application = nullptr;
 StateManager* state = nullptr;
@@ -215,6 +216,7 @@ namespace
         if (!focused && state->GetCurrentState()->GetStateInfo() == GameState::Game)
         {
             state->GetCurrentState()->is_pause = true;
+            sound.StopAllSFX();
         }
         else if(focused && state->GetCurrentState()->GetStateInfo() == GameState::Game)
         {
