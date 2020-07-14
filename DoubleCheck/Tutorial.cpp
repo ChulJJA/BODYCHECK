@@ -245,6 +245,7 @@ void Tutorial::SetArena()
 }
 
 void Tutorial::SetStaffAndExplanation()
+
 {
 	Explanation_Staff_sec = new Object();
 	Explanation_Staff_sec->Set_Name("staff");
