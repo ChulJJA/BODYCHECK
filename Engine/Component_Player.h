@@ -146,5 +146,6 @@ private:
 	float sprite_check_timer = 0.f;
 
 	float speedUpSoundTimer = 0;
+	int mineCount = 0;
 	//ParticleGenerator* speedParticle = nullptr;
 };

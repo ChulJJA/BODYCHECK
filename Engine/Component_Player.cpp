@@ -58,7 +58,7 @@ void Player::Update(float dt)
 {
 	float FirstRightTrigger = gamepadManager->RightTrigger();
 	float SecondRightTrigger = gamepadManagerSec->RightTrigger();
-	
+
 	if (curr_state == Char_State::Prepare)
 	{
 		if (prepare_sprite_timer != 0.f)
@@ -241,7 +241,7 @@ void Player::Update(float dt)
 			sound.Play(SOUND::SpeedUp);
 			speedUpSoundTimer = 0;
 		}
-	} 
+	}
 
 	if (
 		input.Is_Key_Triggered(GLFW_KEY_SPACE)
@@ -362,11 +362,12 @@ void Player::Func_Mine(float dt)
 {
 	float FirstRightTrigger = gamepadManager->RightTrigger();
 	float SecondRightTrigger = gamepadManagerSec->RightTrigger();
+
 	if (input.Is_Key_Released(GLFW_KEY_SPACE) || input.Is_Key_Released(GLFW_KEY_RIGHT_SHIFT)
 		|| FirstRightTrigger > 0 || SecondRightTrigger > 0)
 	{
-		float random_position_x = rand() % 3000 - 1500;
-		float random_position_y = rand() % 1300 - 650;
+		float random_position_x = rand() % 2800 - 1400;
+		float random_position_y = rand() % 1200 - 600;
 
 		curr_state = Char_State::None;
 		install_mine = new Object();
@@ -379,10 +380,11 @@ void Player::Func_Mine(float dt)
 		Change_To_Normal_State();
 		ObjectManager::GetObjectManager()->AddObject(install_mine);
 	}
-}
 
+}
 void Player::Func_Mine_Collided(float dt)
 {
+	srand(time(NULL));
 	float random_velocity_x = rand() % 5 - 2;
 	float random_velocity_y = rand() % 5 - 2;
 	//m_owner->SetNeedCollision
@@ -1271,7 +1273,6 @@ void Player::UseItem()
 			Change_Weapon_Sprite(nullptr);
 			sound.Play(SOUND::BulkUp);
 			Change_To_Normal_State();
-			m_owner->GetScale_Reference().x += 0.5f;
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 5.f));
 		}
@@ -1344,7 +1345,6 @@ void Player::UseItem()
 		{
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
-			m_owner->GetScale_Reference().x += 0.5f;
 
 			sound.Play(SOUND::BulkUp);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 5.f));
@@ -1680,7 +1680,7 @@ void Player::PadControll(float max_velocity, float min_velocity, Gamepad* numCon
 			{
 				velocity.y -= velocity.y / 100;
 			}
-			
+
 			direction.x -= 0.1f;
 		}
 	}
