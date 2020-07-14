@@ -36,7 +36,7 @@ void Msg_Func_Item_Time_Pause::Init()
 		info_player->Set_Item_State(Item::Item_Kind::None);
 		obj->Change_Sprite(obj->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Timestop));
 		sound.Play(SOUND::ClockTicking);
-		FMOD_BOOL isBGMPlaying;
+		/*FMOD_BOOL isBGMPlaying;
 		FMOD_BOOL isMatchBGMPlaying;
 		FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isBGMPlaying);
 		FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::MatchBGM)], &isMatchBGMPlaying);
@@ -48,7 +48,7 @@ void Msg_Func_Item_Time_Pause::Init()
 		if (isMatchBGMPlaying)
 		{
 			sound.Stop(SOUND::MatchBGM);
-		}
+		}*/
 		info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Use, Ui::Ui_Status_Obj::Item_Time_Pause);
 
 	}
@@ -73,13 +73,30 @@ void Msg_Func_Item_Time_Pause::Update(float dt)
 
 				for (auto player : another_players)
 				{
-					Player* get_player = player->GetComponentByTemplate<Player>();
-					get_player->Change_To_Normal_State();
-					if (get_player != nullptr)
+					if (player->Get_Current_Sprite() != player->Find_Sprite_By_Type(Sprite_Type::Player_Spawn))
 					{
-						player->Change_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Player_Paused));
-						get_player->Set_Char_State(Player::Char_State::Time_Pause);
-						get_player->Set_Stop_Timer(4.0f);
+						FMOD_BOOL isBGMPlaying;
+						FMOD_BOOL isMatchBGMPlaying;
+						FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isBGMPlaying);
+						FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::MatchBGM)], &isMatchBGMPlaying);
+
+						if (isBGMPlaying)
+						{
+							sound.Stop(SOUND::BGM2);
+						}
+						if (isMatchBGMPlaying)
+						{
+							sound.Stop(SOUND::MatchBGM);
+						}
+
+						Player* get_player = player->GetComponentByTemplate<Player>();
+						get_player->Change_To_Normal_State();
+						if (get_player != nullptr)
+						{
+							player->Change_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Player_Paused));
+							get_player->Set_Char_State(Player::Char_State::Time_Pause);
+							get_player->Set_Stop_Timer(4.0f);
+						}
 					}
 				}
 

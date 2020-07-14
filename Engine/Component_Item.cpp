@@ -21,38 +21,6 @@ void Item::Init(Object* obj)
 
 void Item::Update(float dt)
 {
-	/*if(timer < 0.f)
-	{
-        random_dir = RandomNumberGenerator(1, 4);
-        timer = 2.f;
-	}
-    else
-    {
-        timer -= dt;
-        vector2& pos = m_owner->GetTransform().GetTranslation_Reference();
-
-        switch (random_dir)
-        {
-        case 1:
-            pos.x += dt * speed;
-            pos.y += dt * speed;
-            break;
-        case 2:
-            pos.x -= dt * speed;
-            pos.y -= dt * speed;
-            break;
-        case 3:
-            pos.x += dt * speed;
-            pos.y -= dt * speed;
-            break;
-        case 4:
-            pos.x -= dt * speed;
-            pos.y += dt * speed;
-            break;
-        default:
-            ;
-        }
-    }*/
 }
 
 void Item::Set_Kind(Item_Kind kind)

@@ -23,7 +23,6 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 {
 	std::string path_to_player_state = "../Sprite/Player/State/";
 	std::string path_to_player_item_effect = "../Sprite/Player/Item_Effect/";
-	//std::string path_to_player_display_item = "../Sprite/Player/Display_Item/";
 
 	std::string sprite_path_normal = path_to_player_state;
 	std::string sprite_path_lock = path_to_player_state;
@@ -49,16 +48,6 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 	std::string sprite_path_dash_effect = path_to_player_item_effect;
 	std::string sprite_path_timestop_effect = path_to_player_item_effect;
 	std::string sprite_path_reverse_effect = path_to_player_item_effect;
-	
-	//std::string sprite_path_missile_launcher = path_to_player_display_item;
-	//std::string sprite_path_dash = path_to_player_display_item;
-	//std::string sprite_path_bulkup = path_to_player_display_item;
-	//std::string sprite_path_throwing = path_to_player_display_item;
-	//std::string sprite_path_heal = path_to_player_display_item;
-	//std::string sprite_path_magnet = path_to_player_display_item;
-	//std::string sprite_path_timestop = path_to_player_display_item;
-	//std::string sprite_path_reverse = path_to_player_display_item;
-
 
 	{
 		sprite_path_normal += sprite_path + ".png";
@@ -71,11 +60,8 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 		sprite_path_fat += sprite_path + "_fat.png";
 		sprite_path_spawn += sprite_path + "_spawn.png";
 		sprite_path_dance += sprite_path + "_dance.png";
-
-		//sprite_path_fat += "pen_special.png";
 	}
 
-	//itwem effect
 	{
 		sprite_path_reverse_moving_pen += sprite_path + "_reverse.png";
 		sprite_path_ready += "loadingscene.png";
@@ -91,17 +77,6 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 		sprite_path_reverse_effect += sprite_path + "_reverse_effect.png";
 	}
 
-	{
-		//sprite_path_missile_launcher += "missile_launcher_showing.png";
-		//sprite_path_dash += sprite_path + "_dash_display.png";
-		//sprite_path_bulkup += "bulkup_display.png";
-		//sprite_path_throwing += "throwing_display.png";
-		//sprite_path_heal += "heal_showing.png";
-		//sprite_path_magnet += "magnet_display.png";
-		//sprite_path_timestop += "time_stop_display.png";
-		//sprite_path_reverse += "reverse_display.png";
-	}
-	
 	Object* player;
 	player = new Object();
 	player->SetTranslation(pos);
@@ -113,6 +88,7 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 
 	player->AddComponent(new Sprite(player, sprite_path_spawn.c_str(), true, 37, 9.25, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Spawn), "spawn", !is_main_menu);
+
 	bool is_debug_mode;
 #if _DEBUG
 	is_debug_mode = true;
@@ -142,10 +118,8 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 	player->AddComponent(new Sprite(player, sprite_path_fat.c_str(), true, 3, 9, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Fat, is_debug_mode), "fat", false);
 
-
 	player->AddComponent(new Sprite(player, sprite_path_reverse_moving_pen.c_str(), true, 4, 8, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Reverse_Moving), "reverse", false);
-
 
 	player->AddComponent(new Sprite(player, sprite_path_timestop_effect.c_str(), true, 4, 8, pos, { 200.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Effect_Timestop), "time", false);
@@ -156,33 +130,28 @@ Object* State::Make_Player(std::string name, std::string tag, std::string sprite
 	player->AddComponent(new Sprite(player, sprite_path_dance.c_str(), true, 15, 7, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Dance), "dance", false);
 
-
 	player->AddComponent(new Sprite(player, sprite_path_paused.c_str(), pos, false, Sprite_Type::Player_Paused, { 100.f, 100.f }), "paused", false);
 
-
-	/*player->AddComponent(new Sprite(player, sprite_path_heal.c_str(), true, 4, 8, pos, { 100.f,100.f },
-		{ 255,255,255,255 }, Sprite_Type::Heal_Showing), "heal", false);*/
-	
-	
 	player->AddComponent(new Sprite(player, sprite_path_ready_bulkup.c_str(), true, 4, 8, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Effect_Bulkp), "effect_bulkup", false);
 
 	player->AddComponent(new Sprite(player, sprite_path_bulkup_used.c_str(), true, 3, 9, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Bulkup_Used), "effect_bulkup_use", false);
 	
-	
 	player->AddComponent(new Sprite(player, sprite_path_heal_effect.c_str(), true, 6, 12, pos, { 100.f,100.f },
 		{ 255, 255, 255, 255 }, Sprite_Type::Player_Effect_Heal), "effect_heal", false);
+
 	player->AddComponent(new Sprite(player, sprite_path_throwing_effect.c_str(), true, 4, 8, pos, { 100.f,100.f },
 		{ 255, 255, 255, 255 }, Sprite_Type::Player_Effect_Throwing), "effect_throwing", false);
+
 	player->AddComponent(new Sprite(player, sprite_path_missile_effect.c_str(), true, 8, 16, pos, { 100.f,100.f },
 		{ 255, 255, 255, 255 }, Sprite_Type::Player_Effect_Missile), "effect_missile", false);
 
 	player->AddComponent(new Sprite(player, sprite_path_magnet_aiming.c_str(), true, 4, 12, pos, { 100.f,100.f },
 		{ 255, 255, 255, 255 }, Sprite_Type::Player_Aiming), "aiming", false);
+
 	player->AddComponent(new Sprite(player, sprite_path_magnet_chasing.c_str(), true, 2, 16, pos, { 100.f,100.f },
 		{ 255, 255, 255, 255 }, Sprite_Type::Player_Chasing), "chasing", false);
-
 
 	player->AddComponent(new Sprite(player, sprite_path_dash_effect.c_str(), true, 4, 8, pos, { 100.f,100.f },
 		{ 255, 255, 255, 255 }, Sprite_Type::Player_Effect_Dash), "effect_dash", false);

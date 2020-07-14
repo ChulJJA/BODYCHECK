@@ -110,7 +110,7 @@ void Player::Update(float dt)
 		vector2& hp_pos = hp_bar->GetTransform().GetTranslation_Reference();
 
 		hp_pos.x = player_pos.x;
-		hp_pos.y = player_pos.y - 100;
+		hp_pos.y = player_pos.y - 150;
 	}
 
 
@@ -147,11 +147,6 @@ void Player::Update(float dt)
 					if (speed2_sprite != m_owner->Get_Current_Sprite())
 					{
 						m_owner->Change_Sprite(speed2_sprite);
-						/*if (speedParticle != nullptr)
-						{
-							delete speedParticle;
-							speedParticle = nullptr;
-						}*/
 					}
 				}
 			}
@@ -165,7 +160,6 @@ void Player::Update(float dt)
 					if (speed3_sprite != m_owner->Get_Current_Sprite())
 					{
 						m_owner->Change_Sprite(speed3_sprite);
-						//speedParticle = new ParticleGenerator(m_owner, 20, "../Sprite/Particle.png", ParticleType::DASH);
 					}
 				}
 			}
@@ -177,11 +171,6 @@ void Player::Update(float dt)
 				scale.y += scale_plus;
 			}
 
-			/*if (speedParticle != nullptr && speed_mag > 2000.0f)
-			{
-				speedParticle->Update(dt, m_owner, 1, vector2(-m_owner->GetScale_Reference() / 2.0f));
-				speedParticle->Draw(m_owner);
-			}*/
 		}
 		else
 		{
@@ -259,9 +248,9 @@ void Player::SetHPBar()
 {
 	Object* hp_bar = new Object();
 	vector2 hp_bar_pos = m_owner->GetTransform().GetTranslation();
-	hp_bar_pos.y -= 100;
+	hp_bar_pos.y -= 150;
 	hp_bar->SetTranslation(hp_bar_pos);
-	hp_bar->SetScale({ 1.f, 2.5f });
+	hp_bar->SetScale({ 2.f, 3.f });
 	hp_bar->Set_Name(m_owner->Get_Name() + "hp_bar");
 	hp_bar->Set_Tag("hp_bar");
 	hp_bar->AddComponent(new Sprite(hp_bar, "../Sprite/HP.png", hp_bar_pos, false), "sprite_hp_bar", need_update_hp_bar);
@@ -273,7 +262,7 @@ void Player::SetHPBar()
 
 	if (m_owner->Get_Tag() != "save" && m_owner->Get_Tag() != "throwing")
 	{
-		//ObjectManager::GetObjectManager()->AddObject(hp_bar);
+		ObjectManager::GetObjectManager()->AddObject(hp_bar);
 	}
 }
 
@@ -385,9 +374,8 @@ void Player::Func_Mine(float dt)
 void Player::Func_Mine_Collided(float dt)
 {
 	srand(time(NULL));
-	float random_velocity_x = rand() % 5 - 2;
-	float random_velocity_y = rand() % 5 - 2;
-	//m_owner->SetNeedCollision
+	float random_velocity_x = 2;
+	float random_velocity_y = 2;
 	if (mine_timer > 0.0f)
 	{
 		velocity += {random_velocity_x, random_velocity_y};
@@ -397,7 +385,6 @@ void Player::Func_Mine_Collided(float dt)
 	{
 		velocity += {-velocity.x / 100, -velocity.y / 100};
 		curr_state_additional = Char_State_Additional::None;
-		//install_mine->SetDeadCondition(true);
 	}
 }
 
@@ -486,163 +473,7 @@ float Player::Get_Mine_Timer()
 
 void Player::PlayerMovement(float max_velocity, float min_velocity)
 {
-	/*float LeftThumbStateX = gamepadManager->LeftStick_X();
-	float LeftThumbStateY = gamepadManager->LeftStick_Y();
-
-
-	if (m_owner->Get_Name() == "first")
-	{
-		if (LeftThumbStateY > 0)
-		{
-			if (LeftThumbStateY > 0 && LeftThumbStateX < 0)
-			{
-				if (velocity.x >= 0 && velocity.y >= 0)
-				{
-					velocity += {-max_velocity, min_velocity};
-				}
-				else if (velocity.x >= 0 && velocity.y < 0)
-				{
-					velocity += {-max_velocity, max_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y >= 0)
-				{
-					velocity += {-min_velocity, min_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y < 0)
-				{
-					velocity += {-min_velocity, max_velocity};
-				}
-			}
-			else if (LeftThumbStateY > 0 && LeftThumbStateX > 0)
-			{
-				if (velocity.x >= 0 && velocity.y >= 0)
-				{
-					velocity += {min_velocity, min_velocity};
-				}
-				else if (velocity.x >= 0 && velocity.y < 0)
-				{
-					velocity += {min_velocity, max_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y >= 0)
-				{
-					velocity += {max_velocity, min_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y < 0)
-				{
-					velocity += {max_velocity, max_velocity};
-				}
-			}
-			else
-			{
-				if (abs(velocity.x) >= 0)
-				{
-					velocity.x -= velocity.x / 100;
-				}
-				if (velocity.y >= 0)
-				{
-					velocity += {0.00, min_velocity};
-				}
-				else if (velocity.y < 0)
-				{
-					velocity += {0.00, max_velocity};
-				}
-			}
-		}
-		else if (LeftThumbStateX < 0)
-		{
-			if (LeftThumbStateX < 0 && LeftThumbStateY < 0)
-			{
-				if (velocity.x >= 0 && velocity.y >= 0)
-				{
-					velocity += {-max_velocity, -max_velocity};
-				}
-				else if (velocity.x >= 0 && velocity.y < 0)
-				{
-					velocity += {-max_velocity, -min_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y >= 0)
-				{
-					velocity += {-min_velocity, -max_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y < 0)
-				{
-					velocity += {-min_velocity, -min_velocity};
-				}
-			}
-			else
-			{
-				if (velocity.x >= 0)
-				{
-					velocity.x += -max_velocity;
-				}
-				else
-				{
-					velocity.x += -min_velocity;
-				}
-				if (abs(velocity.y) >= 0)
-				{
-					velocity.y -= velocity.y / 100;
-				}
-			}
-		}
-		else if (LeftThumbStateY < 0)
-		{
-			if (LeftThumbStateY < 0 && LeftThumbStateX > 0)
-			{
-				if (velocity.x >= 0 && velocity.y >= 0)
-				{
-					velocity += {min_velocity, -max_velocity};
-				}
-				else if (velocity.x >= 0 && velocity.y < 0)
-				{
-					velocity += {min_velocity, -min_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y >= 0)
-				{
-					velocity += {max_velocity, -max_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y < 0)
-				{
-					velocity += {max_velocity, -min_velocity};
-				}
-			}
-			else
-			{
-				if (abs(velocity.x) >= 0)
-				{
-					velocity.x -= velocity.x / 100;
-				}
-				if (velocity.y >= 0)
-				{
-					velocity.y += -max_velocity;
-				}
-				else
-				{
-					velocity.y += -min_velocity;
-				}
-			}
-		}
-		else if (LeftThumbStateX > 0)
-		{
-			if (velocity.x >= 0)
-			{
-				velocity.x += min_velocity;
-			}
-			else
-			{
-				velocity.x += max_velocity;
-			}
-			if (abs(velocity.y) >= 0)
-			{
-				velocity.y -= velocity.y / 100;
-			}
-		}
-		else
-		{
-			velocity += {-velocity.x / 100, -velocity.y / 100};
-		}
-	}
-	else*/ if (m_owner->Get_Name() == "second")
+	if (m_owner->Get_Name() == "second")
 	{
 		if (gamepadManager->Connected() == false)
 		{
@@ -999,160 +830,6 @@ void Player::PlayerMovement(float max_velocity, float min_velocity)
 			PadControll(max_velocity, min_velocity, gamepadManagerSec);
 		}
 	}
-	/*else if (m_owner->GetName() == "fourth")
-	{
-
-		if (input.Is_Key_Pressed(GLFW_KEY_W))
-		{
-			if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_A))
-			{
-				if (velocity.x >= 0 && velocity.y >= 0)
-				{
-					velocity += {-max_velocity, min_velocity};
-				}
-				else if (velocity.x >= 0 && velocity.y < 0)
-				{
-					velocity += {-max_velocity, max_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y >= 0)
-				{
-					velocity += {-min_velocity, min_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y < 0)
-				{
-					velocity += {-min_velocity, max_velocity};
-				}
-			}
-			else if (input.Is_Key_Pressed(GLFW_KEY_W) && input.Is_Key_Pressed(GLFW_KEY_D))
-			{
-				if (velocity.x >= 0 && velocity.y >= 0)
-				{
-					velocity += {min_velocity, min_velocity};
-				}
-				else if (velocity.x >= 0 && velocity.y < 0)
-				{
-					velocity += {min_velocity, max_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y >= 0)
-				{
-					velocity += {max_velocity, min_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y < 0)
-				{
-					velocity += {max_velocity, max_velocity};
-				}
-			}
-			else
-			{
-				if (abs(velocity.x) >= 0)
-				{
-					velocity.x -= velocity.x / 100;
-				}
-				if (velocity.y >= 0)
-				{
-					velocity += {0.00, min_velocity};
-				}
-				else if (velocity.y < 0)
-				{
-					velocity += {0.00, max_velocity};
-				}
-			}
-		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_A))
-		{
-			if (input.Is_Key_Pressed(GLFW_KEY_A) && input.Is_Key_Pressed(GLFW_KEY_S))
-			{
-				if (velocity.x >= 0 && velocity.y >= 0)
-				{
-					velocity += {-max_velocity, -max_velocity};
-				}
-				else if (velocity.x >= 0 && velocity.y < 0)
-				{
-					velocity += {-max_velocity, -min_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y >= 0)
-				{
-					velocity += {-min_velocity, -max_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y < 0)
-				{
-					velocity += {-min_velocity, -min_velocity};
-				}
-			}
-			else
-			{
-				if (velocity.x >= 0)
-				{
-					velocity.x += -max_velocity;
-				}
-				else
-				{
-					velocity.x += -min_velocity;
-				}
-				if (abs(velocity.y) >= 0)
-				{
-					velocity.y -= velocity.y / 100;
-				}
-			}
-		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_S))
-		{
-			if (input.Is_Key_Pressed(GLFW_KEY_S) && input.Is_Key_Pressed(GLFW_KEY_D))
-			{
-				if (velocity.x >= 0 && velocity.y >= 0)
-				{
-					velocity += {min_velocity, -max_velocity};
-				}
-				else if (velocity.x >= 0 && velocity.y < 0)
-				{
-					velocity += {min_velocity, -min_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y >= 0)
-				{
-					velocity += {max_velocity, -max_velocity};
-				}
-				else if (velocity.x < 0 && velocity.y < 0)
-				{
-					velocity += {max_velocity, -min_velocity};
-				}
-			}
-			else
-			{
-				if (abs(velocity.x) >= 0)
-				{
-					velocity.x -= velocity.x / 100;
-				}
-				if (velocity.y >= 0)
-				{
-					velocity.y += -max_velocity;
-				}
-				else
-				{
-					velocity.y += -min_velocity;
-				}
-			}
-		}
-		else if (input.Is_Key_Pressed(GLFW_KEY_D))
-		{
-			if (velocity.x >= 0)
-			{
-				velocity.x += min_velocity;
-			}
-			else
-			{
-				velocity.x += max_velocity;
-			}
-			if (abs(velocity.y) >= 0)
-			{
-				velocity.y -= velocity.y / 100;
-			}
-		}
-		else
-		{
-			velocity += {-velocity.x / 100, -velocity.y / 100};
-		}
-
-	}*/
 }
 
 void Player::SetPlayerVelocity(vector2 current_velocity)
@@ -1175,80 +852,7 @@ void Player::UseItem()
 	float FirstRightTrigger = gamepadManager->RightTrigger();
 	float SecondRightTrigger = gamepadManagerSec->RightTrigger();
 
-	/*if (m_owner->Get_Name() == "first")
-	{
-		if (RightTriggerState > 0 && belong_item == Item::Item_Kind::Dash)
-		{
-			Change_Weapon_Sprite(nullptr);
-			Change_To_Normal_State();
-			sound.Play(SOUND::Dash);
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Dash));
-		}
-		if (RightTriggerState > 0 && belong_item == Item::Item_Kind::HP)
-		{
-			Change_Weapon_Sprite(nullptr);
-			Change_To_Normal_State();
-
-			sound.Play(SOUND::HP);
-			Object* hp_bar = m_owner->Get_Belong_Object_By_Tag("hp_bar");
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(hp_bar, m_owner, Message_Kind::Item_Recover));
-		}
-
-		if (RightTriggerState > 0 && belong_item == Item::Item_Kind::Bulkup)
-		{
-			Change_Weapon_Sprite(nullptr);
-			Change_To_Normal_State();
-
-			sound.Play(SOUND::BulkUp);
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 15.f));
-		}
-
-		if (RightTriggerState > 0 && belong_item == Item::Item_Kind::Throwing)
-		{
-			Change_Weapon_Sprite(nullptr);
-			Change_To_Normal_State();
-
-			m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing));
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Throwing, 0.f));
-		}
-		if (RightTriggerState > 0 && belong_item == Item::Item_Kind::Magnatic)
-		{
-			Change_Weapon_Sprite(nullptr);
-			Change_To_Normal_State();
-
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Magnetic));
-		}
-		if (RightTriggerState > 0 && belong_item == Item::Item_Kind::Time_Pause)
-		{
-			Change_Weapon_Sprite(nullptr);
-			Change_To_Normal_State();
-
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Timepause));
-		}
-		if (RightTriggerState > 0 && belong_item == Item::Item_Kind::Reverse_Moving)
-		{
-			Change_Weapon_Sprite(nullptr);
-			Change_To_Normal_State();
-
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Reverse));
-		}
-		if (RightTriggerState > 0 && belong_item == Item::Item_Kind::Missile)
-		{
-			Change_To_Normal_State();
-			m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Missile));
-			Change_Weapon_Sprite(nullptr);
-
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Missile));
-		}
-		if (RightTriggerState > 0 && belong_item == Item::Item_Kind::Mine)
-		{
-			Change_To_Normal_State();
-
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Mine));
-		}
-
-	}
-	else*/ if (m_owner->Get_Name() == "second")
+	if (m_owner->Get_Name() == "second")
 	{
 		if ((FirstRightTrigger > 0.5f || input.Is_Key_Pressed(GLFW_KEY_SPACE)) && belong_item == Item::Item_Kind::Dash)
 		{
@@ -1282,7 +886,7 @@ void Player::UseItem()
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
 
-			m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing)->Set_Need_Update(true);
+			//m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing));
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Throwing, 0.f));
 		}
 		if ((FirstRightTrigger > 0.5f || input.Is_Key_Pressed(GLFW_KEY_SPACE)) && belong_item == Item::Item_Kind::Magnatic)
@@ -1303,14 +907,14 @@ void Player::UseItem()
 		{
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
-			m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Reverse));
+			//m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Reverse));
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Reverse));
 		}
 		if ((FirstRightTrigger > 0.5f || input.Is_Key_Pressed(GLFW_KEY_SPACE)) && belong_item == Item::Item_Kind::Missile)
 		{
 			Change_To_Normal_State();
 
-			m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Missile));
+			//m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Missile));
 			Change_Weapon_Sprite(nullptr);
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Missile));
@@ -1355,7 +959,7 @@ void Player::UseItem()
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
 
-			m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing)->Set_Need_Update(true);
+			//m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing)->Set_Need_Update(true);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Throwing, 0.f));
 		}
 		if ((SecondRightTrigger > 0.5f || input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT)) && belong_item == Item::Item_Kind::Magnatic)
@@ -1376,14 +980,14 @@ void Player::UseItem()
 		{
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
-			m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Reverse));
+			//m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Reverse));
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Reverse));
 		}
 		if ((SecondRightTrigger > 0.5f || input.Is_Key_Pressed(GLFW_KEY_RIGHT_SHIFT)) && belong_item == Item::Item_Kind::Missile)
 		{
 			Change_To_Normal_State();
 
-			m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Missile));
+			//m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Missile));
 			Change_Weapon_Sprite(nullptr);
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Missile));
@@ -1395,82 +999,6 @@ void Player::UseItem()
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Mine));
 		}
 	}
-	/*else if (m_owner->Get_Name() == "fourth")
-	{
-
-		if (input.Is_Key_Pressed(GLFW_KEY_R) && belong_item == Item::Item_Kind::Dash)
-		{
-			Change_Weapon_Sprite(nullptr);
-			Change_To_Normal_State();
-
-			sound.Play(SOUND::Dash);
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Dash));
-		}
-		if (input.Is_Key_Pressed(GLFW_KEY_R) && belong_item == Item::Item_Kind::HP)
-		{
-			Change_Weapon_Sprite(nullptr);
-			Change_To_Normal_State();
-
-			sound.Play(SOUND::HP);
-			Object* hp_bar = m_owner->Get_Belong_Object_By_Tag("hp_bar");
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(hp_bar, m_owner, Message_Kind::Item_Recover));
-		}
-
-		if (input.Is_Key_Pressed(GLFW_KEY_R) && belong_item == Item::Item_Kind::Bulkup)
-		{
-			Change_Weapon_Sprite(nullptr);
-			Change_To_Normal_State();
-
-			sound.Play(SOUND::BulkUp);
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 5.f));
-		}
-
-		if (input.Is_Key_Pressed(GLFW_KEY_R) && belong_item == Item::Item_Kind::Throwing)
-		{
-			Change_Weapon_Sprite(nullptr);
-			Change_To_Normal_State();
-
-			m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing)->Set_Need_Update(true);
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Throwing, 0.f));
-		}
-		if (input.Is_Key_Pressed(GLFW_KEY_R) && belong_item == Item::Item_Kind::Magnatic)
-		{
-			Change_Weapon_Sprite(nullptr);
-			Change_To_Normal_State();
-
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Magnetic));
-		}
-		if (input.Is_Key_Pressed(GLFW_KEY_R) && belong_item == Item::Item_Kind::Time_Pause)
-		{
-			Change_Weapon_Sprite(nullptr);
-			Change_To_Normal_State();
-
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Timepause));
-		}
-		if (input.Is_Key_Pressed(GLFW_KEY_R) && belong_item == Item::Item_Kind::Reverse_Moving)
-		{
-			Change_Weapon_Sprite(nullptr);
-			Change_To_Normal_State();
-
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Reverse));
-		}
-		if (input.Is_Key_Pressed(GLFW_KEY_R) && belong_item == Item::Item_Kind::Missile)
-		{
-			Change_To_Normal_State();
-
-			m_owner->Change_Sprite(m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Missile));
-			Change_Weapon_Sprite(nullptr);
-
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Missile));
-		}
-		if (input.Is_Key_Pressed(GLFW_KEY_R) && belong_item == Item::Item_Kind::Mine)
-		{
-			Change_To_Normal_State();
-
-			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Mine));
-		}
-	}*/
-
 }
 
 void Player::Set_Missile_Timer(float timer)
@@ -1482,7 +1010,6 @@ void Player::Change_To_Normal_State()
 {
 	curr_state = Char_State::None;
 	curr_state_additional = Char_State_Additional::None;
-	//last_sprite = m_owner->Get_Current_Sprite();
 	Component* chubby = m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Fat);
 	Component* normal_sprite = m_owner->Find_Sprite_By_Type(Sprite_Type::Player_Normal);
 

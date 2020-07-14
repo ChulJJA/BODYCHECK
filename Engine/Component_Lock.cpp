@@ -93,8 +93,6 @@ void Lock::Set_Locking_Target(Object* obj)
 
 void Lock::Control_Input(float dt)
 {
-	/*if (m_owner->GetName() == "first")
-	{*/
 	if (input.Is_Key_Pressed(GLFW_KEY_K) || input.Is_Key_Pressed(GLFW_KEY_KP_6))
 	{
 		pos.x += (dt * speed);
@@ -111,46 +109,7 @@ void Lock::Control_Input(float dt)
 	{
 		pos.y -= (dt * speed);
 	}
-	//}
-	/*else if (m_owner->GetName() == "second")
-	{
-		if (input.Is_Key_Pressed(GLFW_KEY_K))
-		{
-			pos.x += (dt * speed);
-		}
-		if (input.Is_Key_Pressed(GLFW_KEY_H))
-		{
-			pos.x -= (dt * speed);
-		}
-		if (input.Is_Key_Pressed(GLFW_KEY_U))
-		{
-			pos.y += (dt * speed);
-		}
-		if (input.Is_Key_Pressed(GLFW_KEY_J))
-		{
-			pos.y -= (dt * speed);
-		}
-	}
-	else if (m_owner->GetName() == "third")
-	{
-		if (input.Is_Key_Pressed(GLFW_KEY_KP_6))
-		{
-			pos.x += (dt * speed);
-		}
-		if (input.Is_Key_Pressed(GLFW_KEY_KP_4))
-		{
-			pos.x -= (dt * speed);
-		}
-		if (input.Is_Key_Pressed(GLFW_KEY_KP_8))
-		{
-			pos.y += (dt * speed);
-		}
-		if (input.Is_Key_Pressed(GLFW_KEY_KP_5))
-		{
-			pos.y -= (dt * speed);
-		}
-	}*/
-
+	
 }
 
 void Lock::Func_Set_Magnatic() const
