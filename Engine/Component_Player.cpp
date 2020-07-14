@@ -58,7 +58,7 @@ void Player::Update(float dt)
 {
 	float FirstRightTrigger = gamepadManager->RightTrigger();
 	float SecondRightTrigger = gamepadManagerSec->RightTrigger();
-	
+
 	if (curr_state == Char_State::Prepare)
 	{
 		if (prepare_sprite_timer != 0.f)
@@ -241,7 +241,7 @@ void Player::Update(float dt)
 			sound.Play(SOUND::SpeedUp);
 			speedUpSoundTimer = 0;
 		}
-	} 
+	}
 
 	if (
 		input.Is_Key_Triggered(GLFW_KEY_SPACE)
@@ -362,38 +362,26 @@ void Player::Func_Mine(float dt)
 {
 	float FirstRightTrigger = gamepadManager->RightTrigger();
 	float SecondRightTrigger = gamepadManagerSec->RightTrigger();
-	if (mineCount < 6)
-	{
-		if (input.Is_Key_Released(GLFW_KEY_SPACE) || input.Is_Key_Released(GLFW_KEY_RIGHT_SHIFT)
-			|| FirstRightTrigger > 0 || SecondRightTrigger > 0)
-		{
-			//srand(time(NULL));
-			float random_position_x = rand() % 3000 - 1500;
-			float random_position_y = rand() % 1300 - 650;
 
-			curr_state = Char_State::None;
-			install_mine = new Object();
-			install_mine->Set_Name("install_mine");
-			install_mine->Set_Tag("install_mine");
-			install_mine->AddComponent(new Physics());
-			//install_mine->AddComponent(new Sprite(install_mine, "../sprite/mine_object.png", { m_owner->GetTransform().GetTranslation().x ,m_owner->GetTransform().GetTranslation().y - 150 }));
-			//install_mine->AddComponent(new Sprite(install_mine, "../Sprite/Item/mine.png", { random_position_x ,random_position_y }));
-			install_mine->AddComponent(new Sprite(install_mine, "../Sprite/Item/mine.png", true, 4, 5.0f, { random_position_x ,random_position_y }, { 100.f,100.f }));
-			//install_mine->AddComponent(new Sprite(install_mine, "../Sprite/Player/Item_Effect/mine_active.png", true, 4, 8, {random_position_x, random_position_y},
-			//	{100.f, 100.f}, {255,255,255,255}, Sprite_Type::Item), "none", false);
-			//install_mine->DeleteComponent(install_mine->GetComponentByTemplate<Hp_Bar>());
-			install_mine->SetScale(2.f);
-			install_mine->SetNeedCollision(true);
-			
-			ObjectManager::GetObjectManager()->AddObject(install_mine);
-			Change_To_Normal_State();
-			mineCount++;
-		}
+	if (input.Is_Key_Released(GLFW_KEY_SPACE) || input.Is_Key_Released(GLFW_KEY_RIGHT_SHIFT)
+		|| FirstRightTrigger > 0 || SecondRightTrigger > 0)
+	{
+		float random_position_x = rand() % 2800 - 1400;
+		float random_position_y = rand() % 1200 - 600;
+
+		curr_state = Char_State::None;
+		install_mine = new Object();
+		install_mine->Set_Name("install_mine");
+		install_mine->Set_Tag("install_mine");
+		install_mine->AddComponent(new Physics());
+		install_mine->AddComponent(new Sprite(install_mine, "../Sprite/Item/mine.png", true, 4, 5.0f, { random_position_x ,random_position_y }, { 100.f,100.f }));
+		install_mine->SetScale(2.f);
+		install_mine->SetNeedCollision(true);
+		Change_To_Normal_State();
+		ObjectManager::GetObjectManager()->AddObject(install_mine);
 	}
-	
 
 }
-
 void Player::Func_Mine_Collided(float dt)
 {
 	srand(time(NULL));
@@ -1285,7 +1273,6 @@ void Player::UseItem()
 			Change_Weapon_Sprite(nullptr);
 			sound.Play(SOUND::BulkUp);
 			Change_To_Normal_State();
-			m_owner->GetScale_Reference().x += 0.5f;
 
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 5.f));
 		}
@@ -1358,7 +1345,6 @@ void Player::UseItem()
 		{
 			Change_Weapon_Sprite(nullptr);
 			Change_To_Normal_State();
-			m_owner->GetScale_Reference().x += 0.5f;
 
 			sound.Play(SOUND::BulkUp);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(m_owner, nullptr, Message_Kind::Item_Bulkup, 5.f));
@@ -1694,7 +1680,7 @@ void Player::PadControll(float max_velocity, float min_velocity, Gamepad* numCon
 			{
 				velocity.y -= velocity.y / 100;
 			}
-			
+
 			direction.x -= 0.1f;
 		}
 	}

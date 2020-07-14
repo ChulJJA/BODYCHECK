@@ -49,46 +49,54 @@ void ObjectManager::Update(float dt)
 
 			for (auto& obj : objects)
 			{
-				if (obj->Get_Need_To_Update())
+				if (obj != nullptr)
 				{
-					obj->object_state = StateManager::GetStateManager()->GetCurrentState()->GetStateInfo();
-
-					if (t_timer <= 0.f)
+					if (obj->Get_Need_To_Update())
 					{
-						for (auto component : obj->GetComponentContainer())
+						obj->object_state = StateManager::GetStateManager()->GetCurrentState()->GetStateInfo();
+
+						if (t_timer <= 0.f)
 						{
-							if (component->Get_Need_Update())
+							for (auto component : obj->GetComponentContainer())
 							{
-								component->Update(dt);
+								if (component->Get_Need_Update())
+								{
+									component->Update(dt);
+								}
 							}
 						}
-					}
-					else
-					{
-						if (!timers.empty())
+						else
 						{
-							if (std::find(timers.begin(), timers.end(), obj.get()) == timers.end())
+							if (!timers.empty())
 							{
-								Component* sprite = obj->Get_Current_Sprite();
-								sprite->Update(dt);
-							}
-							else
-							{
-								for (auto component : obj->GetComponentContainer())
+								if (std::find(timers.begin(), timers.end(), obj.get()) == timers.end())
 								{
-									if (component->Get_Need_Update())
+									Component* sprite = obj->Get_Current_Sprite();
+									sprite->Update(dt);
+								}
+								else
+								{
+									for (auto component : obj->GetComponentContainer())
 									{
-										component->Update(dt);
+										if (component->Get_Need_Update())
+										{
+											component->Update(dt);
+										}
 									}
 								}
 							}
 						}
 					}
+					if (obj != nullptr)
+					{
+						if (obj->IsDead())
+						{
+							delete_obj.push_back(obj);
+						}
+					}
 				}
-				if (obj->IsDead())
-				{
-					delete_obj.push_back(obj);
-				}
+
+
 			}
 			for (auto& remove_obj : delete_obj)
 			{
