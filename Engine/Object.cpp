@@ -25,6 +25,10 @@ void Object::Change_Sprite(Component* sprite)
 		sprite->Set_Need_Update(true);
 		current_showing_sprite = sprite;
 	}
+	else
+	{
+		std::cout << "ck2" << std::endl;
+	}
 }
 
 Component* Object::Get_Current_Sprite()

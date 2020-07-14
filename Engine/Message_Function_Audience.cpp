@@ -127,9 +127,18 @@ void Msg_Func_Audience::Update(float dt)
 	}
 	else
 	{
+		std::cout << "ck1" << std::endl;
 
-		m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Audience_Normal));
-		m_from->Change_Sprite(m_from->Find_Sprite_By_Type(Sprite_Type::Audience_Normal));
+		if (!Referee::Get_Referee()->Get_Is_CheerUp_Mode())
+		{
+			m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Audience_Normal));
+			m_from->Change_Sprite(m_from->Find_Sprite_By_Type(Sprite_Type::Audience_Normal));
+		}
+		else
+		{
+			m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Audience_Cheerup));
+			m_from->Change_Sprite(m_from->Find_Sprite_By_Type(Sprite_Type::Audience_Cheerup));
+		}
 		msg->Set_Should_Delete(true);
 
 		if (kill_tag != nullptr)
