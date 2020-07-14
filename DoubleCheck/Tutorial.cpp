@@ -140,8 +140,8 @@ void Tutorial::Load()
 	esc_indicator = new Object();
 	esc_indicator->AddComponent(new Sprite(esc_indicator, "../Sprite/UI/escape.png", { 0.f, 0.f }, false, Sprite_Type::None
 		, {100.f, 100.f}), "none", true);
-	esc_indicator->SetScale({ 30.f, 2.f });
-	esc_indicator->GetTransform().SetTranslation({ 0.f, -900.f });
+	esc_indicator->SetScale({ 10.f, 1.f });
+	esc_indicator->GetTransform().SetTranslation({ 1300.f, -980.f });
 	object_manager->AddObject(esc_indicator);
 }
 
