@@ -19,26 +19,30 @@
 
 void Msg_Func_Dead::Init()
 {
-	if(m_target != nullptr)
+	if (m_target != nullptr)
 	{
 		Player* info_player = m_target->GetComponentByTemplate<Player>();
-		PLAYER_UI* info_ui = info_player->Get_Ui();
-		
-		m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Die));
-		info_player->Change_Weapon_Sprite(nullptr);
-		info_player->Set_Item_State(Item::Item_Kind::None);
-		m_target->SetNeedCollision(false);
 
-		info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Life, Ui::Ui_Status_Verb::None, Ui::Ui_Status_Obj::None);
-		//m_target->Delete_All_Components_But_Sprite();
+		if (info_player != nullptr)
+		{
+			PLAYER_UI* info_ui = info_player->Get_Ui();
+
+			m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Die));
+			info_player->Change_Weapon_Sprite(nullptr);
+			info_player->Set_Item_State(Item::Item_Kind::None);
+			m_target->SetNeedCollision(false);
+
+			info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Life, Ui::Ui_Status_Verb::None, Ui::Ui_Status_Obj::None);
+			//m_target->Delete_All_Components_But_Sprite();
+		}
 	}
 }
 
 void Msg_Func_Dead::Update(float dt)
 {
-	if(m_target != nullptr)
+	if (m_target != nullptr)
 	{
-		if(timer > 0.f)
+		if (timer > 0.f)
 		{
 			timer -= dt;
 		}

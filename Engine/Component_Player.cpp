@@ -365,7 +365,7 @@ void Player::Func_Mine(float dt)
 	if (input.Is_Key_Released(GLFW_KEY_SPACE) || input.Is_Key_Released(GLFW_KEY_RIGHT_SHIFT)
 		|| FirstRightTrigger > 0 || SecondRightTrigger > 0)
 	{
-		srand(time(NULL));
+		//srand(time(NULL));
 		float random_position_x = rand() % 3000 - 1500;
 		float random_position_y = rand() % 1300 - 650;
 
@@ -374,7 +374,6 @@ void Player::Func_Mine(float dt)
 		install_mine->Set_Name("install_mine");
 		install_mine->Set_Tag("install_mine");
 		install_mine->AddComponent(new Physics());
-		install_mine->AddComponent(new Player());
 		//install_mine->AddComponent(new Sprite(install_mine, "../sprite/mine_object.png", { m_owner->GetTransform().GetTranslation().x ,m_owner->GetTransform().GetTranslation().y - 150 }));
 		//install_mine->AddComponent(new Sprite(install_mine, "../Sprite/Item/mine.png", { random_position_x ,random_position_y }));
 		install_mine->AddComponent(new Sprite(install_mine, "../Sprite/Item/mine.png", true, 4, 5.0f, { random_position_x ,random_position_y }, { 100.f,100.f }));
@@ -391,7 +390,6 @@ void Player::Func_Mine(float dt)
 
 void Player::Func_Mine_Collided(float dt)
 {
-	srand(time(NULL));
 	float random_velocity_x = rand() % 5 - 2;
 	float random_velocity_y = rand() % 5 - 2;
 	//m_owner->SetNeedCollision
