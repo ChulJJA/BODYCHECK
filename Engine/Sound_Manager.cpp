@@ -123,7 +123,7 @@ void Sound::LoadSound()
 	result = FMOD_System_CreateSound(f_system, "Sounds/MineBomb.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::MineBomb)]);
 	ErrorCheck(result);
 
-	result = FMOD_System_CreateSound(f_system, "Sounds/MineAlarm.mp3", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::MineAlarm)]);
+	result = FMOD_System_CreateSound(f_system, "Sounds/MineAlarm.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::MineAlarm)]);
 	ErrorCheck(result);
 
 	result = FMOD_System_CreateSound(f_system, "Sounds/FingerSnap.wav", FMOD_DEFAULT, nullptr, &sound[static_cast<int>(SOUND::FingerSnap)]);

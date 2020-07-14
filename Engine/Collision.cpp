@@ -196,29 +196,11 @@ bool ObjectAndObjectCollision(Object* object_a, Object* object_b)
 
 	else if (object_a_tag == "install_mine" && object_b_tag == "player")
 	{
-		if (obj_a_radius + obj_b_radius + 200 > distance)
-		{
-			FMOD_BOOL isPlaying;
-			FMOD_Channel_IsPlaying(sound.channel[29], &isPlaying);
-			if (sound.mineAlarm <= 0)
-			{
-				sound.Play(SOUND::MineAlarm);
-				sound.mineAlarm = 60.f;
-			}
-		}
+		
 	}
 	else if (object_b_tag == "install_mine" && object_a_tag == "player")
 	{
-		if (obj_a_radius + obj_b_radius + 200 > distance)
-		{
-			FMOD_BOOL isPlaying;
-			FMOD_Channel_IsPlaying(sound.channel[29], &isPlaying);
-			if (sound.mineAlarm <= 0)
-			{
-				sound.Play(SOUND::MineAlarm);
-				sound.mineAlarm = 60.f;
-			}
-		}
+
 	}
 	return false;
 }
