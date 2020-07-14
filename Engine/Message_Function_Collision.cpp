@@ -518,9 +518,10 @@ void Msg_Func_Collision::Player_And_Lock_Collision(Object* player, Object* lock)
 void Msg_Func_Collision::Player_And_Mine_Collision(Object* player, Object* mine)
 {
 	Player* get_player = player->GetComponentByTemplate<Player>();
+	//mine->SetNeedCollision(false);
 	get_player->Set_Char_State_Additional(Player::Char_State_Additional::Get_mine);
 	get_player->Set_Mine_Timer(10.7f);
 	//mine->Change_Sprite(mine->Find_Sprite_By_Type(Sprite_Type::Audience_Blue_Good));
-	//mine->SetDeadCondition(true);
-	Message_Manager::Get_Message_Manager()->Save_Message(new Message(mine, nullptr, Message_Kind::Die));
+	mine->SetDeadCondition(true);
+	//Message_Manager::Get_Message_Manager()->Save_Message(new Message(mine, nullptr, Message_Kind::Die));
 }

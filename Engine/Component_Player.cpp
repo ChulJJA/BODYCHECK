@@ -396,6 +396,7 @@ void Player::Func_Mine(float dt)
 
 void Player::Func_Mine_Collided(float dt)
 {
+	srand(time(NULL));
 	float random_velocity_x = rand() % 5 - 2;
 	float random_velocity_y = rand() % 5 - 2;
 	//m_owner->SetNeedCollision
