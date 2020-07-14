@@ -108,6 +108,7 @@ enum class Sprite_Type
     Explanation_Staff_Booster,
     Explanation_Staff_Gun,
     Explanation_Staff_TP,
+    Explanation_Staff_Tornado,
     Explanation_Staff_Heal,
     Explanation_Staff_Bulkup,
     Explanation_Staff_Reverse,
