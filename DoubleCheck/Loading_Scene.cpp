@@ -74,7 +74,6 @@ void Loading_Scene::Update(float dt)
 		image->SetScale(vector2{ 19.f , 12.f});
 
 		bool is_done = true;
-		//rewind(stdin);
 		while (is_done)
 		{
 			glfwSwapBuffers(Application::Get_Application()->Get_Window());

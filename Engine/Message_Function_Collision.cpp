@@ -49,7 +49,6 @@ void Msg_Func_Collision::Update(float dt)
 	{
 		Component* from_current_sprite = m_from->Get_Current_Sprite();
 		Component* from_item_sprite = m_from->Find_Sprite_By_Type(Sprite_Type::Item);
-		//Referee::Get_Referee()->Decre_Curr_Item_Field_Num();
 
 		if (from_current_sprite == from_item_sprite)
 		{
@@ -345,7 +344,6 @@ void Msg_Func_Collision::Update(float dt)
 
 		if (player_from_info->Get_Char_State_Additional() == Player::Char_State_Additional::Get_mine)
 		{
-			//player_from_info->Set_Stop_Timer(0.0f);
 			player_from_info->Change_To_Normal_State();
 
 		}
@@ -374,59 +372,49 @@ void Msg_Func_Collision::Player_Get_Item(Object* player, Object* item)
 
 		if (item_kind == Item::Item_Kind::Dash)
 		{
-			//player->Change_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Dash_Showing));
 			player_info->Set_Item_State(Item::Item_Kind::Dash);
 			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Dash);
 		}
 		else if (item_kind == Item::Item_Kind::HP)
 		{
-
-			//player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Heal_Showing));
 			player_info->Set_Item_State(Item::Item_Kind::HP);
 			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Hp);
 		}
 		else if (item_kind == Item::Item_Kind::Bulkup)
 		{
-			//player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Bulkup_Showing));
 			player_info->Set_Item_State(Item::Item_Kind::Bulkup);
 			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Bulkup);
 		}
 		else if (item_kind == Item::Item_Kind::Throwing)
 		{
-			//player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Throwing_Showing));
 			player_info->Set_Item_State(Item::Item_Kind::Throwing);
 			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Throwing);
 		}
 
 		else if (item_kind == Item::Item_Kind::Magnatic)
 		{
-			//player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Magnet_Showing));
 			player_info->Set_Item_State(Item::Item_Kind::Magnatic);
 			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Magnatic);
 		}
 
 		else if (item_kind == Item::Item_Kind::Time_Pause)
 		{
-			//player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Timestop_Showing));
 			player_info->Set_Item_State(Item::Item_Kind::Time_Pause);
 			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Time_Pause);
 		}
 
 		else if (item_kind == Item::Item_Kind::Reverse_Moving)
 		{
-			//player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Reverse_Showing));
 			player_info->Set_Item_State(Item::Item_Kind::Reverse_Moving);
 			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Reverse_Moving);
 		}
 		else if (item_kind == Item::Item_Kind::Missile)
 		{
-			//player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Missile_Launcher_Showing));
 			player_info->Set_Item_State(Item::Item_Kind::Missile);
 			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Missile);
 		}
 		else if (item->GetComponentByTemplate<Item>()->Get_Kind() == Item::Item_Kind::Mine)
 		{
-			//player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Item_Mine));
 			player_info->Set_Item_State(Item::Item_Kind::Mine);
 			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Mine);
 		}
@@ -517,10 +505,7 @@ void Msg_Func_Collision::Player_And_Lock_Collision(Object* player, Object* lock)
 void Msg_Func_Collision::Player_And_Mine_Collision(Object* player, Object* mine)
 {
 	Player* get_player = player->GetComponentByTemplate<Player>();
-	//mine->SetNeedCollision(false);
 	get_player->Set_Char_State_Additional(Player::Char_State_Additional::Get_mine);
-	get_player->Set_Mine_Timer(10.7f);
-	//mine->Change_Sprite(mine->Find_Sprite_By_Type(Sprite_Type::Audience_Blue_Good));
+	get_player->Set_Mine_Timer(20.f);
 	mine->SetDeadCondition(true);
-	//Message_Manager::Get_Message_Manager()->Save_Message(new Message(mine, nullptr, Message_Kind::Die));
 }

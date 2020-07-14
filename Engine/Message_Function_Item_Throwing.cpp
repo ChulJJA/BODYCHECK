@@ -36,9 +36,7 @@ void Msg_Func_Item_Throwing::Init()
 			info_player->Set_Char_State(Player::Char_State::Prepare);
 			info_player->Set_Prepare_Timer(0.1f);
 			sound.Play(SOUND::Throwing);
-			//info_player->Sprite_After_Preparation(obj->Find_Sprite_By_Type(Sprite_Type::Player_Chasing));
-			//obj->Change_Sprite(obj->Find_Sprite_By_Type(Sprite_Type::Player_Ready));
-			
+			obj->Change_Sprite(obj->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Throwing));
 			info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Use, Ui::Ui_Status_Obj::Item_Throwing);
 
 			particle = new ParticleGenerator(obj, 20, "../Sprite/ParticleFire.png", ParticleType::SPEEDMODE);
@@ -87,7 +85,4 @@ void Msg_Func_Item_Throwing::Update(float dt)
 		particle->Update(dt, throwing, 1, vector2(-throwing->GetScale_Reference() / 2.0f));
 		particle->Draw(throwing);
 	}
-
-
-	
 }

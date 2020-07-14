@@ -98,8 +98,6 @@ void Hp_Bar::Decrease(float dmg)
 					Message_Manager::Get_Message_Manager()->Save_Message(new Message(
 						audience2, die_obj_audience2, Message_Kind::Audience_Blue_Joy, 3.f));
 
-					//Message_Manager::Get_Message_Manager()->Save_Message(new Message(Referee::Get_Referee()->Get_Third_Kill(), 
-						//nullptr, Message_Kind::));
 				}
 				else if (hitting_obj->GetName() == "fourth")
 				{
@@ -111,7 +109,6 @@ void Hp_Bar::Decrease(float dmg)
 			}
 			
 			m_owner->SetDeadCondition(true);
-			//hp_owner->SetDeadCondition(true);
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(hp_owner, nullptr, Message_Kind::Die));
 			Message_Manager::Get_Message_Manager()->Save_Message(new Message(Referee::Get_Referee(), hp_owner, Message_Kind::Respawn));
 		}

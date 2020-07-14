@@ -98,8 +98,6 @@ void MainMenu::Load()
 	make_sure_dialogue->GetTransform().SetScale({ 10.f, 6.f });
 	make_sure_dialogue->Set_Need_To_Update(false);
 	object_manager->AddObject(make_sure_dialogue);
-
-	//Set_Player_Button();
 }
 
 void MainMenu::Update(float dt)
@@ -441,8 +439,8 @@ void MainMenu::Set_Player_Button()
 	vector2 button1_pos{ -1500, 600 };
 	vector2 button2_pos{ 1500, 600 };
 
-	player_sec = Make_Player("second", "player", "pen_red2", { -800.f, 0.f }/*{ 400.f, -400.f }*/, { 4.f, 4.f }, true);
-	player_third = Make_Player("third", "player", "pen_blue2", { 800.f, 0.f }/*{ -400.f, 400.f }*/, { 4.f, 4.f }, true);
+	player_sec = Make_Player("second", "player", "pen_red2", { -800.f, 0.f }, { 4.f, 4.f }, true);
+	player_third = Make_Player("third", "player", "pen_blue2", { 800.f, 0.f }, { 4.f, 4.f }, true);
 
 	player_sec->Get_Belongs_Objects().clear();
 	player_third->Get_Belongs_Objects().clear();
@@ -473,9 +471,6 @@ void MainMenu::Set_Player_Button()
 	object_manager->AddObject(player_2_button);
 
 	player_2_button->SetScale(5.f);
-
-	//object_manager->AddObject(player_sec);
-	//object_manager->AddObject(player_third);
 }
 
 void MainMenu::SetControllerImage()

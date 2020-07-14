@@ -36,11 +36,6 @@ Application* app = nullptr;
 
 void Referee::Set_Win_State()
 {
-	first_win = new Object();
-	first_win->Set_Name("first_win");
-	first_win->AddComponent(new Sprite(first_win, "../Sprite/pen_green2_win.png", { 0.f,0.f }, false, Sprite_Type::None), "win", true);
-	first_win->GetTransform().SetScale({ 40.f, 21.f });
-
 	second_win = new Object();
 	second_win->Set_Name("second_win");
 	second_win->AddComponent(new Sprite(second_win, "../Sprite/pen_red2_win.png", true, 4, 8, { 0.f,0.f }, { 100.f,100.f },
@@ -53,13 +48,6 @@ void Referee::Set_Win_State()
 	third_win->AddComponent(new Sprite(third_win, "../Sprite/pen_blue2_win.png", true, 4, 8, { 0.f,0.f }, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::None), "win", true);
 	third_win->GetTransform().SetScale({ 37.f, 21.f });
-
-	fourth_win = new Object();
-	fourth_win->Set_Name("fourth_win");
-	fourth_win->AddComponent(new Sprite(fourth_win, "../Sprite/pen_normal2_win.png", { 0.f,0.f }, false, Sprite_Type::None), "win", true);
-	fourth_win->GetTransform().SetScale({ 40.f, 21.f });
-
-	
 }
 
 void Referee::Set_Timer()
@@ -207,22 +195,6 @@ void Referee::Separate_Player()
 	}
 }
 
-void Referee::Set_Audience_Cheerup_mode(float dt)
-{
-	/*std::cout << "ck " << std::endl;
-	for (auto& aud : audience_vec)
-	{
-		aud->GetTransform().GetTranslation_Reference().y -= dt;
-	}
-
-	if (audience_vec[0]->GetTransform().GetTranslation_Reference().y < 500.f)
-	{
-		std::cout << "ck2" << std::endl;
-		aud_is_cheerup_mode_finish = true;
-		audience_vec.clear();
-	}*/
-}
-
 Referee::Referee()
 {
 
@@ -240,11 +212,9 @@ Referee::Referee()
 	}
 	else if (state_manager->GetCurrentState()->GetStateInfo() == GameState::Tutorial)
 	{
-		//player_first_life = 20;
 		player_sec_life = 1;
 		player_third_life = 1;
-		//player_fourth_life = 20;
-		total_life_count = /*player_first_life +*/ player_sec_life + player_third_life /*+ player_fourth_life*/;
+		total_life_count = player_sec_life + player_third_life;
 	}
 }
 
@@ -266,24 +236,17 @@ void Referee::Init()
 	if (state_manager->GetCurrentState()->GetStateInfo() == GameState::Game)
 	{
 		int total = life;
-		player_first_life = total;
 		player_sec_life = total;
 		player_third_life = total;
-		player_fourth_life = total;
-		total_life_count = player_first_life + player_sec_life + player_third_life + player_fourth_life;
-		total_life_count += 4;
+		total_life_count = player_sec_life + player_third_life ;
+		total_life_count += 2;
 	}
 	else if (state_manager->GetCurrentState()->GetStateInfo() == GameState::Tutorial)
 	{
-		//player_first_life = 20;
 		player_sec_life = 1;
 		player_third_life = 1;
-		//player_fourth_life = 20;
-		total_life_count =/* player_first_life +*/ player_sec_life + player_third_life /*+ player_fourth_life*/;
+		total_life_count = player_sec_life + player_third_life;
 	}
-
-
-
 
 	stage_statements.clear();
 	missile_saving = new Object * [missile_num];
@@ -325,7 +288,6 @@ void Referee::Update(float dt)
 	{
 		Respawn_Item(dt);
 	}
-
 	Win(dt);
 
 	if (total_item_num <= 0)
@@ -333,13 +295,7 @@ void Referee::Update(float dt)
 		Reset_Item_Variables();
 		SetItem();
 	}
-
 	Separate_Player();
-
-	//if (!aud_is_cheerup_mode_finish && !audience_vec.empty())
-	//{
-	//	Set_Audience_Cheerup_mode(dt);
-	//}
 }
 
 void Referee::Delete()
@@ -463,7 +419,6 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 {
 	std::string path_to_player_state = "../Sprite/Player/State/";
 	std::string path_to_player_item_effect = "../Sprite/Player/Item_Effect/";
-	//std::string path_to_player_display_item = "../Sprite/Player/Display_Item/";
 
 	std::string sprite_path_normal = path_to_player_state;
 	std::string sprite_path_lock = path_to_player_state;
@@ -488,18 +443,6 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	std::string sprite_path_timestop_effect = path_to_player_item_effect;
 	std::string sprite_path_dance = path_to_player_state;
 
-
-
-	//std::string sprite_path_missile_launcher = path_to_player_display_item;
-	//std::string sprite_path_dash = path_to_player_display_item;
-	//std::string sprite_path_bulkup = path_to_player_display_item;
-	//std::string sprite_path_throwing = path_to_player_display_item;
-	//std::string sprite_path_heal = path_to_player_display_item;
-	//std::string sprite_path_magnet = path_to_player_display_item;
-	//std::string sprite_path_timestop = path_to_player_display_item;
-	//std::string sprite_path_reverse = path_to_player_display_item;
-
-
 	{
 		sprite_path_normal += sprite_path + ".png";
 		sprite_path_lock += sprite_path + "_lock.png";
@@ -513,7 +456,6 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 		sprite_path_dance += sprite_path + "_dance.png";
 	}
 
-	//effect when using item.
 	{
 		sprite_path_reverse_moving_pen += sprite_path + "_reverse.png";
 		sprite_path_ready += "loadingscene.png";
@@ -528,19 +470,6 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 		sprite_path_timestop_effect += sprite_path + "_timestop.png";
 
 	}
-
-	//display when get item.
-	{
-		//sprite_path_missile_launcher += "missile_launcher_showing.png";
-		//sprite_path_dash += sprite_path + "_dash_display.png";
-		//sprite_path_bulkup += "bulkup_display.png";
-		//sprite_path_throwing += "throwing_display.png";
-		//sprite_path_heal += "heal_showing.png";
-		//sprite_path_magnet += "magnet_display.png";
-		//sprite_path_timestop += "time_stop_display.png";
-		//sprite_path_reverse += "reverse_display.png";
-	}
-
 	Object* player = new Object();
 	player->Set_Name(name);
 	player->Set_Tag(tag);
@@ -568,11 +497,15 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 
 	player->AddComponent(new Sprite(player, sprite_path_lock.c_str(), true, 4, 8, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Locking), "lock", false);
+
 	player->AddComponent(new Sprite(player, sprite_path_reverse_moving_pen.c_str(), true, 4, 8, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Reverse_Moving), "reverse", false);
+
 	player->AddComponent(new Sprite(player, sprite_path_ready.c_str(), pos, false, Sprite_Type::Player_Ready), "ready", false);
+
 	player->AddComponent(new Sprite(player, sprite_path_timestop_effect.c_str(), true, 4, 8, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Effect_Timestop), "time", false);
+
 	player->AddComponent(new Sprite(player, sprite_path_die.c_str(), true, 8, 16, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Die, is_debug_mode), "die", false);
 
@@ -581,6 +514,7 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 
 	player->AddComponent(new Sprite(player, sprite_path_fat.c_str(), true, 3, 9, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Fat, is_debug_mode), "fat", false);
+
 	player->AddComponent(new Sprite(player, sprite_path_paused.c_str(), pos, false, Sprite_Type::Player_Paused, { 100.f, 100.f }), "paused", false);
 
 	player->AddComponent(new Sprite(player, sprite_path_ready_bulkup.c_str(), true, 4, 8, pos, { 100.f,100.f },
@@ -589,11 +523,12 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	player->AddComponent(new Sprite(player, sprite_path_bulkup_used.c_str(), true, 3, 9, pos, { 100.f,100.f },
 		{ 255,255,255,255 }, Sprite_Type::Player_Bulkup_Used), "effect_bulkup", false);
 
-
 	player->AddComponent(new Sprite(player, sprite_path_heal_effect.c_str(), true, 6, 12, pos, { 100.f,100.f },
 		{ 255, 255, 255, 255 }, Sprite_Type::Player_Effect_Heal), "effect_heal", false);
+
 	player->AddComponent(new Sprite(player, sprite_path_throwing_effect.c_str(), true, 4, 8, pos, { 100.f,100.f },
 		{ 255, 255, 255, 255 }, Sprite_Type::Player_Effect_Throwing), "effect_throwing", false);
+
 	player->AddComponent(new Sprite(player, sprite_path_missile_effect.c_str(), true, 8, 16, pos, { 100.f,100.f },
 		{ 255, 255, 255, 255 }, Sprite_Type::Player_Effect_Missile), "effect_missile", false);
 
@@ -616,12 +551,8 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 	player->Set_Dmg_Text(text);
 	player->SetNeedCollision(false);
 
-	if (name == "first")
-	{
-		Object* aud = ObjectManager::GetObjectManager()->Find_Object_By_Name("audience_green");
-		player->GetComponentByTemplate<Player>()->Set_Audience(aud);
-	}
-	else if (name == "second")
+
+	if (name == "second")
 	{
 		Object* aud = ObjectManager::GetObjectManager()->Find_Object_By_Name("audience_red");
 		player->GetComponentByTemplate<Player>()->Set_Audience(aud);
@@ -631,11 +562,7 @@ Object* Referee::Make_Player_Pool(std::string sprite_path, vector2 pos, std::str
 		Object* aud = ObjectManager::GetObjectManager()->Find_Object_By_Name("audience_blue");
 		player->GetComponentByTemplate<Player>()->Set_Audience(aud);
 	}
-	else if (name == "fourth")
-	{
-		Object* aud = ObjectManager::GetObjectManager()->Find_Object_By_Name("audience_normal");
-		player->GetComponentByTemplate<Player>()->Set_Audience(aud);
-	}
+
 
 	return player;
 }
@@ -644,13 +571,11 @@ Object* Referee::Make_Item_Pool(std::string sprite_path, vector2 pos, std::strin
 	Item::Item_Kind kind)
 {
 	Object* item = new Object();
-	//item->AddComponent(new Sprite(item, sprite_path.c_str(), pos, false), "item");
 	std::string eat_effect = "../Sprite/Item/item_eateffect.png";
 	std::string spawn_effect = "../Sprite/Item/item_spawn.png";
 
 	item->AddComponent(new Sprite(item, spawn_effect.c_str(), true, 10, 10, pos, { 200.f,200.f },
 		{ 255,255,255,255 }, Sprite_Type::Item_Spawn_Effect), "item_spawn", true);
-
 
 	item->AddComponent(new Sprite(item, sprite_path.c_str(), true, 6, 12, pos, { 200.f,200.f },
 		{ 255,255,255,255 }, Sprite_Type::Item), "item", false);
@@ -674,24 +599,7 @@ Object* Referee::Make_Item_Pool(std::string sprite_path, vector2 pos, std::strin
 void Referee::Respawn_Player(Stage_Statement state, float dt)
 {
 	switch (state) {
-	case Stage_Statement::PLAYER_FIRST_DIE:
-	{
-		if (player_first_respawn_timer > 0.f)
-		{
-			player_first_respawn_timer -= dt;
-		}
-		else
-		{
-			sound.Play(SOUND::Respawn);
-			player_first_respawn_timer = 3.0f;
-			Respawn(state);
-
-			player_first_life--;
-			stage_statements.erase(std::find(stage_statements.begin(), stage_statements.end(), state));
-			total_life_count--;
-		}
-	}
-	break;
+	
 	case Stage_Statement::PLAYER_SECOND_DIE:
 	{
 		if (player_second_respawn_timer > 0.f)
@@ -728,24 +636,7 @@ void Referee::Respawn_Player(Stage_Statement state, float dt)
 		}
 	}
 	break;
-	case Stage_Statement::PLAYER_FOURTH_DIE:
-	{
-		if (player_fourth_respawn_timer > 0.f)
-		{
-			player_fourth_respawn_timer -= dt;
-		}
-		else
-		{
-			sound.Play(SOUND::Respawn);
-			player_fourth_respawn_timer = 3.0f;
-			Respawn(state);
-
-			player_fourth_life--;
-			stage_statements.erase(std::find(stage_statements.begin(), stage_statements.end(), state));
-			total_life_count--;
-		}
-	}
-	break;
+	
 	default:;
 	}
 
@@ -755,8 +646,6 @@ void Referee::Respawn_Player(Stage_Statement state, float dt)
 void Referee::Respawn_Item(float dt)
 {
 	item_respawn_timer -= dt;
-	//const Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 9));
-	//const Item::Item_Kind item = Item::Item_Kind::Missile;
 	const Item::Item_Kind item = static_cast<Item::Item_Kind>(RandomNumberGenerator(1, 9));
 
 	Object* spawn_obj = nullptr;
@@ -844,16 +733,9 @@ void Referee::Respawn_Item(float dt)
 
 void Referee::SetPlayerTemp()
 {
-	//player_first_temp = new Object * [player_first_life]();
 	player_sec_temp = new Object * [player_sec_life]();
 	player_third_temp = new Object * [player_third_life]();
-	//player_fourth_temp = new Object * [player_fourth_life]();
 
-
-	//for (int i = 0; i < player_first_life; i++)
-	//{
-	//	player_first_temp[i] = Make_Player_Pool("pen_green2", { 400,400 }, "first", "save", first_text);
-	//}
 	for (int i = 0; i < player_sec_life; i++)
 	{
 		player_sec_temp[i] = Make_Player_Pool(player_sec_sprite_path, player_sec_pos, "second", "save", second_text, player_sec_scale);
@@ -862,10 +744,6 @@ void Referee::SetPlayerTemp()
 	{
 		player_third_temp[i] = Make_Player_Pool(player_third_sprite_path, player_third_pos, "third", "save", third_text, player_third_scale);
 	}
-	//for (int i = 0; i < player_fourth_life; i++)
-	//{
-	//	player_fourth_temp[i] = Make_Player_Pool("pen_normal2", { -400,-400 }, "fourth", "save", fourth_text);
-	//}
 }
 
 void Referee::SetItem()
@@ -874,7 +752,6 @@ void Referee::SetItem()
 	item_heal = new Object * [item_num]();
 	item_bulk_up = new Object * [item_num]();
 	item_throwing = new Object * [item_num]();
-	item_magnetic = new Object * [item_num]();
 	item_time_pause = new Object * [item_num]();
 	item_reverse_moving = new Object * [item_num]();
 	item_missile = new Object * [item_num]();
@@ -902,11 +779,7 @@ void Referee::SetItem()
 		Set_Random_Pos(rand_pos);
 		item_throwing[i] = Make_Item_Pool("../Sprite/Item/fish.png", rand_pos, "item", "item", Item::Item_Kind::Throwing);
 	}
-	for (int i = 0; i < item_num; i++)
-	{
-		Set_Random_Pos(rand_pos);
-		item_magnetic[i] = Make_Item_Pool("../Sprite/Item/fish.png", rand_pos, "item", "item", Item::Item_Kind::Magnatic);
-	}
+
 	for (int i = 0; i < item_num; i++)
 	{
 		Set_Random_Pos(rand_pos);
@@ -931,15 +804,6 @@ void Referee::SetItem()
 
 void Referee::Set_Kill_State()
 {
-	first_kill = new Object;
-	first_kill->Set_Name("kill");
-	first_kill->Set_Tag("kill");
-	first_kill->AddComponent(new Sprite(first_kill, "../sprite/Player/State/green_kill.png", true, 4, 12, { 0.f, 0.f }, { 100.f, 100.f },
-		{ 255,255,255,255 }), "kill");
-	first_kill->SetScale({ 15.f, 5.f });
-	first_kill->SetTranslation({ 1400.f, 600.f });
-	first_kill->Set_Need_To_Update(false);
-
 	second_kill = new Object;
 	second_kill->Set_Name("kill");
 	second_kill->Set_Tag("kill");
@@ -958,30 +822,14 @@ void Referee::Set_Kill_State()
 	third_kill->SetTranslation({ -1400.f, 600.f });
 	third_kill->Set_Need_To_Update(false);
 
-	fourth_kill = new Object;
-	fourth_kill->Set_Name("kill");
-	fourth_kill->Set_Tag("kill");
-	fourth_kill->AddComponent(new Sprite(fourth_kill, "../sprite/Player/State/normal_kill.png", true, 4, 12, { 0.f, 0.f }, { 100.f, 100.f },
-		{ 255,255,255,255 }), "kill");
-	fourth_kill->SetScale({ 15.f, 5.f });
-	fourth_kill->SetTranslation({ -1400.f, -600.f });
-	fourth_kill->Set_Need_To_Update(false);
-
-	ObjectManager::GetObjectManager()->AddObject(first_kill);
 	ObjectManager::GetObjectManager()->AddObject(second_kill);
 	ObjectManager::GetObjectManager()->AddObject(third_kill);
-	ObjectManager::GetObjectManager()->AddObject(fourth_kill);
 }
 
 void Referee::Win(float dt)
 {
 	if (win == false)
-	{/*
-		if (player_first_life == -1 && player_sec_life == -1 && player_third_life == -1)
-		{
-			ObjectManager::GetObjectManager()->AddObject(fourth_win);
-			win = true;
-		}*/
+	{
 		if((player_sec_life <= 0 || player_third_life <= 0))
 		{
 			FMOD_BOOL isBGM2Playing;
@@ -1012,7 +860,7 @@ void Referee::Win(float dt)
 				is_cheerup_mode = true;
 			}
 		}
-		if (/*player_first_life == -1 &&*/ player_sec_life == -1 /*&& player_fourth_life == -1*/)
+		if (player_sec_life == -1)
 		{
 			win = true;
 			FMOD_BOOL isMatchBGMPlaying;
@@ -1032,7 +880,7 @@ void Referee::Win(float dt)
 			Graphic::GetGraphic()->Get_View().is_ended = true;
 			win_particle = new ParticleGenerator(win_player, 50, "../Sprite/ParticleWin.png", ParticleType::WIN);
 		}
-		if (/*player_first_life == -1 &&*/ player_third_life == -1/* && player_fourth_life == -1*/)
+		if (player_third_life == -1)
 		{
 			FMOD_BOOL isMatchBGMPlaying;
 			FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::MatchBGM)], &isMatchBGMPlaying);
@@ -1053,11 +901,6 @@ void Referee::Win(float dt)
 			win_particle = new ParticleGenerator(win_player, 50, "../Sprite/ParticleWin.png", ParticleType::WIN);
 
 		}
-		/*if (player_sec_life == -1 && player_third_life == -1 && player_fourth_life == -1)
-		{
-			ObjectManager::GetObjectManager()->AddObject(first_win);
-			win = true;
-		}*/
 	}
 	else
 	{
@@ -1066,11 +909,6 @@ void Referee::Win(float dt)
 			player_dance_time -= dt;
 			win_particle->Update(dt, win_player, 1, vector2(-500.0f, .0f));
 			win_particle->Draw(win_player);
-			//if (win_player->GetScale().x != 4.f)
-			//{
-			//	win_player->GetScale_Reference().x = 4.f;
-			//	win_player->GetScale_Reference().y = 4.f;
-			//}
 		}
 		else
 		{
@@ -1161,23 +999,8 @@ void Referee::Respawn(Stage_Statement statement)
 				player->GetComponentByTemplate<Player>()->Set_This_UI_info(second_ui);
 				second_ui->Reset();
 				ObjectManager::GetObjectManager()->AddObject(player);
+				ObjectManager::GetObjectManager()->AddObject(player->GetComponentByTemplate<Player>()->Get_Hp_Bar());
 				curr_sec_player = player;
-				Message_Manager::Get_Message_Manager()->Save_Message(new Message(player, nullptr, Message_Kind::Spawn_Object, 4.1f));
-			}
-
-		}
-		break;
-
-	case Stage_Statement::PLAYER_FIRST_DIE:
-		if (player_first_life > 0)
-		{
-			Object* player = player_first_temp[player_first_life - 1];
-
-			if (player != nullptr)
-			{
-				player->GetComponentByTemplate<Player>()->Set_This_UI_info(first_ui);
-				ObjectManager::GetObjectManager()->AddObject(player);
-				first_ui->Reset();
 				Message_Manager::Get_Message_Manager()->Save_Message(new Message(player, nullptr, Message_Kind::Spawn_Object, 4.1f));
 			}
 
@@ -1195,20 +1018,7 @@ void Referee::Respawn(Stage_Statement statement)
 				third_ui->Reset();
 				curr_third_player = player;
 				ObjectManager::GetObjectManager()->AddObject(player);
-				Message_Manager::Get_Message_Manager()->Save_Message(new Message(player, nullptr, Message_Kind::Spawn_Object, 4.1f));
-			}
-		}
-		break;
-
-	case Stage_Statement::PLAYER_FOURTH_DIE:
-		if (player_fourth_life > 0)
-		{
-			Object* player = player_fourth_temp[player_fourth_life - 1];
-			if (player != nullptr)
-			{
-				player->GetComponentByTemplate<Player>()->Set_This_UI_info(fourth_ui);
-				ObjectManager::GetObjectManager()->AddObject(player);
-				fourth_ui->Reset();
+				ObjectManager::GetObjectManager()->AddObject(player->GetComponentByTemplate<Player>()->Get_Hp_Bar());
 				Message_Manager::Get_Message_Manager()->Save_Message(new Message(player, nullptr, Message_Kind::Spawn_Object, 4.1f));
 			}
 		}

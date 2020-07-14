@@ -27,13 +27,6 @@
 #include "Editor.h"
 #include "gl.hpp"
 
- //
- //#define GLFW_EXPOSE_NATIVE_WGL
- //#define GLFW_EXPOSE_NATIVE_WIN32 
- //#include <GLFW/glfw3native.h>
- //#include <mutex>
- //#include "Physics.h"
-
 namespace
 {
 	Referee* referee = nullptr;
@@ -55,7 +48,7 @@ void Tutorial::Load()
 	loading->Load();
 	current_state = GameState::Tutorial;
 	GL::set_clear_color({ 0.31372, 0.73725, 0.8745, 1 });
-	HDC hdc = wglGetCurrentDC();//GetDC(glfwGetWin32Window(Application::Get_Application()->Get_Window()));
+	HDC hdc = wglGetCurrentDC();
 	const HGLRC main_context = wglGetCurrentContext();
 	HGLRC loading_context = wglCreateContext(hdc);
 	wglShareLists(main_context, loading_context);
@@ -308,18 +301,7 @@ void Tutorial::SetStaffAndExplanation()
 
 void Tutorial::EventCheck()
 {
-	/* if (Player_First->Get_Hitted_By || Player_Second->Get_Hitted_By || Player_Third->Get_Hitted_By
-		 || Player_Fourth->Get_Hitted_By)
-	 {
-		 ObjectHover(Explanation_Text_First, Explanation_Text_Second);
-	 }
-	 else if (referee->Get_Player_First_Life < 5 || referee->Get_Player_Second_Life < 5
-		 || referee->Get_Player_Third_Life < 5 || referee->Get_Player_Fourth_Life < 5)
-	 {
-		 ObjectHover(Explanation_Text_Second, Explanation_Text_Third);
-	 }*/
-
-
+	
 }
 
 void Tutorial::BackToMenu()
@@ -387,7 +369,6 @@ void Tutorial::Clear()
 {
 	Message_Manager::Get_Message_Manager()->Get_Messages().clear();
 	ObjectManager::GetObjectManager()->Get_Objects().clear();
-	//object_manager->Clear();
 
 	if (editor != nullptr)
 	{
