@@ -365,7 +365,6 @@ void Player::Func_Mine(float dt)
 	if (input.Is_Key_Released(GLFW_KEY_SPACE) || input.Is_Key_Released(GLFW_KEY_RIGHT_SHIFT)
 		|| FirstRightTrigger > 0 || SecondRightTrigger > 0)
 	{
-		//srand(time(NULL));
 		float random_position_x = rand() % 3000 - 1500;
 		float random_position_y = rand() % 1300 - 650;
 
@@ -374,18 +373,12 @@ void Player::Func_Mine(float dt)
 		install_mine->Set_Name("install_mine");
 		install_mine->Set_Tag("install_mine");
 		install_mine->AddComponent(new Physics());
-		//install_mine->AddComponent(new Sprite(install_mine, "../sprite/mine_object.png", { m_owner->GetTransform().GetTranslation().x ,m_owner->GetTransform().GetTranslation().y - 150 }));
-		//install_mine->AddComponent(new Sprite(install_mine, "../Sprite/Item/mine.png", { random_position_x ,random_position_y }));
 		install_mine->AddComponent(new Sprite(install_mine, "../Sprite/Item/mine.png", true, 4, 5.0f, { random_position_x ,random_position_y }, { 100.f,100.f }));
-		//install_mine->AddComponent(new Sprite(install_mine, "../Sprite/Player/Item_Effect/mine_active.png", true, 4, 8, {random_position_x, random_position_y},
-		//	{100.f, 100.f}, {255,255,255,255}, Sprite_Type::Item), "none", false);
-		//install_mine->DeleteComponent(install_mine->GetComponentByTemplate<Hp_Bar>());
 		install_mine->SetScale(2.f);
 		install_mine->SetNeedCollision(true);
 		Change_To_Normal_State();
 		ObjectManager::GetObjectManager()->AddObject(install_mine);
 	}
-
 }
 
 void Player::Func_Mine_Collided(float dt)

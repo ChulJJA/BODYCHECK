@@ -418,7 +418,6 @@ void Msg_Func_Collision::Player_Get_Item(Object* player, Object* item)
 			player_info->Set_Item_State(Item::Item_Kind::Reverse_Moving);
 			ui_info->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Get, Ui::Ui_Status_Obj::Item_Reverse_Moving);
 		}
-
 		else if (item_kind == Item::Item_Kind::Missile)
 		{
 			//player_info->Change_Weapon_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Missile_Launcher_Showing));

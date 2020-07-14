@@ -25,6 +25,7 @@
 #include "StateManager.h"
 #include "Message_Manager.h"
 #include "Editor.h"
+#include "gl.hpp"
 
  //
  //#define GLFW_EXPOSE_NATIVE_WGL
@@ -53,7 +54,7 @@ void Tutorial::Load()
 	Loading_Scene* loading = new Loading_Scene();
 	loading->Load();
 	current_state = GameState::Tutorial;
-
+	GL::set_clear_color({ 0.31372, 0.73725, 0.8745, 1 });
 	HDC hdc = wglGetCurrentDC();//GetDC(glfwGetWin32Window(Application::Get_Application()->Get_Window()));
 	const HGLRC main_context = wglGetCurrentContext();
 	HGLRC loading_context = wglCreateContext(hdc);
