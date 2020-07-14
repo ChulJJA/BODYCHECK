@@ -1,11 +1,11 @@
 /*
- * Author      :Sangmin Kim
+ * Author       :Sangmin Kim
  * File         :Message_Function_Item_BulkUp.cpp
  * Term         :2020 Spring
- * Class      :GAM250
+ * Class        :GAM250
  * Project      :GAM250 Project
  * Date         :2020/07/09
- * Description   :Source file for Message Function Item Bulk Up
+ * Description  :Source file for Message Function Item Bulk Up
  * copyright   All content ?2020 DigiPen (USA) Corporation, all rights reserved
  */
 
