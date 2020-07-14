@@ -121,7 +121,7 @@ public:
 
 	int Get_Player_Life()
 	{
-        return player_first_life;
+        return player_sec_life;
 	}
 
     Object* Get_Win_Player()
@@ -145,7 +145,6 @@ public:
     void Set_Sec_Player_Info(vector2 pos, vector2 scale, std::string path);
     void Set_Third_Player_Info(vector2 pos, vector2 scale, std::string path);
     void Separate_Player();
-    void Set_Audience_Cheerup_mode(float dt);
     bool Get_Is_CheerUp_Mode()
     {
         return is_cheerup_mode;

@@ -41,8 +41,6 @@ void Msg_Func_Item_Bulkup::Init()
                 info_player->Set_Bulkup_Timer(5.f);
                 info_player->Sprite_After_Preparation(obj->Find_Sprite_By_Type(Sprite_Type::Player_Bulkup_Used));
 
-                //info_player->Set_Item_Used_Status(Player::Item_Use_Status::Bulkup);
-
                 obj->Change_Sprite(obj->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Bulkp));
             }
 
@@ -143,7 +141,6 @@ void Msg_Func_Item_Bulkup::Update(float dt)
                     }
                     else
                     {
-                        //is_ready_end = true;
                         m_target->GetTransform().GetScale_Reference().x = 2.f;
                         m_target->GetTransform().GetScale_Reference().y = 2.f;
                         m_target->Get_Plus_Dmg() = 0.f;
@@ -153,29 +150,6 @@ void Msg_Func_Item_Bulkup::Update(float dt)
                         msg->Set_Should_Delete(true);
                     }
                 }
-
-                /*if (m_target->GetTransform().GetScale().x >= 2.f)
-                {
-                   FMOD_BOOL isPlaying;
-                   FMOD_Channel_IsPlaying(sound.channel[35], &isPlaying);
-
-                   if (!isPlaying)
-                   {
-                      sound.Play(SOUND::EndBulkUp);
-                   }
-                   m_target->GetTransform().GetScale_Reference().x -= dt;
-                   m_target->GetTransform().GetScale_Reference().y -= dt;
-                }
-                else
-                {
-
-                   m_target->Get_Plus_Dmg() = 0.f;
-                   info_player->Set_Char_State(Player::Char_State::None);
-                   info_player->Change_To_Normal_State();
-                   info_player->Set_Item_Used_Status(Player::Item_Use_Status::None);
-                   msg->Set_Should_Delete(true);
-                }*/
-
             }
         }
         else if (info_player->Get_Char_State() == Player::Char_State::None)

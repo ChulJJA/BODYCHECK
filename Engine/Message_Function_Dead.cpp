@@ -33,7 +33,6 @@ void Msg_Func_Dead::Init()
 			m_target->SetNeedCollision(false);
 
 			info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Life, Ui::Ui_Status_Verb::None, Ui::Ui_Status_Obj::None);
-			//m_target->Delete_All_Components_But_Sprite();
 		}
 	}
 }
@@ -48,7 +47,6 @@ void Msg_Func_Dead::Update(float dt)
 		}
 		else
 		{
-			//m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Normal));
 			m_target->SetDeadCondition(true);
 			msg->Set_Should_Delete(true);
 		}
