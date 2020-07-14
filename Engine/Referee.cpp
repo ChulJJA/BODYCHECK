@@ -180,7 +180,7 @@ void Referee::Separate_Player()
 
 	float distance = distance_between(sec_pos, third_pos);
 
-	if (distance < 30.f)
+	if (distance < 50.f)
 	{
 		float offset = 100.f;
 		if (sec_pos.x > third_pos.x)
