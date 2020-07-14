@@ -95,6 +95,12 @@ void Msg_Func_Collision::Update(float dt)
 				{
 					sound.Play(SOUND::Plask);
 					Player* player_info_target = m_from->GetComponentByTemplate<Player>();
+					FMOD_BOOL isBGMPlaying;
+					FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(sound.currentBGM)], &isBGMPlaying);
+					if (!isBGMPlaying)
+					{
+						sound.Play(sound.currentBGM);
+					}
 					player_info_target->Set_Char_State(Player::Char_State::Reverse_Moving);
 					m_from->Change_Sprite(m_from->Find_Sprite_By_Type(Sprite_Type::Player_Reverse_Moving));
 				}
@@ -166,6 +172,15 @@ void Msg_Func_Collision::Update(float dt)
 				{
 					sound.Play(SOUND::Plask);
 					Player* player_info_target = m_target->GetComponentByTemplate<Player>();
+					if (player_info_target->Get_Char_State() == Player::Char_State::Time_Pause)
+					{
+						FMOD_BOOL isBGMPlaying;
+						FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(sound.currentBGM)], &isBGMPlaying);
+						if(!isBGMPlaying)
+						{
+							sound.Play(sound.currentBGM);
+						}
+					}
 					player_info_target->Set_Char_State(Player::Char_State::Reverse_Moving);
 					m_target->Change_Sprite(m_target->Find_Sprite_By_Type(Sprite_Type::Player_Reverse_Moving));
 				}

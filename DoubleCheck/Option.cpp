@@ -54,7 +54,7 @@ void Option::Load()
 	SetMuteButton();
 	SetFullScreenButton();
 	SetBackButton();
-
+	SetFullBox();
 	if (life != 3)
 	{
 		if (life < 3)
@@ -114,6 +114,8 @@ void Option::Clear()
 	lifeButtonHover->SetDeadCondition(true);
 	lifeBox->SetDeadCondition(true);
 	life_count->SetDeadCondition(true);
+	fullBox->SetDeadCondition(true);
+	fullBoxCheck->SetDeadCondition(true);
 }
 
 void Option::SetBackground()
@@ -196,6 +198,14 @@ void Option::ButtonBehavior()
 		{
 			sound.Play(SOUND::Selected);
 			app->Toggle_Fullscreen();
+			if(app->IsFullScreen())
+			{
+				ObjectHover(fullBox, fullBoxCheck);
+			}
+			else if(!app->IsFullScreen())
+			{
+				ObjectHover(fullBoxCheck, fullBox);
+			}
 			volume_timer = 0;
 		}
 	}
@@ -608,6 +618,27 @@ void Option::SetLifeButton()
 	lifeBox->AddComponent(new Sprite(lifeBox, "../Sprite/VolumeBox.png", { 20, -720 }, false));
 	lifeBox->GetTransform().SetScale({ 20, 15 });
 	ObjectManager::GetObjectManager()->AddObject(lifeBox);
+}
+
+void Option::SetFullBox()
+{
+	fullBox = new Object();
+	fullBox->AddComponent(new Sprite(fullBox, "../Sprite/FullBox.png", { 550, 500 }, false));
+	fullBox->GetTransform().SetScale({ 2, 2 });
+	if(app->IsFullScreen())
+	{
+		fullBox->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
+	}
+	ObjectManager::GetObjectManager()->AddObject(fullBox);
+
+	fullBoxCheck = new Object();
+	fullBoxCheck->AddComponent(new Sprite(fullBoxCheck, "../Sprite/FullBoxCheck.png", { 550, 500 }, false));
+	fullBoxCheck->GetTransform().SetScale({ 2, 2 });
+	if (!app->IsFullScreen())
+	{
+		fullBoxCheck->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1,1,1,0 };
+	}
+	ObjectManager::GetObjectManager()->AddObject(fullBoxCheck);
 }
 
 void Option::SetSoundVolume(float value, bool isBGM)

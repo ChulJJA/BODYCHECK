@@ -55,6 +55,7 @@ public:
     void SetBackButton();
     void ButtonSelector();
     void SetLifeButton();
+    void SetFullBox();
     void SetSoundVolume(float value, bool isBGM = true);
 private:
     Object* background;
@@ -72,7 +73,9 @@ private:
 
     Object* life_count;
     Object* lifeBox;
-
+    Object* fullBox;
+    Object* fullBoxCheck;
+	
     Object* pointer1;
     Object* pointer2;
 	

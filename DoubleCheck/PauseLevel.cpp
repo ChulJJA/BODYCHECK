@@ -118,7 +118,7 @@ void PauseLevel::Background()
 {
 	background = new Object();
 	background->Set_Name("background");
-	background->AddComponent(new Sprite(background, "../Sprite/PauseBackground.png", { 95.f,100.f }, false));
+	background->AddComponent(new Sprite(background, "../Sprite/PauseBackground.png", { 70.f,10.f }, false));
 	background->GetTransform().SetScale({ 40.f, 22.f });
 	//background->GetComponentByTemplate<Sprite>()->Get_Material().color4fUniforms["color"] = { 1, 1,1, 0 };
 	ObjectManager::GetObjectManager()->AddObject(background);
