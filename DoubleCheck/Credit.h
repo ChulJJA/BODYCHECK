@@ -39,5 +39,5 @@ public:
 
 private:
     Object* credit;
-	
+    float second = 0.f;
 };
