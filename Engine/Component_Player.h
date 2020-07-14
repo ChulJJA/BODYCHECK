@@ -14,6 +14,8 @@
 #include "Component_Item.h"
 #include "Component_Ui.h"
 #include "Gamepad.hpp"
+#include "angles.hpp"
+
 
 class PLAYER_UI;
 class Player : public Component
@@ -147,5 +149,6 @@ private:
 
 	float speedUpSoundTimer = 0;
 	int mineCount = 0;
+	matrix3 mat = MATRIX3::build_rotation(to_radians(5));
 	//ParticleGenerator* speedParticle = nullptr;
 };

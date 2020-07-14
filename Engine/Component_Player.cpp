@@ -355,8 +355,8 @@ void Player::Func_Mine(float dt)
 	if (input.Is_Key_Released(GLFW_KEY_SPACE) || input.Is_Key_Released(GLFW_KEY_RIGHT_SHIFT)
 		|| FirstRightTrigger > 0 || SecondRightTrigger > 0)
 	{
-		float random_position_x = rand() % 2800 - 1400;
-		float random_position_y = rand() % 1200 - 600;
+		float random_position_x = rand() % 1200 - 600;
+		float random_position_y = rand() % 600 - 300;
 
 		curr_state = Char_State::None;
 		install_mine = new Object();
@@ -374,17 +374,27 @@ void Player::Func_Mine(float dt)
 void Player::Func_Mine_Collided(float dt)
 {
 	srand(time(NULL));
-	float random_velocity_x = 2;
-	float random_velocity_y = 2;
+	vector2& pos = m_owner->GetTransform().GetTranslation_Reference();
+	vector3 pos_convert = { pos.x, pos.y, 1.f };
+
+	vector3 converted = mat * pos_convert;
+	converted.x += (converted.x - pos_convert.x) * 10;
+	converted.y += (converted.y - pos_convert.y) * 10;
+
+
+
 	if (mine_timer > 0.0f)
 	{
-		velocity += {random_velocity_x, random_velocity_y};
+		pos.x = converted.x;
+		pos.y = converted.y;
 		mine_timer -= dt;
+		float angle = m_owner->GetTransform().GetRotation();
+		m_owner->GetTransform().SetRotation(angle + 20.f);
 	}
 	else
 	{
-		velocity += {-velocity.x / 100, -velocity.y / 100};
 		curr_state_additional = Char_State_Additional::None;
+		Change_To_Normal_State();
 	}
 }
 

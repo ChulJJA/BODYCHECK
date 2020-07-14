@@ -36,19 +36,7 @@ void Msg_Func_Item_Time_Pause::Init()
 		info_player->Set_Item_State(Item::Item_Kind::None);
 		obj->Change_Sprite(obj->Find_Sprite_By_Type(Sprite_Type::Player_Effect_Timestop));
 		sound.Play(SOUND::ClockTicking);
-		/*FMOD_BOOL isBGMPlaying;
-		FMOD_BOOL isMatchBGMPlaying;
-		FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::BGM2)], &isBGMPlaying);
-		FMOD_Channel_IsPlaying(sound.channel[static_cast<int>(SOUND::MatchBGM)], &isMatchBGMPlaying);
-		
-		if(isBGMPlaying)
-		{
-			sound.Stop(SOUND::BGM2);
-		}
-		if (isMatchBGMPlaying)
-		{
-			sound.Stop(SOUND::MatchBGM);
-		}*/
+
 		info_ui->Change_Ui_Info(Ui::Ui_Status_Base::Item, Ui::Ui_Status_Verb::Use, Ui::Ui_Status_Obj::Item_Time_Pause);
 
 	}

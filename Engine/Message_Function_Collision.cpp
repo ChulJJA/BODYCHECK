@@ -39,7 +39,6 @@ void Msg_Func_Collision::Update(float dt)
 		Component* target_current_sprite = m_target->Get_Current_Sprite();
 		Component* target_item_sprite = m_target->Find_Sprite_By_Type(Sprite_Type::Item);
 
-
 		if (target_current_sprite == target_item_sprite)
 		{
 			Player_Get_Item(m_from, m_target);
@@ -382,7 +381,7 @@ void Msg_Func_Collision::Player_Get_Item(Object* player, Object* item)
 	PLAYER_UI* ui_info = player_info->Get_Ui();
 	const Item::Item_Kind item_kind = item->GetComponentByTemplate<Item>()->Get_Kind();
 
-	if (player_info->Get_Char_State() == Player::Char_State::None)
+	if (player_info->Get_Char_State() == Player::Char_State::None && player_info->Get_Char_State_Additional() != Player::Char_State_Additional::Get_mine)
 	{
 
 		if (item_kind == Item::Item_Kind::Dash)
@@ -521,6 +520,7 @@ void Msg_Func_Collision::Player_And_Mine_Collision(Object* player, Object* mine)
 {
 	Player* get_player = player->GetComponentByTemplate<Player>();
 	get_player->Set_Char_State_Additional(Player::Char_State_Additional::Get_mine);
-	get_player->Set_Mine_Timer(20.f);
+	get_player->Set_Mine_Timer(5.f);
 	mine->SetDeadCondition(true);
+	player->Change_Sprite(player->Find_Sprite_By_Type(Sprite_Type::Player_Locking));
 }
