@@ -177,6 +177,9 @@ void Tutorial::Update(float dt)
 	case Item::Item_Kind::Dash:
 		Explanation_Staff_sec->Change_Sprite(Explanation_Staff_sec->Find_Sprite_By_Type(Sprite_Type::Explanation_Staff_Booster));
 		break;
+	case Item::Item_Kind::Mine:
+		Explanation_Staff_sec->Change_Sprite(Explanation_Staff_sec->Find_Sprite_By_Type(Sprite_Type::Explanation_Staff_Tornado));
+		break;
 	default:
 		Explanation_Staff_sec->Change_Sprite(Explanation_Staff_sec->Find_Sprite_By_Type(Sprite_Type::Explanation_Staff_Normal));
 		break;
@@ -206,6 +209,9 @@ void Tutorial::Update(float dt)
 		break;
 	case Item::Item_Kind::Dash:
 		Explanation_Staff_third->Change_Sprite(Explanation_Staff_third->Find_Sprite_By_Type(Sprite_Type::Explanation_Staff_Booster));
+		break;
+	case Item::Item_Kind::Mine:
+		Explanation_Staff_third->Change_Sprite(Explanation_Staff_third->Find_Sprite_By_Type(Sprite_Type::Explanation_Staff_Tornado));
 		break;
 	default:
 		Explanation_Staff_third->Change_Sprite(Explanation_Staff_third->Find_Sprite_By_Type(Sprite_Type::Explanation_Staff_Normal));
@@ -266,6 +272,8 @@ void Tutorial::SetStaffAndExplanation()
 		false, Sprite_Type::Explanation_Staff_Reverse), "reverse", false);
 	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/TPStaff.png", staff_sec_pos,
 		false, Sprite_Type::Explanation_Staff_TP), "time", false);
+	Explanation_Staff_sec->AddComponent(new Sprite(Explanation_Staff_sec, "../Sprite/UI/TornadoStaff.png", staff_sec_pos,
+		false, Sprite_Type::Explanation_Staff_Tornado), "tornado", false);
 	Explanation_Staff_sec->SetScale({15, 15});
 	
 	ObjectManager::GetObjectManager()->AddObject(Explanation_Staff_sec);
@@ -289,6 +297,8 @@ void Tutorial::SetStaffAndExplanation()
 		false, Sprite_Type::Explanation_Staff_Reverse), "reverse", false);
 	Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/TPStaff_third.png", staff_third_pos,
 		false, Sprite_Type::Explanation_Staff_TP), "time", false);
+	Explanation_Staff_third->AddComponent(new Sprite(Explanation_Staff_third, "../Sprite/UI/TornadoStaff_Third.png", staff_third_pos,
+		false, Sprite_Type::Explanation_Staff_Tornado), "tornado", false);
 	Explanation_Staff_third->SetScale({ 15, 15 });
 
 	ObjectManager::GetObjectManager()->AddObject(Explanation_Staff_third);
